@@ -1,4 +1,4 @@
-// Copyright ©2022, GM Consult (Pty) Ltd.
+// Copyright ©2022, GM Consult (Pty) Ltd
 // BSD 3-Clause License
 // All rights reserved
 
@@ -56,6 +56,34 @@ extension PostingsMapExtension on PostingsMap {
   /// and adds [positions] for [docId] to the new entry.
   void addTermPositions(String term, String docId, List<int> positions) {
     final entry = this[term] ?? <String, List<int>>{};
+    entry[docId] = positions;
+    this[term] = entry;
+  }
+
+  /// Adds a posting position for the [docId] to [PostingsMap] entry for the
+  /// [term].
+  ///
+  /// Looks up an existing entry for [term] and adds a position to the list of
+  /// positions for [docId] if it exists.
+  ///
+  /// If no entry for [term] exists in the [PostingsMap], creates a new entry
+  /// for term.
+  ///
+  /// If no positions list exists for [docId], creates a new position list
+  /// for [docId].
+  ///
+  /// Adds [position] to the positions list for [docId] if it is not already
+  /// in the list.
+  ///
+  /// Sorts the positions list in ascending order.
+  ///
+  /// Updates the [term] entry in the [PostingsMap].
+  void addTermPosition(String term, String docId, int position) {
+    final entry = this[term] ?? <String, List<int>>{};
+    final set = Set<int>.from(entry[docId] ?? []);
+    set.add(position);
+    final positions = set.toList();
+    positions.sort(((a, b) => a.compareTo(b)));
     entry[docId] = positions;
     this[term] = entry;
   }
