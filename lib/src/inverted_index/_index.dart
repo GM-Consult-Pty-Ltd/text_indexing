@@ -2,8 +2,8 @@
 // BSD 3-Clause License
 // All rights reserved
 
-/// Dart library for creating an inverted index on a collection of text documents.
-library text_indexing;
-
 // List all exports below in alphabetical order.
-export 'src/_index.dart';
+export 'dictionary.dart';
+export 'document_postings.dart';
+export 'postings.dart';
+export 'term.dart';
