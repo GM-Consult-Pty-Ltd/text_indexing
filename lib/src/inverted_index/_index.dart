@@ -4,6 +4,6 @@
 
 // List all exports below in alphabetical order.
 export 'term_dictionary.dart';
-export 'document_postings.dart';
+export 'term_positions.dart';
 export 'postings_map.dart';
 export 'term.dart';

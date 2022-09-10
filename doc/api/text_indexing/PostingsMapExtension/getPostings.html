@@ -52,7 +52,7 @@
     <section class="multi-line-signature">
       
 
-<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_indexing/DocumentPostings-class.html">DocumentPostings</a></span>&gt;</span></span>
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_indexing/TermPositions-class.html">TermPositions</a></span>&gt;</span></span>
 <span class="name ">getPostings</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="getPostings-param-term"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">term</span></span></li>
 </ol>)
 
@@ -61,7 +61,7 @@
     </section>
     
 <section class="desc markdown">
-  <p>Returns the list of <code>DocumentPostings</code> for the <code>term</code> from the
+  <p>Returns the list of <code>TermPositions</code> for the <code>term</code> from the
 <a href="../../text_indexing/PostingsMap.html">PostingsMap</a>.</p>
 </section>
 
@@ -69,10 +69,10 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">List&lt;DocumentPostings&gt; getPostings(String term) {
+  <pre class="language-dart"><code class="language-dart">List&lt;TermPositions&gt; getPostings(String term) {
   final entry = this[term];
   return entry?.entries
-          .map((e) =&gt; DocumentPostings.fromEntry(term, e))
+          .map((e) =&gt; TermPositions.fromEntry(term, e))
           .toList() ??
       [];
 }</code></pre>
@@ -108,6 +108,7 @@
 
     <li class="section-title"><a href="../../text_indexing/PostingsMapExtension.html#instance-methods">Methods</a></li>
     <li><a href="../../text_indexing/PostingsMapExtension/addEntry.html">addEntry</a></li>
+    <li><a href="../../text_indexing/PostingsMapExtension/addTermPositions.html">addTermPositions</a></li>
     <li><a href="../../text_indexing/PostingsMapExtension/getPostings.html">getPostings</a></li>
     <li><a href="../../text_indexing/PostingsMapExtension/toList.html">toList</a></li>
 

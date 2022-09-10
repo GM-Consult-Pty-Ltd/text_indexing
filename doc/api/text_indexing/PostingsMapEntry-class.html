@@ -52,10 +52,10 @@
     
 <section class="desc markdown">
   <p>The <a href="../text_indexing/PostingsMapEntry-class.html">PostingsMapEntry</a> class enumerates the properties of entry in a
-<a href="../text_indexing/PostingsMap.html">PostingsMap</a> as part of an inverted index of a dataset:</p>
+<a href="../text_indexing/PostingsMap.html">PostingsMap</a> as part of an inverted index of a dataList:</p>
 <ul>
 <li><a href="../text_indexing/PostingsMapEntry/term.html">term</a> is the word/term that is indexed; and</li>
-<li><a href="../text_indexing/PostingsMapEntry/postings.html">postings</a> is a hashmap of the <a href="../text_indexing/DocumentPostings-class.html">DocumentPostings</a> for <a href="../text_indexing/PostingsMapEntry/term.html">term</a>.</li>
+<li><a href="../text_indexing/PostingsMapEntry/postings.html">postings</a> is a hashmap of the <a href="../text_indexing/TermPositions-class.html">TermPositions</a> for <a href="../text_indexing/PostingsMapEntry/term.html">term</a>.</li>
 </ul>
 </section>
 
@@ -67,14 +67,14 @@
 
     <dl class="constructor-summary-list">
         <dt id="PostingsMapEntry" class="callable">
-          <span class="name"><a href="../text_indexing/PostingsMapEntry/PostingsMapEntry.html">PostingsMapEntry</a></span><span class="signature">(<span class="parameter" id="-param-term"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">term</span>, </span><span class="parameter" id="-param-postings"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="../text_indexing/DocumentPostings-class.html">DocumentPostings</a></span>&gt;</span></span> <span class="parameter-name">postings</span></span>)</span>
+          <span class="name"><a href="../text_indexing/PostingsMapEntry/PostingsMapEntry.html">PostingsMapEntry</a></span><span class="signature">(<span class="parameter" id="-param-term"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">term</span>, </span><span class="parameter" id="-param-postings"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="../text_indexing/TermPositions-class.html">TermPositions</a></span>&gt;</span></span> <span class="parameter-name">postings</span></span>)</span>
         </dt>
         <dd>
           Instantiates a const <a href="../text_indexing/PostingsMapEntry-class.html">PostingsMapEntry</a> instance:
             <div class="constructor-modifier features">const</div>
         </dd>
         <dt id="PostingsMapEntry.fromEntry" class="callable">
-          <span class="name"><a href="../text_indexing/PostingsMapEntry/PostingsMapEntry.fromEntry.html">PostingsMapEntry.fromEntry</a></span><span class="signature">(<span class="parameter" id="fromEntry-param-entry"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/MapEntry-class.html">MapEntry</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>&gt;</span></span>&gt;</span></span>&gt;</span></span> <span class="parameter-name">entry</span></span>)</span>
+          <span class="name"><a href="../text_indexing/PostingsMapEntry/PostingsMapEntry.fromEntry.html">PostingsMapEntry.fromEntry</a></span><span class="signature">(<span class="parameter" id="fromEntry-param-entry"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/MapEntry-class.html">MapEntry</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>&gt;</span></span>&gt;</span></span>&gt;</span></span> <span class="parameter-name">entry</span></span>)</span>
         </dt>
         <dd>
           Factory constructor that instantiates a <a href="../text_indexing/PostingsMapEntry-class.html">PostingsMapEntry</a> instance from
@@ -101,11 +101,11 @@ a <a href="../text_indexing/PostingsMap.html">PostingsMap</a> map entry.
 
         <dt id="postings" class="property">
   <span class="name"><a href="../text_indexing/PostingsMapEntry/postings.html">postings</a></span>
-  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="../text_indexing/DocumentPostings-class.html">DocumentPostings</a></span>&gt;</span></span> 
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="../text_indexing/TermPositions-class.html">TermPositions</a></span>&gt;</span></span> 
 
 </dt>
 <dd>
-  A hashmap of the <code>DocumentPostings</code> for <a href="../text_indexing/PostingsMapEntry/term.html">term</a> where:
+  A hashmap of the <code>TermPositions</code> for <a href="../text_indexing/PostingsMapEntry/term.html">term</a> where:
   <div class="features">final</div>
 
 </dd>
@@ -156,7 +156,7 @@ a <a href="../text_indexing/PostingsMap.html">PostingsMap</a> map entry.
 
         <dt id="toMapEntry" class="callable">
   <span class="name"><a href="../text_indexing/PostingsMapEntry/toMapEntry.html">toMapEntry</a></span><span class="signature">(<wbr>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/MapEntry-class.html">MapEntry</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>&gt;</span></span>&gt;</span></span>&gt;</span></span>
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/MapEntry-class.html">MapEntry</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>&gt;</span></span>&gt;</span></span>&gt;</span></span>
   </span>
   
 
@@ -228,9 +228,9 @@ a <a href="../text_indexing/PostingsMap.html">PostingsMap</a>.
     <h5>text_indexing library</h5>
     <ol>
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#classes">Classes</a></li>
-  <li><a href="../text_indexing/DocumentPostings-class.html">DocumentPostings</a></li>
   <li><a href="../text_indexing/PostingsMapEntry-class.html">PostingsMapEntry</a></li>
   <li><a href="../text_indexing/Term-class.html">Term</a></li>
+  <li><a href="../text_indexing/TermPositions-class.html">TermPositions</a></li>
 
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#extensions">Extensions</a></li>
   <li><a href="../text_indexing/PostingsMapExtension.html">PostingsMapExtension</a></li>

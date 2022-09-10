@@ -4,13 +4,13 @@
 
 import 'package:text_indexing/text_indexing.dart';
 
-/// The [DocumentPostings] class enumerates the properties of a document
-/// posting in a [PostingsMap] as part of an inverted index of a dataset:
+/// The [TermPositions] class enumerates the properties of a document
+/// posting in a [PostingsMap] as part of an inverted index of a dataList:
 /// - [term] is the word/term that is indexed;
 /// - [docId] is the document's id value;
 /// - [positions] is the zero-based list of word positions of the [term] in
 ///   the document;
-class DocumentPostings {
+class TermPositions {
   //
 
   /// The word/term that is indexed.
@@ -22,7 +22,7 @@ class DocumentPostings {
 
   /// The document's id value.
   ///
-  /// Usually the value of the document's primary key field in the dataset.
+  /// Usually the value of the document's primary key field in the dataList.
   final String docId;
 
   /// The zero-based, ordered list of unique word positions of the [term] in
@@ -36,24 +36,24 @@ class DocumentPostings {
   /// before creating an array of all the terms in the document.
   final List<int> positions;
 
-  /// Instantiates a const [DocumentPostings] instance:
+  /// Instantiates a const [TermPositions] instance:
   /// - [term] is the word/term that is indexed;
   /// - [docId] is the document's id value;
   /// - [positions] is the zero-based list of word positions of the [term] in
   ///   the document;
-  const DocumentPostings(this.term, this.docId, this.positions);
+  const TermPositions(this.term, this.docId, this.positions);
 
-  /// Factory constructor that instantiates a [DocumentPostings] instance from
+  /// Factory constructor that instantiates a [TermPositions] instance from
   /// the [term] and [entry] where:
-  /// - [term] is the word/term associated with the [DocumentPostings] instance.
+  /// - [term] is the word/term associated with the [TermPositions] instance.
   /// - the [entry].key is the word/term that is indexed; and
-  /// - the [entry].value is a [Set] of zero-based unique word positions of
+  /// - the [entry].value is a [List] of zero-based unique word positions of
   ///   [term] in the document.
-  factory DocumentPostings.fromEntry(
-      String term, MapEntry<String, Set<int>> entry) {
+  factory TermPositions.fromEntry(
+      String term, MapEntry<String, List<int>> entry) {
     final docId = entry.key;
     final positions = List<int>.from(entry.value);
     positions.sort((a, b) => a.compareTo(b));
-    return DocumentPostings(term, docId, positions);
+    return TermPositions(term, docId, positions);
   }
 }

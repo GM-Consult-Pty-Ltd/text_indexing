@@ -58,22 +58,13 @@
       <h2>Classes</h2>
 
       <dl>
-        <dt id="DocumentPostings">
-  <span class="name "><a href="../text_indexing/DocumentPostings-class.html">DocumentPostings</a></span> 
-
-</dt>
-<dd>
-  The <a href="../text_indexing/DocumentPostings-class.html">DocumentPostings</a> class enumerates the properties of a document
-posting in a <a href="../text_indexing/PostingsMap.html">PostingsMap</a> as part of an inverted index of a dataset:
-</dd>
-
         <dt id="PostingsMapEntry">
   <span class="name "><a href="../text_indexing/PostingsMapEntry-class.html">PostingsMapEntry</a></span> 
 
 </dt>
 <dd>
   The <a href="../text_indexing/PostingsMapEntry-class.html">PostingsMapEntry</a> class enumerates the properties of entry in a
-<a href="../text_indexing/PostingsMap.html">PostingsMap</a> as part of an inverted index of a dataset:
+<a href="../text_indexing/PostingsMap.html">PostingsMap</a> as part of an inverted index of a dataList:
 </dd>
 
         <dt id="Term">
@@ -83,6 +74,15 @@ posting in a <a href="../text_indexing/PostingsMap.html">PostingsMap</a> as part
 <dd>
   A <a href="../text_indexing/Term-class.html">Term</a> is a unit of entry in the <a href="../text_indexing/TermDictionary.html">TermDictionary</a> of an inverted index.
 It enumerates the following properties:
+</dd>
+
+        <dt id="TermPositions">
+  <span class="name "><a href="../text_indexing/TermPositions-class.html">TermPositions</a></span> 
+
+</dt>
+<dd>
+  The <a href="../text_indexing/TermPositions-class.html">TermPositions</a> class enumerates the properties of a document
+posting in a <a href="../text_indexing/PostingsMap.html">PostingsMap</a> as part of an inverted index of a dataList:
 </dd>
 
       </dl>
@@ -148,7 +148,7 @@ It enumerates the following properties:
           
   <dt id="PostingsMap" class="">
   <span class="name"><a href="../text_indexing/PostingsMap.html">PostingsMap</a></span>
-    = <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>&gt;</span></span>&gt;</span></span>&gt;</span>
+    = <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>&gt;</span></span>&gt;</span></span>&gt;</span>
   </span>
   
 
@@ -206,9 +206,9 @@ It enumerates the following properties:
     <h5>text_indexing library</h5>
     <ol>
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#classes">Classes</a></li>
-  <li><a href="../text_indexing/DocumentPostings-class.html">DocumentPostings</a></li>
   <li><a href="../text_indexing/PostingsMapEntry-class.html">PostingsMapEntry</a></li>
   <li><a href="../text_indexing/Term-class.html">Term</a></li>
+  <li><a href="../text_indexing/TermPositions-class.html">TermPositions</a></li>
 
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#extensions">Extensions</a></li>
   <li><a href="../text_indexing/PostingsMapExtension.html">PostingsMapExtension</a></li>
