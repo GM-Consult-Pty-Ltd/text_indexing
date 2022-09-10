@@ -3,7 +3,7 @@
 // All rights reserved
 
 // List all exports below in alphabetical order.
-export 'dictionary.dart';
+export 'term_dictionary.dart';
 export 'document_postings.dart';
-export 'postings.dart';
+export 'postings_map.dart';
 export 'term.dart';

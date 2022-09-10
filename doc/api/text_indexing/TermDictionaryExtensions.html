@@ -66,6 +66,24 @@
       
     </section>
 
+    <section class="summary offset-anchor" id="instance-properties">
+        <h2>Properties</h2>
+
+        <dl class="properties">
+            <dt id="terms" class="property">
+  <span class="name"><a href="../text_indexing/TermDictionaryExtensions/terms.html">terms</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> 
+
+</dt>
+<dd>
+  Returns the dictionary terms (keys) as an ordered list,
+sorted alphabetically.
+  <div class="features">read-only</div>
+
+</dd>
+
+        </dl>
+    </section>
 
     
   <section
@@ -73,6 +91,19 @@
       id="instance-methods">
     <h2>Methods</h2>
     <dl class="callables">
+        <dt id="addEntry" class="callable">
+  <span class="name"><a href="../text_indexing/TermDictionaryExtensions/addEntry.html">addEntry</a></span><span class="signature">(<wbr><span class="parameter" id="addEntry-param-value"><span class="type-annotation"><a href="../text_indexing/Term-class.html">Term</a></span> <span class="parameter-name">value</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Inserts or replaces the <code>value</code> in the <a href="../text_indexing/TermDictionary.html">TermDictionary</a>.
+  
+
+</dd>
+
         <dt id="getFrequency" class="callable">
   <span class="name"><a href="../text_indexing/TermDictionaryExtensions/getFrequency.html">getFrequency</a></span><span class="signature">(<wbr><span class="parameter" id="getFrequency-param-term"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">term</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>
@@ -112,6 +143,19 @@
 
 </dd>
 
+        <dt id="toList" class="callable">
+  <span class="name"><a href="../text_indexing/TermDictionaryExtensions/toList.html">toList</a></span><span class="signature">(<wbr><span class="parameter" id="toList-param-sortBy">[<span class="type-annotation"><a href="../text_indexing/TermSortStrategy.html">TermSortStrategy</a></span> <span class="parameter-name">sortBy</span> = <span class="default-value">TermSortStrategy.byTerm</span>]</span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Term-class.html">Term</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns a list of <code>Term</code>s from the <a href="https://api.flutter.dev/flutter/dart-core/Map/entries.html">entries</a> in the <a href="../text_indexing/TermDictionary.html">TermDictionary</a>.
+  
+
+</dd>
+
     </dl>
   </section>
     
@@ -144,16 +188,20 @@
   <li><a href="../text_indexing/Term-class.html">Term</a></li>
 
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#extensions">Extensions</a></li>
+  <li><a href="../text_indexing/PostingsMapExtension.html">PostingsMapExtension</a></li>
   <li><a href="../text_indexing/TermDictionaryExtensions.html">TermDictionaryExtensions</a></li>
+  <li><a href="../text_indexing/TermsCollectionExtension.html">TermsCollectionExtension</a></li>
 
 
 
 
 
+  <li class="section-title"><a href="../text_indexing/text_indexing-library.html#enums">Enums</a></li>
+  <li><a href="../text_indexing/TermSortStrategy.html">TermSortStrategy</a></li>
 
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#typedefs">Typedefs</a></li>
-  <li><a href="../text_indexing/TermDictionary.html">TermDictionary</a></li>
   <li><a href="../text_indexing/PostingsMap.html">PostingsMap</a></li>
+  <li><a href="../text_indexing/TermDictionary.html">TermDictionary</a></li>
 
 </ol>
 
@@ -165,11 +213,16 @@
 
 
 
+    <li class="section-title"> <a href="../text_indexing/TermDictionaryExtensions.html#instance-properties">Properties</a>
+    </li>
+    <li><a href="../text_indexing/TermDictionaryExtensions/terms.html">terms</a></li>
 
     <li class="section-title"><a href="../text_indexing/TermDictionaryExtensions.html#instance-methods">Methods</a></li>
+    <li><a href="../text_indexing/TermDictionaryExtensions/addEntry.html">addEntry</a></li>
     <li><a href="../text_indexing/TermDictionaryExtensions/getFrequency.html">getFrequency</a></li>
     <li><a href="../text_indexing/TermDictionaryExtensions/incrementFrequency.html">incrementFrequency</a></li>
     <li><a href="../text_indexing/TermDictionaryExtensions/setFrequency.html">setFrequency</a></li>
+    <li><a href="../text_indexing/TermDictionaryExtensions/toList.html">toList</a></li>
 
 
 

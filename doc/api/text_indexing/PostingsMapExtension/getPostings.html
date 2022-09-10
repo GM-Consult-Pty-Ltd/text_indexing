@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the setFrequency method from the TermDictionaryExtensions extension, for the Dart programming language.">
-  <title>setFrequency method - TermDictionaryExtensions extension - text_indexing library - Dart API</title>
+  <meta name="description" content="API docs for the getPostings method from the PostingsMapExtension extension, for the Dart programming language.">
+  <title>getPostings method - PostingsMapExtension extension - text_indexing library - Dart API</title>
 
 
   
@@ -31,10 +31,10 @@
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../../index.html">text_indexing</a></li>
     <li><a href="../../text_indexing/text_indexing-library.html">text_indexing</a></li>
-    <li><a href="../../text_indexing/TermDictionaryExtensions.html">TermDictionaryExtensions</a></li>
-    <li class="self-crumb">setFrequency method</li>
+    <li><a href="../../text_indexing/PostingsMapExtension.html">PostingsMapExtension</a></li>
+    <li class="self-crumb">getPostings method</li>
   </ol>
-  <div class="self-name">setFrequency</div>
+  <div class="self-name">getPostings</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -45,16 +45,15 @@
 
   <div id="dartdoc-main-content" class="main-content">
       <div>
-<h1><span class="kind-method">setFrequency</span> method 
+<h1><span class="kind-method">getPostings</span> method 
     <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
 </h1></div>
 
     <section class="multi-line-signature">
       
 
-<span class="returntype"><a href="../../text_indexing/Term-class.html">Term</a></span>
-<span class="name ">setFrequency</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="setFrequency-param-term"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">term</span>, </span></li>
-<li><span class="parameter" id="setFrequency-param-frequency"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">frequency</span></span></li>
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_indexing/DocumentPostings-class.html">DocumentPostings</a></span>&gt;</span></span>
+<span class="name ">getPostings</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="getPostings-param-term"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">term</span></span></li>
 </ol>)
 
       
@@ -62,20 +61,20 @@
     </section>
     
 <section class="desc markdown">
-  <p>Returns a <a href="../../text_indexing/Term-class.html">Term</a> with:</p>
-<ul>
-<li>key set to <code>term</code>; and</li>
-<li>the value set to <code>frequency</code>.</li>
-</ul>
+  <p>Returns the list of <code>DocumentPostings</code> for the <code>term</code> from the
+<a href="../../text_indexing/PostingsMap.html">PostingsMap</a>.</p>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Term setFrequency(String term, int frequency) {
-  this[term] = frequency;
-  return Term(term, frequency);
+  <pre class="language-dart"><code class="language-dart">List&lt;DocumentPostings&gt; getPostings(String term) {
+  final entry = this[term];
+  return entry?.entries
+          .map((e) =&gt; DocumentPostings.fromEntry(term, e))
+          .toList() ??
+      [];
 }</code></pre>
 </section>
 
@@ -92,22 +91,25 @@
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
   <li><a href="../../index.html">text_indexing</a></li>
   <li><a href="../../text_indexing/text_indexing-library.html">text_indexing</a></li>
-  <li><a href="../../text_indexing/TermDictionaryExtensions.html">TermDictionaryExtensions</a></li>
-  <li class="self-crumb">setFrequency method</li>
+  <li><a href="../../text_indexing/PostingsMapExtension.html">PostingsMapExtension</a></li>
+  <li class="self-crumb">getPostings method</li>
 </ol>
 
 
-    <h5>TermDictionaryExtensions extension</h5>
+    <h5>PostingsMapExtension extension</h5>
     <ol>
 
 
 
 
+    <li class="section-title"> <a href="../../text_indexing/PostingsMapExtension.html#instance-properties">Properties</a>
+    </li>
+    <li><a href="../../text_indexing/PostingsMapExtension/terms.html">terms</a></li>
 
-    <li class="section-title"><a href="../../text_indexing/TermDictionaryExtensions.html#instance-methods">Methods</a></li>
-    <li><a href="../../text_indexing/TermDictionaryExtensions/getFrequency.html">getFrequency</a></li>
-    <li><a href="../../text_indexing/TermDictionaryExtensions/incrementFrequency.html">incrementFrequency</a></li>
-    <li><a href="../../text_indexing/TermDictionaryExtensions/setFrequency.html">setFrequency</a></li>
+    <li class="section-title"><a href="../../text_indexing/PostingsMapExtension.html#instance-methods">Methods</a></li>
+    <li><a href="../../text_indexing/PostingsMapExtension/addEntry.html">addEntry</a></li>
+    <li><a href="../../text_indexing/PostingsMapExtension/getPostings.html">getPostings</a></li>
+    <li><a href="../../text_indexing/PostingsMapExtension/toList.html">toList</a></li>
 
 
 

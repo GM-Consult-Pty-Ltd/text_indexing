@@ -17,7 +17,7 @@ class DocumentPostings {
   ///
   /// The [term] must not be an empty String.
   ///
-  /// The [term] must only occur once in the [Dictionary].
+  /// The [term] must only occur once in the [TermDictionary].
   final String term;
 
   /// The document's id value.

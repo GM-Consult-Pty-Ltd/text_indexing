@@ -81,7 +81,7 @@ posting in a <a href="../text_indexing/PostingsMap.html">PostingsMap</a> as part
 
 </dt>
 <dd>
-  A <a href="../text_indexing/Term-class.html">Term</a> is a unit of entry in the <a href="../text_indexing/Dictionary.html">Dictionary</a> of an inverted index.
+  A <a href="../text_indexing/Term-class.html">Term</a> is a unit of entry in the <a href="../text_indexing/TermDictionary.html">TermDictionary</a> of an inverted index.
 It enumerates the following properties:
 </dd>
 
@@ -93,12 +93,30 @@ It enumerates the following properties:
       <h2>Extensions</h2>
 
       <dl>
-        <dt id="DictionaryExtensions">
-    <span class="name "><a href="../text_indexing/DictionaryExtensions.html">DictionaryExtensions</a></span> 
+        <dt id="PostingsMapExtension">
+    <span class="name "><a href="../text_indexing/PostingsMapExtension.html">PostingsMapExtension</a></span> 
+
+</dt>
+<dd>
+    Extension methods and properties on <a href="../text_indexing/PostingsMap.html">PostingsMap</a>.
+</dd>
+
+
+        <dt id="TermDictionaryExtensions">
+    <span class="name "><a href="../text_indexing/TermDictionaryExtensions.html">TermDictionaryExtensions</a></span> 
 
 </dt>
 <dd>
     Extensions on <a href="../text_indexing/Term-class.html">Term</a>.
+</dd>
+
+
+        <dt id="TermsCollectionExtension">
+    <span class="name "><a href="../text_indexing/TermsCollectionExtension.html">TermsCollectionExtension</a></span> 
+
+</dt>
+<dd>
+    Extension methods on a collection of <a href="../text_indexing/Term-class.html">Term</a>s.
 </dd>
 
 
@@ -108,26 +126,25 @@ It enumerates the following properties:
 
 
 
+    <section class="summary offset-anchor" id="enums">
+      <h2>Enums</h2>
+
+      <dl>
+        <dt id="TermSortStrategy">
+  <span class="name "><a href="../text_indexing/TermSortStrategy.html">TermSortStrategy</a></span> 
+
+</dt>
+<dd>
+  Enumerates the sorting strategy for <a href="../text_indexing/TermDictionary.html">TermDictionary</a>'s <a href="../text_indexing/Term-class.html">Term</a>s.
+</dd>
+
+      </dl>
+    </section>
 
     <section class="summary offset-anchor" id="typedefs">
       <h2>Typedefs</h2>
 
       <dl>
-          
-  <dt id="Dictionary" class="">
-  <span class="name"><a href="../text_indexing/Dictionary.html">Dictionary</a></span>
-    = <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>&gt;</span>
-  </span>
-  
-
-</dt>
-<dd>
-  Defines a term dictionary used as an inverted index.
-  
-
-</dd>
-
-
           
   <dt id="PostingsMap" class="">
   <span class="name"><a href="../text_indexing/PostingsMap.html">PostingsMap</a></span>
@@ -138,6 +155,21 @@ It enumerates the following properties:
 </dt>
 <dd>
   Defines a collection of postings for a positional inverted index.
+  
+
+</dd>
+
+
+          
+  <dt id="TermDictionary" class="">
+  <span class="name"><a href="../text_indexing/TermDictionary.html">TermDictionary</a></span>
+    = <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>&gt;</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Defines a term TermDictionary used as an inverted index.
   
 
 </dd>
@@ -179,16 +211,20 @@ It enumerates the following properties:
   <li><a href="../text_indexing/Term-class.html">Term</a></li>
 
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#extensions">Extensions</a></li>
-  <li><a href="../text_indexing/DictionaryExtensions.html">DictionaryExtensions</a></li>
+  <li><a href="../text_indexing/PostingsMapExtension.html">PostingsMapExtension</a></li>
+  <li><a href="../text_indexing/TermDictionaryExtensions.html">TermDictionaryExtensions</a></li>
+  <li><a href="../text_indexing/TermsCollectionExtension.html">TermsCollectionExtension</a></li>
 
 
 
 
 
+  <li class="section-title"><a href="../text_indexing/text_indexing-library.html#enums">Enums</a></li>
+  <li><a href="../text_indexing/TermSortStrategy.html">TermSortStrategy</a></li>
 
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#typedefs">Typedefs</a></li>
-  <li><a href="../text_indexing/Dictionary.html">Dictionary</a></li>
   <li><a href="../text_indexing/PostingsMap.html">PostingsMap</a></li>
+  <li><a href="../text_indexing/TermDictionary.html">TermDictionary</a></li>
 
 </ol>
 
