@@ -5,7 +5,7 @@
 import 'package:text_indexing/text_indexing.dart';
 
 /// The [TermPositions] class enumerates the properties of a document
-/// posting in a [PostingsMap] as part of an inverted index of a dataList:
+/// posting in a [PostingsMap] as part of an inverted index of a dataset:
 /// - [term] is the word/term that is indexed;
 /// - [docId] is the document's id value;
 /// - [positions] is the zero-based list of word positions of the [term] in
@@ -22,7 +22,7 @@ class TermPositions {
 
   /// The document's id value.
   ///
-  /// Usually the value of the document's primary key field in the dataList.
+  /// Usually the value of the document's primary key field in the dataset.
   final String docId;
 
   /// The zero-based, ordered list of unique word positions of the [term] in

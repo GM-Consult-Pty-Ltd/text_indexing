@@ -62,7 +62,7 @@ extension PostingsMapExtension on PostingsMap {
 }
 
 /// The [PostingsMapEntry] class enumerates the properties of entry in a
-/// [PostingsMap] as part of an inverted index of a dataList:
+/// [PostingsMap] as part of an inverted index of a dataset:
 /// - [term] is the word/term that is indexed; and
 /// - [postings] is a hashmap of the [TermPositions] for [term].
 class PostingsMapEntry {
