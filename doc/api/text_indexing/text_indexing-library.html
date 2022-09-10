@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="text_indexing library API docs, for the Dart programming language.">
+  <title>text_indexing library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../static-assets/styles.css?v1">
+  <link rel="icon" href="../static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="../"
+      data-using-base-href="false">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../index.html">text_indexing</a></li>
+    <li class="self-crumb">text_indexing library</li>
+  </ol>
+  <div class="self-name">text_indexing</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+
+  <div id="dartdoc-main-content" class="main-content">
+      <div>
+<h1><span class="kind-library">text_indexing</span> library 
+    <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
+ 
+</h1></div>
+
+    
+<section class="desc markdown">
+  <p>Dart library for creating an inverted index on a collection of text documents.</p>
+</section>
+
+
+    <section class="summary offset-anchor" id="classes">
+      <h2>Classes</h2>
+
+      <dl>
+        <dt id="DocumentPostings">
+  <span class="name "><a href="../text_indexing/DocumentPostings-class.html">DocumentPostings</a></span> 
+
+</dt>
+<dd>
+  The <a href="../text_indexing/DocumentPostings-class.html">DocumentPostings</a> class enumerates the properties of a document
+posting in a <a href="../text_indexing/PostingsMap.html">PostingsMap</a> as part of an inverted index of a dataset:
+</dd>
+
+        <dt id="PostingsMapEntry">
+  <span class="name "><a href="../text_indexing/PostingsMapEntry-class.html">PostingsMapEntry</a></span> 
+
+</dt>
+<dd>
+  The <a href="../text_indexing/PostingsMapEntry-class.html">PostingsMapEntry</a> class enumerates the properties of entry in a
+<a href="../text_indexing/PostingsMap.html">PostingsMap</a> as part of an inverted index of a dataset:
+</dd>
+
+        <dt id="Term">
+  <span class="name "><a href="../text_indexing/Term-class.html">Term</a></span> 
+
+</dt>
+<dd>
+  A <a href="../text_indexing/Term-class.html">Term</a> is a unit of entry in the <a href="../text_indexing/Dictionary.html">Dictionary</a> of an inverted index.
+It enumerates the following properties:
+</dd>
+
+      </dl>
+    </section>
+
+
+    <section class="summary offset-anchor" id="extensions">
+      <h2>Extensions</h2>
+
+      <dl>
+        <dt id="DictionaryExtensions">
+    <span class="name "><a href="../text_indexing/DictionaryExtensions.html">DictionaryExtensions</a></span> 
+
+</dt>
+<dd>
+    Extensions on <a href="../text_indexing/Term-class.html">Term</a>.
+</dd>
+
+
+      </dl>
+    </section>
+
+
+
+
+
+    <section class="summary offset-anchor" id="typedefs">
+      <h2>Typedefs</h2>
+
+      <dl>
+          
+  <dt id="Dictionary" class="">
+  <span class="name"><a href="../text_indexing/Dictionary.html">Dictionary</a></span>
+    = <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>&gt;</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Defines a term dictionary used as an inverted index.
+  
+
+</dd>
+
+
+          
+  <dt id="PostingsMap" class="">
+  <span class="name"><a href="../text_indexing/PostingsMap.html">PostingsMap</a></span>
+    = <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>&gt;</span></span>&gt;</span></span>&gt;</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Defines a collection of postings for a positional inverted index.
+  
+
+</dd>
+
+
+      </dl>
+    </section>
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+  <li><a href="../index.html">text_indexing</a></li>
+  <li class="self-crumb">text_indexing library</li>
+</ol>
+
+
+    <h5><span class="package-name">text_indexing</span> <span class="package-kind">package</span></h5>
+    <ol>
+      <li class="section-title">Libraries</li>
+      <li><a href="../text_indexing/text_indexing-library.html">text_indexing</a></li>
+</ol>
+
+  </div>
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+    <h5>text_indexing library</h5>
+    <ol>
+  <li class="section-title"><a href="../text_indexing/text_indexing-library.html#classes">Classes</a></li>
+  <li><a href="../text_indexing/DocumentPostings-class.html">DocumentPostings</a></li>
+  <li><a href="../text_indexing/PostingsMapEntry-class.html">PostingsMapEntry</a></li>
+  <li><a href="../text_indexing/Term-class.html">Term</a></li>
+
+  <li class="section-title"><a href="../text_indexing/text_indexing-library.html#extensions">Extensions</a></li>
+  <li><a href="../text_indexing/DictionaryExtensions.html">DictionaryExtensions</a></li>
+
+
+
+
+
+
+  <li class="section-title"><a href="../text_indexing/text_indexing-library.html#typedefs">Typedefs</a></li>
+  <li><a href="../text_indexing/Dictionary.html">Dictionary</a></li>
+  <li><a href="../text_indexing/PostingsMap.html">PostingsMap</a></li>
+
+</ol>
+
+  </div><!--/sidebar-offcanvas-right-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    text_indexing
+      0.0.1-beta.1
+  </span>
+
+  
+</footer>
+
+
+
+<script src="../static-assets/highlight.pack.js?v1"></script>
+<script src="../static-assets/script.js?v1"></script>
+
+
+
+</body>
+
+</html>
+
