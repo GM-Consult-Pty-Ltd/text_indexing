@@ -50,8 +50,8 @@
 </h1></div>
 
     <section class="multi-line-signature">
-      <span class="name ">InMemoryIndexer</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="-param-tokenizer">{<span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.0.12/text_analysis/Tokenizer.html">Tokenizer</a></span> <span class="parameter-name">tokenizer</span> = <span class="default-value">Indexer.kDefaultTokenizer</span>, </span></li>
-<li><span class="parameter" id="-param-dictionary"><span class="type-annotation"><a href="../../text_indexing/TermDictionary.html">TermDictionary</a>?</span> <span class="parameter-name">dictionary</span>, </span></li>
+      <span class="name ">InMemoryIndexer</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="-param-dictionary">{<span class="type-annotation"><a href="../../text_indexing/TermDictionary.html">TermDictionary</a>?</span> <span class="parameter-name">dictionary</span>, </span></li>
+<li><span class="parameter" id="-param-tokenizer"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.0.12/text_analysis/Tokenizer.html">Tokenizer</a></span> <span class="parameter-name">tokenizer</span> = <span class="default-value">Indexer.kDefaultTokenizer</span>, </span></li>
 <li><span class="parameter" id="-param-postings"><span class="type-annotation"><a href="../../text_indexing/PostingsMap.html">PostingsMap</a>?</span> <span class="parameter-name">postings</span>}</span></li>
 </ol>)
     </section>
@@ -74,11 +74,11 @@ initialized.</li>
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">InMemoryIndexer({
-  this.tokenizer = Indexer.kDefaultTokenizer,
   TermDictionary? dictionary,
+  this.tokenizer = Indexer.kDefaultTokenizer,
   PostingsMap? postings,
-})  : dictionary = dictionary ?? {},
-      postings = postings ?? {};</code></pre>
+})  : postings = postings ?? {},
+      dictionary = dictionary ?? {};</code></pre>
 </section>
 
 
@@ -117,10 +117,14 @@ initialized.</li>
     <li><a href="../../text_indexing/InMemoryIndexer/tokenizer.html">tokenizer</a></li>
 
     <li class="section-title"><a href="../../text_indexing/InMemoryIndexer-class.html#instance-methods">Methods</a></li>
-    <li><a href="../../text_indexing/InMemoryIndexer/emit.html">emit</a></li>
+    <li class="inherited"><a href="../../text_indexing/Indexer/emit.html">emit</a></li>
     <li class="inherited"><a href="../../text_indexing/Indexer/index.html">index</a></li>
+    <li><a href="../../text_indexing/InMemoryIndexer/loadTermPostings.html">loadTermPostings</a></li>
+    <li><a href="../../text_indexing/InMemoryIndexer/loadTerms.html">loadTerms</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
+    <li><a href="../../text_indexing/InMemoryIndexer/updateDictionary.html">updateDictionary</a></li>
+    <li><a href="../../text_indexing/InMemoryIndexer/upsertTermPostings.html">upsertTermPostings</a></li>
 
     <li class="section-title inherited"><a href="../../text_indexing/InMemoryIndexer-class.html#operators">Operators</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/operator_equals.html">operator ==</a></li>
@@ -140,7 +144,7 @@ initialized.</li>
 <footer>
   <span class="no-break">
     text_indexing
-      0.0.1-beta.2
+      0.0.1-beta.4
   </span>
 
   

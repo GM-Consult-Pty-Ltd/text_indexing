@@ -25,29 +25,13 @@ class InMemoryIndexer extends Indexer {
   /// - pass an existing in-memory [postings], otherwise one will be
   ///   initialized.
   InMemoryIndexer({
-    this.tokenizer = Indexer.kDefaultTokenizer,
     TermDictionary? dictionary,
+    this.tokenizer = Indexer.kDefaultTokenizer,
     PostingsMap? postings,
-  })  : dictionary = dictionary ?? {},
-        postings = postings ?? {};
+  })  : postings = postings ?? {},
+        dictionary = dictionary ?? {};
 
-  /// Iterates through the [event] elements:
-  /// - adds the postings for each element to the [postings] map; and
-  /// - increments the term frequency in [dictionary] if the document did not
-  ///   previously have a postings entry in [postings].
-  /// Calls super.[emit] to ensure [event] is added to the [postingsStream].
-  @override
-  void emit(List<TermPositions> event) {
-    for (final e in event) {
-      final increment = postings.addTermPositions(e.term, e.docId, e.positions);
-      if (increment) {
-        dictionary.incrementFrequency(e.term);
-      }
-    }
-    super.emit(event);
-  }
-
-  /// The in-memory term dictionary for the indexer.
+  /// The in-memory term dictionary for the indexer
   final TermDictionary dictionary;
 
   /// The in-memory postings hashmap for the indexer.
@@ -55,4 +39,38 @@ class InMemoryIndexer extends Indexer {
 
   @override
   final Tokenizer tokenizer;
+
+  @override
+  Future<PostingsMap> loadTermPostings(Iterable<String> terms) async {
+    final PostingsMap retVal = {};
+    for (final term in terms) {
+      final entry = postings[term];
+      if (entry != null) {
+        retVal[term] = entry;
+      }
+    }
+    return retVal;
+  }
+
+  @override
+  Future<void> updateDictionary(TermDictionary terms) async {
+    return;
+  }
+
+  @override
+  Future<void> upsertTermPostings(PostingsMap postings) async {
+    this.postings.addAll(postings);
+  }
+
+  @override
+  Future<TermDictionary> loadTerms(Iterable<String> terms) async {
+    final TermDictionary retVal = {};
+    for (final term in terms) {
+      final entry = dictionary[term];
+      if (entry != null) {
+        retVal[term] = entry;
+      }
+    }
+    return retVal;
+  }
 }

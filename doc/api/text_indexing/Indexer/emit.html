@@ -57,7 +57,7 @@
   </ol>
 </div>
 
-<span class="returntype">void</span>
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
 <span class="name ">emit</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="emit-param-event"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_indexing/TermPositions-class.html">TermPositions</a></span>&gt;</span></span> <span class="parameter-name">event</span></span></li>
 </ol>)
 
@@ -69,7 +69,7 @@
   <p>The <a href="../../text_indexing/Indexer/emit.html">emit</a> method is called by <a href="../../text_indexing/Indexer/index.html">index</a> and adds the <code>event</code> to the
 <code>_postingsStreamController</code> sink.</p>
 <p>Sub-classes override <a href="../../text_indexing/Indexer/emit.html">emit</a> to perform additional actions whenever a
-document is indexed, e.g. updating a term dictionary or postings list.</p>
+document is indexed.</p>
 </section>
 
 
@@ -77,7 +77,19 @@ document is indexed, e.g. updating a term dictionary or postings list.</p>
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@mustCallSuper
-void emit(List&lt;TermPositions&gt; event) {
+Future&lt;void&gt; emit(List&lt;TermPositions&gt; event) async {
+  final terms = event.map((e) =&gt; e.term);
+  final postings = await loadTermPostings(terms);
+  final TermDictionary termsToUpdate = await loadTerms(terms);
+  await Future.forEach(event, (TermPositions e) {
+    final increment = postings.addTermPositions(e.term, e.docId, e.positions);
+    if (increment) {
+      &#47;&#47; dictionary.incrementFrequency(e.term);
+      termsToUpdate.incrementFrequency(e.term);
+    }
+  });
+  await updateDictionary(termsToUpdate);
+  await upsertTermPostings(postings);
   _postingsStreamController.sink.add(event);
 }</code></pre>
 </section>
@@ -118,8 +130,12 @@ void emit(List&lt;TermPositions&gt; event) {
     <li class="section-title"><a href="../../text_indexing/Indexer-class.html#instance-methods">Methods</a></li>
     <li><a href="../../text_indexing/Indexer/emit.html">emit</a></li>
     <li><a href="../../text_indexing/Indexer/index.html">index</a></li>
+    <li><a href="../../text_indexing/Indexer/loadTermPostings.html">loadTermPostings</a></li>
+    <li><a href="../../text_indexing/Indexer/loadTerms.html">loadTerms</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
+    <li><a href="../../text_indexing/Indexer/updateDictionary.html">updateDictionary</a></li>
+    <li><a href="../../text_indexing/Indexer/upsertTermPostings.html">upsertTermPostings</a></li>
 
     <li class="section-title inherited"><a href="../../text_indexing/Indexer-class.html#operators">Operators</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/operator_equals.html">operator ==</a></li>
@@ -141,7 +157,7 @@ void emit(List&lt;TermPositions&gt; event) {
 <footer>
   <span class="no-break">
     text_indexing
-      0.0.1-beta.2
+      0.0.1-beta.4
   </span>
 
   

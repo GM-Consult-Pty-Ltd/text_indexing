@@ -19,15 +19,11 @@ class PostingsMapEntry {
           .map((key, value) => MapEntry(key, List<int>.from(value.positions))));
 
   /// The word/term that is indexed.
-  ///
-  /// The [term] must not be an empty String.
-  ///
-  /// The [term] must only occur once in the [TermDictionary].
   final String term;
 
-  /// A hashmap of the [TermPositions] for [term] where:
+  /// A hashmap of the [TermPositions] for the [term] where:
   /// - the [postings].key is the id of the document;
-  /// - the [postings].value is the postings in the document of the [term].
+  /// - the [postings].value is the positions in the document of the [term].
   final Map<String, TermPositions> postings;
 
   /// Instantiates a const [PostingsMapEntry] instance:

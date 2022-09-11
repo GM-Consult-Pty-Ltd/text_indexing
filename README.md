@@ -8,7 +8,7 @@ All rights reserved.
 
 Dart library for creating an inverted index on a collection of text documents.
 
-*THIS PACKAGE IS IN BETA DEVELOPMENT AND SUBJECT TO DAILY BREAKING CHANGES.*
+*THIS PACKAGE IS **PRE-RELEASE** AND SUBJECT TO DAILY BREAKING CHANGES.*
 
 ## Install
 
@@ -16,7 +16,7 @@ In the `pubspec.yaml` of your flutter project, add the following dependency:
 
 ```yaml
 dependencies:
-  text_indexing: ^0.0.1-beta.2
+  text_indexing: ^0.0.1-beta.4
 ```
 
 In your code file add the following import:
@@ -33,10 +33,18 @@ The objective is to build and maintain:
 * a term dictionary that holds the vocabulary of terms and the frequency of occurrence for each term in the corpus; and
 * a postings map that holds the references to the documents for each term. In this implementation, our postings include the positions of the term in the document to allow search algorithms to derive relevance.
 
-The `Indexer` is a base class that provides an `Indexer.index` method that indexes a document, adding a list of term positions to the `Indexer.postingsStream` for the document.  Subclasses of `Indexer` may override the override `Indexer.emit` method to perform additional actions whenever a document is indexed, e.g. updating a term dictionary or postings list.
+### `Indexer` Class
+
+The `Indexer` is an abstract base class that provides an `Indexer.index` method that indexes a document, adding a list of term positions to the `Indexer.postingsStream` for the document.  Subclasses of `Indexer` may override the override `Indexer.emit` method to perform additional actions whenever a document is indexed.
+
+### `InMemoryIndexer` Class
 
 The `InMemoryIndexer` is a subclass of `Indexer` that builds and maintains in-memory `TermDictionary` and `PostingMap` hashmaps. These hashmaps are updated whenever `InMemoryIndexer.emit` is called at the end of the `InMemoryIndexer.index` method, so awaiting a call to `InMemoryIndexer.index` will provide access to the updated `InMemoryIndexer.dictionary` and
-`InMemoryIndexer.postings` collections. The `InMemoryIndexer` is suitable for indexing and searching smaller collections. An example of the use of `InMemoryIndexer` is included in the package [examples](https://pub.dev/packages/text_indexing/example);
+`InMemoryIndexer.postings` collections. The `InMemoryIndexer` is suitable for indexing and searching smaller collections. An example of the use of `InMemoryIndexer` is included in the package [examples](https://pub.dev/packages/text_indexing/example).
+
+### `PersistedIndexer` Class
+
+The `PersistedIndexer` is a subclass of `Indexer` that asynchronously reads and writes a term dictionary and postings map data sources. These data sources are asynchronously updated whenever `PersistedIndexer.emit` is called at by the `PersistedIndexer.index` method. The `InMemoryIndexer` is suitable for indexing and searching large collections but may incur some latency penalty and processing overhead. An example of the use of `PersistedIndexer` is included in the package [examples](https://pub.dev/packages/text_indexing/example).
 
 ## Issues
 

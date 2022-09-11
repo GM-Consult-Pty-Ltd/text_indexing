@@ -20,6 +20,27 @@ import 'package:text_indexing/text_indexing.dart';
 abstract class Indexer {
   //
 
+  // /// Instantiates a [Indexer].
+  // ///
+  // /// Calls [init] to asynchronously load the [dictionary] into memory.
+  // Indexer(this.dictionary);
+
+  /// Asynchronously retrieves a [TermDictionary] for [terms] from a
+  /// [TermDictionary] data source, usually persisted storage.
+  Future<TermDictionary> loadTerms(Iterable<String> terms);
+
+  /// A callback that passes a collection of [Term] instances for persisting to
+  /// the [TermDictionary] datastore.
+  Future<void> updateDictionary(TermDictionary terms);
+
+  /// Asynchronously retrieves [PostingsMapEntry] entities for [terms] from a
+  /// [PostingsMap] data source, usually persisted storage.
+  Future<PostingsMap> loadTermPostings(Iterable<String> terms);
+
+  /// A callback that passes a collection of [PostingsMapEntry] instances for
+  /// persisting to the [PostingsMap] datastore.
+  Future<void> upsertTermPostings(PostingsMap postings);
+
   /// The private stream controller for the [postingsStream].
   final _postingsStreamController = BehaviorSubject<List<TermPositions>>();
 
@@ -62,16 +83,28 @@ abstract class Indexer {
       }
     }
     // emit the posting for docId
-    emit(event);
+    await emit(event);
   }
 
   /// The [emit] method is called by [index] and adds the [event] to the
   /// [_postingsStreamController] sink.
   ///
   /// Sub-classes override [emit] to perform additional actions whenever a
-  /// document is indexed, e.g. updating a term dictionary or postings list.
+  /// document is indexed.
   @mustCallSuper
-  void emit(List<TermPositions> event) {
+  Future<void> emit(List<TermPositions> event) async {
+    final terms = event.map((e) => e.term);
+    final postings = await loadTermPostings(terms);
+    final TermDictionary termsToUpdate = await loadTerms(terms);
+    await Future.forEach(event, (TermPositions e) {
+      final increment = postings.addTermPositions(e.term, e.docId, e.positions);
+      if (increment) {
+        // dictionary.incrementFrequency(e.term);
+        termsToUpdate.incrementFrequency(e.term);
+      }
+    });
+    await updateDictionary(termsToUpdate);
+    await upsertTermPostings(postings);
     _postingsStreamController.sink.add(event);
   }
 

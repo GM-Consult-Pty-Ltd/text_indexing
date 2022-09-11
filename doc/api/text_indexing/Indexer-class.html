@@ -75,6 +75,7 @@ document is indexed, e.g. updating a term dictionary of postings list.</li>
         <dt>Implementers</dt>
         <dd><ul class="comma-separated clazz-relationships">
           <li><a href="../text_indexing/InMemoryIndexer-class.html">InMemoryIndexer</a></li>
+          <li><a href="../text_indexing/PersistedIndexer-class.html">PersistedIndexer</a></li>
         </ul></dd>
 
 
@@ -155,7 +156,7 @@ document is indexed, e.g. updating a term dictionary of postings list.</li>
     <dl class="callables">
         <dt id="emit" class="callable">
   <span class="name"><a href="../text_indexing/Indexer/emit.html">emit</a></span><span class="signature">(<wbr><span class="parameter" id="emit-param-event"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/TermPositions-class.html">TermPositions</a></span>&gt;</span></span> <span class="parameter-name">event</span></span>)
-    <span class="returntype parameter">&#8594; void</span>
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
   </span>
   
 
@@ -177,6 +178,34 @@ document is indexed, e.g. updating a term dictionary of postings list.</li>
 <dd>
   Parses the <code>docText</code> into a collection of <a href="../text_indexing/TermPositions-class.html">TermPositions</a> using the
 <a href="../text_indexing/Indexer/tokenizer.html">tokenizer</a>.
+  
+
+</dd>
+
+        <dt id="loadTermPostings" class="callable">
+  <span class="name"><a href="../text_indexing/Indexer/loadTermPostings.html">loadTermPostings</a></span><span class="signature">(<wbr><span class="parameter" id="loadTermPostings-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/PostingsMap.html">PostingsMap</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Asynchronously retrieves <a href="../text_indexing/PostingsMapEntry-class.html">PostingsMapEntry</a> entities for <code>terms</code> from a
+<code>PostingsMap</code> data source, usually persisted storage.
+  
+
+</dd>
+
+        <dt id="loadTerms" class="callable">
+  <span class="name"><a href="../text_indexing/Indexer/loadTerms.html">loadTerms</a></span><span class="signature">(<wbr><span class="parameter" id="loadTerms-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/TermDictionary.html">TermDictionary</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Asynchronously retrieves a <code>TermDictionary</code> for <code>terms</code> from a
+<code>TermDictionary</code> data source, usually persisted storage.
   
 
 </dd>
@@ -204,6 +233,34 @@ document is indexed, e.g. updating a term dictionary of postings list.</li>
 <dd class="inherited">
   A string representation of this object.
   <div class="features">inherited</div>
+
+</dd>
+
+        <dt id="updateDictionary" class="callable">
+  <span class="name"><a href="../text_indexing/Indexer/updateDictionary.html">updateDictionary</a></span><span class="signature">(<wbr><span class="parameter" id="updateDictionary-param-terms"><span class="type-annotation"><a href="../text_indexing/TermDictionary.html">TermDictionary</a></span> <span class="parameter-name">terms</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  A callback that passes a collection of <a href="../text_indexing/Term-class.html">Term</a> instances for persisting to
+the <a href="../text_indexing/TermDictionary.html">TermDictionary</a> datastore.
+  
+
+</dd>
+
+        <dt id="upsertTermPostings" class="callable">
+  <span class="name"><a href="../text_indexing/Indexer/upsertTermPostings.html">upsertTermPostings</a></span><span class="signature">(<wbr><span class="parameter" id="upsertTermPostings-param-postings"><span class="type-annotation"><a href="../text_indexing/PostingsMap.html">PostingsMap</a></span> <span class="parameter-name">postings</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  A callback that passes a collection of <a href="../text_indexing/PostingsMapEntry-class.html">PostingsMapEntry</a> instances for
+persisting to the <a href="../text_indexing/PostingsMap.html">PostingsMap</a> datastore.
+  
 
 </dd>
 
@@ -274,6 +331,7 @@ document is indexed, e.g. updating a term dictionary of postings list.</li>
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#classes">Classes</a></li>
   <li><a href="../text_indexing/Indexer-class.html">Indexer</a></li>
   <li><a href="../text_indexing/InMemoryIndexer-class.html">InMemoryIndexer</a></li>
+  <li><a href="../text_indexing/PersistedIndexer-class.html">PersistedIndexer</a></li>
   <li><a href="../text_indexing/PostingsMapEntry-class.html">PostingsMapEntry</a></li>
   <li><a href="../text_indexing/Term-class.html">Term</a></li>
   <li><a href="../text_indexing/TermPositions-class.html">TermPositions</a></li>
@@ -291,7 +349,11 @@ document is indexed, e.g. updating a term dictionary of postings list.</li>
   <li><a href="../text_indexing/TermSortStrategy.html">TermSortStrategy</a></li>
 
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#typedefs">Typedefs</a></li>
+  <li><a href="../text_indexing/DictionaryLoader.html">DictionaryLoader</a></li>
+  <li><a href="../text_indexing/DictionaryUpdater.html">DictionaryUpdater</a></li>
+  <li><a href="../text_indexing/PostingsLoader.html">PostingsLoader</a></li>
   <li><a href="../text_indexing/PostingsMap.html">PostingsMap</a></li>
+  <li><a href="../text_indexing/PostingsUpdater.html">PostingsUpdater</a></li>
   <li><a href="../text_indexing/TermDictionary.html">TermDictionary</a></li>
 
 </ol>
@@ -316,8 +378,12 @@ document is indexed, e.g. updating a term dictionary of postings list.</li>
     <li class="section-title"><a href="../text_indexing/Indexer-class.html#instance-methods">Methods</a></li>
     <li><a href="../text_indexing/Indexer/emit.html">emit</a></li>
     <li><a href="../text_indexing/Indexer/index.html">index</a></li>
+    <li><a href="../text_indexing/Indexer/loadTermPostings.html">loadTermPostings</a></li>
+    <li><a href="../text_indexing/Indexer/loadTerms.html">loadTerms</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
+    <li><a href="../text_indexing/Indexer/updateDictionary.html">updateDictionary</a></li>
+    <li><a href="../text_indexing/Indexer/upsertTermPostings.html">upsertTermPostings</a></li>
 
     <li class="section-title inherited"><a href="../text_indexing/Indexer-class.html#operators">Operators</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/operator_equals.html">operator ==</a></li>
@@ -336,7 +402,7 @@ document is indexed, e.g. updating a term dictionary of postings list.</li>
 <footer>
   <span class="no-break">
     text_indexing
-      0.0.1-beta.2
+      0.0.1-beta.4
   </span>
 
   
