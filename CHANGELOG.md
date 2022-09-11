@@ -7,7 +7,11 @@ All rights reserved.
 ## 0.0.1-beta.2
 
 - PRE-RELEASE: 
-- First pass of `InMemoryIndexer`.
+- Coded `Indexer`.
+- Coded `InMemoryIndexer`.
+- Created test of `InMemoryIndexer`.
+- Created example of `InMemoryIndexer`.
+- Updated documentation.
 
 ## 0.0.1-beta.1
 
