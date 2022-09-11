@@ -2,7 +2,7 @@
 // BSD 3-Clause License
 // All rights reserved
 
-/// Three paragraphs of text used for testing tokenization.
+/// Four paragraphs of text used for testing.
 ///
 /// Includes numbers, currencies, abbreviations, hyphens and identifiers
 final textData = {

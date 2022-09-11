@@ -4,6 +4,11 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+## 0.0.1-beta.2
+
+- PRE-RELEASE: 
+- First pass of `InMemoryIndexer`.
+
 ## 0.0.1-beta.1
 
 - PRE-RELEASE: Initial version.

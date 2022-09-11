@@ -55,13 +55,21 @@ All rights reserved.
 <h2 id="install">Install</h2>
 <p>In the <code>pubspec.yaml</code> of your flutter project, add the following dependency:</p>
 <pre class="language-yaml"><code class="language-yaml">dependencies:
-  text_indexing: ^0.0.1-beta.1
+  text_indexing: ^0.0.1-beta.2
 </code></pre>
 <p>In your code file add the following import:</p>
 <pre class="language-dart"><code class="language-dart">import 'package:text_indexing/text_indexing.dart';
 </code></pre>
 <h2 id="usage">Usage</h2>
-<p>TODO: describe usage.</p>
+<p>The text indexing classes (indexers) in this library are intended for information retrieval software applications. The implementation is consistent with <a href="https://nlp.stanford.edu/IR-book/pdf/irbookonlinereading.pdf">information retrieval theory</a>.</p>
+<p>The objective is to build and maintain:</p>
+<ul>
+<li>a term dictionary that holds the vocabulary of terms and the frequency of occurrence for each term in the corpus; and</li>
+<li>a postings map that holds the references to the documents for each term. In this implementation, our postings include the positions of the term in the document to allow search algorithms to derive relevance.</li>
+</ul>
+<p>The <code>Indexer</code> is a base class that provides an <code>Indexer.index</code> method that indexes a document, adding a list of term positions to the <code>Indexer.postingsStream</code> for the document.  Subclasses of <code>Indexer</code> may override the override <code>Indexer.emit</code> method to perform additional actions whenever a document is indexed, e.g. updating a term dictionary or postings list.</p>
+<p>The <code>InMemoryIndexer</code> is a subclass of <code>Indexer</code> that builds and maintains in-memory <code>TermDictionary</code> and <code>PostingMap</code> hashmaps. These hashmaps are updated whenever <code>InMemoryIndexer.emit</code> is called at the end of the <code>InMemoryIndexer.index</code> method, so awaiting a call to <code>InMemoryIndexer.index</code> will provide access to the updated <code>InMemoryIndexer.dictionary</code> and
+<code>InMemoryIndexer.postings</code> collections. The <code>InMemoryIndexer</code> is suitable for indexing and searching smaller collections. An example of the use of <code>InMemoryIndexer</code> is included in the package <a href="https://pub.dev/packages/text_indexing/example">examples</a>;</p>
 <h2 id="issues">Issues</h2>
 <p>If you find a bug please fill an <a href="https://github.com/GM-Consult-Pty-Ltd/text_indexing/issues">issue</a>.</p>
 <p>This project is a supporting package for a revenue project that has priority call on resources, so please be patient if we don't respond immediately to issues or pull requests.</p>
@@ -111,7 +119,7 @@ All rights reserved.
 <footer>
   <span class="no-break">
     text_indexing
-      0.0.1-beta.1
+      0.0.1-beta.2
   </span>
 
   

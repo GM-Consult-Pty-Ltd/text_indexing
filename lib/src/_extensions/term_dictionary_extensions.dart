@@ -4,13 +4,6 @@
 
 import 'package:text_indexing/text_indexing.dart';
 
-/// Defines a term TermDictionary used as an inverted index.
-///
-/// The [TermDictionary] is a hashmap of [Term]s where:
-/// - the key is the word/term that is indexed; and
-/// - the value is the number of documents that contain the term.
-typedef TermDictionary = Map<String, int>;
-
 /// Extensions on [Term].
 extension TermDictionaryExtensions on TermDictionary {
   //

@@ -3,4 +3,6 @@
 // All rights reserved
 
 // List all exports below in alphabetical order.
-export 'inverted_index/_index.dart';
+export 'postings_map_entry.dart';
+export 'term.dart';
+export 'term_positions.dart';

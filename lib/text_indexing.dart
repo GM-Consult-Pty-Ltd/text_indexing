@@ -6,4 +6,8 @@
 library text_indexing;
 
 // List all exports below in alphabetical order.
-export 'src/_index.dart';
+export 'src/_extensions/_index.dart';
+export 'src/_models/_index.dart';
+export 'src/in_memory_indexer.dart';
+export 'src/indexer.dart';
+export 'src/typedefs.dart';
