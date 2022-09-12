@@ -52,7 +52,7 @@
     <section class="multi-line-signature">
       
 
-<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_indexing/Term-class.html">Term</a></span>&gt;</span></span>
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_indexing/DictionaryEntry-class.html">DictionaryEntry</a></span>&gt;</span></span>
 <span class="name ">sortByFrequency</span>(<wbr>)
 
       
@@ -60,15 +60,15 @@
     </section>
     
 <section class="desc markdown">
-  <p>Sorts the collection of <code>Term</code>s by <a href="../../text_indexing/Term/frequency.html">Term.frequency</a> in descending order.</p>
+  <p>Sorts the collection of <code>DictionaryEntry</code>s by <a href="../../text_indexing/DictionaryEntry/frequency.html">DictionaryEntry.frequency</a> in descending order.</p>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">List&lt;Term&gt; sortByFrequency() {
-  final terms = List&lt;Term&gt;.from(this);
+  <pre class="language-dart"><code class="language-dart">List&lt;DictionaryEntry&gt; sortByFrequency() {
+  final terms = List&lt;DictionaryEntry&gt;.from(this);
   terms.sort((a, b) =&gt; b.frequency.compareTo(a.frequency));
   return terms;
 }</code></pre>
@@ -119,7 +119,7 @@
 <footer>
   <span class="no-break">
     text_indexing
-      0.0.1-beta.4
+      0.0.1
   </span>
 
   

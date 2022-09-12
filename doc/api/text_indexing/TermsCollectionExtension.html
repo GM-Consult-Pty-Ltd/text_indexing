@@ -51,7 +51,7 @@
 
     
 <section class="desc markdown">
-  <p>Extension methods on a collection of <a href="../text_indexing/Term-class.html">Term</a>s.</p>
+  <p>Extension methods on a collection of <a href="../text_indexing/DictionaryEntry-class.html">DictionaryEntry</a>s.</p>
 </section>
 
     <section>
@@ -59,7 +59,7 @@
         <dt>on</dt>
         <dd>
           <ul class="comma-separated clazz-relationships">
-              <li><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Term-class.html">Term</a></span>&gt;</span></li>
+              <li><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/DictionaryEntry-class.html">DictionaryEntry</a></span>&gt;</span></li>
           </ul>
         </dd>
       </dl>
@@ -75,39 +75,39 @@
     <dl class="callables">
         <dt id="sort" class="callable">
   <span class="name"><a href="../text_indexing/TermsCollectionExtension/sort.html">sort</a></span><span class="signature">(<wbr><span class="parameter" id="sort-param-sortBy">[<span class="type-annotation"><a href="../text_indexing/TermSortStrategy.html">TermSortStrategy</a></span> <span class="parameter-name">sortBy</span> = <span class="default-value">TermSortStrategy.byTerm</span>]</span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Term-class.html">Term</a></span>&gt;</span></span>
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/DictionaryEntry-class.html">DictionaryEntry</a></span>&gt;</span></span>
   </span>
   
 
 </dt>
 <dd>
-  Sorts the collection of <code>Term</code>s according to <code>sortBy</code> value:
+  Sorts the collection of <code>DictionaryEntry</code>s according to <code>sortBy</code> value:
   
 
 </dd>
 
         <dt id="sortByFrequency" class="callable">
   <span class="name"><a href="../text_indexing/TermsCollectionExtension/sortByFrequency.html">sortByFrequency</a></span><span class="signature">(<wbr>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Term-class.html">Term</a></span>&gt;</span></span>
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/DictionaryEntry-class.html">DictionaryEntry</a></span>&gt;</span></span>
   </span>
   
 
 </dt>
 <dd>
-  Sorts the collection of <code>Term</code>s by <a href="../text_indexing/Term/frequency.html">Term.frequency</a> in descending order.
+  Sorts the collection of <code>DictionaryEntry</code>s by <a href="../text_indexing/DictionaryEntry/frequency.html">DictionaryEntry.frequency</a> in descending order.
   
 
 </dd>
 
         <dt id="sortByTerm" class="callable">
   <span class="name"><a href="../text_indexing/TermsCollectionExtension/sortByTerm.html">sortByTerm</a></span><span class="signature">(<wbr>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Term-class.html">Term</a></span>&gt;</span></span>
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/DictionaryEntry-class.html">DictionaryEntry</a></span>&gt;</span></span>
   </span>
   
 
 </dt>
 <dd>
-  Sorts the collection of <code>Term</code>s alphabetically.
+  Sorts the collection of <code>DictionaryEntry</code>s alphabetically.
   
 
 </dd>
@@ -139,12 +139,13 @@
     <h5>text_indexing library</h5>
     <ol>
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#classes">Classes</a></li>
-  <li><a href="../text_indexing/Indexer-class.html">Indexer</a></li>
+  <li><a href="../text_indexing/DictionaryEntry-class.html">DictionaryEntry</a></li>
   <li><a href="../text_indexing/InMemoryIndexer-class.html">InMemoryIndexer</a></li>
   <li><a href="../text_indexing/PersistedIndexer-class.html">PersistedIndexer</a></li>
-  <li><a href="../text_indexing/PostingsMapEntry-class.html">PostingsMapEntry</a></li>
-  <li><a href="../text_indexing/Term-class.html">Term</a></li>
-  <li><a href="../text_indexing/TermPositions-class.html">TermPositions</a></li>
+  <li><a href="../text_indexing/PostingsEntry-class.html">PostingsEntry</a></li>
+  <li><a href="../text_indexing/PostingsList-class.html">PostingsList</a></li>
+  <li><a href="../text_indexing/TextIndexer-class.html">TextIndexer</a></li>
+  <li><a href="../text_indexing/TextIndexerBase-class.html">TextIndexerBase</a></li>
 
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#extensions">Extensions</a></li>
   <li><a href="../text_indexing/PostingsMapExtension.html">PostingsMapExtension</a></li>
@@ -159,12 +160,12 @@
   <li><a href="../text_indexing/TermSortStrategy.html">TermSortStrategy</a></li>
 
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#typedefs">Typedefs</a></li>
+  <li><a href="../text_indexing/Dictionary.html">Dictionary</a></li>
   <li><a href="../text_indexing/DictionaryLoader.html">DictionaryLoader</a></li>
   <li><a href="../text_indexing/DictionaryUpdater.html">DictionaryUpdater</a></li>
+  <li><a href="../text_indexing/Postings.html">Postings</a></li>
   <li><a href="../text_indexing/PostingsLoader.html">PostingsLoader</a></li>
-  <li><a href="../text_indexing/PostingsMap.html">PostingsMap</a></li>
   <li><a href="../text_indexing/PostingsUpdater.html">PostingsUpdater</a></li>
-  <li><a href="../text_indexing/TermDictionary.html">TermDictionary</a></li>
 
 </ol>
 
@@ -194,7 +195,7 @@
 <footer>
   <span class="no-break">
     text_indexing
-      0.0.1-beta.4
+      0.0.1
   </span>
 
   

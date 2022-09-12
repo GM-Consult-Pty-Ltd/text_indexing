@@ -5,44 +5,59 @@
 import 'package:text_analysis/text_analysis.dart';
 import 'package:text_indexing/text_indexing.dart';
 
-/// Maintains an in-memory inverted index:
-/// - [dictionary] is the in-memory term dictionary for the indexer;
-/// - [postings] is the in-memory postings hashmap for the indexer; and
-/// - [tokenizer] is the [Tokenizer] instance used by the indexer to parse
-///   documents to tokens. Defaults to [Indexer.kDefaultTokenizer].
+/// Implementation of [TextIndexerBase] that constructs and maintains an
+/// in-memory inverted index:
 ///
-/// Provides the [index] method to allow documents to be indexed one-by-one,
-/// adding the terms to the [dictionary] and the postings for each document to
-/// the [postings].
-class InMemoryIndexer extends Indexer {
+/// The [dictionary] is the in-memory term dictionary for the indexer. Pass a
+/// [dictionary] instance at instantiation, otherwise an empty [Dictionary]
+/// will be initialized.
+///
+/// The [postings] is the in-memory postings hashmap for the indexer. Pass a
+/// [postings] instance at instantiation, otherwise an empty [Postings]
+/// will be initialized.
+///
+/// Use the [index] method to index a text document, returning a list
+/// of [PostingsList] and adding it to the [postingsStream].
+///
+/// The [dictionary] and [postings] hashmaps are updated by [index]. Awaiting
+/// the return value of [index] will ensure that [dictionary] and [postings]
+/// updates have completed and are accessible.
+///
+/// The [loadTerms], [updateDictionary], [loadTermPostings] and
+/// [upsertTermPostings] implementations read and write from [dictionary] and
+/// [postings] respectively.
+class InMemoryIndexer extends TextIndexerBase {
   //
 
   /// Initializes a [InMemoryIndexer] instance:
-  /// - pass a [tokenizer] used by the indexer to parse  documents to tokens.
-  ///   or use the defaults [Indexer.kDefaultTokenizer].
-  /// - pass an existing in-memory [dictionary], otherwise one will be
-  ///   initialized;
-  /// - pass an existing in-memory [postings], otherwise one will be
-  ///   initialized.
+  /// - pass a [tokenizer] used by the indexer to parse  documents to tokens,
+  ///   or use the default [TextIndexer.kDefaultTokenizer].
+  /// - pass an in-memory [dictionary] instance, otherwise an empty
+  ///   [Dictionary] will be initialized.
+  /// - pass an in-memory [postings] instance, otherwise an empty [Postings]
+  ///   will be initialized.
   InMemoryIndexer({
-    TermDictionary? dictionary,
-    this.tokenizer = Indexer.kDefaultTokenizer,
-    PostingsMap? postings,
+    Dictionary? dictionary,
+    this.tokenizer = TextIndexer.kDefaultTokenizer,
+    Postings? postings,
   })  : postings = postings ?? {},
         dictionary = dictionary ?? {};
 
-  /// The in-memory term dictionary for the indexer
-  final TermDictionary dictionary;
+  /// The in-memory term dictionary for the indexer.
+  final Dictionary dictionary;
 
   /// The in-memory postings hashmap for the indexer.
-  final PostingsMap postings;
+  final Postings postings;
 
   @override
   final Tokenizer tokenizer;
 
+  /// Implementation of [TextIndexer.loadTermPostings].
+  ///
+  /// Returns a subset of [postings] corresponding to [terms].
   @override
-  Future<PostingsMap> loadTermPostings(Iterable<String> terms) async {
-    final PostingsMap retVal = {};
+  Future<Postings> loadTermPostings(Iterable<String> terms) async {
+    final Postings retVal = {};
     for (final term in terms) {
       final entry = postings[term];
       if (entry != null) {
@@ -52,19 +67,28 @@ class InMemoryIndexer extends Indexer {
     return retVal;
   }
 
+  /// Implementation of [TextIndexer.updateDictionary].
+  ///
+  /// Adds/overwrites the [values] to [dictionary].
   @override
-  Future<void> updateDictionary(TermDictionary terms) async {
-    return;
+  Future<void> updateDictionary(Dictionary values) async {
+    dictionary.addAll(values);
   }
 
+  /// Implementation of [TextIndexer.upsertTermPostings].
+  ///
+  /// Adds/overwrites the [values] to [postings].
   @override
-  Future<void> upsertTermPostings(PostingsMap postings) async {
-    this.postings.addAll(postings);
+  Future<void> upsertTermPostings(Postings values) async {
+    postings.addAll(values);
   }
 
+  /// Implementation of [TextIndexer.loadTerms].
+  ///
+  /// Returns a subset of [dictionary] corresponding to [terms].
   @override
-  Future<TermDictionary> loadTerms(Iterable<String> terms) async {
-    final TermDictionary retVal = {};
+  Future<Dictionary> loadTerms(Iterable<String> terms) async {
+    final Dictionary retVal = {};
     for (final term in terms) {
       final entry = dictionary[term];
       if (entry != null) {

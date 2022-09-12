@@ -51,21 +51,20 @@
 
     <section class="multi-line-signature">
         <span class="name ">DictionaryLoader</span> =
-     <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/TermDictionary.html">TermDictionary</a></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)</span></span>
+     <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Dictionary.html">Dictionary</a></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)</span></span>
 
     </section>
 
     
 <section class="desc markdown">
-  <p>Asynchronously retrieves a <a href="../text_indexing/TermDictionary.html">TermDictionary</a> subset for a collection of
-<code>terms</code> from a <a href="../text_indexing/TermDictionary.html">TermDictionary</a> data source, usually persisted storage.</p>
+  <p>Asynchronously retrieves a <a href="../text_indexing/Dictionary.html">Dictionary</a> subset for a collection of
+<code>terms</code> from a <a href="../text_indexing/Dictionary.html">Dictionary</a> data source, usually persisted storage.</p>
 </section>
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">typedef DictionaryLoader = Future&lt;TermDictionary&gt; Function(
-    Iterable&lt;String&gt; terms);</code></pre>
+  <pre class="language-dart"><code class="language-dart">typedef DictionaryLoader = Future&lt;Dictionary&gt; Function(Iterable&lt;String&gt; terms);</code></pre>
 </section>
 
 
@@ -88,12 +87,13 @@
     <h5>text_indexing library</h5>
     <ol>
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#classes">Classes</a></li>
-  <li><a href="../text_indexing/Indexer-class.html">Indexer</a></li>
+  <li><a href="../text_indexing/DictionaryEntry-class.html">DictionaryEntry</a></li>
   <li><a href="../text_indexing/InMemoryIndexer-class.html">InMemoryIndexer</a></li>
   <li><a href="../text_indexing/PersistedIndexer-class.html">PersistedIndexer</a></li>
-  <li><a href="../text_indexing/PostingsMapEntry-class.html">PostingsMapEntry</a></li>
-  <li><a href="../text_indexing/Term-class.html">Term</a></li>
-  <li><a href="../text_indexing/TermPositions-class.html">TermPositions</a></li>
+  <li><a href="../text_indexing/PostingsEntry-class.html">PostingsEntry</a></li>
+  <li><a href="../text_indexing/PostingsList-class.html">PostingsList</a></li>
+  <li><a href="../text_indexing/TextIndexer-class.html">TextIndexer</a></li>
+  <li><a href="../text_indexing/TextIndexerBase-class.html">TextIndexerBase</a></li>
 
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#extensions">Extensions</a></li>
   <li><a href="../text_indexing/PostingsMapExtension.html">PostingsMapExtension</a></li>
@@ -108,12 +108,12 @@
   <li><a href="../text_indexing/TermSortStrategy.html">TermSortStrategy</a></li>
 
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#typedefs">Typedefs</a></li>
+  <li><a href="../text_indexing/Dictionary.html">Dictionary</a></li>
   <li><a href="../text_indexing/DictionaryLoader.html">DictionaryLoader</a></li>
   <li><a href="../text_indexing/DictionaryUpdater.html">DictionaryUpdater</a></li>
+  <li><a href="../text_indexing/Postings.html">Postings</a></li>
   <li><a href="../text_indexing/PostingsLoader.html">PostingsLoader</a></li>
-  <li><a href="../text_indexing/PostingsMap.html">PostingsMap</a></li>
   <li><a href="../text_indexing/PostingsUpdater.html">PostingsUpdater</a></li>
-  <li><a href="../text_indexing/TermDictionary.html">TermDictionary</a></li>
 
 </ol>
 
@@ -127,7 +127,7 @@
 <footer>
   <span class="no-break">
     text_indexing
-      0.0.1-beta.4
+      0.0.1
   </span>
 
   

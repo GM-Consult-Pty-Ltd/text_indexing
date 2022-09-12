@@ -2,80 +2,91 @@
 // BSD 3-Clause License
 // All rights reserved
 
-// import 'package:meta/meta.dart';
 import 'package:text_analysis/text_analysis.dart';
 import 'package:text_indexing/text_indexing.dart';
 
-/// Maintains an in-memory term dictionary index and asynchronously updates
-/// a [TermDictionary] and [PostingsMap] whenever a document is indexed:
-/// - [tokenizer] parses documents to tokens;
-/// - [termsLoader] synchronously retrieves a [TermDictionary] subset for a
-///   collection of terms from a data source;
-/// - [dictionaryUpdater] is callback that passes a [TermDictionary] subset
-///    for persisting to a datastore;
-/// - [postingsLoader] asynchronously retrieves a [PostingsMap] subset for a
-///   collection of terms from a data source;
-/// - [postingsUpdater] passes a [PostingsMap] subset for persisting to a
-///   datastore;
+/// Asynchronously updates [Dictionary] and [Postings] data stores whenever a
+/// document  is indexed.
 ///
-/// Provides the [index] method to allow documents to be indexed one-by-one:
-/// - a [TermDictionary] is asynchronously updated by calling the
-///   [dictionaryUpdater] callback with the subset of te dictionary that is new
-///   or changed; and
-/// - a [PostingsMap] is asynchronously updated by calling the [postingsUpdater]
-///   callback, passing the collection of new/updated postings.
-class PersistedIndexer extends Indexer {
+/// Use the [index] method to index a text document, returning a list
+/// of [PostingsList] and adding it to the [postingsStream].
+///
+/// The [loadTerms], [updateDictionary], [loadTermPostings] and
+/// [upsertTermPostings] implementations read and write from a [Dictionary]
+/// and [Postings] using the [termsLoader], [dictionaryUpdater],
+/// [postingsLoader] and [postingsUpdater] callback functions respectively:
+/// - [termsLoader] synchronously retrieves a [Dictionary] for a vocabulary from
+///   a data source;
+/// - [dictionaryUpdater] is callback that passes a [Dictionary] subset
+///    for persisting to a datastore;
+/// - [postingsLoader] asynchronously retrieves a [Postings] for a vocabulary
+///   from a data source; and
+/// - [postingsUpdater] passes a [Postings] subset for persisting to a
+///   datastore.
+class PersistedIndexer extends TextIndexerBase {
   //
 
   /// Instantiates a [PersistedIndexer] instance:
-  /// - [tokenizer] parses documents to tokens;
-  /// - [termsLoader] synchronously retrieves a [TermDictionary] subset for a
-  ///   collection of terms from a data source;
-  /// - [dictionaryUpdater] is callback that passes a [TermDictionary] subset
+  ///  - pass a [tokenizer] used by the indexer to parse  documents to tokens,
+  ///   or use the default [TextIndexer.kDefaultTokenizer];
+  /// - [termsLoader] synchronously retrieves a [Dictionary] for a vocabulary
+  ///   from a data source;
+  /// - [dictionaryUpdater] is callback that passes a [Dictionary] subset
   ///    for persisting to a datastore;
-  /// - [postingsLoader] asynchronously retrieves a [PostingsMap] subset for a
-  ///   collection of terms from a data source;
-  /// - [postingsUpdater] passes a [PostingsMap] subset for persisting to a
-  ///   datastore;
-  PersistedIndexer(
-      {required this.tokenizer,
-      required this.termsLoader,
-      required this.dictionaryUpdater,
-      required this.postingsLoader,
-      required this.postingsUpdater});
+  /// - [postingsLoader] asynchronously retrieves a [Postings] for a vocabulary
+  ///   from a data source; and
+  /// - [postingsUpdater] passes a [Postings] subset for persisting to a
+  ///   datastore.
+  PersistedIndexer({
+    required this.termsLoader,
+    required this.dictionaryUpdater,
+    required this.postingsLoader,
+    required this.postingsUpdater,
+    this.tokenizer = TextIndexer.kDefaultTokenizer,
+  });
 
-  /// Asynchronously retrieves a [TermDictionary] subset for a collection of
-  /// terms from a [TermDictionary] data source, usually persisted storage.
+  /// Asynchronously retrieves a [Dictionary] subset for a vocabulary from a
+  /// [Dictionary] data source, usually persisted storage.
   final DictionaryLoader termsLoader;
 
-  /// A callback that passes a [TermDictionary] subset for persisting to
-  /// the [TermDictionary] datastore.
+  /// A callback that passes a subset of a [Dictionary] containing new or
+  /// changed [DictionaryEntry] instances for persisting to the [Dictionary]
+  /// datastore.
   final DictionaryUpdater dictionaryUpdater;
 
-  /// Asynchronously retrieves a [PostingsMap] subset for a collection of
-  /// terms from a [PostingsMap] data source, usually persisted storage.
+  /// Asynchronously retrieves a [Postings] subset for a vocabulary from a
+  /// [Postings] data source, usually persisted storage.
   final PostingsLoader postingsLoader;
 
-  /// A callback that passes a [PostingsMap] subset for persisting to the
-  /// [PostingsMap] datastore.
+  /// A callback that passes a subset of a [Postings] containing new or changed
+  /// [PostingsEntry] instances to the [Postings] datastore.
   final PostingsUpdater postingsUpdater;
 
   @override
   final Tokenizer tokenizer;
 
+  /// Implementation of [TextIndexer.updateDictionary].
+  ///
+  /// Calls the [dictionaryUpdater] callback function.
   @override
-  Future<void> updateDictionary(TermDictionary terms) =>
-      dictionaryUpdater(terms);
+  Future<void> updateDictionary(Dictionary values) => dictionaryUpdater(values);
 
+  /// Implementation of [TextIndexer.loadTermPostings].
+  ///
+  /// Calls the [postingsLoader] callback function.
   @override
-  Future<PostingsMap> loadTermPostings(Iterable<String> terms) =>
+  Future<Postings> loadTermPostings(Iterable<String> terms) =>
       postingsLoader(terms);
 
+  /// Implementation of [TextIndexer.upsertTermPostings].
+  ///
+  /// Calls the [postingsUpdater] callback function.
   @override
-  Future<void> upsertTermPostings(PostingsMap postings) =>
-      postingsUpdater(postings);
+  Future<void> upsertTermPostings(Postings values) => postingsUpdater(values);
 
+  /// Implementation of [TextIndexer.loadTerms].
+  ///
+  /// Calls the [termsLoader] callback function.
   @override
-  Future<TermDictionary> loadTerms(Iterable<String> terms) =>
-      termsLoader(terms);
+  Future<Dictionary> loadTerms(Iterable<String> terms) => termsLoader(terms);
 }

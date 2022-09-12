@@ -6,3 +6,4 @@
 export 'postings_map_entry.dart';
 export 'term.dart';
 export 'term_positions.dart';
+export 'typedefs.dart';

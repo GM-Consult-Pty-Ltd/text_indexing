@@ -4,78 +4,80 @@
 
 import 'package:text_indexing/text_indexing.dart';
 
-/// Enumerates the sorting strategy for [TermDictionary]'s [Term]s.
+/// Enumerates the sorting strategy for [Dictionary]'s [DictionaryEntry]s.
 enum TermSortStrategy {
-  /// Sorts the [Term] collection alphabetically.
+  /// Sorts the [DictionaryEntry] collection alphabetically.
   byTerm,
 
-  /// Sorts the [Term] collection by [Term.frequency] in descending order.
+  /// Sorts the [DictionaryEntry] collection by [DictionaryEntry.frequency] in descending order.
   byFrequency
 }
 
-/// A [Term] is a unit of entry in the [TermDictionary] of an inverted index.
+/// A [DictionaryEntry] is a unit of entry in the [Dictionary] of an inverted index.
 /// It enumerates the following properties:
 /// - [term] is the word/term that is indexed; and
 /// - [frequency] is the number of documents that contain [term].
-class Term {
+class DictionaryEntry {
   //
 
   /// The word/term that is indexed.
   ///
   /// The [term] must not be an empty String.
   ///
-  /// The [term] must only occur once in the [TermDictionary].
+  /// The [term] must only occur once in the [Dictionary].
   final String term;
 
   /// The number number of documents that contain [term].
   final int frequency;
 
-  /// Serializes the [Term] to a MapEntry<String, int> for direct insertion
-  /// into a [TermDictionary].
+  /// Serializes the [DictionaryEntry] to a MapEntry<String, int> for direct insertion
+  /// into a [Dictionary].
   MapEntry<String, int> toMapEntry() => MapEntry(term, frequency);
 
-  /// Instantiates a const [Term] instance:
+  /// Instantiates a const [DictionaryEntry] instance:
   /// - [term] is the word/term that is indexed; and
   /// - [frequency] is the number of documents that contain [term].
-  const Term(this.term, this.frequency);
+  const DictionaryEntry(this.term, this.frequency);
 
-  /// Factory constructor that instantiates a [Term] instance from the
+  /// Factory constructor that instantiates a [DictionaryEntry] instance from the
   /// [value] map entry:
   /// - the [MapEntry.key] is the word/term that is indexed; and
   /// - the [MapEntry.value] is the number of documents that reference the term.
-  factory Term.fromEntry(MapEntry<String, int> value) =>
-      Term(value.key, value.value);
+  factory DictionaryEntry.fromEntry(MapEntry<String, int> value) =>
+      DictionaryEntry(value.key, value.value);
 
-  /// Returns a copy of the [Term] instance with the [Term.frequency] set to
+  /// Returns a copy of the [DictionaryEntry] instance with the [DictionaryEntry.frequency] set to
   /// [frequency].
-  Term setFrequency(int frequency) => Term(term, frequency);
+  DictionaryEntry setFrequency(int frequency) =>
+      DictionaryEntry(term, frequency);
 
-  /// Returns a copy of the [Term] instance with the [Term.frequency]
+  /// Returns a copy of the [DictionaryEntry] instance with the [DictionaryEntry.frequency]
   /// incremented by 1.
-  Term incrementFrequency() => setFrequency(frequency + 1);
+  DictionaryEntry incrementFrequency() => setFrequency(frequency + 1);
 }
 
-/// Extension methods on a collection of [Term]s.
-extension TermsCollectionExtension on Iterable<Term> {
+/// Extension methods on a collection of [DictionaryEntry]s.
+extension TermsCollectionExtension on Iterable<DictionaryEntry> {
 //
 
-  /// Sorts the collection of [Term]s according to [sortBy] value:
-  /// - [TermSortStrategy.byTerm] sorts the [Term]s alphabetically (default); or
-  /// - [TermSortStrategy.byFrequency] sorts the [Term]s by [Term.frequency] in
+  /// Sorts the collection of [DictionaryEntry]s according to [sortBy] value:
+  /// - [TermSortStrategy.byTerm] sorts the [DictionaryEntry]s alphabetically (default); or
+  /// - [TermSortStrategy.byFrequency] sorts the [DictionaryEntry]s by [DictionaryEntry.frequency] in
   ///   descending order.
-  List<Term> sort([TermSortStrategy sortBy = TermSortStrategy.byTerm]) =>
+  List<DictionaryEntry> sort(
+          [TermSortStrategy sortBy = TermSortStrategy.byTerm]) =>
       sortBy == TermSortStrategy.byTerm ? sortByTerm() : sortByFrequency();
 
-  /// Sorts the collection of [Term]s by [Term.frequency] in descending order.
-  List<Term> sortByFrequency() {
-    final terms = List<Term>.from(this);
+  /// Sorts the collection of [DictionaryEntry]s by [DictionaryEntry.frequency] in descending order.
+  List<DictionaryEntry> sortByFrequency() {
+    final terms = List<DictionaryEntry>.from(this);
     terms.sort((a, b) => b.frequency.compareTo(a.frequency));
     return terms;
   }
 
-  /// Sorts the collection of [Term]s alphabetically.
-  List<Term> sortByTerm() {
-    final terms = List<Term>.from(this);
+  /// Sorts the collection of [DictionaryEntry]s alphabetically.
+  List<DictionaryEntry> sortByTerm() {
+    final terms = List<DictionaryEntry>.from(this);
     terms.sort((a, b) => a.term.compareTo(b.term));
     return terms;
   }

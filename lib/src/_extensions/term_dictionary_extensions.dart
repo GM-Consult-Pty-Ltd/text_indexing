@@ -4,18 +4,19 @@
 
 import 'package:text_indexing/text_indexing.dart';
 
-/// Extensions on [Term].
-extension TermDictionaryExtensions on TermDictionary {
+/// Extensions on [DictionaryEntry].
+extension TermDictionaryExtensions on Dictionary {
   //
 
-  /// Returns a list of [Term]s from the [entries] in the [TermDictionary].
+  /// Returns a list of [DictionaryEntry]s from the [entries] in the [Dictionary].
   ///
   /// Sorts the terms according to [sortBy] value:
-  /// - [TermSortStrategy.byTerm] sorts the [Term]s alphabetically (default); or
-  /// - [TermSortStrategy.byFrequency] sorts the [Term]s by [Term.frequency] in
+  /// - [TermSortStrategy.byTerm] sorts the [DictionaryEntry]s alphabetically (default); or
+  /// - [TermSortStrategy.byFrequency] sorts the [DictionaryEntry]s by [DictionaryEntry.frequency] in
   ///   descending order.
-  List<Term> toList([TermSortStrategy sortBy = TermSortStrategy.byTerm]) =>
-      entries.map((e) => Term.fromEntry(e)).sort(sortBy);
+  List<DictionaryEntry> toList(
+          [TermSortStrategy sortBy = TermSortStrategy.byTerm]) =>
+      entries.map((e) => DictionaryEntry.fromEntry(e)).sort(sortBy);
 
   /// Returns the dictionary terms (keys) as an ordered list,
   /// sorted alphabetically.
@@ -25,29 +26,29 @@ extension TermDictionaryExtensions on TermDictionary {
     return terms;
   }
 
-  /// Inserts or replaces the [value] in the [TermDictionary].
-  void addEntry(Term value) => this[value.term] = value.frequency;
+  /// Inserts or replaces the [value] in the [Dictionary].
+  void addEntry(DictionaryEntry value) => this[value.term] = value.frequency;
 
-  /// Returns the mapped value for the [term] key from the [TermDictionary].
+  /// Returns the mapped value for the [term] key from the [Dictionary].
   ///
-  /// Returns 0 if the [term] key does not exist in the [TermDictionary].
+  /// Returns 0 if the [term] key does not exist in the [Dictionary].
   int getFrequency(String term) => this[term] ?? 0;
 
-  /// Returns a [Term] with:
+  /// Returns a [DictionaryEntry] with:
   /// - key set to [term]; and
   /// - the value set to [frequency].
-  Term setFrequency(String term, int frequency) {
+  DictionaryEntry setFrequency(String term, int frequency) {
     this[term] = frequency;
-    return Term(term, frequency);
+    return DictionaryEntry(term, frequency);
   }
 
-  /// Returns a Term with the key set to [term].
+  /// Returns a DictionaryEntry with the key set to [term].
   ///
-  /// If the [term] key exists in the [TermDictionary], it's mapped value is
+  /// If the [term] key exists in the [Dictionary], it's mapped value is
   /// incremented by 1.
   ///
-  /// If the [term] key does not exist in the [TermDictionary], an entry is created
+  /// If the [term] key does not exist in the [Dictionary], an entry is created
   /// and its value set to 1.
-  Term incrementFrequency(String term) =>
+  DictionaryEntry incrementFrequency(String term) =>
       setFrequency(term, getFrequency(term) + 1);
 }

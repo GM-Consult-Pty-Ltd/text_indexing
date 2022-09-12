@@ -51,20 +51,21 @@
 
     <section class="multi-line-signature">
         <span class="name ">PostingsUpdater</span> =
-     <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-postings"><span class="type-annotation"><a href="../text_indexing/PostingsMap.html">PostingsMap</a></span> <span class="parameter-name">postings</span></span>)</span></span>
+     <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-values"><span class="type-annotation"><a href="../text_indexing/Postings.html">Postings</a></span> <span class="parameter-name">values</span></span>)</span></span>
 
     </section>
 
     
 <section class="desc markdown">
-  <p>A callback that passes a <a href="../text_indexing/PostingsMap.html">PostingsMap</a> subset for persisting to the
-<a href="../text_indexing/PostingsMap.html">PostingsMap</a> datastore.</p>
+  <p>A callback that <code>values</code> for persisting to a <a href="../text_indexing/Postings.html">Postings</a>.</p>
+<p>Parameter <code>values</code> is a subset of a <a href="../text_indexing/Postings.html">Postings</a> containing new or changed
+<a href="../text_indexing/PostingsEntry-class.html">PostingsEntry</a> instances.</p>
 </section>
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">typedef PostingsUpdater = Future&lt;void&gt; Function(PostingsMap postings);</code></pre>
+  <pre class="language-dart"><code class="language-dart">typedef PostingsUpdater = Future&lt;void&gt; Function(Postings values);</code></pre>
 </section>
 
 
@@ -87,12 +88,13 @@
     <h5>text_indexing library</h5>
     <ol>
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#classes">Classes</a></li>
-  <li><a href="../text_indexing/Indexer-class.html">Indexer</a></li>
+  <li><a href="../text_indexing/DictionaryEntry-class.html">DictionaryEntry</a></li>
   <li><a href="../text_indexing/InMemoryIndexer-class.html">InMemoryIndexer</a></li>
   <li><a href="../text_indexing/PersistedIndexer-class.html">PersistedIndexer</a></li>
-  <li><a href="../text_indexing/PostingsMapEntry-class.html">PostingsMapEntry</a></li>
-  <li><a href="../text_indexing/Term-class.html">Term</a></li>
-  <li><a href="../text_indexing/TermPositions-class.html">TermPositions</a></li>
+  <li><a href="../text_indexing/PostingsEntry-class.html">PostingsEntry</a></li>
+  <li><a href="../text_indexing/PostingsList-class.html">PostingsList</a></li>
+  <li><a href="../text_indexing/TextIndexer-class.html">TextIndexer</a></li>
+  <li><a href="../text_indexing/TextIndexerBase-class.html">TextIndexerBase</a></li>
 
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#extensions">Extensions</a></li>
   <li><a href="../text_indexing/PostingsMapExtension.html">PostingsMapExtension</a></li>
@@ -107,12 +109,12 @@
   <li><a href="../text_indexing/TermSortStrategy.html">TermSortStrategy</a></li>
 
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#typedefs">Typedefs</a></li>
+  <li><a href="../text_indexing/Dictionary.html">Dictionary</a></li>
   <li><a href="../text_indexing/DictionaryLoader.html">DictionaryLoader</a></li>
   <li><a href="../text_indexing/DictionaryUpdater.html">DictionaryUpdater</a></li>
+  <li><a href="../text_indexing/Postings.html">Postings</a></li>
   <li><a href="../text_indexing/PostingsLoader.html">PostingsLoader</a></li>
-  <li><a href="../text_indexing/PostingsMap.html">PostingsMap</a></li>
   <li><a href="../text_indexing/PostingsUpdater.html">PostingsUpdater</a></li>
-  <li><a href="../text_indexing/TermDictionary.html">TermDictionary</a></li>
 
 </ol>
 
@@ -126,7 +128,7 @@
 <footer>
   <span class="no-break">
     text_indexing
-      0.0.1-beta.4
+      0.0.1
   </span>
 
   

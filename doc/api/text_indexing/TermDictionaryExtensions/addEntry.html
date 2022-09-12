@@ -53,7 +53,7 @@
       
 
 <span class="returntype">void</span>
-<span class="name ">addEntry</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="addEntry-param-value"><span class="type-annotation"><a href="../../text_indexing/Term-class.html">Term</a></span> <span class="parameter-name">value</span></span></li>
+<span class="name ">addEntry</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="addEntry-param-value"><span class="type-annotation"><a href="../../text_indexing/DictionaryEntry-class.html">DictionaryEntry</a></span> <span class="parameter-name">value</span></span></li>
 </ol>)
 
       
@@ -61,14 +61,14 @@
     </section>
     
 <section class="desc markdown">
-  <p>Inserts or replaces the <code>value</code> in the <a href="../../text_indexing/TermDictionary.html">TermDictionary</a>.</p>
+  <p>Inserts or replaces the <code>value</code> in the <a href="../../text_indexing/Dictionary.html">Dictionary</a>.</p>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">void addEntry(Term value) =&gt; this[value.term] = value.frequency;</code></pre>
+  <pre class="language-dart"><code class="language-dart">void addEntry(DictionaryEntry value) =&gt; this[value.term] = value.frequency;</code></pre>
 </section>
 
 
@@ -121,7 +121,7 @@
 <footer>
   <span class="no-break">
     text_indexing
-      0.0.1-beta.4
+      0.0.1
   </span>
 
   

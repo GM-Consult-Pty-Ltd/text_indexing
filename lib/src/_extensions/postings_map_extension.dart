@@ -4,25 +4,25 @@
 
 import 'package:text_indexing/text_indexing.dart';
 
-/// Extension methods and properties on [PostingsMap].
-extension PostingsMapExtension on PostingsMap {
+/// Extension methods and properties on [Postings].
+extension PostingsMapExtension on Postings {
   //
 
-  /// Returns the list of [TermPositions] for the [term] from the
-  /// [PostingsMap].
-  List<TermPositions> getPostings(String term) {
+  /// Returns the list of [PostingsList] for the [term] from the
+  /// [Postings].
+  List<PostingsList> getPostings(String term) {
     final entry = this[term];
     return entry?.entries
-            .map((e) => TermPositions.fromEntry(term, e))
+            .map((e) => PostingsList.fromEntry(term, e))
             .toList() ??
         [];
   }
 
-  /// Returns the list of [PostingsMapEntry] elements in the [PostingsMap] in
+  /// Returns the list of [PostingsEntry] elements in the [Postings] in
   /// alphapetic order of the terms (keys).
-  List<PostingsMapEntry> toList() {
+  List<PostingsEntry> toList() {
     final postingsMapEntries =
-        entries.map((e) => PostingsMapEntry.fromEntry(e)).toList();
+        entries.map((e) => PostingsEntry.fromEntry(e)).toList();
     postingsMapEntries.sort((a, b) => a.term.compareTo(b.term));
     return postingsMapEntries;
   }
@@ -35,19 +35,19 @@ extension PostingsMapExtension on PostingsMap {
     return terms;
   }
 
-  /// Inserts or replaces the [value] in the [PostingsMap].
-  void addEntry(PostingsMapEntry value) =>
+  /// Inserts or replaces the [value] in the [Postings].
+  void addEntry(PostingsEntry value) =>
       this[value.term] = value.toMapEntry().value;
 
-  /// Adds a postings for the [docId] to [PostingsMap] entry for the [term].
+  /// Adds a postings for the [docId] to [Postings] entry for the [term].
   ///
   ///   Returns true if  posting positions for the [docId] did not previously
-  /// exist in the [PostingsMap].
+  /// exist in the [Postings].
   ///
   /// Looks up an existing entry for [term] and inserts/overwrites an entry
   /// for [docId] if it exists.
   ///
-  /// If no entry for [term] exists in the [PostingsMap], creates a new entry
+  /// If no entry for [term] exists in the [Postings], creates a new entry
   /// and adds [positions] for [docId] to the new entry.
   bool addTermPositions(String term, String docId, List<int> positions) {
     //
@@ -63,16 +63,16 @@ extension PostingsMapExtension on PostingsMap {
     return existingEntry == null;
   }
 
-  /// Adds or updates a posting position for the [docId] to [PostingsMap] entry
+  /// Adds or updates a posting position for the [docId] to [Postings] entry
   /// for the [term].
   ///
   /// Returns true if the posting positions for the [docId] did not previously
-  /// exist in the [PostingsMap].
+  /// exist in the [Postings].
   ///
   /// Looks up an existing entry for [term] and adds a position to the list of
   /// positions for [docId] if it exists.
   ///
-  /// If no entry for [term] exists in the [PostingsMap], creates a new entry
+  /// If no entry for [term] exists in the [Postings], creates a new entry
   /// for term.
   ///
   /// If no positions list exists for [docId], creates a new position list
@@ -83,7 +83,7 @@ extension PostingsMapExtension on PostingsMap {
   ///
   /// Sorts the positions list in ascending order.
   ///
-  /// Updates the [term] entry in the [PostingsMap].
+  /// Updates the [term] entry in the [Postings].
   bool addTermPosition(String term, String docId, int position) {
     //
     // get the entry for the term or initialize a new one if it does not exist

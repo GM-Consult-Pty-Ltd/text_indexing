@@ -60,7 +60,7 @@
     
 <section class="desc markdown">
   <p>Defines a collection of postings for a positional inverted index.</p>
-<p><a href="../text_indexing/PostingsMap.html">PostingsMap</a> is a hashmap of <a href="../text_indexing/Term-class.html">Term</a>s where:</p>
+<p><a href="../text_indexing/PostingsMap.html">PostingsMap</a> is a hashmap of <a href="../text_indexing/PostingsMapEntry-class.html">PostingsMapEntry</a>s where:</p>
 <ul>
 <li>the key is the word/term that is indexed; and</li>
 <li>the value is a hashmap of document ids to a <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a> of positions of the term
@@ -94,12 +94,13 @@ in each document.</li>
     <h5>text_indexing library</h5>
     <ol>
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#classes">Classes</a></li>
-  <li><a href="../text_indexing/Indexer-class.html">Indexer</a></li>
   <li><a href="../text_indexing/InMemoryIndexer-class.html">InMemoryIndexer</a></li>
   <li><a href="../text_indexing/PersistedIndexer-class.html">PersistedIndexer</a></li>
   <li><a href="../text_indexing/PostingsMapEntry-class.html">PostingsMapEntry</a></li>
   <li><a href="../text_indexing/Term-class.html">Term</a></li>
   <li><a href="../text_indexing/TermPositions-class.html">TermPositions</a></li>
+  <li><a href="../text_indexing/TextIndexer-class.html">TextIndexer</a></li>
+  <li><a href="../text_indexing/TextIndexerBase-class.html">TextIndexerBase</a></li>
 
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#extensions">Extensions</a></li>
   <li><a href="../text_indexing/PostingsMapExtension.html">PostingsMapExtension</a></li>
@@ -133,7 +134,7 @@ in each document.</li>
 <footer>
   <span class="no-break">
     text_indexing
-      0.0.1-beta.4
+      0.0.1
   </span>
 
   

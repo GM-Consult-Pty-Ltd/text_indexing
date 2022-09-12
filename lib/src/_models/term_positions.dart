@@ -4,20 +4,20 @@
 
 import 'package:text_indexing/text_indexing.dart';
 
-/// The [TermPositions] class enumerates the properties of a document
-/// posting in a [PostingsMap] as part of an inverted index of a dataset:
+/// The [PostingsList] class enumerates the properties of a document
+/// posting in a [Postings] as part of an inverted index of a dataset:
 /// - [term] is the word/term that is indexed;
 /// - [docId] is the document's id value;
 /// - [positions] is the zero-based list of word positions of the [term] in
 ///   the document;
-class TermPositions {
+class PostingsList {
   //
 
   /// The word/term that is indexed.
   ///
   /// The [term] must not be an empty String.
   ///
-  /// The [term] must only occur once in the [TermDictionary].
+  /// The [term] must only occur once in the [Dictionary].
   final String term;
 
   /// The document's id value.
@@ -36,24 +36,24 @@ class TermPositions {
   /// before creating an array of all the terms in the document.
   final List<int> positions;
 
-  /// Instantiates a const [TermPositions] instance:
+  /// Instantiates a const [PostingsList] instance:
   /// - [term] is the word/term that is indexed;
   /// - [docId] is the document's id value;
   /// - [positions] is the zero-based list of word positions of the [term] in
   ///   the document;
-  const TermPositions(this.term, this.docId, this.positions);
+  const PostingsList(this.term, this.docId, this.positions);
 
-  /// Factory constructor that instantiates a [TermPositions] instance from
+  /// Factory constructor that instantiates a [PostingsList] instance from
   /// the [term] and [entry] where:
-  /// - [term] is the word/term associated with the [TermPositions] instance.
+  /// - [term] is the word/term associated with the [PostingsList] instance.
   /// - the [entry].key is the word/term that is indexed; and
   /// - the [entry].value is a [List] of zero-based unique word positions of
   ///   [term] in the document.
-  factory TermPositions.fromEntry(
+  factory PostingsList.fromEntry(
       String term, MapEntry<String, List<int>> entry) {
     final docId = entry.key;
     final positions = List<int>.from(entry.value);
     positions.sort((a, b) => a.compareTo(b));
-    return TermPositions(term, docId, positions);
+    return PostingsList(term, docId, positions);
   }
 }

@@ -58,12 +58,13 @@
       <h2>Classes</h2>
 
       <dl>
-        <dt id="Indexer">
-  <span class="name "><a href="../text_indexing/Indexer-class.html">Indexer</a></span> 
+        <dt id="DictionaryEntry">
+  <span class="name "><a href="../text_indexing/DictionaryEntry-class.html">DictionaryEntry</a></span> 
 
 </dt>
 <dd>
-  Base class for classes that construct and maintain an inverted index:
+  A <a href="../text_indexing/DictionaryEntry-class.html">DictionaryEntry</a> is a unit of entry in the <a href="../text_indexing/Dictionary.html">Dictionary</a> of an inverted index.
+It enumerates the following properties:
 </dd>
 
         <dt id="InMemoryIndexer">
@@ -71,7 +72,8 @@
 
 </dt>
 <dd>
-  Maintains an in-memory inverted index:
+  Implementation of <a href="../text_indexing/TextIndexerBase-class.html">TextIndexerBase</a> that constructs and maintains an
+in-memory inverted index:
 </dd>
 
         <dt id="PersistedIndexer">
@@ -79,35 +81,45 @@
 
 </dt>
 <dd>
-  Maintains an in-memory term dictionary index and asynchronously updates
-a <a href="../text_indexing/TermDictionary.html">TermDictionary</a> and <a href="../text_indexing/PostingsMap.html">PostingsMap</a> whenever a document is indexed:
+  Asynchronously updates <a href="../text_indexing/Dictionary.html">Dictionary</a> and <a href="../text_indexing/Postings.html">Postings</a> data stores whenever a
+document  is indexed.
 </dd>
 
-        <dt id="PostingsMapEntry">
-  <span class="name "><a href="../text_indexing/PostingsMapEntry-class.html">PostingsMapEntry</a></span> 
+        <dt id="PostingsEntry">
+  <span class="name "><a href="../text_indexing/PostingsEntry-class.html">PostingsEntry</a></span> 
 
 </dt>
 <dd>
-  The <a href="../text_indexing/PostingsMapEntry-class.html">PostingsMapEntry</a> class enumerates the properties of an entry in a
-<a href="../text_indexing/PostingsMap.html">PostingsMap</a> collection:
+  The <a href="../text_indexing/PostingsEntry-class.html">PostingsEntry</a> class enumerates the properties of an entry in a
+<a href="../text_indexing/Postings.html">Postings</a> collection:
 </dd>
 
-        <dt id="Term">
-  <span class="name "><a href="../text_indexing/Term-class.html">Term</a></span> 
+        <dt id="PostingsList">
+  <span class="name "><a href="../text_indexing/PostingsList-class.html">PostingsList</a></span> 
 
 </dt>
 <dd>
-  A <a href="../text_indexing/Term-class.html">Term</a> is a unit of entry in the <a href="../text_indexing/TermDictionary.html">TermDictionary</a> of an inverted index.
-It enumerates the following properties:
+  The <a href="../text_indexing/PostingsList-class.html">PostingsList</a> class enumerates the properties of a document
+posting in a <a href="../text_indexing/Postings.html">Postings</a> as part of an inverted index of a dataset:
 </dd>
 
-        <dt id="TermPositions">
-  <span class="name "><a href="../text_indexing/TermPositions-class.html">TermPositions</a></span> 
+        <dt id="TextIndexer">
+  <span class="name "><a href="../text_indexing/TextIndexer-class.html">TextIndexer</a></span> 
 
 </dt>
 <dd>
-  The <a href="../text_indexing/TermPositions-class.html">TermPositions</a> class enumerates the properties of a document
-posting in a <a href="../text_indexing/PostingsMap.html">PostingsMap</a> as part of an inverted index of a dataset:
+  Interface for text index classes that construct and maintain an inverted
+index.
+</dd>
+
+        <dt id="TextIndexerBase">
+  <span class="name "><a href="../text_indexing/TextIndexerBase-class.html">TextIndexerBase</a></span> 
+
+</dt>
+<dd>
+  Base class implementation of the <a href="../text_indexing/TextIndexer-class.html">TextIndexer</a> interface that constructs and
+maintains an inverted index consisting of a <a href="../text_indexing/Dictionary.html">Dictionary</a> and a
+<a href="../text_indexing/Postings.html">Postings</a>.
 </dd>
 
       </dl>
@@ -123,7 +135,7 @@ posting in a <a href="../text_indexing/PostingsMap.html">PostingsMap</a> as part
 
 </dt>
 <dd>
-    Extension methods and properties on <a href="../text_indexing/PostingsMap.html">PostingsMap</a>.
+    Extension methods and properties on <a href="../text_indexing/Postings.html">Postings</a>.
 </dd>
 
 
@@ -132,7 +144,7 @@ posting in a <a href="../text_indexing/PostingsMap.html">PostingsMap</a> as part
 
 </dt>
 <dd>
-    Extensions on <a href="../text_indexing/Term-class.html">Term</a>.
+    Extensions on <a href="../text_indexing/DictionaryEntry-class.html">DictionaryEntry</a>.
 </dd>
 
 
@@ -141,7 +153,7 @@ posting in a <a href="../text_indexing/PostingsMap.html">PostingsMap</a> as part
 
 </dt>
 <dd>
-    Extension methods on a collection of <a href="../text_indexing/Term-class.html">Term</a>s.
+    Extension methods on a collection of <a href="../text_indexing/DictionaryEntry-class.html">DictionaryEntry</a>s.
 </dd>
 
 
@@ -160,7 +172,7 @@ posting in a <a href="../text_indexing/PostingsMap.html">PostingsMap</a> as part
 
 </dt>
 <dd>
-  Enumerates the sorting strategy for <a href="../text_indexing/TermDictionary.html">TermDictionary</a>'s <a href="../text_indexing/Term-class.html">Term</a>s.
+  Enumerates the sorting strategy for <a href="../text_indexing/Dictionary.html">Dictionary</a>'s <a href="../text_indexing/DictionaryEntry-class.html">DictionaryEntry</a>s.
 </dd>
 
       </dl>
@@ -171,16 +183,31 @@ posting in a <a href="../text_indexing/PostingsMap.html">PostingsMap</a> as part
 
       <dl>
           
+  <dt id="Dictionary" class="">
+  <span class="name"><a href="../text_indexing/Dictionary.html">Dictionary</a></span>
+    = <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>&gt;</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Defines a term dictionary used in an inverted index.
+  
+
+</dd>
+
+
+          
   <dt id="DictionaryLoader" class="callable">
     <span class="name"><a href="../text_indexing/DictionaryLoader.html">DictionaryLoader</a></span><span class="signature">
-      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/TermDictionary.html">TermDictionary</a></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)</span></span>
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Dictionary.html">Dictionary</a></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)</span></span>
     </span>
     
 
   </dt>
   <dd>
-    Asynchronously retrieves a <a href="../text_indexing/TermDictionary.html">TermDictionary</a> subset for a collection of
-<code>terms</code> from a <a href="../text_indexing/TermDictionary.html">TermDictionary</a> data source, usually persisted storage.
+    Asynchronously retrieves a <a href="../text_indexing/Dictionary.html">Dictionary</a> subset for a collection of
+<code>terms</code> from a <a href="../text_indexing/Dictionary.html">Dictionary</a> data source, usually persisted storage.
     
 
   </dd>
@@ -188,36 +215,20 @@ posting in a <a href="../text_indexing/PostingsMap.html">PostingsMap</a> as part
           
   <dt id="DictionaryUpdater" class="callable">
     <span class="name"><a href="../text_indexing/DictionaryUpdater.html">DictionaryUpdater</a></span><span class="signature">
-      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-terms"><span class="type-annotation"><a href="../text_indexing/TermDictionary.html">TermDictionary</a></span> <span class="parameter-name">terms</span></span>)</span></span>
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-values"><span class="type-annotation"><a href="../text_indexing/Dictionary.html">Dictionary</a></span> <span class="parameter-name">values</span></span>)</span></span>
     </span>
     
 
   </dt>
   <dd>
-    A callback that passes a <a href="../text_indexing/TermDictionary.html">TermDictionary</a> subset for persisting to
-the <a href="../text_indexing/TermDictionary.html">TermDictionary</a> datastore.
+    A callback that passes <code>values</code> for persisting to a <a href="../text_indexing/Dictionary.html">Dictionary</a>.
     
 
   </dd>
 
           
-  <dt id="PostingsLoader" class="callable">
-    <span class="name"><a href="../text_indexing/PostingsLoader.html">PostingsLoader</a></span><span class="signature">
-      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/PostingsMap.html">PostingsMap</a></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)</span></span>
-    </span>
-    
-
-  </dt>
-  <dd>
-    Asynchronously retrieves a <a href="../text_indexing/PostingsMap.html">PostingsMap</a> subset for a collection of
-<code>terms</code> from a <a href="../text_indexing/PostingsMap.html">PostingsMap</a> data source, usually persisted storage.
-    
-
-  </dd>
-
-          
-  <dt id="PostingsMap" class="">
-  <span class="name"><a href="../text_indexing/PostingsMap.html">PostingsMap</a></span>
+  <dt id="Postings" class="">
+  <span class="name"><a href="../text_indexing/Postings.html">Postings</a></span>
     = <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>&gt;</span></span>&gt;</span></span>&gt;</span>
   </span>
   
@@ -231,34 +242,33 @@ the <a href="../text_indexing/TermDictionary.html">TermDictionary</a> datastore.
 
 
           
-  <dt id="PostingsUpdater" class="callable">
-    <span class="name"><a href="../text_indexing/PostingsUpdater.html">PostingsUpdater</a></span><span class="signature">
-      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-postings"><span class="type-annotation"><a href="../text_indexing/PostingsMap.html">PostingsMap</a></span> <span class="parameter-name">postings</span></span>)</span></span>
+  <dt id="PostingsLoader" class="callable">
+    <span class="name"><a href="../text_indexing/PostingsLoader.html">PostingsLoader</a></span><span class="signature">
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Postings.html">Postings</a></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)</span></span>
     </span>
     
 
   </dt>
   <dd>
-    A callback that passes a <a href="../text_indexing/PostingsMap.html">PostingsMap</a> subset for persisting to the
-<a href="../text_indexing/PostingsMap.html">PostingsMap</a> datastore.
+    Asynchronously retrieves a <a href="../text_indexing/Postings.html">Postings</a> subset for a collection of
+<code>terms</code> from a <a href="../text_indexing/Postings.html">Postings</a> data source, usually persisted storage.
     
 
   </dd>
 
           
-  <dt id="TermDictionary" class="">
-  <span class="name"><a href="../text_indexing/TermDictionary.html">TermDictionary</a></span>
-    = <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>&gt;</span>
-  </span>
-  
+  <dt id="PostingsUpdater" class="callable">
+    <span class="name"><a href="../text_indexing/PostingsUpdater.html">PostingsUpdater</a></span><span class="signature">
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-values"><span class="type-annotation"><a href="../text_indexing/Postings.html">Postings</a></span> <span class="parameter-name">values</span></span>)</span></span>
+    </span>
+    
 
-</dt>
-<dd>
-  Defines a term TermDictionary used as an inverted index.
-  
+  </dt>
+  <dd>
+    A callback that <code>values</code> for persisting to a <a href="../text_indexing/Postings.html">Postings</a>.
+    
 
-</dd>
-
+  </dd>
 
       </dl>
     </section>
@@ -291,12 +301,13 @@ the <a href="../text_indexing/TermDictionary.html">TermDictionary</a> datastore.
     <h5>text_indexing library</h5>
     <ol>
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#classes">Classes</a></li>
-  <li><a href="../text_indexing/Indexer-class.html">Indexer</a></li>
+  <li><a href="../text_indexing/DictionaryEntry-class.html">DictionaryEntry</a></li>
   <li><a href="../text_indexing/InMemoryIndexer-class.html">InMemoryIndexer</a></li>
   <li><a href="../text_indexing/PersistedIndexer-class.html">PersistedIndexer</a></li>
-  <li><a href="../text_indexing/PostingsMapEntry-class.html">PostingsMapEntry</a></li>
-  <li><a href="../text_indexing/Term-class.html">Term</a></li>
-  <li><a href="../text_indexing/TermPositions-class.html">TermPositions</a></li>
+  <li><a href="../text_indexing/PostingsEntry-class.html">PostingsEntry</a></li>
+  <li><a href="../text_indexing/PostingsList-class.html">PostingsList</a></li>
+  <li><a href="../text_indexing/TextIndexer-class.html">TextIndexer</a></li>
+  <li><a href="../text_indexing/TextIndexerBase-class.html">TextIndexerBase</a></li>
 
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#extensions">Extensions</a></li>
   <li><a href="../text_indexing/PostingsMapExtension.html">PostingsMapExtension</a></li>
@@ -311,12 +322,12 @@ the <a href="../text_indexing/TermDictionary.html">TermDictionary</a> datastore.
   <li><a href="../text_indexing/TermSortStrategy.html">TermSortStrategy</a></li>
 
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#typedefs">Typedefs</a></li>
+  <li><a href="../text_indexing/Dictionary.html">Dictionary</a></li>
   <li><a href="../text_indexing/DictionaryLoader.html">DictionaryLoader</a></li>
   <li><a href="../text_indexing/DictionaryUpdater.html">DictionaryUpdater</a></li>
+  <li><a href="../text_indexing/Postings.html">Postings</a></li>
   <li><a href="../text_indexing/PostingsLoader.html">PostingsLoader</a></li>
-  <li><a href="../text_indexing/PostingsMap.html">PostingsMap</a></li>
   <li><a href="../text_indexing/PostingsUpdater.html">PostingsUpdater</a></li>
-  <li><a href="../text_indexing/TermDictionary.html">TermDictionary</a></li>
 
 </ol>
 
@@ -327,7 +338,7 @@ the <a href="../text_indexing/TermDictionary.html">TermDictionary</a> datastore.
 <footer>
   <span class="no-break">
     text_indexing
-      0.0.1-beta.4
+      0.0.1
   </span>
 
   
