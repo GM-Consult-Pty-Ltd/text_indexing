@@ -53,7 +53,9 @@ All rights reserved.
 <p>Dart library for creating an inverted index on a collection of text documents.</p>
 <p><em>THIS PACKAGE IS <strong>PRE-RELEASE</strong>, IN ACTIVE DEVELOPMENT AND SUBJECT TO DAILY BREAKING CHANGES.</em></p>
 <h2 id="objective">Objective</h2>
-<p>The objective of this package is to provide an interface and implementation classes that build and maintain:</p>
+<p>The objective of this package is to provide an interface and implementation classes that build and maintain an index for a collection of documents (corpus).</p>
+<p><img src="assets/images/indexing.png?raw=true" alt="Alt text" title="Index construction overview"></p>
+<p>The <a href="text_indexing/TextIndexer-class.html">TextIndexer</a> constructs two artifacts:</p>
 <ul>
 <li>a <code>dictionary</code> that holds the <code>vocabulary</code> of <code>terms</code> and the frequency of occurrence for each <code>term</code> in the <code>corpus</code>; and</li>
 <li>a <code>postings</code> map that holds the references to the <code>documents</code> for each <code>term</code>.</li>
@@ -183,7 +185,7 @@ All rights reserved.
 <footer>
   <span class="no-break">
     text_indexing
-      0.0.1+6
+      0.0.1+7
   </span>
 
   

@@ -12,7 +12,11 @@ Dart library for creating an inverted index on a collection of text documents.
 
 ## Objective
 
-The objective of this package is to provide an interface and implementation classes that build and maintain:
+The objective of this package is to provide an interface and implementation classes that build and maintain an index for a collection of documents (corpus).
+
+![Alt text](assets/images/indexing.png?raw=true "Index construction overview")
+
+The [TextIndexer] constructs two artifacts:
 * a `dictionary` that holds the `vocabulary` of `terms` and the frequency of occurrence for each `term` in the `corpus`; and
 * a `postings` map that holds the references to the `documents` for each `term`. 
 
