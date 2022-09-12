@@ -8,8 +8,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:text_analysis/text_analysis.dart';
 import 'package:text_indexing/text_indexing.dart';
 
-/// Interface for text index classes that construct and maintain an inverted
-/// index.
+/// Interface for classes that construct and maintain an inverted text index.
 ///
 /// The inverted index is comprised of two artifacts:
 /// - a [Dictionary] is a hashmap of [DictionaryEntry]s with the vocabulary as
@@ -99,8 +98,7 @@ abstract class TextIndexer {
 }
 
 /// Base class implementation of the [TextIndexer] interface that constructs and
-/// maintains an inverted index consisting of a [Dictionary] and a
-/// [Postings].
+/// maintains an inverted index consisting of a [Dictionary] and [Postings].
 ///
 /// The [Dictionary] and [Postings] can be asynchronous data sources or
 /// in-memory hashmaps.
