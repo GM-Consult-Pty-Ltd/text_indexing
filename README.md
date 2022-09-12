@@ -8,25 +8,25 @@ All rights reserved.
 
 Dart library for creating an inverted index on a collection of text documents.
 
-*THIS PACKAGE IS **PRE-RELEASE** AND SUBJECT TO DAILY BREAKING CHANGES.*
+*THIS PACKAGE IS **PRE-RELEASE**, IN ACTIVE DEVELOPMENT AND SUBJECT TO DAILY BREAKING CHANGES.*
 
 ## Objective
 
 The objective of this package is to provide an interface and implementation classes that build and maintain:
 * a `dictionary` that holds the `vocabulary` of `terms` and the frequency of occurrence for each `term` in the `corpus`; and
-* a `postings` map that holds the references to the 'documents for each `term`. 
+* a `postings` map that holds the references to the `documents` for each `term`. 
 
-In this implementation, our `postings` include the positions of the `term` in the 'documents to allow search algorithms to derive relevance on a per `document` basis.
+In this implementation, our `postings` include the positions of the `term` in the `documents` to allow search algorithms to derive relevance on a per `document` basis.
 
 ## Definitions
 
 The following definitions are used throughout the [documentation](https://pub.dev/documentation/text_indexing/latest/):
 
-* `corpus`- the collection of 'documents for which an `index` is maintained.
-* `dictionary` - is a hash of `terms` (`vocabulary`) to the frequency of occurence in the `corpus` 'documents.
+* `corpus`- the collection of `documents` for which an `index` is maintained.
+* `dictionary` - is a hash of `terms` (`vocabulary`) to the frequency of occurence in the `corpus` `documents`.
 * `document` - a record in the `corpus`, that has a unique identifier (`docId`) in the `corpus`'s primary key and that contains one or more text fields that are indexed.
 * `index` - an [inverted index](https://en.wikipedia.org/wiki/Inverted_index) used to look up `document` references from the `corpus` against a `vocabulary` of `terms`. The implementation in this package builds and maintains a positional inverted index, that also includes the positions of the indexed `term` in each `document`.
-* `postings` - a separate index that records which 'documents the `vocabulary` occurs in. In this implementation we also record the positions of each `term` in the `document` to create a positional inverted `index`.
+* `postings` - a separate index that records which `documents` the `vocabulary` occurs in. In this implementation we also record the positions of each `term` in the `document` to create a positional inverted `index`.
 * `postings list` - a record of the positions of a `term` in a `document`. A position of a `term` refers to the index of the `term` in an array that contains all the `terms` in the `text`.
 * `term` - a word or phrase that is indexed from the `corpus`. The `term` may differ from the actual word used in the corpus depending on the `tokenizer` used.
 * `text` - the indexable content of a `document`.
@@ -40,7 +40,7 @@ The text indexing classes (indexers) in this library inherit from `TextIndexer`,
 
 The inverted index is comprised of two artifacts:
 * a `Dictionary` is a hashmap with the vocabulary as key and the document frequency as the values; and
-* a `Postings` is a hashmap with the vocabulary as key and the postings lists for the linked 'documents as values.
+* a `Postings` is a hashmap with the vocabulary as key and the postings lists for the linked `documents` as values.
 
 The `Dictionary` and `Postings` can be asynchronous data sources or in-memory hashmaps.  The `TextIndexer` reads and writes to/from these artifacts using the `loadTerms`, `updateDictionary`, `loadTermPostings` and `upsertTermPostings` asynchronous methods.
 
@@ -51,7 +51,7 @@ The `emit` method is called by index, and adds an event to the `postingsStream`.
 Listen to `postingsStream` to update your `dictionary` and `postings` map.
 
 Implementing classes override the following fields:
-* `Tokenizer` is the `Tokenizer` instance used by the indexer to parse 'documents to tokens;
+* `Tokenizer` is the `Tokenizer` instance used by the indexer to parse `documents` to tokens;
 * `postingsStream` emits a list of `PostingsList` instances whenever a document is indexed.
 
 Implementing classes override the following asynchronous methods:
