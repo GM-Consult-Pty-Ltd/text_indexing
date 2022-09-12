@@ -4,6 +4,17 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+### 0.0.1+6
+
+- **PRE-RELEASE**
+- Updated dependencies.
+- Re-worked private methods to suit changes in text_analysis package.
+
+### 0.0.1+5
+
+- **PRE-RELEASE**
+- Updated dependencies.
+
 ### 0.0.1+4
 
 - **PRE-RELEASE**

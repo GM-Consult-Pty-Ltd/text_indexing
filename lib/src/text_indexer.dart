@@ -164,17 +164,12 @@ abstract class TextIndexerBase implements TextIndexer {
 
   /// Maps the [tokens] to a [Postings].
   Postings _tokensToPostings(String docId, Iterable<Token> tokens) {
-    // map the tokens to terms
-    final terms = tokens.map((e) => e.term).toList();
     // initialize a Postings collection to hold the postings
     final Postings postings = {};
     // initialize the term position index
-    var position = 0;
-    for (var term in terms) {
+    for (var token in tokens) {
       // add a term position to postings
-      postings.addTermPosition(term, docId, position);
-      // increment the term position index
-      position++;
+      postings.addTermPosition(token.term, docId, token.termPosition);
     }
     return postings;
   }

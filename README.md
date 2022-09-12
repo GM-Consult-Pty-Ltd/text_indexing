@@ -96,7 +96,7 @@ In the `pubspec.yaml` of your flutter project, add the following dependency:
 
 ```yaml
 dependencies:
-  text_indexing: ^0.0.1
+  text_indexing: <latest version>
 ```
 
 In your code file add the following import:
@@ -117,8 +117,8 @@ This project is a supporting package for a revenue project that has priority cal
 
 ## References
 
-* [Manning, Raghavan and Schütze, "*Introduction to Information Retrieval*", Cambridge University Press. 2008](https://nlp.stanford.edu/IR-book/pdf/irbookprint.pdf)
-* [University of Cambridge, 2016 "*Information Retrieval*", course notes, Dr Ronan Cummins](https://www.cl.cam.ac.uk/teaching/1516/InfoRtrv/)
+* [Manning, Raghavan and Schütze, "*Introduction to Information Retrieval*", Cambridge University Press, 2008](https://nlp.stanford.edu/IR-book/pdf/irbookprint.pdf)
+* [University of Cambridge, 2016 "*Information Retrieval*", course notes, Dr Ronan Cummins, 2016](https://www.cl.cam.ac.uk/teaching/1516/InfoRtrv/)
 * [Wikipedia (1), "*Inverted Index*", from Wikipedia, the free encyclopedia](https://en.wikipedia.org/wiki/Inverted_index)
 * [Wikipedia (2), "*Lemmatisation*", from Wikipedia, the free encyclopedia](https://en.wikipedia.org/wiki/Lemmatisation)
 * [Wikipedia (3), "*Stemming*", from Wikipedia, the free encyclopedia](https://en.wikipedia.org/wiki/Stemming)
