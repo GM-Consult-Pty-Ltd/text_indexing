@@ -63,58 +63,58 @@ All rights reserved.
 <p>The following definitions are used throughout the <a href="https://pub.dev/documentation/text_indexing/latest/">documentation</a>:</p>
 <ul>
 <li><code>corpus</code>- the collection of <code>documents</code> for which an <code>index</code> is maintained.</li>
-<li><code>dictionary</code> - is a hash of <code>terms</code> (<code>vocabulary</code>) to the frequency of occurence in the <code>corpus</code> <code>documents</code>.</li>
+<li><code>dictionary</code> - is a hash of <code>terms</code> (<code>vocabulary</code>) to the frequency of occurence in the <code>corpus</code> documents.</li>
 <li><code>document</code> - a record in the <code>corpus</code>, that has a unique identifier (<code>docId</code>) in the <code>corpus</code>'s primary key and that contains one or more text fields that are indexed.</li>
 <li><code>index</code> - an <a href="https://en.wikipedia.org/wiki/Inverted_index">inverted index</a> used to look up <code>document</code> references from the <code>corpus</code> against a <code>vocabulary</code> of <code>terms</code>. The implementation in this package builds and maintains a positional inverted index, that also includes the positions of the indexed <code>term</code> in each <code>document</code>.</li>
-<li><code>postings</code> - a separate index that records which <code>documents</code> the <code>vocabulary</code> occurs in. In this implementation we also record the positions of each <code>term</code> in the <code>document</code> to create a positional inverted <code>index</code>.</li>
+<li><code>postings</code> - a separate index that records which <code>documents</code> the <code>vocabulary</code> occurs in. In this implementation we also record the positions of each <code>term</code> in the <code>text</code> to create a positional inverted <code>index</code>.</li>
 <li><code>postings list</code> - a record of the positions of a <code>term</code> in a <code>document</code>. A position of a <code>term</code> refers to the index of the <code>term</code> in an array that contains all the <code>terms</code> in the <code>text</code>.</li>
 <li><code>term</code> - a word or phrase that is indexed from the <code>corpus</code>. The <code>term</code> may differ from the actual word used in the corpus depending on the <code>tokenizer</code> used.</li>
 <li><code>text</code> - the indexable content of a <code>document</code>.</li>
 <li><code>token</code> - representation of a <code>term</code> in a text source returned by a <code>tokenizer</code>. The token may include information about the <code>term</code> such as its position(s) in the text or frequency of occurrence.</li>
 <li><code>tokenizer</code> - a function that returns a collection of <code>token</code>s from <code>text</code>, after applying a character filter, <code>term</code> filter, <a href="https://en.wikipedia.org/wiki/Stemming">stemmer</a> and / or <a href="https://en.wikipedia.org/wiki/Lemmatisation">lemmatizer</a>.</li>
-<li><code>vocabulary</code> is the collection of <code>terms</code>/words indexed from the <code>corpus</code>.</li>
+<li><code>vocabulary</code> - the collection of <code>terms</code> indexed from the <code>corpus</code>.</li>
 </ul>
 <h2 id="interface">Interface</h2>
-<p>The text indexing classes (indexers) in this library inherit from <code>TextIndexer</code>, an interface intended for information retrieval software applications. The <code>TextIndexer</code> interface is consistent with <a href="https://nlp.stanford.edu/IR-book/pdf/irbookonlinereading.pdf">information retrieval theory</a>.</p>
-<p>The inverted index is comprised of two artifacts:</p>
+<p>The text indexing classes (indexers) in this library inherit from <code>TextIndexer</code>, an interface intended for information retrieval software applications. The design of the <code>TextIndexer</code> interface is consistent with <a href="https://nlp.stanford.edu/IR-book/pdf/irbookonlinereading.pdf">information retrieval theory</a> and is intended to construct and/or maintain two artifacts:</p>
 <ul>
-<li>a <code>Dictionary</code> is a hashmap with the vocabulary as key and the document frequency as the values; and</li>
-<li>a <code>Postings</code> is a hashmap with the vocabulary as key and the postings lists for the linked <code>documents</code> as values.</li>
+<li>a hashmap with the vocabulary as key and the document frequency as the values (the <code>dictionary</code>); and</li>
+<li>another hashmap with the vocabulary as key and the postings lists for the linked <code>documents</code> as values (the <code>postings</code>).</li>
 </ul>
-<p>The <code>Dictionary</code> and <code>Postings</code> can be asynchronous data sources or in-memory hashmaps.  The <code>TextIndexer</code> reads and writes to/from these artifacts using the <code>loadTerms</code>, <code>updateDictionary</code>, <code>loadTermPostings</code> and <code>upsertTermPostings</code> asynchronous methods.</p>
-<p>The index method indexes text from a document, returning a list of <code>PostingsList</code> that is also emitted by <code>postingsStream</code>. The index method calls <code>emit</code>, passing the list of <code>PostingsList</code>.</p>
-<p>The <code>emit</code> method is called by index, and adds an event to the <code>postingsStream</code>.</p>
-<p>Listen to <code>postingsStream</code> to update your <code>dictionary</code> and <code>postings</code> map.</p>
+<p>The dictionary and postings can be asynchronous data sources or in-memory hashmaps.  The <code>TextIndexer</code> reads and writes to/from these artifacts using the <code>TextIndexer.loadTerms</code>, <code>TextIndexer.updateDictionary</code>, <code>TextIndexer.loadTermPostings</code> and <code>TextIndexer.upsertTermPostings</code> asynchronous methods.</p>
+<p>The <code>TextIndexer.index</code> method indexes text from a document, returning a list of <code>PostingsList</code> that is also emitted by <code>TextIndexer.postingsStream</code>. The <code>TextIndexer.index</code> method calls <code>TextIndexer.emit</code>, passing the list of <code>PostingsList</code>.</p>
+<p>The <code>TextIndexer.emit</code> method is called by <code>TextIndexer.index</code>, and adds an event to the <code>postingsStream</code>.</p>
+<p>Listen to <code>TextIndexer.postingsStream</code> to handle the postings list emitted whenever a document is indexed.</p>
 <p>Implementing classes override the following fields:</p>
 <ul>
-<li><code>Tokenizer</code> is the <code>Tokenizer</code> instance used by the indexer to parse <code>documents</code> to tokens;</li>
-<li><code>postingsStream</code> emits a list of <code>PostingsList</code> instances whenever a document is indexed.</li>
+<li><code>TextIndexer.tokenizer</code> is the <code>Tokenizer</code> instance used by the indexer to parse documents to tokens;</li>
+<li><code>TextIndexer.postingsStream</code> emits a list of <code>PostingsList</code> instances whenever a document is indexed.</li>
 </ul>
 <p>Implementing classes override the following asynchronous methods:</p>
 <ul>
-<li>index indexes text from a document, returning a list of <code>PostingsList</code> and adding it to the <code>postingsStream</code> by calling <code>emit</code>;</li>
-<li><code>emit</code> is called by index, and adds an event to the <code>postingsStream</code> after updating the <code>Dictionary</code> and <code>Postings</code>;</li>
-<li><code>loadTerms</code> returns a <code>Dictionary</code> for a <code>vocabulary</code> from a <code>Dictionary</code>;</li>
-<li><code>updateDictionary</code> passes new or updated <code>DictionaryEntry</code> instances for persisting to a <code>Dictionary</code>;</li>
-<li><code>loadTermPostings</code> returns <code>PostingsEntry</code> entities for a <code>vocabulary</code> from <code>Postings</code>; and</li>
-<li><code>upsertTermPostings</code> passes new or updated <code>PostingsEntry</code> instances for upserting to <code>Postings</code>.</li>
+<li><code>TextIndexer.index</code> indexes text from a document, returning a list of <code>PostingsList</code> and adding it to the <code>TextIndexer.postingsStream</code> by calling <code>TextIndexer.emit</code>;</li>
+<li><code>emit</code> is called by index, and adds an event to the <code>postingsStream</code> after updating the dictionary and postings data stores;</li>
+<li><code>TextIndexer.loadTerms</code> returns a <code>DictionaryTerm</code> map for a collection of terms from a dictionary;</li>
+<li><code>TextIndexer.updateDictionary</code> passes new or updated <code>DictionaryTerm</code> instances for persisting to a dictionary data store;</li>
+<li><code>TextIndexer.loadTermPostings</code> returns a <code>PostingsEntry</code> map for a collection of terms from a postings source; and</li>
+<li><code>TextIndexer.upsertTermPostings</code> passes new or updated <code>PostingsEntry</code> instances for upserting to a postings data store.</li>
 </ul>
 <h2 id="implementations">Implementations</h2>
 <p>Three implementations of the <code>TextIndexer</code> interface are provided:</p>
 <ul>
-<li>the <code>TextIndexerBase</code> abstract base class implements the <code>index</code> and <code>emit</code> methods;</li>
+<li>the <code>TextIndexerBase</code> abstract base class implements the <code>TextIndexer.index</code> and <code>TextIndexer.emit</code> methods;</li>
 <li>the <code>InMemoryIndexer</code> class is for fast indexing of a smaller corpus using in-memory dictionary and postings hashmaps; and</li>
 <li>the <code>PersistedIndexer</code> class, aimed at working with a larger corpus and asynchronous dictionaries and postings.</li>
 </ul>
 <h3 id="textindexerbase-class"><code>TextIndexerBase</code> Class</h3>
 <p>The <code>TextIndexerBase</code> is an abstract base class that implements the <code>TextIndexer.index</code> and <code>TextIndexer.emit</code> methods.</p>
-<p>Subclasses of <code>TextIndexerBase</code> may override the override <code>TextIndexerBase.emit</code> method to perform additional actions whenever a <code>document</code> is indexed.</p>
+<p>Subclasses of <code>TextIndexerBase</code> may override the override <code>TextIndexerBase.emit</code> method to perform additional actions whenever a document is indexed.</p>
 <h3 id="inmemoryindexer-class"><code>InMemoryIndexer</code> Class</h3>
-<p>The <code>InMemoryIndexer</code> is a subclass of <code>TextIndexerBase</code> that builds and maintains in-memory <code>Dictionary</code> and <code>PostingMap</code> hashmaps. These hashmaps are updated whenever <code>InMemoryIndexer.emit</code> is called at the end of the <code>InMemoryIndexer.index</code> method, so awaiting a call to <code>InMemoryIndexer.index</code> will provide access to the updated <code>InMemoryIndexer.dictionary</code> and <code>InMemoryIndexer.postings</code> collections.</p>
+<p>The <code>InMemoryIndexer</code> is a subclass of <code>TextIndexerBase</code> that builds and maintains in-memory dictionary and postings hashmaps. These hashmaps are updated whenever <code>InMemoryIndexer.emit</code> is called at the end of the <code>InMemoryIndexer.index</code> method, so awaiting a call to <code>InMemoryIndexer.index</code> will provide access to the updated <code>InMemoryIndexer.dictionary</code> and <code>InMemoryIndexer.postings</code> maps.</p>
 <p>The <code>InMemoryIndexer</code> is suitable for indexing a smaller corpus. An example of the use of <code>InMemoryIndexer</code> is included in the <a href="https://pub.dev/packages/text_indexing/example">examples</a>.</p>
 <h3 id="persistedindexer-class"><code>PersistedIndexer</code> Class</h3>
-<p>The <code>PersistedIndexer</code> is a subclass of <code>TextIndexerBase</code> that asynchronously reads and writes <code>dictionary</code> and <code>postings</code> data sources. These data sources are asynchronously updated whenever <code>PersistedIndexer.emit</code> is called by the <code>PersistedIndexer.index</code> method.</p>
-<p>The <code>PersistedIndexer</code> is suitable for indexinga large corpus but may incur some latency penalty and processing overhead. An example of the use of <code>PersistedIndexer</code> is included in the package <a href="https://pub.dev/packages/text_indexing/example">examples</a>.</p>
+<p>The <code>PersistedIndexer</code> is a subclass of <code>TextIndexerBase</code> that asynchronously reads and writes dictionary and postings data sources. These data sources are asynchronously updated whenever <code>PersistedIndexer.emit</code> is called by the <code>PersistedIndexer.index</code> method.</p>
+<p>The <code>PersistedIndexer</code> is suitable for indexing a large corpus but may incur some latency penalty and processing overhead. Consider running <code>PersistedIndexer</code> in an isolate to avoid slowing down the main thread.</p>
+<p>An example of the use of <code>PersistedIndexer</code> is included in the package <a href="https://pub.dev/packages/text_indexing/example">examples</a>.</p>
 <h2 id="usage">Usage</h2>
 <h3 id="install">Install</h3>
 <p>In the <code>pubspec.yaml</code> of your flutter project, add the following dependency:</p>
@@ -183,7 +183,7 @@ All rights reserved.
 <footer>
   <span class="no-break">
     text_indexing
-      0.0.1+3
+      0.0.1+4
   </span>
 
   

@@ -23,49 +23,47 @@ In this implementation, our `postings` include the positions of the `term` in th
 The following definitions are used throughout the [documentation](https://pub.dev/documentation/text_indexing/latest/):
 
 * `corpus`- the collection of `documents` for which an `index` is maintained.
-* `dictionary` - is a hash of `terms` (`vocabulary`) to the frequency of occurence in the `corpus` `documents`.
+* `dictionary` - is a hash of `terms` (`vocabulary`) to the frequency of occurence in the `corpus` documents.
 * `document` - a record in the `corpus`, that has a unique identifier (`docId`) in the `corpus`'s primary key and that contains one or more text fields that are indexed.
 * `index` - an [inverted index](https://en.wikipedia.org/wiki/Inverted_index) used to look up `document` references from the `corpus` against a `vocabulary` of `terms`. The implementation in this package builds and maintains a positional inverted index, that also includes the positions of the indexed `term` in each `document`.
-* `postings` - a separate index that records which `documents` the `vocabulary` occurs in. In this implementation we also record the positions of each `term` in the `document` to create a positional inverted `index`.
+* `postings` - a separate index that records which `documents` the `vocabulary` occurs in. In this implementation we also record the positions of each `term` in the `text` to create a positional inverted `index`.
 * `postings list` - a record of the positions of a `term` in a `document`. A position of a `term` refers to the index of the `term` in an array that contains all the `terms` in the `text`.
 * `term` - a word or phrase that is indexed from the `corpus`. The `term` may differ from the actual word used in the corpus depending on the `tokenizer` used.
 * `text` - the indexable content of a `document`.
 * `token` - representation of a `term` in a text source returned by a `tokenizer`. The token may include information about the `term` such as its position(s) in the text or frequency of occurrence.
 * `tokenizer` - a function that returns a collection of `token`s from `text`, after applying a character filter, `term` filter, [stemmer](https://en.wikipedia.org/wiki/Stemming) and / or [lemmatizer](https://en.wikipedia.org/wiki/Lemmatisation).
-* `vocabulary` is the collection of `terms`/words indexed from the `corpus`.
+* `vocabulary` - the collection of `terms` indexed from the `corpus`.
 
 ## Interface
 
-The text indexing classes (indexers) in this library inherit from `TextIndexer`, an interface intended for information retrieval software applications. The `TextIndexer` interface is consistent with [information retrieval theory](https://nlp.stanford.edu/IR-book/pdf/irbookonlinereading.pdf).
+The text indexing classes (indexers) in this library inherit from `TextIndexer`, an interface intended for information retrieval software applications. The design of the `TextIndexer` interface is consistent with [information retrieval theory](https://nlp.stanford.edu/IR-book/pdf/irbookonlinereading.pdf) and is intended to construct and/or maintain two artifacts:
+* a hashmap with the vocabulary as key and the document frequency as the values (the `dictionary`); and
+* another hashmap with the vocabulary as key and the postings lists for the linked `documents` as values (the `postings`).
 
-The inverted index is comprised of two artifacts:
-* a `Dictionary` is a hashmap with the vocabulary as key and the document frequency as the values; and
-* a `Postings` is a hashmap with the vocabulary as key and the postings lists for the linked `documents` as values.
+The dictionary and postings can be asynchronous data sources or in-memory hashmaps.  The `TextIndexer` reads and writes to/from these artifacts using the `TextIndexer.loadTerms`, `TextIndexer.updateDictionary`, `TextIndexer.loadTermPostings` and `TextIndexer.upsertTermPostings` asynchronous methods.
 
-The `Dictionary` and `Postings` can be asynchronous data sources or in-memory hashmaps.  The `TextIndexer` reads and writes to/from these artifacts using the `loadTerms`, `updateDictionary`, `loadTermPostings` and `upsertTermPostings` asynchronous methods.
+The `TextIndexer.index` method indexes text from a document, returning a list of `PostingsList` that is also emitted by `TextIndexer.postingsStream`. The `TextIndexer.index` method calls `TextIndexer.emit`, passing the list of `PostingsList`.
 
-The index method indexes text from a document, returning a list of `PostingsList` that is also emitted by `postingsStream`. The index method calls `emit`, passing the list of `PostingsList`.
+The `TextIndexer.emit` method is called by `TextIndexer.index`, and adds an event to the `postingsStream`.
 
-The `emit` method is called by index, and adds an event to the `postingsStream`.
-
-Listen to `postingsStream` to update your `dictionary` and `postings` map.
+Listen to `TextIndexer.postingsStream` to handle the postings list emitted whenever a document is indexed.
 
 Implementing classes override the following fields:
-* `Tokenizer` is the `Tokenizer` instance used by the indexer to parse `documents` to tokens;
-* `postingsStream` emits a list of `PostingsList` instances whenever a document is indexed.
+* `TextIndexer.tokenizer` is the `Tokenizer` instance used by the indexer to parse documents to tokens;
+* `TextIndexer.postingsStream` emits a list of `PostingsList` instances whenever a document is indexed.
 
 Implementing classes override the following asynchronous methods:
-* index indexes text from a document, returning a list of `PostingsList` and adding it to the `postingsStream` by calling `emit`;
-* `emit` is called by index, and adds an event to the `postingsStream` after updating the `Dictionary` and `Postings`;
-* `loadTerms` returns a `Dictionary` for a `vocabulary` from a `Dictionary`;
-* `updateDictionary` passes new or updated `DictionaryEntry` instances for persisting to a `Dictionary`;
-* `loadTermPostings` returns `PostingsEntry` entities for a `vocabulary` from `Postings`; and
-* `upsertTermPostings` passes new or updated `PostingsEntry` instances for upserting to `Postings`.
+* `TextIndexer.index` indexes text from a document, returning a list of `PostingsList` and adding it to the `TextIndexer.postingsStream` by calling `TextIndexer.emit`;
+* `emit` is called by index, and adds an event to the `postingsStream` after updating the dictionary and postings data stores;
+* `TextIndexer.loadTerms` returns a `DictionaryTerm` map for a collection of terms from a dictionary;
+* `TextIndexer.updateDictionary` passes new or updated `DictionaryTerm` instances for persisting to a dictionary data store;
+* `TextIndexer.loadTermPostings` returns a `PostingsEntry` map for a collection of terms from a postings source; and
+* `TextIndexer.upsertTermPostings` passes new or updated `PostingsEntry` instances for upserting to a postings data store.
 
 ## Implementations
 
 Three implementations of the `TextIndexer` interface are provided:
-* the `TextIndexerBase` abstract base class implements the `index` and `emit` methods;
+* the `TextIndexerBase` abstract base class implements the `TextIndexer.index` and `TextIndexer.emit` methods;
 * the `InMemoryIndexer` class is for fast indexing of a smaller corpus using in-memory dictionary and postings hashmaps; and
 * the `PersistedIndexer` class, aimed at working with a larger corpus and asynchronous dictionaries and postings.
 
@@ -74,19 +72,21 @@ Three implementations of the `TextIndexer` interface are provided:
 
 The `TextIndexerBase` is an abstract base class that implements the `TextIndexer.index` and `TextIndexer.emit` methods.  
 
-Subclasses of `TextIndexerBase` may override the override `TextIndexerBase.emit` method to perform additional actions whenever a `document` is indexed.
+Subclasses of `TextIndexerBase` may override the override `TextIndexerBase.emit` method to perform additional actions whenever a document is indexed.
 
 ### `InMemoryIndexer` Class
 
-The `InMemoryIndexer` is a subclass of `TextIndexerBase` that builds and maintains in-memory `Dictionary` and `PostingMap` hashmaps. These hashmaps are updated whenever `InMemoryIndexer.emit` is called at the end of the `InMemoryIndexer.index` method, so awaiting a call to `InMemoryIndexer.index` will provide access to the updated `InMemoryIndexer.dictionary` and `InMemoryIndexer.postings` collections. 
+The `InMemoryIndexer` is a subclass of `TextIndexerBase` that builds and maintains in-memory dictionary and postings hashmaps. These hashmaps are updated whenever `InMemoryIndexer.emit` is called at the end of the `InMemoryIndexer.index` method, so awaiting a call to `InMemoryIndexer.index` will provide access to the updated `InMemoryIndexer.dictionary` and `InMemoryIndexer.postings` maps. 
 
 The `InMemoryIndexer` is suitable for indexing a smaller corpus. An example of the use of `InMemoryIndexer` is included in the [examples](https://pub.dev/packages/text_indexing/example).
 
 ### `PersistedIndexer` Class
 
-The `PersistedIndexer` is a subclass of `TextIndexerBase` that asynchronously reads and writes `dictionary` and `postings` data sources. These data sources are asynchronously updated whenever `PersistedIndexer.emit` is called by the `PersistedIndexer.index` method. 
+The `PersistedIndexer` is a subclass of `TextIndexerBase` that asynchronously reads and writes dictionary and postings data sources. These data sources are asynchronously updated whenever `PersistedIndexer.emit` is called by the `PersistedIndexer.index` method. 
 
-The `PersistedIndexer` is suitable for indexinga large corpus but may incur some latency penalty and processing overhead. An example of the use of `PersistedIndexer` is included in the package [examples](https://pub.dev/packages/text_indexing/example).
+The `PersistedIndexer` is suitable for indexing a large corpus but may incur some latency penalty and processing overhead. Consider running `PersistedIndexer` in an isolate to avoid slowing down the main thread.
+
+An example of the use of `PersistedIndexer` is included in the package [examples](https://pub.dev/packages/text_indexing/example).
 
 ## Usage
 
