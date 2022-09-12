@@ -4,14 +4,19 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
-## 0.0.1+1
+### 0.0.1+2
 
-**PRE-RELEASE**
+- **PRE-RELEASE**
 - Updated documentation.
 
-## 0.0.1
+### 0.0.1+1
 
-**PRE-RELEASE, BREAKING CHANGES**
+- **PRE-RELEASE**
+- Updated documentation.
+
+### 0.0.1
+
+- **PRE-RELEASE, BREAKING CHANGES**
 - Interfaces finalized
 - *BREAKING CHANGES:* `TextIndexerBase`.
 - *BREAKING CHANGES:* `InMemoryIndexer`.
@@ -24,12 +29,12 @@ All rights reserved.
 - Added an example for [PersistedIndexer].
 - Updated documentation.
 
-## 0.0.1-beta.4
+### 0.0.1-beta.4
 
 - **PRE-RELEASE**
 - Updated documentation.
 
-## 0.0.1-beta.3
+### 0.0.1-beta.3
 
 - **PRE-RELEASE, BREAKING CHANGES**
 - *BREAKING CHANGES:* `TextIndexerBase`.
@@ -39,7 +44,7 @@ All rights reserved.
 - Updated tests.
 - Updated documentation.
 
-## 0.0.1-beta.2
+### 0.0.1-beta.2
 
 - **PRE-RELEASE**
 - Added `TextIndexerBase`.
@@ -48,7 +53,7 @@ All rights reserved.
 - Created example of `InMemoryIndexer`.
 - Updated documentation.
 
-## 0.0.1-beta.1
+### 0.0.1-beta.1
 
 - **PRE-RELEASE**
 - Initial version.
