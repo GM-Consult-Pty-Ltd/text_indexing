@@ -53,15 +53,14 @@ All rights reserved.
 <p>Dart library for creating an inverted index on a collection of text documents.</p>
 <p><em>THIS PACKAGE IS <strong>PRE-RELEASE</strong>, IN ACTIVE DEVELOPMENT AND SUBJECT TO DAILY BREAKING CHANGES.</em></p>
 <h2 id="objective">Objective</h2>
-<p>The objective of this package is to provide an interface and implementation classes that build and maintain an index for a collection of documents (corpus).</p>
+<p>The objective of this package is to provide an interface and implementation classes that build and maintain an index for a collection of documents (<code>corpus</code>).</p>
 <p><img src="https://github.com/GM-Consult-Pty-Ltd/text_indexing/raw/main/assets/images/indexing.png?raw=true?raw=true" alt="Index construction flowchart" title="Index construction overview"></p>
 <p>The <a href="text_indexing/TextIndexer-class.html">TextIndexer</a> constructs two artifacts:</p>
 <ul>
 <li>a <code>dictionary</code> that holds the <code>vocabulary</code> of <code>terms</code> and the frequency of occurrence for each <code>term</code> in the <code>corpus</code>; and</li>
-<li>a <code>postings</code> map that holds the references to the <code>documents</code> for each <code>term</code>.</li>
+<li>a <code>postings</code> map that holds a list of references to the <code>documents</code> for each <code>term</code> (the <code>postings list</code>).</li>
 </ul>
-<p>In this implementation, our <code>postings</code> include the positions of the <code>term</code> in the <code>documents</code> to allow search algorithms to derive relevance on a per <code>document</code> basis.</p>
-<p><img src="https://github.com/GM-Consult-Pty-Ltd/text_indexing/raw/main/assets/images/index_artifacts.png?raw=true?raw=true" alt="Index artifacts" title="Index construction overview"></p>
+<p>In this implementation, our <code>postings list</code> is a hashmap of the document id (<code>docId</code>) to an ordered list of the <code>positions</code> of the <code>term</code> in the document to allow query algorithms to score and rank search results based on the position(s) of a term in the results.</p>
 <h2 id="definitions">Definitions</h2>
 <p>The following definitions are used throughout the <a href="https://pub.dev/documentation/text_indexing/latest/">documentation</a>:</p>
 <ul>
@@ -83,6 +82,7 @@ All rights reserved.
 <li>a hashmap with the vocabulary as key and the document frequency as the values (the <code>dictionary</code>); and</li>
 <li>another hashmap with the vocabulary as key and the postings lists for the linked <code>documents</code> as values (the <code>postings</code>).</li>
 </ul>
+<p><img src="https://github.com/GM-Consult-Pty-Ltd/text_indexing/raw/main/assets/images/index_artifacts.png?raw=true?raw=true" alt="Index artifacts" title="Index construction overview"></p>
 <p>The dictionary and postings can be asynchronous data sources or in-memory hashmaps.  The <code>TextIndexer</code> reads and writes to/from these artifacts using the <code>TextIndexer.loadTerms</code>, <code>TextIndexer.updateDictionary</code>, <code>TextIndexer.loadTermPostings</code> and <code>TextIndexer.upsertTermPostings</code> asynchronous methods.</p>
 <p>The <code>TextIndexer.index</code> method indexes text from a document, returning a list of <code>PostingsList</code> that is also emitted by <code>TextIndexer.postingsStream</code>. The <code>TextIndexer.index</code> method calls <code>TextIndexer.emit</code>, passing the list of <code>PostingsList</code>.</p>
 <p>The <code>TextIndexer.emit</code> method is called by <code>TextIndexer.index</code>, and adds an event to the <code>postingsStream</code>.</p>

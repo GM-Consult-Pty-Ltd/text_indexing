@@ -12,17 +12,15 @@ Dart library for creating an inverted index on a collection of text documents.
 
 ## Objective
 
-The objective of this package is to provide an interface and implementation classes that build and maintain an index for a collection of documents (corpus).
+The objective of this package is to provide an interface and implementation classes that build and maintain an index for a collection of documents (`corpus`).
 
 ![Index construction flowchart](https://github.com/GM-Consult-Pty-Ltd/text_indexing/raw/main/assets/images/indexing.png?raw=true?raw=true "Index construction overview")
 
 The [TextIndexer] constructs two artifacts:
 * a `dictionary` that holds the `vocabulary` of `terms` and the frequency of occurrence for each `term` in the `corpus`; and
-* a `postings` map that holds the references to the `documents` for each `term`. 
+* a `postings` map that holds a list of references to the `documents` for each `term` (the `postings list`). 
 
-In this implementation, our `postings` include the positions of the `term` in the `documents` to allow search algorithms to derive relevance on a per `document` basis.
-
-![Index artifacts](https://github.com/GM-Consult-Pty-Ltd/text_indexing/raw/main/assets/images/index_artifacts.png?raw=true?raw=true "Index construction overview")
+In this implementation, our `postings list` is a hashmap of the document id (`docId`) to an ordered list of the `positions` of the `term` in the document to allow query algorithms to score and rank search results based on the position(s) of a term in the results.
 
 ## Definitions
 
@@ -45,6 +43,8 @@ The following definitions are used throughout the [documentation](https://pub.de
 The text indexing classes (indexers) in this library inherit from `TextIndexer`, an interface intended for information retrieval software applications. The design of the `TextIndexer` interface is consistent with [information retrieval theory](https://nlp.stanford.edu/IR-book/pdf/irbookonlinereading.pdf) and is intended to construct and/or maintain two artifacts:
 * a hashmap with the vocabulary as key and the document frequency as the values (the `dictionary`); and
 * another hashmap with the vocabulary as key and the postings lists for the linked `documents` as values (the `postings`).
+
+![Index artifacts](https://github.com/GM-Consult-Pty-Ltd/text_indexing/raw/main/assets/images/index_artifacts.png?raw=true?raw=true "Index construction overview")
 
 The dictionary and postings can be asynchronous data sources or in-memory hashmaps.  The `TextIndexer` reads and writes to/from these artifacts using the `TextIndexer.loadTerms`, `TextIndexer.updateDictionary`, `TextIndexer.loadTermPostings` and `TextIndexer.upsertTermPostings` asynchronous methods.
 
