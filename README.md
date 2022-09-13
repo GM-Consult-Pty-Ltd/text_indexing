@@ -16,7 +16,7 @@ The objective of this package is to provide an interface and implementation clas
 
 ![Index construction flowchart](https://github.com/GM-Consult-Pty-Ltd/text_indexing/raw/main/assets/images/indexing.png?raw=true?raw=true "Index construction overview")
 
-The `TextIndexer` constructs two artifacts:
+The [TextIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html) constructs two artifacts:
 * a `dictionary` that holds the `vocabulary` of `terms` and the frequency of occurrence for each `term` in the `corpus`; and
 * a `postings` map that holds a list of references to the `documents` for each `term` (the `postings list`). 
 
@@ -26,13 +26,20 @@ In this implementation, our `postings list` is a hashmap of the document id (`do
 
 ## API
 
-### `TextIndexer` Interface
+The API exposes the [TextIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html) interface that builds and maintain an index for a collection of documents.
 
-The text indexing classes (indexers) in this library implement `TextIndexer`, an interface intended for information retrieval software applications. The design of the `TextIndexer` interface is consistent with [information retrieval theory](https://nlp.stanford.edu/IR-book/pdf/irbookonlinereading.pdf) and is intended to construct and/or maintain two artifacts:
+Three implementations of the [TextIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html) interface are provided:
+* the [TextIndexerBase](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexerBase-class.html) abstract base class implements the `TextIndexer.index` and `TextIndexer.emit` methods;
+* the [InMemoryIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndexer-class.html) class is for fast indexing of a smaller corpus using in-memory dictionary and postings hashmaps; and
+* the `PersistedIndexer` class, aimed at working with a larger corpus and asynchronous dictionaries and postings.
+
+### [TextIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html) Interface
+
+The text indexing classes (indexers) in this library implement [TextIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html), an interface intended for information retrieval software applications. The design of the [TextIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html) interface is consistent with [information retrieval theory](https://nlp.stanford.edu/IR-book/pdf/irbookonlinereading.pdf) and is intended to construct and/or maintain two artifacts:
 * a hashmap with the vocabulary as key and the document frequency as the values (the `dictionary`); and
 * another hashmap with the vocabulary as key and the postings lists for the linked `documents` as values (the `postings`).
 
-The dictionary and postings can be asynchronous data sources or in-memory hashmaps.  The `TextIndexer` reads and writes to/from these artifacts using the `TextIndexer.loadTerms`, `TextIndexer.updateDictionary`, `TextIndexer.loadTermPostings` and `TextIndexer.upsertTermPostings` asynchronous methods.
+The dictionary and postings can be asynchronous data sources or in-memory hashmaps.  The [TextIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html) reads and writes to/from these artifacts using the `TextIndexer.loadTerms`, `TextIndexer.updateDictionary`, `TextIndexer.loadTermPostings` and `TextIndexer.upsertTermPostings` asynchronous methods.
 
 The `TextIndexer.index` method indexes text from a document, returning a list of `PostingsList` that is also emitted by `TextIndexer.postingsStream`. The `TextIndexer.index` method calls `TextIndexer.emit`, passing the list of `PostingsList`.
 
@@ -53,27 +60,21 @@ Implementing classes override the following asynchronous methods:
 * `TextIndexer.upsertTermPostings` passes new or updated `PostingsEntry` instances for upserting to a postings data store.
 
 
-Three implementations of the `TextIndexer` interface are provided:
-* the `TextIndexerBase` abstract base class implements the `TextIndexer.index` and `TextIndexer.emit` methods;
-* the `InMemoryIndexer` class is for fast indexing of a smaller corpus using in-memory dictionary and postings hashmaps; and
-* the `PersistedIndexer` class, aimed at working with a larger corpus and asynchronous dictionaries and postings.
+### class [TextIndexerBase](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexerBase-class.html) implements [TextIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html)
 
+The [TextIndexerBase](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexerBase-class.html) is an abstract base class that implements the `TextIndexer.index` and `TextIndexer.emit` methods.  
 
-### `TextIndexerBase` Class
+Subclasses of [TextIndexerBase](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexerBase-class.html) may override the override `TextIndexerBase.emit` method to perform additional actions whenever a document is indexed.
 
-The `TextIndexerBase` is an abstract base class that implements the `TextIndexer.index` and `TextIndexer.emit` methods.  
+### class [InMemoryIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndexer-class.html) extends [TextIndexerBase](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexerBase-class.html)
 
-Subclasses of `TextIndexerBase` may override the override `TextIndexerBase.emit` method to perform additional actions whenever a document is indexed.
+The [InMemoryIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndexer-class.html) is a subclass of [TextIndexerBase](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexerBase-class.html) that builds and maintains in-memory dictionary and postings hashmaps. These hashmaps are updated whenever `InMemoryIndexer.emit` is called at the end of the `InMemoryIndexer.index` method, so awaiting a call to `InMemoryIndexer.index` will provide access to the updated `InMemoryIndexer.dictionary` and `InMemoryIndexer.postings` maps. 
 
-### `InMemoryIndexer` Class
+The [InMemoryIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndexer-class.html) is suitable for indexing a smaller corpus. An example of the use of [InMemoryIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndexer-class.html) is included in the [examples](https://pub.dev/packages/text_indexing/example).
 
-The `InMemoryIndexer` is a subclass of `TextIndexerBase` that builds and maintains in-memory dictionary and postings hashmaps. These hashmaps are updated whenever `InMemoryIndexer.emit` is called at the end of the `InMemoryIndexer.index` method, so awaiting a call to `InMemoryIndexer.index` will provide access to the updated `InMemoryIndexer.dictionary` and `InMemoryIndexer.postings` maps. 
+### class `PersistedIndexer` extends [TextIndexerBase](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexerBase-class.html)
 
-The `InMemoryIndexer` is suitable for indexing a smaller corpus. An example of the use of `InMemoryIndexer` is included in the [examples](https://pub.dev/packages/text_indexing/example).
-
-### `PersistedIndexer` Class
-
-The `PersistedIndexer` is a subclass of `TextIndexerBase` that asynchronously reads and writes dictionary and postings data sources. These data sources are asynchronously updated whenever `PersistedIndexer.emit` is called by the `PersistedIndexer.index` method. 
+The `PersistedIndexer` is a subclass of [TextIndexerBase](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexerBase-class.html) that asynchronously reads and writes dictionary and postings data sources. These data sources are asynchronously updated whenever `PersistedIndexer.emit` is called by the `PersistedIndexer.index` method. 
 
 The `PersistedIndexer` is suitable for indexing a large corpus but may incur some latency penalty and processing overhead. Consider running `PersistedIndexer` in an isolate to avoid slowing down the main thread.
 
@@ -94,7 +95,7 @@ In your code file add the `text_indexing` import.
 import 'package:text_indexing/text_indexing.dart';
 ```
 
-For small collections, instantiate a `InMemoryIndexer`, passing empty `Dictionary` and `Postings` hashmaps, then iterate over a collection of documents.
+For small collections, instantiate a [InMemoryIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndexer-class.html), passing empty `Dictionary` and `Postings` hashmaps, then iterate over a collection of documents.
 
 ```dart
   // - initialize a [InMemoryIndexer]
@@ -107,7 +108,7 @@ For small collections, instantiate a `InMemoryIndexer`, passing empty `Dictionar
   });
 ```
 
-The [examples](https://pub.dev/packages/text_indexing/example) demonstrate the use of the `InMemoryIndexer` and `PersistedIndexer`.
+The [examples](https://pub.dev/packages/text_indexing/example) demonstrate the use of the [InMemoryIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndexer-class.html) and `PersistedIndexer`.
 
 ## Definitions
 

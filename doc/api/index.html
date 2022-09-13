@@ -55,7 +55,7 @@ All rights reserved.
 <h2 id="objective">Objective</h2>
 <p>The objective of this package is to provide an interface and implementation classes that build and maintain an index for a collection of documents (<code>corpus</code>).</p>
 <p><img src="https://github.com/GM-Consult-Pty-Ltd/text_indexing/raw/main/assets/images/indexing.png?raw=true?raw=true" alt="Index construction flowchart" title="Index construction overview"></p>
-<p>The <code>TextIndexer</code> constructs two artifacts:</p>
+<p>The <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html">TextIndexer</a> constructs two artifacts:</p>
 <ul>
 <li>a <code>dictionary</code> that holds the <code>vocabulary</code> of <code>terms</code> and the frequency of occurrence for each <code>term</code> in the <code>corpus</code>; and</li>
 <li>a <code>postings</code> map that holds a list of references to the <code>documents</code> for each <code>term</code> (the <code>postings list</code>).</li>
@@ -63,13 +63,20 @@ All rights reserved.
 <p>In this implementation, our <code>postings list</code> is a hashmap of the document id (<code>docId</code>) to an ordered list of the <code>positions</code> of the <code>term</code> in the document to allow query algorithms to score and rank search results based on the position(s) of a term in the results.</p>
 <p><img src="https://github.com/GM-Consult-Pty-Ltd/text_indexing/raw/main/assets/images/index_artifacts.png?raw=true?raw=true" alt="Index artifacts" title="Components of inverted positional index"></p>
 <h2 id="api">API</h2>
-<h3 id="textindexer-interface"><code>TextIndexer</code> Interface</h3>
-<p>The text indexing classes (indexers) in this library implement <code>TextIndexer</code>, an interface intended for information retrieval software applications. The design of the <code>TextIndexer</code> interface is consistent with <a href="https://nlp.stanford.edu/IR-book/pdf/irbookonlinereading.pdf">information retrieval theory</a> and is intended to construct and/or maintain two artifacts:</p>
+<p>The API exposes the <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html">TextIndexer</a> interface that builds and maintain an index for a collection of documents.</p>
+<p>Three implementations of the <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html">TextIndexer</a> interface are provided:</p>
+<ul>
+<li>the <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexerBase-class.html">TextIndexerBase</a> abstract base class implements the <code>TextIndexer.index</code> and <code>TextIndexer.emit</code> methods;</li>
+<li>the <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndexer-class.html">InMemoryIndexer</a> class is for fast indexing of a smaller corpus using in-memory dictionary and postings hashmaps; and</li>
+<li>the <code>PersistedIndexer</code> class, aimed at working with a larger corpus and asynchronous dictionaries and postings.</li>
+</ul>
+<h3 id="textindexerhttpspubdevdocumentationtext_indexinglatesttext_indexingtextindexer-classhtml-interface"><a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html">TextIndexer</a> Interface</h3>
+<p>The text indexing classes (indexers) in this library implement <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html">TextIndexer</a>, an interface intended for information retrieval software applications. The design of the <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html">TextIndexer</a> interface is consistent with <a href="https://nlp.stanford.edu/IR-book/pdf/irbookonlinereading.pdf">information retrieval theory</a> and is intended to construct and/or maintain two artifacts:</p>
 <ul>
 <li>a hashmap with the vocabulary as key and the document frequency as the values (the <code>dictionary</code>); and</li>
 <li>another hashmap with the vocabulary as key and the postings lists for the linked <code>documents</code> as values (the <code>postings</code>).</li>
 </ul>
-<p>The dictionary and postings can be asynchronous data sources or in-memory hashmaps.  The <code>TextIndexer</code> reads and writes to/from these artifacts using the <code>TextIndexer.loadTerms</code>, <code>TextIndexer.updateDictionary</code>, <code>TextIndexer.loadTermPostings</code> and <code>TextIndexer.upsertTermPostings</code> asynchronous methods.</p>
+<p>The dictionary and postings can be asynchronous data sources or in-memory hashmaps.  The <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html">TextIndexer</a> reads and writes to/from these artifacts using the <code>TextIndexer.loadTerms</code>, <code>TextIndexer.updateDictionary</code>, <code>TextIndexer.loadTermPostings</code> and <code>TextIndexer.upsertTermPostings</code> asynchronous methods.</p>
 <p>The <code>TextIndexer.index</code> method indexes text from a document, returning a list of <code>PostingsList</code> that is also emitted by <code>TextIndexer.postingsStream</code>. The <code>TextIndexer.index</code> method calls <code>TextIndexer.emit</code>, passing the list of <code>PostingsList</code>.</p>
 <p>The <code>TextIndexer.emit</code> method is called by <code>TextIndexer.index</code>, and adds an event to the <code>postingsStream</code>.</p>
 <p>Listen to <code>TextIndexer.postingsStream</code> to handle the postings list emitted whenever a document is indexed.</p>
@@ -87,20 +94,14 @@ All rights reserved.
 <li><code>TextIndexer.loadTermPostings</code> returns a <code>PostingsEntry</code> map for a collection of terms from a postings source; and</li>
 <li><code>TextIndexer.upsertTermPostings</code> passes new or updated <code>PostingsEntry</code> instances for upserting to a postings data store.</li>
 </ul>
-<p>Three implementations of the <code>TextIndexer</code> interface are provided:</p>
-<ul>
-<li>the <code>TextIndexerBase</code> abstract base class implements the <code>TextIndexer.index</code> and <code>TextIndexer.emit</code> methods;</li>
-<li>the <code>InMemoryIndexer</code> class is for fast indexing of a smaller corpus using in-memory dictionary and postings hashmaps; and</li>
-<li>the <code>PersistedIndexer</code> class, aimed at working with a larger corpus and asynchronous dictionaries and postings.</li>
-</ul>
-<h3 id="textindexerbase-class"><code>TextIndexerBase</code> Class</h3>
-<p>The <code>TextIndexerBase</code> is an abstract base class that implements the <code>TextIndexer.index</code> and <code>TextIndexer.emit</code> methods.</p>
-<p>Subclasses of <code>TextIndexerBase</code> may override the override <code>TextIndexerBase.emit</code> method to perform additional actions whenever a document is indexed.</p>
-<h3 id="inmemoryindexer-class"><code>InMemoryIndexer</code> Class</h3>
-<p>The <code>InMemoryIndexer</code> is a subclass of <code>TextIndexerBase</code> that builds and maintains in-memory dictionary and postings hashmaps. These hashmaps are updated whenever <code>InMemoryIndexer.emit</code> is called at the end of the <code>InMemoryIndexer.index</code> method, so awaiting a call to <code>InMemoryIndexer.index</code> will provide access to the updated <code>InMemoryIndexer.dictionary</code> and <code>InMemoryIndexer.postings</code> maps.</p>
-<p>The <code>InMemoryIndexer</code> is suitable for indexing a smaller corpus. An example of the use of <code>InMemoryIndexer</code> is included in the <a href="https://pub.dev/packages/text_indexing/example">examples</a>.</p>
-<h3 id="persistedindexer-class"><code>PersistedIndexer</code> Class</h3>
-<p>The <code>PersistedIndexer</code> is a subclass of <code>TextIndexerBase</code> that asynchronously reads and writes dictionary and postings data sources. These data sources are asynchronously updated whenever <code>PersistedIndexer.emit</code> is called by the <code>PersistedIndexer.index</code> method.</p>
+<h3 id="class-textindexerbasehttpspubdevdocumentationtext_indexinglatesttext_indexingtextindexerbase-classhtml-implements-textindexerhttpspubdevdocumentationtext_indexinglatesttext_indexingtextindexer-classhtml">class <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexerBase-class.html">TextIndexerBase</a> implements <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html">TextIndexer</a></h3>
+<p>The <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexerBase-class.html">TextIndexerBase</a> is an abstract base class that implements the <code>TextIndexer.index</code> and <code>TextIndexer.emit</code> methods.</p>
+<p>Subclasses of <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexerBase-class.html">TextIndexerBase</a> may override the override <code>TextIndexerBase.emit</code> method to perform additional actions whenever a document is indexed.</p>
+<h3 id="class-inmemoryindexerhttpspubdevdocumentationtext_indexinglatesttext_indexinginmemoryindexer-classhtml-extends-textindexerbasehttpspubdevdocumentationtext_indexinglatesttext_indexingtextindexerbase-classhtml">class <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndexer-class.html">InMemoryIndexer</a> extends <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexerBase-class.html">TextIndexerBase</a></h3>
+<p>The <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndexer-class.html">InMemoryIndexer</a> is a subclass of <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexerBase-class.html">TextIndexerBase</a> that builds and maintains in-memory dictionary and postings hashmaps. These hashmaps are updated whenever <code>InMemoryIndexer.emit</code> is called at the end of the <code>InMemoryIndexer.index</code> method, so awaiting a call to <code>InMemoryIndexer.index</code> will provide access to the updated <code>InMemoryIndexer.dictionary</code> and <code>InMemoryIndexer.postings</code> maps.</p>
+<p>The <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndexer-class.html">InMemoryIndexer</a> is suitable for indexing a smaller corpus. An example of the use of <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndexer-class.html">InMemoryIndexer</a> is included in the <a href="https://pub.dev/packages/text_indexing/example">examples</a>.</p>
+<h3 id="class-persistedindexer-extends-textindexerbasehttpspubdevdocumentationtext_indexinglatesttext_indexingtextindexerbase-classhtml">class <code>PersistedIndexer</code> extends <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexerBase-class.html">TextIndexerBase</a></h3>
+<p>The <code>PersistedIndexer</code> is a subclass of <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexerBase-class.html">TextIndexerBase</a> that asynchronously reads and writes dictionary and postings data sources. These data sources are asynchronously updated whenever <code>PersistedIndexer.emit</code> is called by the <code>PersistedIndexer.index</code> method.</p>
 <p>The <code>PersistedIndexer</code> is suitable for indexing a large corpus but may incur some latency penalty and processing overhead. Consider running <code>PersistedIndexer</code> in an isolate to avoid slowing down the main thread.</p>
 <p>An example of the use of <code>PersistedIndexer</code> is included in the package <a href="https://pub.dev/packages/text_indexing/example">examples</a>.</p>
 <h2 id="usage">Usage</h2>
@@ -111,7 +112,7 @@ All rights reserved.
 <p>In your code file add the <code>text_indexing</code> import.</p>
 <pre class="language-dart"><code class="language-dart">import 'package:text_indexing/text_indexing.dart';
 </code></pre>
-<p>For small collections, instantiate a <code>InMemoryIndexer</code>, passing empty <code>Dictionary</code> and <code>Postings</code> hashmaps, then iterate over a collection of documents.</p>
+<p>For small collections, instantiate a <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndexer-class.html">InMemoryIndexer</a>, passing empty <code>Dictionary</code> and <code>Postings</code> hashmaps, then iterate over a collection of documents.</p>
 <pre class="language-dart"><code class="language-dart">  // - initialize a [InMemoryIndexer]
   final indexer = InMemoryIndexer(dictionary: {}, postings: {});
 
@@ -121,7 +122,7 @@ All rights reserved.
     await indexer.index(doc.key, doc.value);
   });
 </code></pre>
-<p>The <a href="https://pub.dev/packages/text_indexing/example">examples</a> demonstrate the use of the <code>InMemoryIndexer</code> and <code>PersistedIndexer</code>.</p>
+<p>The <a href="https://pub.dev/packages/text_indexing/example">examples</a> demonstrate the use of the <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndexer-class.html">InMemoryIndexer</a> and <code>PersistedIndexer</code>.</p>
 <h2 id="definitions">Definitions</h2>
 <p>The following definitions are used throughout the <a href="https://pub.dev/documentation/text_indexing/latest/">documentation</a>:</p>
 <ul>
@@ -194,7 +195,7 @@ All rights reserved.
 <footer>
   <span class="no-break">
     text_indexing
-      0.0.1+10
+      0.0.2
   </span>
 
   

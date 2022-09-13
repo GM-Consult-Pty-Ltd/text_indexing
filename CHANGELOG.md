@@ -4,10 +4,17 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
-### 0.0.1+10
+### 0.0.2
 
 - **PRE-RELEASE**
 - Updated dependencies
+- Added `text_analysis` package to exports.
+- Updated documentation.
+
+### 0.0.1+10
+
+- **PRE-RELEASE**
+- Updated dependencies.
 - Updated documentation.
 
 ### 0.0.1+9
