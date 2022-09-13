@@ -22,27 +22,13 @@ The `TextIndexer` constructs two artifacts:
 
 In this implementation, our `postings list` is a hashmap of the document id (`docId`) to an ordered list of the `positions` of the `term` in the document to allow query algorithms to score and rank search results based on the position(s) of a term in the results.
 
-![Index artifacts](https://github.com/GM-Consult-Pty-Ltd/text_indexing/raw/main/assets/images/index_artifacts.png?raw=true?raw=true "Index construction overview")
+![Index artifacts](https://github.com/GM-Consult-Pty-Ltd/text_indexing/raw/main/assets/images/index_artifacts.png?raw=true?raw=true "Components of inverted positional index")
 
-## Definitions
+## API
 
-The following definitions are used throughout the [documentation](https://pub.dev/documentation/text_indexing/latest/):
+### `TextIndexer` Interface
 
-* `corpus`- the collection of `documents` for which an `index` is maintained.
-* `dictionary` - is a hash of `terms` (`vocabulary`) to the frequency of occurence in the `corpus` documents.
-* `document` - a record in the `corpus`, that has a unique identifier (`docId`) in the `corpus`'s primary key and that contains one or more text fields that are indexed.
-* `index` - an [inverted index](https://en.wikipedia.org/wiki/Inverted_index) used to look up `document` references from the `corpus` against a `vocabulary` of `terms`. The implementation in this package builds and maintains a positional inverted index, that also includes the positions of the indexed `term` in each `document`.
-* `postings` - a separate index that records which `documents` the `vocabulary` occurs in. In this implementation we also record the positions of each `term` in the `text` to create a positional inverted `index`.
-* `postings list` - a record of the positions of a `term` in a `document`. A position of a `term` refers to the index of the `term` in an array that contains all the `terms` in the `text`.
-* `term` - a word or phrase that is indexed from the `corpus`. The `term` may differ from the actual word used in the corpus depending on the `tokenizer` used.
-* `text` - the indexable content of a `document`.
-* `token` - representation of a `term` in a text source returned by a `tokenizer`. The token may include information about the `term` such as its position(s) in the text or frequency of occurrence.
-* `tokenizer` - a function that returns a collection of `token`s from `text`, after applying a character filter, `term` filter, [stemmer](https://en.wikipedia.org/wiki/Stemming) and / or [lemmatizer](https://en.wikipedia.org/wiki/Lemmatisation).
-* `vocabulary` - the collection of `terms` indexed from the `corpus`.
-
-## Interface
-
-The text indexing classes (indexers) in this library inherit from `TextIndexer`, an interface intended for information retrieval software applications. The design of the `TextIndexer` interface is consistent with [information retrieval theory](https://nlp.stanford.edu/IR-book/pdf/irbookonlinereading.pdf) and is intended to construct and/or maintain two artifacts:
+The text indexing classes (indexers) in this library implement `TextIndexer`, an interface intended for information retrieval software applications. The design of the `TextIndexer` interface is consistent with [information retrieval theory](https://nlp.stanford.edu/IR-book/pdf/irbookonlinereading.pdf) and is intended to construct and/or maintain two artifacts:
 * a hashmap with the vocabulary as key and the document frequency as the values (the `dictionary`); and
 * another hashmap with the vocabulary as key and the postings lists for the linked `documents` as values (the `postings`).
 
@@ -66,7 +52,6 @@ Implementing classes override the following asynchronous methods:
 * `TextIndexer.loadTermPostings` returns a `PostingsEntry` map for a collection of terms from a postings source; and
 * `TextIndexer.upsertTermPostings` passes new or updated `PostingsEntry` instances for upserting to a postings data store.
 
-## Implementations
 
 Three implementations of the `TextIndexer` interface are provided:
 * the `TextIndexerBase` abstract base class implements the `TextIndexer.index` and `TextIndexer.emit` methods;
@@ -96,30 +81,49 @@ An example of the use of `PersistedIndexer` is included in the package [examples
 
 ## Usage
 
-### Install
-
-In the `pubspec.yaml` of your flutter project, add the following dependency:
+In the `pubspec.yaml` of your flutter project, add the `text_indexing` dependency.
 
 ```yaml
 dependencies:
   text_indexing: <latest version>
 ```
 
-In your code file add the following import:
+In your code file add the `text_indexing` import.
 
 ```dart
 import 'package:text_indexing/text_indexing.dart';
 ```
 
-### Examples
+For small collections, instantiate a `InMemoryIndexer`, passing empty `Dictionary` and `Postings` hashmaps, then iterate over a collection of documents.
 
-[Examples](https://pub.dev/packages/text_indexing/example) are provided for the `InMemoryIndexer` and `PersistedIndexer`, two implementations of the `TextIndexer` interface that inherit from `TextIndexerBase`.
+```dart
+  // - initialize a [InMemoryIndexer]
+  final indexer = InMemoryIndexer(dictionary: {}, postings: {});
 
-## Issues
+  // - iterate through the sample data
+  await Future.forEach(documents.entries, (MapEntry<String, String> doc) async {
+    // - index each document
+    await indexer.index(doc.key, doc.value);
+  });
+```
 
-If you find a bug please fill an [issue](https://github.com/GM-Consult-Pty-Ltd/text_indexing/issues).  
+The [examples](https://pub.dev/packages/text_indexing/example) demonstrate the use of the `InMemoryIndexer` and `PersistedIndexer`.
 
-This project is a supporting package for a revenue project that has priority call on resources, so please be patient if we don't respond immediately to issues or pull requests.
+## Definitions
+
+The following definitions are used throughout the [documentation](https://pub.dev/documentation/text_indexing/latest/):
+
+* `corpus`- the collection of `documents` for which an `index` is maintained.
+* `dictionary` - is a hash of `terms` (`vocabulary`) to the frequency of occurence in the `corpus` documents.
+* `document` - a record in the `corpus`, that has a unique identifier (`docId`) in the `corpus`'s primary key and that contains one or more text fields that are indexed.
+* `index` - an [inverted index](https://en.wikipedia.org/wiki/Inverted_index) used to look up `document` references from the `corpus` against a `vocabulary` of `terms`. The implementation in this package builds and maintains a positional inverted index, that also includes the positions of the indexed `term` in each `document`.
+* `postings` - a separate index that records which `documents` the `vocabulary` occurs in. In this implementation we also record the positions of each `term` in the `text` to create a positional inverted `index`.
+* `postings list` - a record of the positions of a `term` in a `document`. A position of a `term` refers to the index of the `term` in an array that contains all the `terms` in the `text`.
+* `term` - a word or phrase that is indexed from the `corpus`. The `term` may differ from the actual word used in the corpus depending on the `tokenizer` used.
+* `text` - the indexable content of a `document`.
+* `token` - representation of a `term` in a text source returned by a `tokenizer`. The token may include information about the `term` such as its position(s) in the text or frequency of occurrence.
+* `tokenizer` - a function that returns a collection of `token`s from `text`, after applying a character filter, `term` filter, [stemmer](https://en.wikipedia.org/wiki/Stemming) and / or [lemmatizer](https://en.wikipedia.org/wiki/Lemmatisation).
+* `vocabulary` - the collection of `terms` indexed from the `corpus`.
 
 ## References
 
@@ -128,6 +132,12 @@ This project is a supporting package for a revenue project that has priority cal
 * [Wikipedia (1), "*Inverted Index*", from Wikipedia, the free encyclopedia](https://en.wikipedia.org/wiki/Inverted_index)
 * [Wikipedia (2), "*Lemmatisation*", from Wikipedia, the free encyclopedia](https://en.wikipedia.org/wiki/Lemmatisation)
 * [Wikipedia (3), "*Stemming*", from Wikipedia, the free encyclopedia](https://en.wikipedia.org/wiki/Stemming)
+
+## Issues
+
+If you find a bug please fill an [issue](https://github.com/GM-Consult-Pty-Ltd/text_indexing/issues).  
+
+This project is a supporting package for a revenue project that has priority call on resources, so please be patient if we don't respond immediately to issues or pull requests.
 
 
 

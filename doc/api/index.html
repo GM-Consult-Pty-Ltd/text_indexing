@@ -61,24 +61,10 @@ All rights reserved.
 <li>a <code>postings</code> map that holds a list of references to the <code>documents</code> for each <code>term</code> (the <code>postings list</code>).</li>
 </ul>
 <p>In this implementation, our <code>postings list</code> is a hashmap of the document id (<code>docId</code>) to an ordered list of the <code>positions</code> of the <code>term</code> in the document to allow query algorithms to score and rank search results based on the position(s) of a term in the results.</p>
-<p><img src="https://github.com/GM-Consult-Pty-Ltd/text_indexing/raw/main/assets/images/index_artifacts.png?raw=true?raw=true" alt="Index artifacts" title="Index construction overview"></p>
-<h2 id="definitions">Definitions</h2>
-<p>The following definitions are used throughout the <a href="https://pub.dev/documentation/text_indexing/latest/">documentation</a>:</p>
-<ul>
-<li><code>corpus</code>- the collection of <code>documents</code> for which an <code>index</code> is maintained.</li>
-<li><code>dictionary</code> - is a hash of <code>terms</code> (<code>vocabulary</code>) to the frequency of occurence in the <code>corpus</code> documents.</li>
-<li><code>document</code> - a record in the <code>corpus</code>, that has a unique identifier (<code>docId</code>) in the <code>corpus</code>'s primary key and that contains one or more text fields that are indexed.</li>
-<li><code>index</code> - an <a href="https://en.wikipedia.org/wiki/Inverted_index">inverted index</a> used to look up <code>document</code> references from the <code>corpus</code> against a <code>vocabulary</code> of <code>terms</code>. The implementation in this package builds and maintains a positional inverted index, that also includes the positions of the indexed <code>term</code> in each <code>document</code>.</li>
-<li><code>postings</code> - a separate index that records which <code>documents</code> the <code>vocabulary</code> occurs in. In this implementation we also record the positions of each <code>term</code> in the <code>text</code> to create a positional inverted <code>index</code>.</li>
-<li><code>postings list</code> - a record of the positions of a <code>term</code> in a <code>document</code>. A position of a <code>term</code> refers to the index of the <code>term</code> in an array that contains all the <code>terms</code> in the <code>text</code>.</li>
-<li><code>term</code> - a word or phrase that is indexed from the <code>corpus</code>. The <code>term</code> may differ from the actual word used in the corpus depending on the <code>tokenizer</code> used.</li>
-<li><code>text</code> - the indexable content of a <code>document</code>.</li>
-<li><code>token</code> - representation of a <code>term</code> in a text source returned by a <code>tokenizer</code>. The token may include information about the <code>term</code> such as its position(s) in the text or frequency of occurrence.</li>
-<li><code>tokenizer</code> - a function that returns a collection of <code>token</code>s from <code>text</code>, after applying a character filter, <code>term</code> filter, <a href="https://en.wikipedia.org/wiki/Stemming">stemmer</a> and / or <a href="https://en.wikipedia.org/wiki/Lemmatisation">lemmatizer</a>.</li>
-<li><code>vocabulary</code> - the collection of <code>terms</code> indexed from the <code>corpus</code>.</li>
-</ul>
-<h2 id="interface">Interface</h2>
-<p>The text indexing classes (indexers) in this library inherit from <code>TextIndexer</code>, an interface intended for information retrieval software applications. The design of the <code>TextIndexer</code> interface is consistent with <a href="https://nlp.stanford.edu/IR-book/pdf/irbookonlinereading.pdf">information retrieval theory</a> and is intended to construct and/or maintain two artifacts:</p>
+<p><img src="https://github.com/GM-Consult-Pty-Ltd/text_indexing/raw/main/assets/images/index_artifacts.png?raw=true?raw=true" alt="Index artifacts" title="Components of inverted positional index"></p>
+<h2 id="api">API</h2>
+<h3 id="textindexer-interface"><code>TextIndexer</code> Interface</h3>
+<p>The text indexing classes (indexers) in this library implement <code>TextIndexer</code>, an interface intended for information retrieval software applications. The design of the <code>TextIndexer</code> interface is consistent with <a href="https://nlp.stanford.edu/IR-book/pdf/irbookonlinereading.pdf">information retrieval theory</a> and is intended to construct and/or maintain two artifacts:</p>
 <ul>
 <li>a hashmap with the vocabulary as key and the document frequency as the values (the <code>dictionary</code>); and</li>
 <li>another hashmap with the vocabulary as key and the postings lists for the linked <code>documents</code> as values (the <code>postings</code>).</li>
@@ -101,7 +87,6 @@ All rights reserved.
 <li><code>TextIndexer.loadTermPostings</code> returns a <code>PostingsEntry</code> map for a collection of terms from a postings source; and</li>
 <li><code>TextIndexer.upsertTermPostings</code> passes new or updated <code>PostingsEntry</code> instances for upserting to a postings data store.</li>
 </ul>
-<h2 id="implementations">Implementations</h2>
 <p>Three implementations of the <code>TextIndexer</code> interface are provided:</p>
 <ul>
 <li>the <code>TextIndexerBase</code> abstract base class implements the <code>TextIndexer.index</code> and <code>TextIndexer.emit</code> methods;</li>
@@ -119,19 +104,39 @@ All rights reserved.
 <p>The <code>PersistedIndexer</code> is suitable for indexing a large corpus but may incur some latency penalty and processing overhead. Consider running <code>PersistedIndexer</code> in an isolate to avoid slowing down the main thread.</p>
 <p>An example of the use of <code>PersistedIndexer</code> is included in the package <a href="https://pub.dev/packages/text_indexing/example">examples</a>.</p>
 <h2 id="usage">Usage</h2>
-<h3 id="install">Install</h3>
-<p>In the <code>pubspec.yaml</code> of your flutter project, add the following dependency:</p>
+<p>In the <code>pubspec.yaml</code> of your flutter project, add the <code>text_indexing</code> dependency.</p>
 <pre class="language-yaml"><code class="language-yaml">dependencies:
   text_indexing: &lt;latest version&gt;
 </code></pre>
-<p>In your code file add the following import:</p>
+<p>In your code file add the <code>text_indexing</code> import.</p>
 <pre class="language-dart"><code class="language-dart">import 'package:text_indexing/text_indexing.dart';
 </code></pre>
-<h3 id="examples">Examples</h3>
-<p><a href="https://pub.dev/packages/text_indexing/example">Examples</a> are provided for the <code>InMemoryIndexer</code> and <code>PersistedIndexer</code>, two implementations of the <code>TextIndexer</code> interface that inherit from <code>TextIndexerBase</code>.</p>
-<h2 id="issues">Issues</h2>
-<p>If you find a bug please fill an <a href="https://github.com/GM-Consult-Pty-Ltd/text_indexing/issues">issue</a>.</p>
-<p>This project is a supporting package for a revenue project that has priority call on resources, so please be patient if we don't respond immediately to issues or pull requests.</p>
+<p>For small collections, instantiate a <code>InMemoryIndexer</code>, passing empty <code>Dictionary</code> and <code>Postings</code> hashmaps, then iterate over a collection of documents.</p>
+<pre class="language-dart"><code class="language-dart">  // - initialize a [InMemoryIndexer]
+  final indexer = InMemoryIndexer(dictionary: {}, postings: {});
+
+  // - iterate through the sample data
+  await Future.forEach(documents.entries, (MapEntry&lt;String, String&gt; doc) async {
+    // - index each document
+    await indexer.index(doc.key, doc.value);
+  });
+</code></pre>
+<p>The <a href="https://pub.dev/packages/text_indexing/example">examples</a> demonstrate the use of the <code>InMemoryIndexer</code> and <code>PersistedIndexer</code>.</p>
+<h2 id="definitions">Definitions</h2>
+<p>The following definitions are used throughout the <a href="https://pub.dev/documentation/text_indexing/latest/">documentation</a>:</p>
+<ul>
+<li><code>corpus</code>- the collection of <code>documents</code> for which an <code>index</code> is maintained.</li>
+<li><code>dictionary</code> - is a hash of <code>terms</code> (<code>vocabulary</code>) to the frequency of occurence in the <code>corpus</code> documents.</li>
+<li><code>document</code> - a record in the <code>corpus</code>, that has a unique identifier (<code>docId</code>) in the <code>corpus</code>'s primary key and that contains one or more text fields that are indexed.</li>
+<li><code>index</code> - an <a href="https://en.wikipedia.org/wiki/Inverted_index">inverted index</a> used to look up <code>document</code> references from the <code>corpus</code> against a <code>vocabulary</code> of <code>terms</code>. The implementation in this package builds and maintains a positional inverted index, that also includes the positions of the indexed <code>term</code> in each <code>document</code>.</li>
+<li><code>postings</code> - a separate index that records which <code>documents</code> the <code>vocabulary</code> occurs in. In this implementation we also record the positions of each <code>term</code> in the <code>text</code> to create a positional inverted <code>index</code>.</li>
+<li><code>postings list</code> - a record of the positions of a <code>term</code> in a <code>document</code>. A position of a <code>term</code> refers to the index of the <code>term</code> in an array that contains all the <code>terms</code> in the <code>text</code>.</li>
+<li><code>term</code> - a word or phrase that is indexed from the <code>corpus</code>. The <code>term</code> may differ from the actual word used in the corpus depending on the <code>tokenizer</code> used.</li>
+<li><code>text</code> - the indexable content of a <code>document</code>.</li>
+<li><code>token</code> - representation of a <code>term</code> in a text source returned by a <code>tokenizer</code>. The token may include information about the <code>term</code> such as its position(s) in the text or frequency of occurrence.</li>
+<li><code>tokenizer</code> - a function that returns a collection of <code>token</code>s from <code>text</code>, after applying a character filter, <code>term</code> filter, <a href="https://en.wikipedia.org/wiki/Stemming">stemmer</a> and / or <a href="https://en.wikipedia.org/wiki/Lemmatisation">lemmatizer</a>.</li>
+<li><code>vocabulary</code> - the collection of <code>terms</code> indexed from the <code>corpus</code>.</li>
+</ul>
 <h2 id="references">References</h2>
 <ul>
 <li><a href="https://nlp.stanford.edu/IR-book/pdf/irbookprint.pdf">Manning, Raghavan and Schütze, "<em>Introduction to Information Retrieval</em>", Cambridge University Press, 2008</a></li>
@@ -140,6 +145,9 @@ All rights reserved.
 <li><a href="https://en.wikipedia.org/wiki/Lemmatisation">Wikipedia (2), "<em>Lemmatisation</em>", from Wikipedia, the free encyclopedia</a></li>
 <li><a href="https://en.wikipedia.org/wiki/Stemming">Wikipedia (3), "<em>Stemming</em>", from Wikipedia, the free encyclopedia</a></li>
 </ul>
+<h2 id="issues">Issues</h2>
+<p>If you find a bug please fill an <a href="https://github.com/GM-Consult-Pty-Ltd/text_indexing/issues">issue</a>.</p>
+<p>This project is a supporting package for a revenue project that has priority call on resources, so please be patient if we don't respond immediately to issues or pull requests.</p>
 </section>
 
 
@@ -186,7 +194,7 @@ All rights reserved.
 <footer>
   <span class="no-break">
     text_indexing
-      0.0.1+9
+      0.0.1+10
   </span>
 
   
