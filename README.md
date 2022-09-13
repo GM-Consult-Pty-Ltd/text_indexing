@@ -10,7 +10,7 @@ Dart library for creating an inverted index on a collection of text documents.
 
 *THIS PACKAGE IS **PRE-RELEASE**, IN ACTIVE DEVELOPMENT AND SUBJECT TO DAILY BREAKING CHANGES.*
 
-###Contents
+### Contents
 **[Overview](#overview)**
 **[Usage](#usage)**
 **[API](#api)**
