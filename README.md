@@ -9,16 +9,13 @@ Dart library for creating an inverted index on a collection of text documents.
 
 *THIS PACKAGE IS **PRE-RELEASE**, IN ACTIVE DEVELOPMENT AND SUBJECT TO DAILY BREAKING CHANGES.*
 
-[Overview](#overview)
-[Usage](#usage)
-[API](#api)
-- [TextIndexer](#textindexer-interface)
-- [TextIndexerBase](#textindexerbase-class)
-- [InMemoryIndexer](#inmemoryindexer-class)
-- [PersistedIndexer](#persistedindexer-class)
-[Definitions](#definitions)
-[References](#references)
-[Issues](#issues)
+Skip to section:
+- [Overview](#overview)
+- [Usage](#usage)
+- [API](#api)
+- [Definitions](#definitions)
+- [References](#references)
+- [Issues](#issues)
 
 ## Overview
 
