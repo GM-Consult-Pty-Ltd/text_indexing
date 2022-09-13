@@ -10,13 +10,25 @@ Dart library for creating an inverted index on a collection of text documents.
 
 *THIS PACKAGE IS **PRE-RELEASE**, IN ACTIVE DEVELOPMENT AND SUBJECT TO DAILY BREAKING CHANGES.*
 
+###Contents
+**[Overview](#overview)**
+**[Usage](#usage)**
+**[API](#api)**
+*- [TextIndexer](#textindexer-interface)*
+*- [TextIndexerBase](#textindexerbase-class)*
+*- [InMemoryIndexer](#inmemoryindexer-class)*
+*- [PersistedIndexer](#persistedindexer-class)*
+**[Definitions](#definitions)**
+**[References](#references)**
+**[Issues](#issues)**
+
 ## Overview
 
 This library provides an interface and implementation classes that build and maintain an (inverted, positional) index for a collection of documents or `corpus` (see [definitions](#definitions)).
 
 ![Index construction flowchart](https://github.com/GM-Consult-Pty-Ltd/text_indexing/raw/main/assets/images/indexing.png?raw=true?raw=true "Index construction overview")
 
-The [TextIndexer](#textindexer_interface) constructs two artifacts:
+The [TextIndexer](#textindexer-interface) constructs two artifacts:
 * a `dictionary` that holds the `vocabulary` of `terms` and the frequency of occurrence for each `term` in the `corpus`; and
 * a `postings` map that holds a list of references to the `documents` for each `term` (the `postings list`). 
 
@@ -26,14 +38,44 @@ In this implementation, our `postings list` is a hashmap of the document id (`do
 
 Refer to the [references](#references) to learn more about information retrieval systems and the theory behind this library.
 
+## Usage
+
+In the `pubspec.yaml` of your flutter project, add the `text_indexing` dependency.
+
+```yaml
+dependencies:
+  text_indexing: <latest version>
+```
+
+In your code file add the `text_indexing` import.
+
+```dart
+import 'package:text_indexing/text_indexing.dart';
+```
+
+For small collections, instantiate a [InMemoryIndexer](#inmemoryindexer-class), passing empty `Dictionary` and `Postings` hashmaps, then iterate over a collection of documents.
+
+```dart
+  // - initialize a [InMemoryIndexer]
+  final indexer = InMemoryIndexer(dictionary: {}, postings: {});
+
+  // - iterate through the sample data
+  await Future.forEach(documents.entries, (MapEntry<String, String> doc) async {
+    // - index each document
+    await indexer.index(doc.key, doc.value);
+  });
+```
+
+The [examples](https://pub.dev/packages/text_indexing/example) demonstrate the use of the [InMemoryIndexer](#inmemoryindexer-class) and [PersistedIndexer](#persistedindexer-class).
+
 ## API
 
-The API exposes the [TextIndexer](#textindexer_interface) interface that builds and maintain an index for a collection of documents.
+The API exposes the [TextIndexer](#textindexer-interface) interface that builds and maintain an index for a collection of documents.
 
-Three implementations of the [TextIndexer](#textindexer_interface) interface are provided:
-* the [TextIndexerBase](#class-textindexerbase) abstract base class implements the `TextIndexer.index` and `TextIndexer.emit` methods;
-* the [InMemoryIndexer](#class-inmemoryindexer) class is for fast indexing of a smaller corpus using in-memory dictionary and postings hashmaps; and
-* the [PersistedIndexer](#class-persistedindexer) class, aimed at working with a larger corpus and asynchronous dictionaries and postings.
+Three implementations of the [TextIndexer](#textindexer-interface) interface are provided:
+* the [TextIndexerBase](#textindexerbase-class) abstract base class implements the `TextIndexer.index` and `TextIndexer.emit` methods;
+* the [InMemoryIndexer](#inmemoryindexer-class) class is for fast indexing of a smaller corpus using in-memory dictionary and postings hashmaps; and
+* the [PersistedIndexer](#persistedindexer-class) class, aimed at working with a larger corpus and asynchronous dictionaries and postings.
 
 ### TextIndexer Interface
 
@@ -62,55 +104,25 @@ Implementing classes override the following asynchronous methods:
 * `TextIndexer.upsertTermPostings` passes new or updated `PostingsEntry` instances for upserting to a postings data store.
 
 
-### class TextIndexerBase
+### TextIndexerBase Class
 
 The `TextIndexerBase` is an abstract base class that implements the `TextIndexer.index` and `TextIndexer.emit` methods.  
 
 Subclasses of `TextIndexerBase` may override the override `TextIndexerBase.emit` method to perform additional actions whenever a document is indexed.
 
-### class InMemoryIndexer 
+### InMemoryIndexer Class
 
 The `InMemoryIndexer` is a subclass of `TextIndexerBase` that builds and maintains in-memory dictionary and postings hashmaps. These hashmaps are updated whenever `InMemoryIndexer.emit` is called at the end of the `InMemoryIndexer.index` method, so awaiting a call to `InMemoryIndexer.index` will provide access to the updated `InMemoryIndexer.dictionary` and `InMemoryIndexer.postings` maps. 
 
 The `InMemoryIndexer` is suitable for indexing a smaller corpus. An example of the use of `InMemoryIndexer` is included in the [examples](https://pub.dev/packages/text_indexing/example).
 
-### class PersistedIndexer 
+### PersistedIndexer Class
 
-The `PersistedIndexer` is a subclass of [TextIndexerBase](#class-textindexerbase) that asynchronously reads and writes dictionary and postings data sources. These data sources are asynchronously updated whenever `PersistedIndexer.emit` is called by the `PersistedIndexer.index` method. 
+The `PersistedIndexer` is a subclass of [TextIndexerBase](#textindexerbase-class) that asynchronously reads and writes dictionary and postings data sources. These data sources are asynchronously updated whenever `PersistedIndexer.emit` is called by the `PersistedIndexer.index` method. 
 
 The `PersistedIndexer` is suitable for indexing a large corpus but may incur some latency penalty and processing overhead. Consider running `PersistedIndexer` in an isolate to avoid slowing down the main thread.
 
 An example of the use of `PersistedIndexer` is included in the package [examples](https://pub.dev/packages/text_indexing/example).
-
-## Usage
-
-In the `pubspec.yaml` of your flutter project, add the `text_indexing` dependency.
-
-```yaml
-dependencies:
-  text_indexing: <latest version>
-```
-
-In your code file add the `text_indexing` import.
-
-```dart
-import 'package:text_indexing/text_indexing.dart';
-```
-
-For small collections, instantiate a [InMemoryIndexer](#class-inmemoryindexer), passing empty `Dictionary` and `Postings` hashmaps, then iterate over a collection of documents.
-
-```dart
-  // - initialize a [InMemoryIndexer]
-  final indexer = InMemoryIndexer(dictionary: {}, postings: {});
-
-  // - iterate through the sample data
-  await Future.forEach(documents.entries, (MapEntry<String, String> doc) async {
-    // - index each document
-    await indexer.index(doc.key, doc.value);
-  });
-```
-
-The [examples](https://pub.dev/packages/text_indexing/example) demonstrate the use of the [InMemoryIndexer](#class-inmemoryindexer) and [PersistedIndexer](#class-persistedindexer).
 
 ## Definitions
 
