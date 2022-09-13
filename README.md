@@ -1,7 +1,6 @@
 <!-- 
 BSD 3-Clause License
-Copyright (c) 2022, GM Consult Pty Ltd
-All rights reserved. 
+Copyright (c) 2022, GM Consult Pty Ltd#class-persistedindexerAll rights reserved. 
 -->
 
 # text_indexing
@@ -10,17 +9,16 @@ Dart library for creating an inverted index on a collection of text documents.
 
 *THIS PACKAGE IS **PRE-RELEASE**, IN ACTIVE DEVELOPMENT AND SUBJECT TO DAILY BREAKING CHANGES.*
 
-### Contents
-**[Overview](#overview)**
-**[Usage](#usage)**
-**[API](#api)**
-*- [TextIndexer](#textindexer-interface)*
-*- [TextIndexerBase](#textindexerbase-class)*
-*- [InMemoryIndexer](#inmemoryindexer-class)*
-*- [PersistedIndexer](#persistedindexer-class)*
-**[Definitions](#definitions)**
-**[References](#references)**
-**[Issues](#issues)**
+[Overview](#overview)
+[Usage](#usage)
+[API](#api)
+- [TextIndexer](#textindexer-interface)
+- [TextIndexerBase](#textindexerbase-class)
+- [InMemoryIndexer](#inmemoryindexer-class)
+- [PersistedIndexer](#persistedindexer-class)
+[Definitions](#definitions)
+[References](#references)
+[Issues](#issues)
 
 ## Overview
 
