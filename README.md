@@ -31,7 +31,7 @@ The API exposes the [TextIndexer](https://pub.dev/documentation/text_indexing/la
 Three implementations of the [TextIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html) interface are provided:
 * the [TextIndexerBase](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexerBase-class.html) abstract base class implements the `TextIndexer.index` and `TextIndexer.emit` methods;
 * the [InMemoryIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndexer-class.html) class is for fast indexing of a smaller corpus using in-memory dictionary and postings hashmaps; and
-* the `PersistedIndexer` class, aimed at working with a larger corpus and asynchronous dictionaries and postings.
+* the[PersistedIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/PersistedIndexer-class.html) class, aimed at working with a larger corpus and asynchronous dictionaries and postings.
 
 ### [TextIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html) Interface
 
@@ -72,13 +72,13 @@ The [InMemoryIndexer](https://pub.dev/documentation/text_indexing/latest/text_in
 
 The [InMemoryIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndexer-class.html) is suitable for indexing a smaller corpus. An example of the use of [InMemoryIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndexer-class.html) is included in the [examples](https://pub.dev/packages/text_indexing/example).
 
-### class `PersistedIndexer` extends [TextIndexerBase](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexerBase-class.html)
+### class [PersistedIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/PersistedIndexer-class.html) extends [TextIndexerBase](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexerBase-class.html)
 
-The `PersistedIndexer` is a subclass of [TextIndexerBase](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexerBase-class.html) that asynchronously reads and writes dictionary and postings data sources. These data sources are asynchronously updated whenever `PersistedIndexer.emit` is called by the `PersistedIndexer.index` method. 
+The[PersistedIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/PersistedIndexer-class.html) is a subclass of [TextIndexerBase](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexerBase-class.html) that asynchronously reads and writes dictionary and postings data sources. These data sources are asynchronously updated whenever `PersistedIndexer.emit` is called by the `PersistedIndexer.index` method. 
 
-The `PersistedIndexer` is suitable for indexing a large corpus but may incur some latency penalty and processing overhead. Consider running `PersistedIndexer` in an isolate to avoid slowing down the main thread.
+The[PersistedIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/PersistedIndexer-class.html) is suitable for indexing a large corpus but may incur some latency penalty and processing overhead. Consider running[PersistedIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/PersistedIndexer-class.html) in an isolate to avoid slowing down the main thread.
 
-An example of the use of `PersistedIndexer` is included in the package [examples](https://pub.dev/packages/text_indexing/example).
+An example of the use of[PersistedIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/PersistedIndexer-class.html) is included in the package [examples](https://pub.dev/packages/text_indexing/example).
 
 ## Usage
 
@@ -108,7 +108,7 @@ For small collections, instantiate a [InMemoryIndexer](https://pub.dev/documenta
   });
 ```
 
-The [examples](https://pub.dev/packages/text_indexing/example) demonstrate the use of the [InMemoryIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndexer-class.html) and `PersistedIndexer`.
+The [examples](https://pub.dev/packages/text_indexing/example) demonstrate the use of the [InMemoryIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndexer-class.html) and[PersistedIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/PersistedIndexer-class.html).
 
 ## Definitions
 
