@@ -8,9 +8,61 @@ import 'package:text_indexing/text_indexing.dart';
 extension PostingsMapExtension on Postings {
   //
 
+  /// Filters the [Postings] by [terms], [docIds] AND [fields].
+  ///
+  /// Filter is applied by succesively calling, in order:
+  /// - [termPostings] if [terms] is not null; then
+  /// - [documentPostings], if [docIds] is not null; and finally
+  /// - [fieldPostings], if [fields] is not null.
+  Postings filter(
+      {Iterable<String>? terms,
+      Iterable<String>? docIds,
+      Iterable<String>? fields}) {
+    Postings retVal = terms != null ? termPostings(terms) : Postings.from(this);
+    retVal = docIds != null ? retVal.documentPostings(docIds) : retVal;
+    return fields != null ? retVal.fieldPostings(fields) : retVal;
+  }
+
+  /// Filters the [Postings] by terms.
+  ///
+  /// Returns a subset of the [Postings] instance that only contains
+  /// entires with a key in the [terms] collection.
+  Postings termPostings(Iterable<String> terms) {
+    final Postings retVal = {};
+    for (final term in terms) {
+      final posting = this[term];
+      if (posting != null) {
+        retVal[term] = posting;
+      }
+    }
+    return retVal;
+  }
+
+  /// Filters the [Postings] by document ids.
+  ///
+  /// Returns a subset of the [Postings] instance that only contains entries
+  /// where a document id in [docIds] has a key in the entry's postings lists.
+  Postings documentPostings(Iterable<String> docIds) => Postings.from(this)
+    ..removeWhere((key, value) =>
+        value.keys.toSet().intersection(docIds.toSet()).isEmpty);
+
+  /// Filters the [Postings] by field names.
+  ///
+  /// Returns a subset of the [Postings] instance that only contains entries
+  /// where a field name in [fields] has a key in any document's postings the
+  /// entry's postings lists.
+  Postings fieldPostings(Iterable<String> fields) => Postings.from(this)
+    ..removeWhere((key, value) {
+      final docFields = <String>[];
+      for (final doc in value.values) {
+        docFields.addAll(doc.keys);
+      }
+      return docFields.toSet().intersection(fields.toSet()).isEmpty;
+    });
+
   /// Returns the list of [PostingsMap] for the [term] from the
   /// [Postings].
-  List<PostingsMap> getPostings(String term) {
+  List<PostingsMap> termPostingsList(String term) {
     final entry = this[term];
     return entry?.entries.map((e) => PostingsMap.fromEntry(term, e)).toList() ??
         [];

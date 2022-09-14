@@ -23,8 +23,9 @@ class PostingsEntry {
   final String term;
 
   /// A hashmap of the [PostingsMap] for the [term] where:
-  /// - the [postings].key is the id of the document;
-  /// - the [postings].value is the positions in the document of the [term].
+  /// - the [postings].key is the id of the document (docId); and
+  /// - the [postings].value is the positions in the document's fields of the
+  /// [term].
   final Map<String, PostingsMap> postings;
 
   /// Instantiates a const [PostingsEntry] instance:
