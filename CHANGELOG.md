@@ -4,10 +4,14 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
-### 0.1.0-1
+### 0.1.0
 
 - **PRE-RELEASE**
-- Updated package imports.
+- Updated dependencies.
+- Added `ITextIndexer.indexJson` method.
+- Updated tests.
+- Updated examples.
+- Updated documentation.
 
 ### 0.0.2+1
 
@@ -17,7 +21,7 @@ All rights reserved.
 ### 0.0.2
 
 - **PRE-RELEASE**
-- Updated dependencies
+- Updated dependencies.
 - Added `text_analysis` package to exports.
 - Updated documentation.
 
@@ -83,7 +87,7 @@ All rights reserved.
 - *BREAKING CHANGE:* `PostingsMap` renamed `Postings`.
 - *BREAKING CHANGE:* `PostingsMapEntry` renamed `PostingsEntry`.
 - *BREAKING CHANGE:* `Term` renamed `DictionaryEntry`.
-- *BREAKING CHANGE:* `TermPositions` renamed `PostingsList`.
+- *BREAKING CHANGE:* `TermPositions` renamed `PostingsMap`.
 - Added a test for [PersistedIndexer].
 - Added an example for [PersistedIndexer].
 - Updated documentation.

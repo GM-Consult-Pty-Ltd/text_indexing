@@ -54,7 +54,8 @@
 <li><span class="parameter" id="-param-dictionaryUpdater"><span>required</span> <span class="type-annotation"><a href="../../text_indexing/DictionaryUpdater.html">DictionaryUpdater</a></span> <span class="parameter-name">dictionaryUpdater</span>, </span></li>
 <li><span class="parameter" id="-param-postingsLoader"><span>required</span> <span class="type-annotation"><a href="../../text_indexing/PostingsLoader.html">PostingsLoader</a></span> <span class="parameter-name">postingsLoader</span>, </span></li>
 <li><span class="parameter" id="-param-postingsUpdater"><span>required</span> <span class="type-annotation"><a href="../../text_indexing/PostingsUpdater.html">PostingsUpdater</a></span> <span class="parameter-name">postingsUpdater</span>, </span></li>
-<li><span class="parameter" id="-param-tokenizer"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.3.0/text_analysis/Tokenizer.html">Tokenizer</a></span> <span class="parameter-name">tokenizer</span> = <span class="default-value">TextIndexer.kDefaultTokenizer</span>}</span></li>
+<li><span class="parameter" id="-param-tokenizer"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/Tokenizer.html">Tokenizer</a></span> <span class="parameter-name">tokenizer</span> = <span class="default-value">TextIndexer.kDefaultTokenizer</span>, </span></li>
+<li><span class="parameter" id="-param-jsonTokenizer"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/JsonTokenizer.html">JsonTokenizer</a></span> <span class="parameter-name">jsonTokenizer</span> = <span class="default-value">TextIndexer.kDefaultJsonTokenizer</span>}</span></li>
 </ol>)
     </section>
 
@@ -79,13 +80,13 @@ datastore.</li>
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">PersistedIndexer({
-  required this.termsLoader,
-  required this.dictionaryUpdater,
-  required this.postingsLoader,
-  required this.postingsUpdater,
-  this.tokenizer = TextIndexer.kDefaultTokenizer,
-});</code></pre>
+  <pre class="language-dart"><code class="language-dart">PersistedIndexer(
+    {required this.termsLoader,
+    required this.dictionaryUpdater,
+    required this.postingsLoader,
+    required this.postingsUpdater,
+    this.tokenizer = TextIndexer.kDefaultTokenizer,
+    this.jsonTokenizer = TextIndexer.kDefaultJsonTokenizer});</code></pre>
 </section>
 
 
@@ -118,6 +119,7 @@ datastore.</li>
     </li>
     <li><a href="../../text_indexing/PersistedIndexer/dictionaryUpdater.html">dictionaryUpdater</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
+    <li><a href="../../text_indexing/PersistedIndexer/jsonTokenizer.html">jsonTokenizer</a></li>
     <li><a href="../../text_indexing/PersistedIndexer/postingsLoader.html">postingsLoader</a></li>
     <li class="inherited"><a href="../../text_indexing/TextIndexerBase/postingsStream.html">postingsStream</a></li>
     <li><a href="../../text_indexing/PersistedIndexer/postingsUpdater.html">postingsUpdater</a></li>
@@ -128,6 +130,7 @@ datastore.</li>
     <li class="section-title"><a href="../../text_indexing/PersistedIndexer-class.html#instance-methods">Methods</a></li>
     <li class="inherited"><a href="../../text_indexing/TextIndexerBase/emit.html">emit</a></li>
     <li class="inherited"><a href="../../text_indexing/TextIndexerBase/index.html">index</a></li>
+    <li class="inherited"><a href="../../text_indexing/TextIndexerBase/indexJson.html">indexJson</a></li>
     <li><a href="../../text_indexing/PersistedIndexer/loadTermPostings.html">loadTermPostings</a></li>
     <li><a href="../../text_indexing/PersistedIndexer/loadTerms.html">loadTerms</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
@@ -153,7 +156,7 @@ datastore.</li>
 <footer>
   <span class="no-break">
     text_indexing
-      0.0.2+1
+      0.1.0
   </span>
 
   

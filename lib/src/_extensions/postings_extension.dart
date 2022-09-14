@@ -8,13 +8,11 @@ import 'package:text_indexing/text_indexing.dart';
 extension PostingsMapExtension on Postings {
   //
 
-  /// Returns the list of [PostingsList] for the [term] from the
+  /// Returns the list of [PostingsMap] for the [term] from the
   /// [Postings].
-  List<PostingsList> getPostings(String term) {
+  List<PostingsMap> getPostings(String term) {
     final entry = this[term];
-    return entry?.entries
-            .map((e) => PostingsList.fromEntry(term, e))
-            .toList() ??
+    return entry?.entries.map((e) => PostingsMap.fromEntry(term, e)).toList() ??
         [];
   }
 
@@ -49,10 +47,11 @@ extension PostingsMapExtension on Postings {
   ///
   /// If no entry for [term] exists in the [Postings], creates a new entry
   /// and adds [positions] for [docId] to the new entry.
-  bool addTermPositions(String term, String docId, List<int> positions) {
+  bool addTermPositions(
+      String term, String docId, Map<String, List<int>> positions) {
     //
     // get the entry for the term or initialize a new one if it does not exist
-    final entry = this[term] ?? <String, List<int>>{};
+    final entry = this[term] ?? <String, Map<String, List<int>>>{};
     // get the existing positions list for [docId] if it exists
     final existingEntry = entry[docId];
     // overwrite the positions for docId
@@ -84,14 +83,21 @@ extension PostingsMapExtension on Postings {
   /// Sorts the positions list in ascending order.
   ///
   /// Updates the [term] entry in the [Postings].
-  bool addTermPosition(String term, String docId, int position) {
+  bool addTermPosition(
+      {required String term,
+      required String docId,
+      required int position,
+      String? field}) {
     //
+    field = field ?? 'null';
     // get the entry for the term or initialize a new one if it does not exist
-    final entry = this[term] ?? <String, List<int>>{};
-    // get the existing positions list for [docId] if it exists
-    final existingPositions = entry[docId];
-    // initializes positions set from existingPositions or an empty list
-    final set = Set<int>.from(existingPositions ?? []);
+    final entry = this[term] ?? {};
+    // get the existing field postings for [docId] if it exists
+    final docPostings = entry[docId] ?? {};
+    // get the existing psitions in the field for [field] if it exists
+    final docFieldPostings = docPostings[field];
+    // initializes positions set from docFieldPostings or an empty list
+    final set = Set<int>.from(docFieldPostings ?? []);
     // add position to the set
     set.add(position);
     // convert to list
@@ -99,10 +105,13 @@ extension PostingsMapExtension on Postings {
     // order the list of positions in ascending order
     positions.sort(((a, b) => a.compareTo(b)));
     // set the positions for docId
-    entry[docId] = positions;
+    docPostings[field] = positions;
+    // overwrite the field postings for docId
+    entry[docId] = docPostings;
+
     // set the entry for term with the new positions for docId
     this[term] = entry;
     // return true if a positions list for [docId] did not existed
-    return existingPositions == null;
+    return docFieldPostings == null;
   }
 }

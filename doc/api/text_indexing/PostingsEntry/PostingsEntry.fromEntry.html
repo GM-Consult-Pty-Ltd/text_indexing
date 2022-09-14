@@ -50,7 +50,7 @@
 </h1></div>
 
     <section class="multi-line-signature">
-      <span class="name ">PostingsEntry.fromEntry</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="fromEntry-param-entry"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/MapEntry-class.html">MapEntry</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>&gt;</span></span>&gt;</span></span>&gt;</span></span> <span class="parameter-name">entry</span></span></li>
+      <span class="name ">PostingsEntry.fromEntry</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="fromEntry-param-entry"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/MapEntry-class.html">MapEntry</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>&gt;</span></span>&gt;</span></span>&gt;</span></span>&gt;</span></span> <span class="parameter-name">entry</span></span></li>
 </ol>)
     </section>
 
@@ -65,10 +65,10 @@ a <a href="../../text_indexing/Postings.html">Postings</a> map entry.</p>
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">factory PostingsEntry.fromEntry(
-    MapEntry&lt;String, Map&lt;String, List&lt;int&gt;&gt;&gt; entry) {
+    MapEntry&lt;String, Map&lt;String, Map&lt;String, List&lt;int&gt;&gt;&gt;&gt; entry) {
   final term = entry.key;
   final postings = entry.value.map((key, value) =&gt;
-      MapEntry(key, PostingsList.fromEntry(term, MapEntry(key, value))));
+      MapEntry(key, PostingsMap.fromEntry(term, MapEntry(key, value))));
 
   return PostingsEntry(term, postings);
 }</code></pre>
@@ -131,7 +131,7 @@ a <a href="../../text_indexing/Postings.html">Postings</a> map entry.</p>
 <footer>
   <span class="no-break">
     text_indexing
-      0.0.2+1
+      0.1.0
   </span>
 
   

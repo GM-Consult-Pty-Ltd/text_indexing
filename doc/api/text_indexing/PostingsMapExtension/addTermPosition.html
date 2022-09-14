@@ -53,9 +53,10 @@
       
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>
-<span class="name ">addTermPosition</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="addTermPosition-param-term"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">term</span>, </span></li>
-<li><span class="parameter" id="addTermPosition-param-docId"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">docId</span>, </span></li>
-<li><span class="parameter" id="addTermPosition-param-position"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">position</span></span></li>
+<span class="name ">addTermPosition</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="addTermPosition-param-term">{<span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">term</span>, </span></li>
+<li><span class="parameter" id="addTermPosition-param-docId"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">docId</span>, </span></li>
+<li><span class="parameter" id="addTermPosition-param-position"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">position</span>, </span></li>
+<li><span class="parameter" id="addTermPosition-param-field"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">field</span>}</span></li>
 </ol>)
 
       
@@ -83,14 +84,21 @@ in the list.</p>
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">bool addTermPosition(String term, String docId, int position) {
+  <pre class="language-dart"><code class="language-dart">bool addTermPosition(
+    {required String term,
+    required String docId,
+    required int position,
+    String? field}) {
   &#47;&#47;
+  field = field ?? &#39;null&#39;;
   &#47;&#47; get the entry for the term or initialize a new one if it does not exist
-  final entry = this[term] ?? &lt;String, List&lt;int&gt;&gt;{};
-  &#47;&#47; get the existing positions list for [docId] if it exists
-  final existingPositions = entry[docId];
-  &#47;&#47; initializes positions set from existingPositions or an empty list
-  final set = Set&lt;int&gt;.from(existingPositions ?? []);
+  final entry = this[term] ?? {};
+  &#47;&#47; get the existing field postings for [docId] if it exists
+  final docPostings = entry[docId] ?? {};
+  &#47;&#47; get the existing psitions in the field for [field] if it exists
+  final docFieldPostings = docPostings[field];
+  &#47;&#47; initializes positions set from docFieldPostings or an empty list
+  final set = Set&lt;int&gt;.from(docFieldPostings ?? []);
   &#47;&#47; add position to the set
   set.add(position);
   &#47;&#47; convert to list
@@ -98,11 +106,14 @@ in the list.</p>
   &#47;&#47; order the list of positions in ascending order
   positions.sort(((a, b) =&gt; a.compareTo(b)));
   &#47;&#47; set the positions for docId
-  entry[docId] = positions;
+  docPostings[field] = positions;
+  &#47;&#47; overwrite the field postings for docId
+  entry[docId] = docPostings;
+
   &#47;&#47; set the entry for term with the new positions for docId
   this[term] = entry;
   &#47;&#47; return true if a positions list for [docId] did not existed
-  return existingPositions == null;
+  return docFieldPostings == null;
 }</code></pre>
 </section>
 
@@ -156,7 +167,7 @@ in the list.</p>
 <footer>
   <span class="no-break">
     text_indexing
-      0.0.2+1
+      0.1.0
   </span>
 
   

@@ -27,7 +27,7 @@ The [TextIndexer](#textindexer-interface) constructs two artifacts:
 * a `dictionary` that holds the `vocabulary` of `terms` and the frequency of occurrence for each `term` in the `corpus`; and
 * a `postings` map that holds a list of references to the `documents` for each `term` (the `postings list`). 
 
-In this implementation, our `postings list` is a hashmap of the document id (`docId`) to an ordered list of the `positions` of the `term` in the document to allow query algorithms to score and rank search results based on the position(s) of a term in the results.
+In this implementation, our `postings list` is a hashmap of the document id (`docId`) to maps that point to positions of the term in the document's fields. This allows query algorithms to score and rank search results based on the position(s) of a term in document fields.
 
 ![Index artifacts](https://github.com/GM-Consult-Pty-Ltd/text_indexing/raw/main/assets/images/index_artifacts.png?raw=true?raw=true "Components of inverted positional index")
 
@@ -68,7 +68,7 @@ The [examples](https://pub.dev/packages/text_indexing/example) demonstrate the u
 The [API](https://pub.dev/documentation/text_indexing/latest/) exposes the [TextIndexer](#textindexer-interface) interface that builds and maintain an index for a collection of documents.
 
 Three implementations of the [TextIndexer](#textindexer-interface) interface are provided:
-* the [TextIndexerBase](#textindexerbase-class) abstract base class implements the `TextIndexer.index` and `TextIndexer.emit` methods;
+* the [TextIndexerBase](#textindexerbase-class) abstract base class implements the `TextIndexer.index`, `TextIndexer.indexJson` and `TextIndexer.emit` methods;
 * the [InMemoryIndexer](#inmemoryindexer-class) class is for fast indexing of a smaller corpus using in-memory dictionary and postings hashmaps; and
 * the [PersistedIndexer](#persistedindexer-class) class, aimed at working with a larger corpus and asynchronous dictionaries and postings.
 
@@ -80,7 +80,9 @@ The text indexing classes (indexers) in this library implement `TextIndexer`, an
 
 The dictionary and postings can be asynchronous data sources or in-memory hashmaps.  The `TextIndexer` reads and writes to/from these artifacts using the `TextIndexer.loadTerms`, `TextIndexer.updateDictionary`, `TextIndexer.loadTermPostings` and `TextIndexer.upsertTermPostings` asynchronous methods.
 
-The `TextIndexer.index` method indexes text from a document, returning a list of `PostingsList` that is also emitted by `TextIndexer.postingsStream`. The `TextIndexer.index` method calls `TextIndexer.emit`, passing the list of `PostingsList`.
+The `TextIndexer.index` method indexes the fields in a json document, returning a list of `PostingsMap` that is also emitted by `TextIndexer.postingsStream`. The `TextIndexer.index` method calls `TextIndexer.emit`, passing the list of `PostingsMap`.
+
+The `TextIndexer.indexJson` method indexes text from a document, returning a list of `PostingsMap` that is also emitted by `TextIndexer.postingsStream`. The `TextIndexer.index` method calls `TextIndexer.emit`, passing the list of `PostingsMap`.
 
 The `TextIndexer.emit` method is called by `TextIndexer.index`, and adds an event to the `postingsStream`.
 
@@ -88,10 +90,10 @@ Listen to `TextIndexer.postingsStream` to handle the postings list emitted whene
 
 Implementing classes override the following fields:
 * `TextIndexer.tokenizer` is the `Tokenizer` instance used by the indexer to parse documents to tokens;
-* `TextIndexer.postingsStream` emits a list of `PostingsList` instances whenever a document is indexed.
+* `TextIndexer.postingsStream` emits a list of `PostingsMap` instances whenever a document is indexed.
 
 Implementing classes override the following asynchronous methods:
-* `TextIndexer.index` indexes text from a document, returning a list of `PostingsList` and adding it to the `TextIndexer.postingsStream` by calling `TextIndexer.emit`;
+* `TextIndexer.index` indexes text from a document, returning a list of `PostingsMap` and adding it to the `TextIndexer.postingsStream` by calling `TextIndexer.emit`;
 * `emit` is called by index, and adds an event to the `postingsStream` after updating the dictionary and postings data stores;
 * `TextIndexer.loadTerms` returns a `DictionaryTerm` map for a collection of terms from a dictionary;
 * `TextIndexer.updateDictionary` passes new or updated `DictionaryTerm` instances for persisting to a dictionary data store;

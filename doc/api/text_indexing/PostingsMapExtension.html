@@ -105,7 +105,7 @@ sorted alphabetically.
 </dd>
 
         <dt id="addTermPosition" class="callable">
-  <span class="name"><a href="../text_indexing/PostingsMapExtension/addTermPosition.html">addTermPosition</a></span><span class="signature">(<wbr><span class="parameter" id="addTermPosition-param-term"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">term</span>, </span><span class="parameter" id="addTermPosition-param-docId"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">docId</span>, </span><span class="parameter" id="addTermPosition-param-position"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">position</span></span>)
+  <span class="name"><a href="../text_indexing/PostingsMapExtension/addTermPosition.html">addTermPosition</a></span><span class="signature">(<wbr><span class="parameter" id="addTermPosition-param-term">{<span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">term</span>, </span><span class="parameter" id="addTermPosition-param-docId"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">docId</span>, </span><span class="parameter" id="addTermPosition-param-position"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">position</span>, </span><span class="parameter" id="addTermPosition-param-field"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">field</span>}</span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>
   </span>
   
@@ -119,7 +119,7 @@ for the <code>term</code>.
 </dd>
 
         <dt id="addTermPositions" class="callable">
-  <span class="name"><a href="../text_indexing/PostingsMapExtension/addTermPositions.html">addTermPositions</a></span><span class="signature">(<wbr><span class="parameter" id="addTermPositions-param-term"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">term</span>, </span><span class="parameter" id="addTermPositions-param-docId"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">docId</span>, </span><span class="parameter" id="addTermPositions-param-positions"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>&gt;</span></span> <span class="parameter-name">positions</span></span>)
+  <span class="name"><a href="../text_indexing/PostingsMapExtension/addTermPositions.html">addTermPositions</a></span><span class="signature">(<wbr><span class="parameter" id="addTermPositions-param-term"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">term</span>, </span><span class="parameter" id="addTermPositions-param-docId"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">docId</span>, </span><span class="parameter" id="addTermPositions-param-positions"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>&gt;</span></span>&gt;</span></span> <span class="parameter-name">positions</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>
   </span>
   
@@ -133,13 +133,13 @@ for the <code>term</code>.
 
         <dt id="getPostings" class="callable">
   <span class="name"><a href="../text_indexing/PostingsMapExtension/getPostings.html">getPostings</a></span><span class="signature">(<wbr><span class="parameter" id="getPostings-param-term"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">term</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/PostingsList-class.html">PostingsList</a></span>&gt;</span></span>
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/PostingsMap-class.html">PostingsMap</a></span>&gt;</span></span>
   </span>
   
 
 </dt>
 <dd>
-  Returns the list of <code>PostingsList</code> for the <code>term</code> from the
+  Returns the list of <code>PostingsMap</code> for the <code>term</code> from the
 <a href="../text_indexing/Postings.html">Postings</a>.
   
 
@@ -187,28 +187,28 @@ alphapetic order of the terms (keys).
     <ol>
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#classes">Classes</a></li>
   <li><a href="../text_indexing/DictionaryEntry-class.html">DictionaryEntry</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.3.0/text_analysis/English-class.html">English</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/English-class.html">English</a></li>
   <li><a href="../text_indexing/InMemoryIndexer-class.html">InMemoryIndexer</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.3.0/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></li>
   <li><a href="../text_indexing/PersistedIndexer-class.html">PersistedIndexer</a></li>
-  <li><a href="https://pub.dev/documentation/porter_2_stemmer/1.0.0+4/porter_2_stemmer/Porter2Stemmer-class.html">Porter2Stemmer</a></li>
+  <li><a href="https://pub.dev/documentation/porter_2_stemmer/1.0.0+5/porter_2_stemmer/Porter2Stemmer-class.html">Porter2Stemmer</a></li>
   <li><a href="../text_indexing/PostingsEntry-class.html">PostingsEntry</a></li>
-  <li><a href="../text_indexing/PostingsList-class.html">PostingsList</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.3.0/text_analysis/Sentence-class.html">Sentence</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.3.0/text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.3.0/text_analysis/TextAnalyzerBase-class.html">TextAnalyzerBase</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.3.0/text_analysis/TextAnalyzerConfiguration-class.html">TextAnalyzerConfiguration</a></li>
+  <li><a href="../text_indexing/PostingsMap-class.html">PostingsMap</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/Sentence-class.html">Sentence</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/TextAnalyzerBase-class.html">TextAnalyzerBase</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/TextAnalyzerConfiguration-class.html">TextAnalyzerConfiguration</a></li>
   <li><a href="../text_indexing/TextIndexer-class.html">TextIndexer</a></li>
   <li><a href="../text_indexing/TextIndexerBase-class.html">TextIndexerBase</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.3.0/text_analysis/TextSource-class.html">TextSource</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.3.0/text_analysis/Token-class.html">Token</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/TextSource-class.html">TextSource</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/Token-class.html">Token</a></li>
 
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#extensions">Extensions</a></li>
-  <li><a href="https://pub.dev/documentation/porter_2_stemmer/1.0.0+4/porter_2_stemmer/Porter2StemmerExtension.html">Porter2StemmerExtension</a></li>
+  <li><a href="https://pub.dev/documentation/porter_2_stemmer/1.0.0+5/porter_2_stemmer/Porter2StemmerExtension.html">Porter2StemmerExtension</a></li>
   <li><a href="../text_indexing/PostingsMapExtension.html">PostingsMapExtension</a></li>
   <li><a href="../text_indexing/TermDictionaryExtensions.html">TermDictionaryExtensions</a></li>
   <li><a href="../text_indexing/TermsCollectionExtension.html">TermsCollectionExtension</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.3.0/text_analysis/TokenCollectionExtension.html">TokenCollectionExtension</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/TokenCollectionExtension.html">TokenCollectionExtension</a></li>
 
 
 
@@ -218,19 +218,20 @@ alphapetic order of the terms (keys).
   <li><a href="../text_indexing/TermSortStrategy.html">TermSortStrategy</a></li>
 
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#typedefs">Typedefs</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.3.0/text_analysis/CharacterFilter.html">CharacterFilter</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/CharacterFilter.html">CharacterFilter</a></li>
   <li><a href="../text_indexing/Dictionary.html">Dictionary</a></li>
   <li><a href="../text_indexing/DictionaryLoader.html">DictionaryLoader</a></li>
   <li><a href="../text_indexing/DictionaryUpdater.html">DictionaryUpdater</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/JsonTokenizer.html">JsonTokenizer</a></li>
   <li><a href="../text_indexing/Postings.html">Postings</a></li>
   <li><a href="../text_indexing/PostingsLoader.html">PostingsLoader</a></li>
   <li><a href="../text_indexing/PostingsUpdater.html">PostingsUpdater</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.3.0/text_analysis/SentenceSplitter.html">SentenceSplitter</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.3.0/text_analysis/Stemmer.html">Stemmer</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.3.0/text_analysis/TermFilter.html">TermFilter</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.3.0/text_analysis/TermSplitter.html">TermSplitter</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.3.0/text_analysis/TokenFilter.html">TokenFilter</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.3.0/text_analysis/Tokenizer.html">Tokenizer</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/SentenceSplitter.html">SentenceSplitter</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/Stemmer.html">Stemmer</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/TermFilter.html">TermFilter</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/TermSplitter.html">TermSplitter</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/TokenFilter.html">TokenFilter</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/Tokenizer.html">Tokenizer</a></li>
 
 </ol>
 
@@ -265,7 +266,7 @@ alphapetic order of the terms (keys).
 <footer>
   <span class="no-break">
     text_indexing
-      0.0.2+1
+      0.1.0
   </span>
 
   

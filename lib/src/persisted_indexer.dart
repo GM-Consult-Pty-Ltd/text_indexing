@@ -8,7 +8,7 @@ import 'package:text_indexing/text_indexing.dart';
 /// document  is indexed.
 ///
 /// Use the [index] method to index a text document, returning a list
-/// of [PostingsList] and adding it to the [postingsStream].
+/// of [PostingsMap] and adding it to the [postingsStream].
 ///
 /// The [loadTerms], [updateDictionary], [loadTermPostings] and
 /// [upsertTermPostings] implementations read and write from a [Dictionary]
@@ -36,13 +36,13 @@ class PersistedIndexer extends TextIndexerBase {
   ///   from a data source; and
   /// - [postingsUpdater] passes a [Postings] subset for persisting to a
   ///   datastore.
-  PersistedIndexer({
-    required this.termsLoader,
-    required this.dictionaryUpdater,
-    required this.postingsLoader,
-    required this.postingsUpdater,
-    this.tokenizer = TextIndexer.kDefaultTokenizer,
-  });
+  PersistedIndexer(
+      {required this.termsLoader,
+      required this.dictionaryUpdater,
+      required this.postingsLoader,
+      required this.postingsUpdater,
+      this.tokenizer = TextIndexer.kDefaultTokenizer,
+      this.jsonTokenizer = TextIndexer.kDefaultJsonTokenizer});
 
   /// Asynchronously retrieves a [Dictionary] subset for a vocabulary from a
   /// [Dictionary] data source, usually persisted storage.
@@ -63,6 +63,9 @@ class PersistedIndexer extends TextIndexerBase {
 
   @override
   final Tokenizer tokenizer;
+
+  @override
+  final JsonTokenizer jsonTokenizer;
 
   /// Implementation of [TextIndexer.updateDictionary].
   ///

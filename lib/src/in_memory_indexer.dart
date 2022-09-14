@@ -16,7 +16,7 @@ import 'package:text_indexing/text_indexing.dart';
 /// will be initialized.
 ///
 /// Use the [index] method to index a text document, returning a list
-/// of [PostingsList] and adding it to the [postingsStream].
+/// of [PostingsMap] and adding it to the [postingsStream].
 ///
 /// The [dictionary] and [postings] hashmaps are updated by [index]. Awaiting
 /// the return value of [index] will ensure that [dictionary] and [postings]
@@ -38,6 +38,7 @@ class InMemoryIndexer extends TextIndexerBase {
   InMemoryIndexer({
     Dictionary? dictionary,
     this.tokenizer = TextIndexer.kDefaultTokenizer,
+    this.jsonTokenizer = TextIndexer.kDefaultJsonTokenizer,
     Postings? postings,
   })  : postings = postings ?? {},
         dictionary = dictionary ?? {};
@@ -50,6 +51,9 @@ class InMemoryIndexer extends TextIndexerBase {
 
   @override
   final Tokenizer tokenizer;
+
+  @override
+  final JsonTokenizer jsonTokenizer;
 
   /// Implementation of [TextIndexer.loadTermPostings].
   ///

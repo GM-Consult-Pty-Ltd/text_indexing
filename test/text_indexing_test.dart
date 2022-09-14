@@ -5,6 +5,7 @@
 import 'package:text_indexing/text_indexing.dart';
 import 'package:test/test.dart';
 import 'data/text.dart';
+import 'data/sample_news_subset.dart';
 
 part 'test_index.dart';
 
@@ -34,7 +35,7 @@ void main() {
       final dictionary = <String, int>{};
 
       // - initialize the [Postings]
-      final postings = <String, Map<String, List<int>>>{};
+      final postings = <String, Map<String, Map<String, List<int>>>>{};
 
       // - initialize a [InMemoryIndexer]
       final indexer =
@@ -105,13 +106,16 @@ void main() {
       });
 
       // - get the sample data
-      final documents = textData;
+      final documents = sampleNewsSubset;
 
+      final fields = ['name', 'description', 'hashTags', 'publicationDate'];
       // - iterate through the sample data
       await Future.forEach(documents.entries,
-          (MapEntry<String, String> doc) async {
+          (MapEntry<String, Map<String, dynamic>> entry) async {
         // - index each document
-        await indexer.index(doc.key, doc.value);
+        final docId = entry.key;
+        final json = entry.value;
+        await indexer.indexJson(docId, json, fields);
       });
 
       // wait for stream elements to complete printing

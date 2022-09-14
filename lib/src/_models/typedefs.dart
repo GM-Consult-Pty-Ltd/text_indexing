@@ -12,13 +12,13 @@ import 'package:text_indexing/text_indexing.dart';
 /// A [Dictionary] can be an asynchronous data source or an in-memory hashmap.
 typedef Dictionary = Map<String, int>;
 
-/// Defines a collection of postings for a positional inverted index.
+/// Defines a collection of position postings for a positional inverted index.
 ///
 /// [Postings] is a hashmap of [PostingsEntry]s with the vocabulary as key and
 /// the postings lists for the linked documents as values.
 ///
 /// A [Postings] can be an asynchronous data source or an in-memory hashmap.
-typedef Postings = Map<String, Map<String, List<int>>>;
+typedef Postings = Map<String, Map<String, Map<String, List<int>>>>;
 
 /// A callback that passes [values] for persisting to a [Dictionary].
 ///

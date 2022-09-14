@@ -51,7 +51,8 @@
 
     <section class="multi-line-signature">
       <span class="name ">InMemoryIndexer</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="-param-dictionary">{<span class="type-annotation"><a href="../../text_indexing/Dictionary.html">Dictionary</a>?</span> <span class="parameter-name">dictionary</span>, </span></li>
-<li><span class="parameter" id="-param-tokenizer"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.3.0/text_analysis/Tokenizer.html">Tokenizer</a></span> <span class="parameter-name">tokenizer</span> = <span class="default-value">TextIndexer.kDefaultTokenizer</span>, </span></li>
+<li><span class="parameter" id="-param-tokenizer"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/Tokenizer.html">Tokenizer</a></span> <span class="parameter-name">tokenizer</span> = <span class="default-value">TextIndexer.kDefaultTokenizer</span>, </span></li>
+<li><span class="parameter" id="-param-jsonTokenizer"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/JsonTokenizer.html">JsonTokenizer</a></span> <span class="parameter-name">jsonTokenizer</span> = <span class="default-value">TextIndexer.kDefaultJsonTokenizer</span>, </span></li>
 <li><span class="parameter" id="-param-postings"><span class="type-annotation"><a href="../../text_indexing/Postings.html">Postings</a>?</span> <span class="parameter-name">postings</span>}</span></li>
 </ol>)
     </section>
@@ -76,6 +77,7 @@ will be initialized.</li>
   <pre class="language-dart"><code class="language-dart">InMemoryIndexer({
   Dictionary? dictionary,
   this.tokenizer = TextIndexer.kDefaultTokenizer,
+  this.jsonTokenizer = TextIndexer.kDefaultJsonTokenizer,
   Postings? postings,
 })  : postings = postings ?? {},
       dictionary = dictionary ?? {};</code></pre>
@@ -111,6 +113,7 @@ will be initialized.</li>
     </li>
     <li><a href="../../text_indexing/InMemoryIndexer/dictionary.html">dictionary</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
+    <li><a href="../../text_indexing/InMemoryIndexer/jsonTokenizer.html">jsonTokenizer</a></li>
     <li><a href="../../text_indexing/InMemoryIndexer/postings.html">postings</a></li>
     <li class="inherited"><a href="../../text_indexing/TextIndexerBase/postingsStream.html">postingsStream</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
@@ -119,6 +122,7 @@ will be initialized.</li>
     <li class="section-title"><a href="../../text_indexing/InMemoryIndexer-class.html#instance-methods">Methods</a></li>
     <li class="inherited"><a href="../../text_indexing/TextIndexerBase/emit.html">emit</a></li>
     <li class="inherited"><a href="../../text_indexing/TextIndexerBase/index.html">index</a></li>
+    <li class="inherited"><a href="../../text_indexing/TextIndexerBase/indexJson.html">indexJson</a></li>
     <li><a href="../../text_indexing/InMemoryIndexer/loadTermPostings.html">loadTermPostings</a></li>
     <li><a href="../../text_indexing/InMemoryIndexer/loadTerms.html">loadTerms</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
@@ -144,7 +148,7 @@ will be initialized.</li>
 <footer>
   <span class="no-break">
     text_indexing
-      0.0.2+1
+      0.1.0
   </span>
 
   
