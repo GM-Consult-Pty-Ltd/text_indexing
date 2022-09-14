@@ -65,7 +65,7 @@ The [examples](https://pub.dev/packages/text_indexing/example) demonstrate the u
 
 ## API
 
-The API exposes the [TextIndexer](#textindexer-interface) interface that builds and maintain an index for a collection of documents.
+The [API](https://pub.dev/documentation/text_indexing/latest/) exposes the [TextIndexer](#textindexer-interface) interface that builds and maintain an index for a collection of documents.
 
 Three implementations of the [TextIndexer](#textindexer-interface) interface are provided:
 * the [TextIndexerBase](#textindexerbase-class) abstract base class implements the `TextIndexer.index` and `TextIndexer.emit` methods;
@@ -98,7 +98,6 @@ Implementing classes override the following asynchronous methods:
 * `TextIndexer.loadTermPostings` returns a `PostingsEntry` map for a collection of terms from a postings source; and
 * `TextIndexer.upsertTermPostings` passes new or updated `PostingsEntry` instances for upserting to a postings data store.
 
-
 ### TextIndexerBase Class
 
 The `TextIndexerBase` is an abstract base class that implements the `TextIndexer.index` and `TextIndexer.emit` methods.  
@@ -107,7 +106,7 @@ Subclasses of `TextIndexerBase` may override the override `TextIndexerBase.emit`
 
 ### InMemoryIndexer Class
 
-The `InMemoryIndexer` is a subclass of `TextIndexerBase` that builds and maintains in-memory dictionary and postings hashmaps. These hashmaps are updated whenever `InMemoryIndexer.emit` is called at the end of the `InMemoryIndexer.index` method, so awaiting a call to `InMemoryIndexer.index` will provide access to the updated `InMemoryIndexer.dictionary` and `InMemoryIndexer.postings` maps. 
+The `InMemoryIndexer` is a subclass of [TextIndexerBase](#textindexerbase-class) that builds and maintains in-memory dictionary and postings hashmaps. These hashmaps are updated whenever `InMemoryIndexer.emit` is called at the end of the `InMemoryIndexer.index` method, so awaiting a call to `InMemoryIndexer.index` will provide access to the updated `InMemoryIndexer.dictionary` and `InMemoryIndexer.postings` maps. 
 
 The `InMemoryIndexer` is suitable for indexing a smaller corpus. An example of the use of `InMemoryIndexer` is included in the [examples](https://pub.dev/packages/text_indexing/example).
 

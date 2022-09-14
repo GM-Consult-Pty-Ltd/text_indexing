@@ -2,7 +2,6 @@
 // BSD 3-Clause License
 // All rights reserved
 
-import 'package:text_analysis/text_analysis.dart';
 import 'package:text_indexing/text_indexing.dart';
 
 /// Implementation of [TextIndexerBase] that constructs and maintains an

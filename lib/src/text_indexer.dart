@@ -5,7 +5,6 @@
 import 'dart:async';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:text_analysis/text_analysis.dart';
 import 'package:text_indexing/text_indexing.dart';
 
 /// Interface for classes that construct and maintain an inverted text index.
