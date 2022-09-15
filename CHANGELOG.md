@@ -4,6 +4,16 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+### 0.3.2
+
+- **PRE-RELEASE**
+- Added `JSON` and `JsonCollection` type aliases.
+- Added and implemented `TextIndexer.indexCollection` method.
+- Added `PostingsExtension.documents` getter.
+- Updated tests.
+- Updated examples.
+- Updated documentation.
+
 ### 0.3.1
 
 - **PRE-RELEASE**

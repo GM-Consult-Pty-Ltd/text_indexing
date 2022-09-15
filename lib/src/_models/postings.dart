@@ -83,6 +83,15 @@ extension DocumentPostingsEntryExtension on DocumentPostingsEntry {
 extension PostingsExtension on Postings {
   //
 
+  /// Returns all the unique document ids ([DocId]) in the [Postings].
+  Set<DocId> get documents {
+    final Set<DocId> retVal = {};
+    for (final docPostings in values) {
+      retVal.addAll(docPostings.keys);
+    }
+    return retVal;
+  }
+
   /// Filters the [Postings] by [terms], [docIds] AND [fields].
   ///
   /// Filter is applied by succesively calling, in order:
