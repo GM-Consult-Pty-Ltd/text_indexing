@@ -86,8 +86,7 @@ Future<void> _inMemoryIndexerExample(Map<String, String> documents) async {
 /// - index each document, adding/updating terms in the [_TestIndex.dictionary]
 ///   and postings in the [_TestIndex.postings] ; and
 /// - print the top 5 most popular [_TestIndex.dictionary.terms].
-Future<void> _persistedIndexerExample(
-    Map<String, Map<String, dynamic>> documents) async {
+Future<void> _persistedIndexerExample(Map<String, JSON> documents) async {
   //
 
   // - initialize a [_TestIndex()]
@@ -112,15 +111,11 @@ Future<void> _persistedIndexerExample(
     }
   });
 
+  // - define the FieldNames to be indexed
   final fields = ['name', 'description', 'hashTags', 'publicationDate'];
+
   // - iterate through the sample data
-  await Future.forEach(documents.entries,
-      (MapEntry<String, Map<String, dynamic>> entry) async {
-    // - index each document
-    final docId = entry.key;
-    final json = entry.value;
-    await indexer.indexJson(docId, json, fields);
-  });
+  await indexer.indexCollection(jsonData, fields);
 
   // wait for stream elements to complete printing
   await Future.delayed(const Duration(milliseconds: 250));

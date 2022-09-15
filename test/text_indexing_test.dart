@@ -115,18 +115,11 @@ void main() {
         }
       });
 
-      // - get the sample data
-      final documents = sampleNewsSubset;
-
+      // - define the FieldNames to be indexed
       final fields = ['name', 'description', 'hashTags', 'publicationDate'];
+
       // - iterate through the sample data
-      await Future.forEach(documents.entries,
-          (MapEntry<String, Map<String, dynamic>> entry) async {
-        // - index each document
-        final docId = entry.key;
-        final json = entry.value;
-        await indexer.indexJson(docId, json, fields);
-      });
+      await indexer.indexCollection(sampleNewsSubset, fields);
 
       // wait for stream elements to complete printing
       await Future.delayed(const Duration(milliseconds: 250));

@@ -109,6 +109,8 @@ Copyright (c) 2022, GM Consult Pty Ltd#class-persistedindexerAll rights reserved
 <li><code>FieldPostings</code> is an alias for <code>Map&lt;FieldName, TermPositions&gt;</code>, a hashmap of <code>FieldName</code>s to <code>TermPositions</code> in the field with <code>FieldName</code>;</li>
 <li><code>FieldPostingsEntry</code> is an alias for <code>MapEntry&lt;FieldName, TermPositions&gt;</code>, an entry in a <code>FieldPostings</code> hashmap;</li>
 <li><code>Ft</code> is an lias for <code>int</code> and denotes the frequency of a <code>Term</code> in an index or indexed object (the term frequency);</li>
+<li><code>JSON</code> is an alias for <code>Map&lt;String, dynamic&gt;</code>, a hashmap known as <code>"Java Script Object Notation" (JSON)</code>, a common format for persisting data;</li>
+<li><code>JsonCollection</code> is an alias for <code>Map&lt;String, Map&lt;String, dynamic&gt;&gt;</code>, a hashmap of <code>DocId</code> to <code>JSON</code> documents;</li>
 <li><code>Pt</code> is an alias for <code>int</code>, used to denote the position of a <code>Term</code> in <code>SourceText</code> indexed object (the term position); and</li>
 <li><code>TermPositions</code> is an alias for <code>List&lt;Pt&gt;</code>, an ordered <code>Set</code> of unique zero-based <code>Term</code> positions in <code>SourceText</code>, sorted in ascending order.</li>
 </ul>
@@ -119,8 +121,12 @@ Copyright (c) 2022, GM Consult Pty Ltd#class-persistedindexerAll rights reserved
 <li>another hashmap with the vocabulary as key and the postings lists for the linked <code>documents</code> as values (the <code>postings</code>).</li>
 </ul>
 <p>The dictionary and postings can be asynchronous data sources or in-memory hashmaps.  The <code>TextIndexer</code> reads and writes to/from these artifacts using the <code>TextIndexer.loadTerms</code>, <code>TextIndexer.updateDictionary</code>, <code>TextIndexer.loadTermPostings</code> and <code>TextIndexer.upsertTermPostings</code> asynchronous methods.</p>
-<p>The <code>TextIndexer.index</code> method indexes the fields in a json document, returning a list of <code>DocumentPostingsEntry</code> that is also emitted by <code>TextIndexer.postingsStream</code>. The <code>TextIndexer.index</code> method calls <code>TextIndexer.emit</code>, passing the list of <code>DocumentPostingsEntry</code>.</p>
-<p>The <code>TextIndexer.indexJson</code> method indexes text from a document, returning a list of <code>DocumentPostingsEntry</code> that is also emitted by <code>TextIndexer.postingsStream</code>. The <code>TextIndexer.index</code> method calls <code>TextIndexer.emit</code>, passing the list of <code>DocumentPostingsEntry</code>.</p>
+<p>Text or documents can be indexed by calling the following methods:</p>
+<ul>
+<li>The <code>TextIndexer.indexJson</code> method indexes the fields in a <code>JSON</code> document, returning the <code>Postings</code> for the document.  The postings are also emitted by <code>TextIndexer.postingsStream</code>.</li>
+<li>The <code>TextIndexer.index</code> method indexes text from a text document, returning the <code>Postings</code> for the document.  The postings are also emitted by <code>TextIndexer.postingsStream</code>.</li>
+<li>The <code>TextIndexer.indexCollection</code> method indexes text from a collection of <code>JSON</code>documents, emitting the <code>Postings</code> for each document in the <code>TextIndexer.postingsStream</code>.</li>
+</ul>
 <p>The <code>TextIndexer.emit</code> method is called by <code>TextIndexer.index</code>, and adds an event to the <code>postingsStream</code>.</p>
 <p>Listen to <code>TextIndexer.postingsStream</code> to handle the postings list emitted whenever a document is indexed.</p>
 <p>Implementing classes override the following fields:</p>

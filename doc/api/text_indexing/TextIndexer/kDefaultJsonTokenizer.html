@@ -53,7 +53,7 @@
       
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span></span>
-<span class="name ">kDefaultJsonTokenizer</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="kDefaultJsonTokenizer-param-json"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/FieldName.html">FieldName</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">json</span>, </span></li>
+<span class="name ">kDefaultJsonTokenizer</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="kDefaultJsonTokenizer-param-json"><span class="type-annotation"><a href="../../text_indexing/JSON.html">JSON</a></span> <span class="parameter-name">json</span>, </span></li>
 <li><span class="parameter" id="kDefaultJsonTokenizer-param-fields"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/FieldName.html">FieldName</a></span>&gt;</span></span> <span class="parameter-name">fields</span></span></li>
 </ol>)
 
@@ -70,7 +70,7 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">static Future&lt;List&lt;Token&gt;&gt; kDefaultJsonTokenizer(
-        Map&lt;FieldName, dynamic&gt; json, List&lt;FieldName&gt; fields) async =&gt;
+        JSON json, List&lt;FieldName&gt; fields) async =&gt;
     (await TextAnalyzer().tokenizeJson(json, fields)).tokens;</code></pre>
 </section>
 
@@ -111,6 +111,7 @@
     <li class="section-title"><a href="../../text_indexing/TextIndexer-class.html#instance-methods">Methods</a></li>
     <li><a href="../../text_indexing/TextIndexer/emit.html">emit</a></li>
     <li><a href="../../text_indexing/TextIndexer/index.html">index</a></li>
+    <li><a href="../../text_indexing/TextIndexer/indexCollection.html">indexCollection</a></li>
     <li><a href="../../text_indexing/TextIndexer/indexJson.html">indexJson</a></li>
     <li><a href="../../text_indexing/TextIndexer/loadTermPostings.html">loadTermPostings</a></li>
     <li><a href="../../text_indexing/TextIndexer/loadTerms.html">loadTerms</a></li>

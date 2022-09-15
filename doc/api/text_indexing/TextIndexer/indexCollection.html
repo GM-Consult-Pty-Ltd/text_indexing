@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the kDefaultTokenizer method from the TextIndexer class, for the Dart programming language.">
-  <title>kDefaultTokenizer method - TextIndexer class - text_indexing library - Dart API</title>
+  <meta name="description" content="API docs for the indexCollection method from the TextIndexer class, for the Dart programming language.">
+  <title>indexCollection method - TextIndexer class - text_indexing library - Dart API</title>
 
 
   
@@ -32,9 +32,9 @@
     <li><a href="../../index.html">text_indexing</a></li>
     <li><a href="../../text_indexing/text_indexing-library.html">text_indexing</a></li>
     <li><a href="../../text_indexing/TextIndexer-class.html">TextIndexer</a></li>
-    <li class="self-crumb">kDefaultTokenizer method</li>
+    <li class="self-crumb">indexCollection abstract method</li>
   </ol>
-  <div class="self-name">kDefaultTokenizer</div>
+  <div class="self-name">indexCollection</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -45,16 +45,16 @@
 
   <div id="dartdoc-main-content" class="main-content">
       <div>
-<h1><span class="kind-method">kDefaultTokenizer</span> method 
+<h1><span class="kind-method">indexCollection</span> method 
     <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
 </h1></div>
 
     <section class="multi-line-signature">
       
 
-<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span></span>
-<span class="name ">kDefaultTokenizer</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="kDefaultTokenizer-param-source"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/SourceText.html">SourceText</a></span> <span class="parameter-name">source</span>, </span></li>
-<li><span class="parameter" id="kDefaultTokenizer-param-field">[<span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/FieldName.html">FieldName</a>?</span> <span class="parameter-name">field</span>]</span></li>
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+<span class="name ">indexCollection</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="indexCollection-param-collection"><span class="type-annotation"><a href="../../text_indexing/JsonCollection.html">JsonCollection</a></span> <span class="parameter-name">collection</span>, </span></li>
+<li><span class="parameter" id="indexCollection-param-fields"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/FieldName.html">FieldName</a></span>&gt;</span></span> <span class="parameter-name">fields</span></span></li>
 </ol>)
 
       
@@ -62,16 +62,16 @@
     </section>
     
 <section class="desc markdown">
-  <p>A <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Tokenizer.html">Tokenizer</a> that tokenizes English language text.</p>
+  <p>Indexes the <code>fields</code> of all the documents in <code>collection</code>, adding
+<a href="../../text_indexing/Postings.html">Postings</a> to the <a href="../../text_indexing/TextIndexer/postingsStream.html">postingsStream</a> for each document.</p>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">static Future&lt;List&lt;Token&gt;&gt; kDefaultTokenizer(SourceText source,
-        [FieldName? field]) async =&gt;
-    (await TextAnalyzer().tokenize(source, field)).tokens;</code></pre>
+  <pre class="language-dart"><code class="language-dart">Future&lt;void&gt; indexCollection(
+    JsonCollection collection, List&lt;FieldName&gt; fields);</code></pre>
 </section>
 
 
@@ -88,7 +88,7 @@
   <li><a href="../../index.html">text_indexing</a></li>
   <li><a href="../../text_indexing/text_indexing-library.html">text_indexing</a></li>
   <li><a href="../../text_indexing/TextIndexer-class.html">TextIndexer</a></li>
-  <li class="self-crumb">kDefaultTokenizer method</li>
+  <li class="self-crumb">indexCollection abstract method</li>
 </ol>
 
 

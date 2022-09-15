@@ -7,6 +7,14 @@ import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:text_indexing/text_indexing.dart';
 
+/// Alias for Map<String, dynamic>, a hashmap known as "Java Script Object
+/// Notation" (JSON), a common format for persisting data.
+typedef JSON = Map<FieldName, dynamic>;
+
+/// Alias for Map<String, Map<String, dynamic>>, a hashmap of [DocId] to [JSON]
+/// documents.
+typedef JsonCollection = Map<DocId, JSON>;
+
 /// Interface for classes that construct and maintain an inverted text index.
 ///
 /// The inverted index is comprised of two artifacts:
@@ -71,7 +79,7 @@ abstract class TextIndexer {
 
   /// A [Tokenizer] that tokenizes English language text.
   static Future<List<Token>> kDefaultJsonTokenizer(
-          Map<FieldName, dynamic> json, List<FieldName> fields) async =>
+          JSON json, List<FieldName> fields) async =>
       (await TextAnalyzer().tokenizeJson(json, fields)).tokens;
 
   /// The [emit] method is called by [index] and adds the [event] to the
@@ -83,17 +91,19 @@ abstract class TextIndexer {
 
   /// Indexes a text document, returning a list of [DocumentPostingsEntry].
   ///
-  /// Adds the list of [DocumentPostingsEntry] to the [postingsStream] by calling
-  /// [emit].
-  FutureOr<Postings> index(DocId docId, SourceText docText);
+  /// Adds [Postings] for [docText] to the [postingsStream].
+  Future<Postings> index(DocId docId, SourceText docText);
 
   /// Indexes the [fields] in a [json] document, returning a list of
   /// [DocumentPostingsEntry].
   ///
-  /// Adds the list of [DocumentPostingsEntry] to the [postingsStream] by calling
-  /// [emit].
-  FutureOr<Postings> indexJson(
-      DocId docId, Map<FieldName, dynamic> json, List<FieldName> fields);
+  /// Adds [Postings] for [json] to the [postingsStream].
+  Future<Postings> indexJson(DocId docId, JSON json, List<FieldName> fields);
+
+  /// Indexes the [fields] of all the documents in [collection], adding
+  /// [Postings] to the [postingsStream] for each document.
+  Future<void> indexCollection(
+      JsonCollection collection, List<FieldName> fields);
 
   /// Asynchronously retrieves a [Dictionary] for [terms] from a
   /// [Dictionary] data source.
@@ -149,7 +159,7 @@ abstract class TextIndexerBase implements TextIndexer {
   /// - calls [emit], passing the list of [DocumentPostingsEntry] for [docId]; and
   /// - returns the list of [DocumentPostingsEntry] for [docId].
   @override
-  FutureOr<Postings> index(DocId docId, SourceText docText) async {
+  Future<Postings> index(DocId docId, SourceText docText) async {
     // get the terms using tokenizer
     final tokens = (await tokenizer(docText));
     // map the tokens to postings
@@ -168,8 +178,8 @@ abstract class TextIndexerBase implements TextIndexer {
   /// - calls [emit], passing the list of [DocumentPostingsEntry] for [docId]; and
   /// - returns the list of [DocumentPostingsEntry] for [docId].
   @override
-  FutureOr<Postings> indexJson(
-      DocId docId, Map<FieldName, dynamic> json, List<FieldName> fields) async {
+  Future<Postings> indexJson(
+      DocId docId, JSON json, List<FieldName> fields) async {
     // get the terms using tokenizer
     final tokens = (await jsonTokenizer(json, fields));
     // map the tokens to postings
@@ -181,23 +191,15 @@ abstract class TextIndexerBase implements TextIndexer {
     return postings;
   }
 
-  // /// Maps [postings] to a list of [DocumentPostingsEntry] for [docId].
-  // Postings _postingsToTermPositions(DocId docId, Postings postings) {
-  //   // initialize the list of DocumentPostingsEntry that will be emitted
-  //   final Postings event = {};
-  //   // iterate through postings.entries
-  //   for (final entry in postings.entries) {
-  //     // shortcut to the term
-  //     final term = entry.key;
-  //     // get the posting for docId and term
-  //     final positions = entry.value[docId];
-  //     if (positions != null) {
-  //       // add a DocumentPostingsEntry instance for docId and term to event
-  //       event.add(DocumentPostingsEntry(term, docId, positions));
-  //     }
-  //   }
-  //   return event;
-  // }
+  @override
+  Future<void> indexCollection(
+      JsonCollection collection, List<FieldName> fields) async {
+    await Future.forEach(collection.entries, (MapEntry<DocId, JSON> e) async {
+      final docId = e.key;
+      final json = e.value;
+      await indexJson(docId, json, fields);
+    });
+  }
 
   /// Maps the [tokens] to a [Postings].
   Postings _tokensToPostings(DocId docId, Iterable<Token> tokens) {

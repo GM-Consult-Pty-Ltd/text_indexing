@@ -84,6 +84,8 @@ To maximise performance of the indexers the API manipulates nested hashmaps of D
 * `FieldPostings` is an alias for `Map<FieldName, TermPositions>`, a hashmap of `FieldName`s to `TermPositions` in the field with `FieldName`;
 * `FieldPostingsEntry` is an alias for `MapEntry<FieldName, TermPositions>`, an entry in a `FieldPostings` hashmap;
 * `Ft` is an lias for `int` and denotes the frequency of a `Term` in an index or indexed object (the term frequency);
+* `JSON` is an alias for `Map<String, dynamic>`, a hashmap known as `"Java Script Object Notation" (JSON)`, a common format for persisting data;
+* `JsonCollection` is an alias for `Map<String, Map<String, dynamic>>`, a hashmap of `DocId` to `JSON` documents;
 * `Pt` is an alias for `int`, used to denote the position of a `Term` in `SourceText` indexed object (the term position); and
 * `TermPositions` is an alias for `List<Pt>`, an ordered `Set` of unique zero-based `Term` positions in `SourceText`, sorted in ascending order.
 
@@ -95,9 +97,11 @@ The text indexing classes (indexers) in this library implement `TextIndexer`, an
 
 The dictionary and postings can be asynchronous data sources or in-memory hashmaps.  The `TextIndexer` reads and writes to/from these artifacts using the `TextIndexer.loadTerms`, `TextIndexer.updateDictionary`, `TextIndexer.loadTermPostings` and `TextIndexer.upsertTermPostings` asynchronous methods.
 
-The `TextIndexer.index` method indexes the fields in a json document, returning a list of `DocumentPostingsEntry` that is also emitted by `TextIndexer.postingsStream`. The `TextIndexer.index` method calls `TextIndexer.emit`, passing the list of `DocumentPostingsEntry`.
+Text or documents can be indexed by calling the following methods:
 
-The `TextIndexer.indexJson` method indexes text from a document, returning a list of `DocumentPostingsEntry` that is also emitted by `TextIndexer.postingsStream`. The `TextIndexer.index` method calls `TextIndexer.emit`, passing the list of `DocumentPostingsEntry`.
+* The `TextIndexer.indexJson` method indexes the fields in a `JSON` document, returning the `Postings` for the document.  The postings are also emitted by `TextIndexer.postingsStream`. 
+* The `TextIndexer.index` method indexes text from a text document, returning the `Postings` for the document.  The postings are also emitted by `TextIndexer.postingsStream`.
+* The `TextIndexer.indexCollection` method indexes text from a collection of `JSON `documents, emitting the `Postings` for each document in the `TextIndexer.postingsStream`.
 
 The `TextIndexer.emit` method is called by `TextIndexer.index`, and adds an event to the `postingsStream`.
 

@@ -5,7 +5,7 @@
 /// Four JSON documents used for testing.
 ///
 /// Includes numbers, currencies, abbreviations, hyphens and identifiers
-final List<Map<String, dynamic>> text = [
+final List<JSON> text = [
   {
     'title': 'Ukraine',
     'body': 'The Dow Jones rallied even as U.S. troops were put on alert amid '

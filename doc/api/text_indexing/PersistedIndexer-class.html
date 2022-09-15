@@ -240,7 +240,7 @@ the fields in a JSON document.
 
         <dt id="index" class="callable inherited">
   <span class="name"><a href="../text_indexing/TextIndexerBase/index.html">index</a></span><span class="signature">(<wbr><span class="parameter" id="index-param-docId"><span class="type-annotation"><a href="../text_indexing/DocId.html">DocId</a></span> <span class="parameter-name">docId</span>, </span><span class="parameter" id="index-param-docText"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/SourceText.html">SourceText</a></span> <span class="parameter-name">docText</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/FutureOr-class.html">FutureOr</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Postings.html">Postings</a></span>&gt;</span></span>
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Postings.html">Postings</a></span>&gt;</span></span>
   </span>
   
 
@@ -251,9 +251,23 @@ the fields in a JSON document.
 
 </dd>
 
+        <dt id="indexCollection" class="callable inherited">
+  <span class="name"><a href="../text_indexing/TextIndexerBase/indexCollection.html">indexCollection</a></span><span class="signature">(<wbr><span class="parameter" id="indexCollection-param-collection"><span class="type-annotation"><a href="../text_indexing/JsonCollection.html">JsonCollection</a></span> <span class="parameter-name">collection</span>, </span><span class="parameter" id="indexCollection-param-fields"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/FieldName.html">FieldName</a></span>&gt;</span></span> <span class="parameter-name">fields</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Indexes the <code>fields</code> of all the documents in <code>collection</code>, adding
+<a href="../text_indexing/Postings.html">Postings</a> to the <a href="../text_indexing/TextIndexerBase/postingsStream.html">postingsStream</a> for each document.
+  <div class="features">inherited</div>
+
+</dd>
+
         <dt id="indexJson" class="callable inherited">
-  <span class="name"><a href="../text_indexing/TextIndexerBase/indexJson.html">indexJson</a></span><span class="signature">(<wbr><span class="parameter" id="indexJson-param-docId"><span class="type-annotation"><a href="../text_indexing/DocId.html">DocId</a></span> <span class="parameter-name">docId</span>, </span><span class="parameter" id="indexJson-param-json"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/FieldName.html">FieldName</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">json</span>, </span><span class="parameter" id="indexJson-param-fields"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/FieldName.html">FieldName</a></span>&gt;</span></span> <span class="parameter-name">fields</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/FutureOr-class.html">FutureOr</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Postings.html">Postings</a></span>&gt;</span></span>
+  <span class="name"><a href="../text_indexing/TextIndexerBase/indexJson.html">indexJson</a></span><span class="signature">(<wbr><span class="parameter" id="indexJson-param-docId"><span class="type-annotation"><a href="../text_indexing/DocId.html">DocId</a></span> <span class="parameter-name">docId</span>, </span><span class="parameter" id="indexJson-param-json"><span class="type-annotation"><a href="../text_indexing/JSON.html">JSON</a></span> <span class="parameter-name">json</span>, </span><span class="parameter" id="indexJson-param-fields"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/FieldName.html">FieldName</a></span>&gt;</span></span> <span class="parameter-name">fields</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Postings.html">Postings</a></span>&gt;</span></span>
   </span>
   
 
@@ -433,6 +447,8 @@ the fields in a JSON document.
   <li><a href="../text_indexing/FieldPostings.html">FieldPostings</a></li>
   <li><a href="../text_indexing/FieldPostingsEntry.html">FieldPostingsEntry</a></li>
   <li><a href="../text_indexing/Ft.html">Ft</a></li>
+  <li><a href="../text_indexing/JSON.html">JSON</a></li>
+  <li><a href="../text_indexing/JsonCollection.html">JsonCollection</a></li>
   <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/JsonTokenizer.html">JsonTokenizer</a></li>
   <li><a href="../text_indexing/Postings.html">Postings</a></li>
   <li><a href="../text_indexing/PostingsEntry.html">PostingsEntry</a></li>
@@ -477,6 +493,7 @@ the fields in a JSON document.
     <li class="section-title"><a href="../text_indexing/PersistedIndexer-class.html#instance-methods">Methods</a></li>
     <li class="inherited"><a href="../text_indexing/TextIndexerBase/emit.html">emit</a></li>
     <li class="inherited"><a href="../text_indexing/TextIndexerBase/index.html">index</a></li>
+    <li class="inherited"><a href="../text_indexing/TextIndexerBase/indexCollection.html">indexCollection</a></li>
     <li class="inherited"><a href="../text_indexing/TextIndexerBase/indexJson.html">indexJson</a></li>
     <li><a href="../text_indexing/PersistedIndexer/loadTermPostings.html">loadTermPostings</a></li>
     <li><a href="../text_indexing/PersistedIndexer/loadTerms.html">loadTerms</a></li>

@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the index method from the TextIndexerBase class, for the Dart programming language.">
-  <title>index method - TextIndexerBase class - text_indexing library - Dart API</title>
+  <meta name="description" content="API docs for the indexCollection method from the TextIndexerBase class, for the Dart programming language.">
+  <title>indexCollection method - TextIndexerBase class - text_indexing library - Dart API</title>
 
 
   
@@ -32,9 +32,9 @@
     <li><a href="../../index.html">text_indexing</a></li>
     <li><a href="../../text_indexing/text_indexing-library.html">text_indexing</a></li>
     <li><a href="../../text_indexing/TextIndexerBase-class.html">TextIndexerBase</a></li>
-    <li class="self-crumb">index method</li>
+    <li class="self-crumb">indexCollection method</li>
   </ol>
-  <div class="self-name">index</div>
+  <div class="self-name">indexCollection</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -45,7 +45,7 @@
 
   <div id="dartdoc-main-content" class="main-content">
       <div>
-<h1><span class="kind-method">index</span> method 
+<h1><span class="kind-method">indexCollection</span> method 
     <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
 </h1></div>
 
@@ -57,9 +57,9 @@
   </ol>
 </div>
 
-<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_indexing/Postings.html">Postings</a></span>&gt;</span></span>
-<span class="name ">index</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="index-param-docId"><span class="type-annotation"><a href="../../text_indexing/DocId.html">DocId</a></span> <span class="parameter-name">docId</span>, </span></li>
-<li><span class="parameter" id="index-param-docText"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/SourceText.html">SourceText</a></span> <span class="parameter-name">docText</span></span></li>
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+<span class="name ">indexCollection</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="indexCollection-param-collection"><span class="type-annotation"><a href="../../text_indexing/JsonCollection.html">JsonCollection</a></span> <span class="parameter-name">collection</span>, </span></li>
+<li><span class="parameter" id="indexCollection-param-fields"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/FieldName.html">FieldName</a></span>&gt;</span></span> <span class="parameter-name">fields</span></span></li>
 </ol>)
 
       <div class="features">override</div>
@@ -67,14 +67,8 @@
     </section>
     
 <section class="desc markdown">
-  <p>Implementation of <a href="../../text_indexing/TextIndexer/index.html">TextIndexer.index</a> that:</p>
-<ul>
-<li>parses <code>docText</code> to a collection of <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Token-class.html">Token</a>s;</li>
-<li>maps the tokens to postings for <code>docId</code>;</li>
-<li>maps the postings for <code>docId</code> to a list of <a href="../../text_indexing/DocumentPostingsEntry.html">DocumentPostingsEntry</a>;</li>
-<li>calls <a href="../../text_indexing/TextIndexerBase/emit.html">emit</a>, passing the list of <a href="../../text_indexing/DocumentPostingsEntry.html">DocumentPostingsEntry</a> for <code>docId</code>; and</li>
-<li>returns the list of <a href="../../text_indexing/DocumentPostingsEntry.html">DocumentPostingsEntry</a> for <code>docId</code>.</li>
-</ul>
+  <p>Indexes the <code>fields</code> of all the documents in <code>collection</code>, adding
+<a href="../../text_indexing/Postings.html">Postings</a> to the <a href="../../text_indexing/TextIndexerBase/postingsStream.html">postingsStream</a> for each document.</p>
 </section>
 
 
@@ -82,16 +76,13 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
-Future&lt;Postings&gt; index(DocId docId, SourceText docText) async {
-  &#47;&#47; get the terms using tokenizer
-  final tokens = (await tokenizer(docText));
-  &#47;&#47; map the tokens to postings
-  final Postings postings = _tokensToPostings(docId, tokens);
-  &#47;&#47; map postings to a list of DocumentPostingsEntry for docId.
-  &#47;&#47; final event = _postingsToTermPositions(docId, postings);
-  &#47;&#47; emit the postings list for docId
-  await emit(postings);
-  return postings;
+Future&lt;void&gt; indexCollection(
+    JsonCollection collection, List&lt;FieldName&gt; fields) async {
+  await Future.forEach(collection.entries, (MapEntry&lt;DocId, JSON&gt; e) async {
+    final docId = e.key;
+    final json = e.value;
+    await indexJson(docId, json, fields);
+  });
 }</code></pre>
 </section>
 
@@ -109,7 +100,7 @@ Future&lt;Postings&gt; index(DocId docId, SourceText docText) async {
   <li><a href="../../index.html">text_indexing</a></li>
   <li><a href="../../text_indexing/text_indexing-library.html">text_indexing</a></li>
   <li><a href="../../text_indexing/TextIndexerBase-class.html">TextIndexerBase</a></li>
-  <li class="self-crumb">index method</li>
+  <li class="self-crumb">indexCollection method</li>
 </ol>
 
 
