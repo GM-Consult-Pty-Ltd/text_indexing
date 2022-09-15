@@ -69,7 +69,7 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">List&lt;DictionaryEntry&gt; sortByFrequency() {
   final terms = List&lt;DictionaryEntry&gt;.from(this);
-  terms.sort((a, b) =&gt; b.frequency.compareTo(a.frequency));
+  terms.sort((a, b) =&gt; b.dFt.compareTo(a.dFt));
   return terms;
 }</code></pre>
 </section>
@@ -119,7 +119,7 @@
 <footer>
   <span class="no-break">
     text_indexing
-      0.2.0
+      0.3.0
   </span>
 
   

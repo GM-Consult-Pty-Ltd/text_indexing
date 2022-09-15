@@ -27,6 +27,9 @@ abstract class Document {
   /// the document.
   Map<Term, Ft> get termFrequencies;
 
+  /// Returns the frequency of [term] in the document.
+  Ft tF(Term term);
+
   /// A hashmap of [Term]s to [FieldPostings] for the document.
   Map<FieldName, FieldPostings> get termFieldPostings;
 

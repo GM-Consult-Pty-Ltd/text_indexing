@@ -247,10 +247,10 @@ abstract class TextIndexerBase implements TextIndexer {
       final postings = entry.value;
       for (final docEntry in postings.entries) {
         final docId = docEntry.key;
-        final fieldPositions = docEntry.value;
+        final fieldPostings = docEntry.value;
         // - inserts or updates each [DocumentPostingsEntry] instance to a collection of postings to update;
         final increment =
-            postingsToUpdate.addFieldPostings(term, docId, fieldPositions);
+            postingsToUpdate.addFieldPostings(term, docId, fieldPostings);
         // - if a [DocumentPostingsEntry] instance did not exist previously, also increments the document frequency of the associated term;
         if (increment) {
           termsToUpdate.incrementFrequency(term);

@@ -61,7 +61,7 @@ extension PostingsEntryExtension on PostingsEntry {
 /// The [DocumentPostingsEntry] class enumerates the properties of a document
 /// posting in a [Postings] as part of an inverted index of a dataset:
 /// - [docId] is the document's id value, (the [DocumentPostingsEntry.key]);
-/// - [fieldPositions] is a hashmap of field names that contain the term to
+/// - [fieldPostings] is a hashmap of field names that contain the term to
 ///   the a zero-based, ordered list of word positions of the term in the
 ///   field (the [DocumentPostingsEntry.value]).
 extension DocumentPostingsEntryExtension on DocumentPostingsEntry {
@@ -76,7 +76,7 @@ extension DocumentPostingsEntryExtension on DocumentPostingsEntry {
   ///
   /// A word position means the index of the word in an array of all the words
   /// in the document.
-  FieldPostings get fieldPositions => value;
+  FieldPostings get fieldPostings => value;
 }
 
 /// Extension methods and properties on [Postings].

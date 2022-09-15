@@ -71,7 +71,7 @@ Future<void> _inMemoryIndexerExample(Map<String, String> documents) async {
     terms = terms.sublist(0, 5);
   }
   for (final term in terms) {
-    print('${term.term}: ${term.frequency}');
+    print('${term.term}: ${term.dFt}');
   }
 }
 
@@ -131,7 +131,7 @@ Future<void> _persistedIndexerExample(
     terms = terms.sublist(0, 5);
   }
   for (final term in terms) {
-    print('${term.term}: ${term.frequency}');
+    print('${term.term}: ${term.dFt}');
   }
 }
 

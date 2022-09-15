@@ -75,8 +75,18 @@ descending order.</li>
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">List&lt;DictionaryEntry&gt; toList(
-        [TermSortStrategy sortBy = TermSortStrategy.byTerm]) =&gt;
-    entries.toList();</code></pre>
+    [TermSortStrategy sortBy = TermSortStrategy.byTerm]) {
+  final list = entries.toList();
+  switch (sortBy) {
+    case TermSortStrategy.byTerm:
+      list.sort(((a, b) =&gt; a.term.compareTo(b.term)));
+      break;
+    case TermSortStrategy.byFrequency:
+      list.sort(((a, b) =&gt; b.dFt.compareTo(a.dFt)));
+      break;
+  }
+  return list;
+}</code></pre>
 </section>
 
 
@@ -129,7 +139,7 @@ descending order.</li>
 <footer>
   <span class="no-break">
     text_indexing
-      0.2.0
+      0.3.0
   </span>
 
   

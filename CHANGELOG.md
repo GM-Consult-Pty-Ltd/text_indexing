@@ -4,12 +4,17 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+### 0.3.0
+
+- **PRE-RELEASE, BREAKING CHANGES**
+- *BREAKING CHANGE*: Removed interface `Document`.
+
 ### 0.2.0
 
 - **PRE-RELEASE, BREAKING CHANGES**
-- *BREAKING CHANGE*:Replaced object-model class `PostingsEntry` with typedef `PostingsEntry`.
-- *BREAKING CHANGE*:Replaced object-model class `DocumentPostingsEntry` with typedef `DocumentPostingsEntry`.
-- *BREAKING CHANGE*:Replaced object-model class `DictionaryEntry` with typedef `DictionaryEntry`.
+- *BREAKING CHANGE*: Replaced object-model class `PostingsEntry` with typedef `PostingsEntry`.
+- *BREAKING CHANGE*: Replaced object-model class `DocumentPostingsEntry` with typedef `DocumentPostingsEntry`.
+- *BREAKING CHANGE*: Replaced object-model class `DictionaryEntry` with typedef `DictionaryEntry`.
 - Added `FieldPostings`, `DocumentPostings`, and `FieldPostingsEntry`  type definitions.
 - Added `Ft`, `Pt`, `TermPositions` and `DocId` type aliases.
 - Added interface `Document`.

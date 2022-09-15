@@ -17,7 +17,7 @@ enum TermSortStrategy {
 }
 
 /// An alias for [int], used to denote the frequency of a [Term] in an index or
-/// indexed object (the term frequency).
+/// indexed object.
 typedef Ft = int;
 
 /// Defines a term dictionary used in an inverted index.
@@ -47,7 +47,7 @@ typedef DictionaryUpdater = Future<void> Function(Dictionary values);
 /// index.
 /// It enumerates the following property getters:
 /// - [term] is the word/term that is indexed; and
-/// - [frequency] is the number of documents that contain [term].
+/// - [dFt] is the number of documents that contain [term].
 extension DictionaryEntryExtension on DictionaryEntry {
   //
 
@@ -58,8 +58,8 @@ extension DictionaryEntryExtension on DictionaryEntry {
   /// The [term] must only occur once in the [Dictionary].
   Term get term => key;
 
-  /// The number number of documents that contain [term].
-  Ft get frequency => value;
+  /// The number of documents that contain [term].
+  Ft get dFt => value;
 
   /// Returns a copy of the [DictionaryEntry] instance with the [Ft] set to
   /// [frequency].
@@ -68,7 +68,7 @@ extension DictionaryEntryExtension on DictionaryEntry {
 
   /// Returns a copy of the [DictionaryEntry] instance with the [Ft]
   /// incremented by 1.
-  DictionaryEntry incrementFrequency() => setFrequency(frequency + 1);
+  DictionaryEntry incrementFrequency() => setFrequency(dFt + 1);
 }
 
 /// Extension methods on [Dictionary.entries].
@@ -86,7 +86,7 @@ extension DictionaryEntryCollectionExtension on Iterable<DictionaryEntry> {
   /// Sorts the collection of [DictionaryEntry]s by [Ft] in descending order.
   List<DictionaryEntry> sortByFrequency() {
     final terms = List<DictionaryEntry>.from(this);
-    terms.sort((a, b) => b.frequency.compareTo(a.frequency));
+    terms.sort((a, b) => b.dFt.compareTo(a.dFt));
     return terms;
   }
 
@@ -109,8 +109,18 @@ extension DictionaryExtensions on Dictionary {
   /// - [TermSortStrategy.byFrequency] sorts the [DictionaryEntry]s by [Ft] in
   ///   descending order.
   List<DictionaryEntry> toList(
-          [TermSortStrategy sortBy = TermSortStrategy.byTerm]) =>
-      entries.toList();
+      [TermSortStrategy sortBy = TermSortStrategy.byTerm]) {
+    final list = entries.toList();
+    switch (sortBy) {
+      case TermSortStrategy.byTerm:
+        list.sort(((a, b) => a.term.compareTo(b.term)));
+        break;
+      case TermSortStrategy.byFrequency:
+        list.sort(((a, b) => b.dFt.compareTo(a.dFt)));
+        break;
+    }
+    return list;
+  }
 
   /// Returns the dictionary terms (keys) as an ordered list,
   /// sorted alphabetically.
@@ -121,7 +131,7 @@ extension DictionaryExtensions on Dictionary {
   }
 
   /// Inserts or replaces the [value] in the [Dictionary].
-  void addEntry(DictionaryEntry value) => this[value.term] = value.frequency;
+  void addEntry(DictionaryEntry value) => this[value.term] = value.dFt;
 
   /// Returns the mapped value for the [term] key from the [Dictionary].
   ///

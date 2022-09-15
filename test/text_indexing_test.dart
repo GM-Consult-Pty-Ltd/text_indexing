@@ -73,7 +73,7 @@ void main() {
         terms = terms.sublist(0, 5);
       }
       for (final term in terms) {
-        print('${term.term}: ${term.frequency}');
+        print('${term.term}: ${term.dFt}');
       }
     });
 
@@ -95,7 +95,7 @@ void main() {
       // - initialize a [_TestIndex()]
       final index = _TestIndex();
 
-      // - initialize a [InMemoryIndexer]
+      // - initialize a [PersistedIndexer]
       final indexer = PersistedIndexer(
           termsLoader: index.loadTerms,
           dictionaryUpdater: index.updateDictionary,
@@ -137,7 +137,7 @@ void main() {
         terms = terms.sublist(0, 5);
       }
       for (final term in terms) {
-        print('${term.term}: ${term.frequency}');
+        print('${term.term}: ${term.dFt}');
       }
     });
   });

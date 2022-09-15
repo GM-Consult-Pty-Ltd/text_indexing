@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the setFrequency method from the DictionaryEntryExtension extension, for the Dart programming language.">
-  <title>setFrequency method - DictionaryEntryExtension extension - text_indexing library - Dart API</title>
+  <meta name="description" content="API docs for the fieldPostings property from the DocumentPostingsEntryExtension extension, for the Dart programming language.">
+  <title>fieldPostings property - DocumentPostingsEntryExtension extension - text_indexing library - Dart API</title>
 
 
   
@@ -31,10 +31,10 @@
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../../index.html">text_indexing</a></li>
     <li><a href="../../text_indexing/text_indexing-library.html">text_indexing</a></li>
-    <li><a href="../../text_indexing/DictionaryEntryExtension.html">DictionaryEntryExtension</a></li>
-    <li class="self-crumb">setFrequency method</li>
+    <li><a href="../../text_indexing/DocumentPostingsEntryExtension.html">DocumentPostingsEntryExtension</a></li>
+    <li class="self-crumb">fieldPostings property</li>
   </ol>
-  <div class="self-name">setFrequency</div>
+  <div class="self-name">fieldPostings</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -45,32 +45,35 @@
 
   <div id="dartdoc-main-content" class="main-content">
       <div>
-<h1><span class="kind-method">setFrequency</span> method 
+<h1><span class="kind-property">fieldPostings</span> property 
     <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
 </h1></div>
 
-    <section class="multi-line-signature">
-      
 
-<span class="returntype"><a href="../../text_indexing/DictionaryEntry.html">DictionaryEntry</a></span>
-<span class="name ">setFrequency</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="setFrequency-param-frequency"><span class="type-annotation"><a href="../../text_indexing/Ft.html">Ft</a></span> <span class="parameter-name">frequency</span></span></li>
-</ol>)
+        
+<section id="getter">
 
-      
+<section class="multi-line-signature">
+  <span class="returntype"><a href="../../text_indexing/FieldPostings.html">FieldPostings</a></span>
+  <span class="name ">fieldPostings</span>
+  
 
-    </section>
-    
-<section class="desc markdown">
-  <p>Returns a copy of the <a href="../../text_indexing/DictionaryEntry.html">DictionaryEntry</a> instance with the <code>Ft</code> set to
-<code>frequency</code>.</p>
 </section>
 
 
-    
+<section class="desc markdown">
+  <p>A hashmap of field names that conatin the term to the a zero-based,
+ordered list of unique word positions of the <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Term.html">Term</a> in the field.</p>
+<p>A word position means the index of the word in an array of all the words
+in the document.</p>
+</section>
+
+
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">DictionaryEntry setFrequency(Ft frequency) =&gt;
-    DictionaryEntry(term, frequency);</code></pre>
+  <pre class="language-dart"><code class="language-dart">FieldPostings get fieldPostings =&gt; value;</code></pre>
+</section>
+
 </section>
 
 
@@ -86,25 +89,22 @@
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
   <li><a href="../../index.html">text_indexing</a></li>
   <li><a href="../../text_indexing/text_indexing-library.html">text_indexing</a></li>
-  <li><a href="../../text_indexing/DictionaryEntryExtension.html">DictionaryEntryExtension</a></li>
-  <li class="self-crumb">setFrequency method</li>
+  <li><a href="../../text_indexing/DocumentPostingsEntryExtension.html">DocumentPostingsEntryExtension</a></li>
+  <li class="self-crumb">fieldPostings property</li>
 </ol>
 
 
-    <h5>DictionaryEntryExtension extension</h5>
+    <h5>DocumentPostingsEntryExtension extension</h5>
     <ol>
 
 
 
 
-    <li class="section-title"> <a href="../../text_indexing/DictionaryEntryExtension.html#instance-properties">Properties</a>
+    <li class="section-title"> <a href="../../text_indexing/DocumentPostingsEntryExtension.html#instance-properties">Properties</a>
     </li>
-    <li><a href="../../text_indexing/DictionaryEntryExtension/dFt.html">dFt</a></li>
-    <li><a href="../../text_indexing/DictionaryEntryExtension/term.html">term</a></li>
+    <li><a href="../../text_indexing/DocumentPostingsEntryExtension/docId.html">docId</a></li>
+    <li><a href="../../text_indexing/DocumentPostingsEntryExtension/fieldPostings.html">fieldPostings</a></li>
 
-    <li class="section-title"><a href="../../text_indexing/DictionaryEntryExtension.html#instance-methods">Methods</a></li>
-    <li><a href="../../text_indexing/DictionaryEntryExtension/incrementFrequency.html">incrementFrequency</a></li>
-    <li><a href="../../text_indexing/DictionaryEntryExtension/setFrequency.html">setFrequency</a></li>
 
 
 
