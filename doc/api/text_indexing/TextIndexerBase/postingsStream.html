@@ -54,7 +54,7 @@
 <section id="getter">
 
 <section class="multi-line-signature">
-  <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_indexing/PostingsMap-class.html">PostingsMap</a></span>&gt;</span></span>&gt;</span></span>
+  <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_indexing/Postings.html">Postings</a></span>&gt;</span></span>
   <span class="name ">postingsStream</span>
   <div class="features">override</div>
 
@@ -70,8 +70,7 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
-Stream&lt;List&lt;PostingsMap&gt;&gt; get postingsStream =&gt;
-    _postingsStreamController.stream;</code></pre>
+Stream&lt;Postings&gt; get postingsStream =&gt; _postingsStreamController.stream;</code></pre>
 </section>
 
 </section>
@@ -139,7 +138,7 @@ Stream&lt;List&lt;PostingsMap&gt;&gt; get postingsStream =&gt;
 <footer>
   <span class="no-break">
     text_indexing
-      0.1.0
+      0.2.0
   </span>
 
   

@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the getFrequency method from the TermDictionaryExtensions extension, for the Dart programming language.">
-  <title>getFrequency method - TermDictionaryExtensions extension - text_indexing library - Dart API</title>
+  <meta name="description" content="API docs for the getFrequency method from the DictionaryExtensions extension, for the Dart programming language.">
+  <title>getFrequency method - DictionaryExtensions extension - text_indexing library - Dart API</title>
 
 
   
@@ -31,7 +31,7 @@
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../../index.html">text_indexing</a></li>
     <li><a href="../../text_indexing/text_indexing-library.html">text_indexing</a></li>
-    <li><a href="../../text_indexing/TermDictionaryExtensions.html">TermDictionaryExtensions</a></li>
+    <li><a href="../../text_indexing/DictionaryExtensions.html">DictionaryExtensions</a></li>
     <li class="self-crumb">getFrequency method</li>
   </ol>
   <div class="self-name">getFrequency</div>
@@ -52,8 +52,8 @@
     <section class="multi-line-signature">
       
 
-<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>
-<span class="name ">getFrequency</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="getFrequency-param-term"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">term</span></span></li>
+<span class="returntype"><a href="../../text_indexing/Ft.html">Ft</a></span>
+<span class="name ">getFrequency</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="getFrequency-param-term"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Term.html">Term</a></span> <span class="parameter-name">term</span></span></li>
 </ol>)
 
       
@@ -61,15 +61,15 @@
     </section>
     
 <section class="desc markdown">
-  <p>Returns the mapped value for the <code>term</code> key from the <a href="../../text_indexing/TermDictionary.html">TermDictionary</a>.</p>
-<p>Returns 0 if the <code>term</code> key does not exist in the <a href="../../text_indexing/TermDictionary.html">TermDictionary</a>.</p>
+  <p>Returns the mapped value for the <code>term</code> key from the <a href="../../text_indexing/Dictionary.html">Dictionary</a>.</p>
+<p>Returns 0 if the <code>term</code> key does not exist in the <a href="../../text_indexing/Dictionary.html">Dictionary</a>.</p>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">int getFrequency(String term) =&gt; this[term] ?? 0;</code></pre>
+  <pre class="language-dart"><code class="language-dart">Ft getFrequency(Term term) =&gt; this[term] ?? 0;</code></pre>
 </section>
 
 
@@ -85,22 +85,27 @@
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
   <li><a href="../../index.html">text_indexing</a></li>
   <li><a href="../../text_indexing/text_indexing-library.html">text_indexing</a></li>
-  <li><a href="../../text_indexing/TermDictionaryExtensions.html">TermDictionaryExtensions</a></li>
+  <li><a href="../../text_indexing/DictionaryExtensions.html">DictionaryExtensions</a></li>
   <li class="self-crumb">getFrequency method</li>
 </ol>
 
 
-    <h5>TermDictionaryExtensions extension</h5>
+    <h5>DictionaryExtensions extension</h5>
     <ol>
 
 
 
 
+    <li class="section-title"> <a href="../../text_indexing/DictionaryExtensions.html#instance-properties">Properties</a>
+    </li>
+    <li><a href="../../text_indexing/DictionaryExtensions/terms.html">terms</a></li>
 
-    <li class="section-title"><a href="../../text_indexing/TermDictionaryExtensions.html#instance-methods">Methods</a></li>
-    <li><a href="../../text_indexing/TermDictionaryExtensions/getFrequency.html">getFrequency</a></li>
-    <li><a href="../../text_indexing/TermDictionaryExtensions/incrementFrequency.html">incrementFrequency</a></li>
-    <li><a href="../../text_indexing/TermDictionaryExtensions/setFrequency.html">setFrequency</a></li>
+    <li class="section-title"><a href="../../text_indexing/DictionaryExtensions.html#instance-methods">Methods</a></li>
+    <li><a href="../../text_indexing/DictionaryExtensions/addEntry.html">addEntry</a></li>
+    <li><a href="../../text_indexing/DictionaryExtensions/getFrequency.html">getFrequency</a></li>
+    <li><a href="../../text_indexing/DictionaryExtensions/incrementFrequency.html">incrementFrequency</a></li>
+    <li><a href="../../text_indexing/DictionaryExtensions/setFrequency.html">setFrequency</a></li>
+    <li><a href="../../text_indexing/DictionaryExtensions/toList.html">toList</a></li>
 
 
 
@@ -117,7 +122,7 @@
 <footer>
   <span class="no-break">
     text_indexing
-      0.0.1-beta.1
+      0.2.0
   </span>
 
   

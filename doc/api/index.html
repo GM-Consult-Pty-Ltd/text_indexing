@@ -98,6 +98,20 @@ Copyright (c) 2022, GM Consult Pty Ltd#class-persistedindexerAll rights reserved
 <li>the <a href="#inmemoryindexer-class">InMemoryIndexer</a> class is for fast indexing of a smaller corpus using in-memory dictionary and postings hashmaps; and</li>
 <li>the <a href="#persistedindexer-class">PersistedIndexer</a> class, aimed at working with a larger corpus and asynchronous dictionaries and postings.</li>
 </ul>
+<p>To maximise performance of the indexers the API manipulates nested hashmaps of DART core types <code>int</code> and <code>String</code> rather than defining strongly typed object models. To improve code legibility and maintainability the API makes use of <a href="#type-aliases">type aliases</a> throughout.</p>
+<h3 id="type-aliases">Type Aliases</h3>
+<ul>
+<li><code>Dictionary</code> is an alias for <code>Map&lt;Term, Ft&gt;</code>,  a hashmap of <code>Term</code> to <code>Ft</code>;</li>
+<li><code>DictionaryEntry</code> is an alias for <code>MapEntry&lt;Term, Ft&gt;</code>, an entry in a <code>Dictionary</code>;</li>
+<li><code>DocId</code> is an alias for <code>String</code>, used whenever a document id is referenced;</li>
+<li><code>DocumentPostings</code> is an alias for <code>Map&lt;DocId, FieldPostings&gt;</code>, a hashmap of document ids to <code>FieldPostings</code>;</li>
+<li><code>DocumentPostingsEntry</code> is an alias for <code>MapEntry&lt;DocId, FieldPostings&gt;</code>, an entry in a <code>DocumentPostings</code> hashmap;</li>
+<li><code>FieldPostings</code> is an alias for <code>Map&lt;FieldName, TermPositions&gt;</code>, a hashmap of <code>FieldName</code>s to <code>TermPositions</code> in the field with <code>FieldName</code>;</li>
+<li><code>FieldPostingsEntry</code> is an alias for <code>MapEntry&lt;FieldName, TermPositions&gt;</code>, an entry in a <code>FieldPostings</code> hashmap;</li>
+<li><code>Ft</code> is an lias for <code>int</code> and denotes the frequency of a <code>Term</code> in an index or indexed object (the term frequency);</li>
+<li><code>Pt</code> is an alias for <code>int</code>, used to denote the position of a <code>Term</code> in <code>SourceText</code> indexed object (the term position); and</li>
+<li><code>TermPositions</code> is an alias for <code>List&lt;Pt&gt;</code>, an ordered <code>Set</code> of unique zero-based <code>Term</code> positions in <code>SourceText</code>, sorted in ascending order.</li>
+</ul>
 <h3 id="textindexer-interface">TextIndexer Interface</h3>
 <p>The text indexing classes (indexers) in this library implement <code>TextIndexer</code>, an interface intended for information retrieval software applications. The design of the <code>TextIndexer</code> interface is consistent with <a href="https://nlp.stanford.edu/IR-book/pdf/irbookonlinereading.pdf">information retrieval theory</a> and is intended to construct and/or maintain two artifacts:</p>
 <ul>
@@ -105,18 +119,18 @@ Copyright (c) 2022, GM Consult Pty Ltd#class-persistedindexerAll rights reserved
 <li>another hashmap with the vocabulary as key and the postings lists for the linked <code>documents</code> as values (the <code>postings</code>).</li>
 </ul>
 <p>The dictionary and postings can be asynchronous data sources or in-memory hashmaps.  The <code>TextIndexer</code> reads and writes to/from these artifacts using the <code>TextIndexer.loadTerms</code>, <code>TextIndexer.updateDictionary</code>, <code>TextIndexer.loadTermPostings</code> and <code>TextIndexer.upsertTermPostings</code> asynchronous methods.</p>
-<p>The <code>TextIndexer.index</code> method indexes the fields in a json document, returning a list of <code>PostingsMap</code> that is also emitted by <code>TextIndexer.postingsStream</code>. The <code>TextIndexer.index</code> method calls <code>TextIndexer.emit</code>, passing the list of <code>PostingsMap</code>.</p>
-<p>The <code>TextIndexer.indexJson</code> method indexes text from a document, returning a list of <code>PostingsMap</code> that is also emitted by <code>TextIndexer.postingsStream</code>. The <code>TextIndexer.index</code> method calls <code>TextIndexer.emit</code>, passing the list of <code>PostingsMap</code>.</p>
+<p>The <code>TextIndexer.index</code> method indexes the fields in a json document, returning a list of <code>DocumentPostingsEntry</code> that is also emitted by <code>TextIndexer.postingsStream</code>. The <code>TextIndexer.index</code> method calls <code>TextIndexer.emit</code>, passing the list of <code>DocumentPostingsEntry</code>.</p>
+<p>The <code>TextIndexer.indexJson</code> method indexes text from a document, returning a list of <code>DocumentPostingsEntry</code> that is also emitted by <code>TextIndexer.postingsStream</code>. The <code>TextIndexer.index</code> method calls <code>TextIndexer.emit</code>, passing the list of <code>DocumentPostingsEntry</code>.</p>
 <p>The <code>TextIndexer.emit</code> method is called by <code>TextIndexer.index</code>, and adds an event to the <code>postingsStream</code>.</p>
 <p>Listen to <code>TextIndexer.postingsStream</code> to handle the postings list emitted whenever a document is indexed.</p>
 <p>Implementing classes override the following fields:</p>
 <ul>
 <li><code>TextIndexer.tokenizer</code> is the <code>Tokenizer</code> instance used by the indexer to parse documents to tokens;</li>
-<li><code>TextIndexer.postingsStream</code> emits a list of <code>PostingsMap</code> instances whenever a document is indexed.</li>
+<li><code>TextIndexer.postingsStream</code> emits a list of <code>DocumentPostingsEntry</code> instances whenever a document is indexed.</li>
 </ul>
 <p>Implementing classes override the following asynchronous methods:</p>
 <ul>
-<li><code>TextIndexer.index</code> indexes text from a document, returning a list of <code>PostingsMap</code> and adding it to the <code>TextIndexer.postingsStream</code> by calling <code>TextIndexer.emit</code>;</li>
+<li><code>TextIndexer.index</code> indexes text from a document, returning a list of <code>DocumentPostingsEntry</code> and adding it to the <code>TextIndexer.postingsStream</code> by calling <code>TextIndexer.emit</code>;</li>
 <li><code>emit</code> is called by index, and adds an event to the <code>postingsStream</code> after updating the dictionary and postings data stores;</li>
 <li><code>TextIndexer.loadTerms</code> returns a <code>DictionaryTerm</code> map for a collection of terms from a dictionary;</li>
 <li><code>TextIndexer.updateDictionary</code> passes new or updated <code>DictionaryTerm</code> instances for persisting to a dictionary data store;</li>
@@ -205,7 +219,7 @@ Copyright (c) 2022, GM Consult Pty Ltd#class-persistedindexerAll rights reserved
 <footer>
   <span class="no-break">
     text_indexing
-      0.1.0
+      0.2.0
   </span>
 
   

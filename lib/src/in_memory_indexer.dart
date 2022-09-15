@@ -16,7 +16,7 @@ import 'package:text_indexing/text_indexing.dart';
 /// will be initialized.
 ///
 /// Use the [index] method to index a text document, returning a list
-/// of [PostingsMap] and adding it to the [postingsStream].
+/// of [DocumentPostingsEntry] and adding it to the [postingsStream].
 ///
 /// The [dictionary] and [postings] hashmaps are updated by [index]. Awaiting
 /// the return value of [index] will ensure that [dictionary] and [postings]

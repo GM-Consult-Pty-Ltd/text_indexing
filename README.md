@@ -72,6 +72,21 @@ Three implementations of the [TextIndexer](#textindexer-interface) interface are
 * the [InMemoryIndexer](#inmemoryindexer-class) class is for fast indexing of a smaller corpus using in-memory dictionary and postings hashmaps; and
 * the [PersistedIndexer](#persistedindexer-class) class, aimed at working with a larger corpus and asynchronous dictionaries and postings.
 
+To maximise performance of the indexers the API manipulates nested hashmaps of DART core types `int` and `String` rather than defining strongly typed object models. To improve code legibility and maintainability the API makes use of [type aliases](#type-aliases) throughout.
+
+### Type Aliases
+
+* `Dictionary` is an alias for `Map<Term, Ft>`,  a hashmap of `Term` to `Ft`;
+* `DictionaryEntry` is an alias for `MapEntry<Term, Ft>`, an entry in a `Dictionary`;
+* `DocId` is an alias for `String`, used whenever a document id is referenced;
+* `DocumentPostings` is an alias for `Map<DocId, FieldPostings>`, a hashmap of document ids to `FieldPostings`;
+* `DocumentPostingsEntry` is an alias for `MapEntry<DocId, FieldPostings>`, an entry in a `DocumentPostings` hashmap;
+* `FieldPostings` is an alias for `Map<FieldName, TermPositions>`, a hashmap of `FieldName`s to `TermPositions` in the field with `FieldName`;
+* `FieldPostingsEntry` is an alias for `MapEntry<FieldName, TermPositions>`, an entry in a `FieldPostings` hashmap;
+* `Ft` is an lias for `int` and denotes the frequency of a `Term` in an index or indexed object (the term frequency);
+* `Pt` is an alias for `int`, used to denote the position of a `Term` in `SourceText` indexed object (the term position); and
+* `TermPositions` is an alias for `List<Pt>`, an ordered `Set` of unique zero-based `Term` positions in `SourceText`, sorted in ascending order.
+
 ### TextIndexer Interface
 
 The text indexing classes (indexers) in this library implement `TextIndexer`, an interface intended for information retrieval software applications. The design of the `TextIndexer` interface is consistent with [information retrieval theory](https://nlp.stanford.edu/IR-book/pdf/irbookonlinereading.pdf) and is intended to construct and/or maintain two artifacts:
@@ -80,9 +95,9 @@ The text indexing classes (indexers) in this library implement `TextIndexer`, an
 
 The dictionary and postings can be asynchronous data sources or in-memory hashmaps.  The `TextIndexer` reads and writes to/from these artifacts using the `TextIndexer.loadTerms`, `TextIndexer.updateDictionary`, `TextIndexer.loadTermPostings` and `TextIndexer.upsertTermPostings` asynchronous methods.
 
-The `TextIndexer.index` method indexes the fields in a json document, returning a list of `PostingsMap` that is also emitted by `TextIndexer.postingsStream`. The `TextIndexer.index` method calls `TextIndexer.emit`, passing the list of `PostingsMap`.
+The `TextIndexer.index` method indexes the fields in a json document, returning a list of `DocumentPostingsEntry` that is also emitted by `TextIndexer.postingsStream`. The `TextIndexer.index` method calls `TextIndexer.emit`, passing the list of `DocumentPostingsEntry`.
 
-The `TextIndexer.indexJson` method indexes text from a document, returning a list of `PostingsMap` that is also emitted by `TextIndexer.postingsStream`. The `TextIndexer.index` method calls `TextIndexer.emit`, passing the list of `PostingsMap`.
+The `TextIndexer.indexJson` method indexes text from a document, returning a list of `DocumentPostingsEntry` that is also emitted by `TextIndexer.postingsStream`. The `TextIndexer.index` method calls `TextIndexer.emit`, passing the list of `DocumentPostingsEntry`.
 
 The `TextIndexer.emit` method is called by `TextIndexer.index`, and adds an event to the `postingsStream`.
 
@@ -90,10 +105,10 @@ Listen to `TextIndexer.postingsStream` to handle the postings list emitted whene
 
 Implementing classes override the following fields:
 * `TextIndexer.tokenizer` is the `Tokenizer` instance used by the indexer to parse documents to tokens;
-* `TextIndexer.postingsStream` emits a list of `PostingsMap` instances whenever a document is indexed.
+* `TextIndexer.postingsStream` emits a list of `DocumentPostingsEntry` instances whenever a document is indexed.
 
 Implementing classes override the following asynchronous methods:
-* `TextIndexer.index` indexes text from a document, returning a list of `PostingsMap` and adding it to the `TextIndexer.postingsStream` by calling `TextIndexer.emit`;
+* `TextIndexer.index` indexes text from a document, returning a list of `DocumentPostingsEntry` and adding it to the `TextIndexer.postingsStream` by calling `TextIndexer.emit`;
 * `emit` is called by index, and adds an event to the `postingsStream` after updating the dictionary and postings data stores;
 * `TextIndexer.loadTerms` returns a `DictionaryTerm` map for a collection of terms from a dictionary;
 * `TextIndexer.updateDictionary` passes new or updated `DictionaryTerm` instances for persisting to a dictionary data store;

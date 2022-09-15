@@ -3,7 +3,6 @@
 // All rights reserved
 
 // List all exports below in alphabetical order.
-export 'postings_entry.dart';
-export 'term.dart';
-export 'postings_map.dart';
-export 'typedefs.dart';
+export 'document.dart';
+export 'postings.dart';
+export 'dictionary.dart';

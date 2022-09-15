@@ -54,7 +54,7 @@
 <section id="getter">
 
 <section class="multi-line-signature">
-  <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_indexing/PostingsMap-class.html">PostingsMap</a></span>&gt;</span></span>&gt;</span></span>
+  <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_indexing/Postings.html">Postings</a></span>&gt;</span></span>
   <span class="name ">postingsStream</span>
   
 
@@ -62,7 +62,7 @@
 
 
 <section class="desc markdown">
-  <p>Emits a list of <a href="../../text_indexing/PostingsMap-class.html">PostingsMap</a> instances whenever a document is indexed.</p>
+  <p>Emits <code>Postings</code> hashmap for an indexed document when it is indexed.</p>
 <p>Listen to <a href="../../text_indexing/TextIndexer/postingsStream.html">postingsStream</a> to update your term dictionary and postings
 map.</p>
 </section>
@@ -70,7 +70,7 @@ map.</p>
 
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Stream&lt;List&lt;PostingsMap&gt;&gt; get postingsStream;</code></pre>
+  <pre class="language-dart"><code class="language-dart">Stream&lt;Postings&gt; get postingsStream;</code></pre>
 </section>
 
 </section>
@@ -141,7 +141,7 @@ map.</p>
 <footer>
   <span class="no-break">
     text_indexing
-      0.1.0
+      0.2.0
   </span>
 
   

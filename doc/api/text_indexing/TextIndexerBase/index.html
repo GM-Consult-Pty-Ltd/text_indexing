@@ -57,9 +57,9 @@
   </ol>
 </div>
 
-<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/FutureOr-class.html">FutureOr</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_indexing/PostingsMap-class.html">PostingsMap</a></span>&gt;</span></span>&gt;</span></span>
-<span class="name ">index</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="index-param-docId"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">docId</span>, </span></li>
-<li><span class="parameter" id="index-param-docText"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">docText</span></span></li>
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/FutureOr-class.html">FutureOr</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_indexing/Postings.html">Postings</a></span>&gt;</span></span>
+<span class="name ">index</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="index-param-docId"><span class="type-annotation"><a href="../../text_indexing/DocId.html">DocId</a></span> <span class="parameter-name">docId</span>, </span></li>
+<li><span class="parameter" id="index-param-docText"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/SourceText.html">SourceText</a></span> <span class="parameter-name">docText</span></span></li>
 </ol>)
 
       <div class="features">override</div>
@@ -69,11 +69,11 @@
 <section class="desc markdown">
   <p>Implementation of <a href="../../text_indexing/TextIndexer/index.html">TextIndexer.index</a> that:</p>
 <ul>
-<li>parses <code>docText</code> to a collection of <a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/Token-class.html">Token</a>s;</li>
+<li>parses <code>docText</code> to a collection of <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Token-class.html">Token</a>s;</li>
 <li>maps the tokens to postings for <code>docId</code>;</li>
-<li>maps the postings for <code>docId</code> to a list of <a href="../../text_indexing/PostingsMap-class.html">PostingsMap</a>;</li>
-<li>calls <a href="../../text_indexing/TextIndexerBase/emit.html">emit</a>, passing the list of <a href="../../text_indexing/PostingsMap-class.html">PostingsMap</a> for <code>docId</code>; and</li>
-<li>returns the list of <a href="../../text_indexing/PostingsMap-class.html">PostingsMap</a> for <code>docId</code>.</li>
+<li>maps the postings for <code>docId</code> to a list of <a href="../../text_indexing/DocumentPostingsEntry.html">DocumentPostingsEntry</a>;</li>
+<li>calls <a href="../../text_indexing/TextIndexerBase/emit.html">emit</a>, passing the list of <a href="../../text_indexing/DocumentPostingsEntry.html">DocumentPostingsEntry</a> for <code>docId</code>; and</li>
+<li>returns the list of <a href="../../text_indexing/DocumentPostingsEntry.html">DocumentPostingsEntry</a> for <code>docId</code>.</li>
 </ul>
 </section>
 
@@ -82,16 +82,16 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
-FutureOr&lt;List&lt;PostingsMap&gt;&gt; index(String docId, String docText) async {
+FutureOr&lt;Postings&gt; index(DocId docId, SourceText docText) async {
   &#47;&#47; get the terms using tokenizer
   final tokens = (await tokenizer(docText));
   &#47;&#47; map the tokens to postings
   final Postings postings = _tokensToPostings(docId, tokens);
-  &#47;&#47; map postings to a list of PostingsMap for docId.
-  final event = _postingsToTermPositions(docId, postings);
+  &#47;&#47; map postings to a list of DocumentPostingsEntry for docId.
+  &#47;&#47; final event = _postingsToTermPositions(docId, postings);
   &#47;&#47; emit the postings list for docId
-  await emit(event);
-  return event;
+  await emit(postings);
+  return postings;
 }</code></pre>
 </section>
 
@@ -158,7 +158,7 @@ FutureOr&lt;List&lt;PostingsMap&gt;&gt; index(String docId, String docText) asyn
 <footer>
   <span class="no-break">
     text_indexing
-      0.1.0
+      0.2.0
   </span>
 
   

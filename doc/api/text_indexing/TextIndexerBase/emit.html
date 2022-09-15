@@ -59,7 +59,7 @@
 </div>
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
-<span class="name ">emit</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="emit-param-event"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_indexing/PostingsMap-class.html">PostingsMap</a></span>&gt;</span></span> <span class="parameter-name">event</span></span></li>
+<span class="name ">emit</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="emit-param-event"><span class="type-annotation"><a href="../../text_indexing/Postings.html">Postings</a></span> <span class="parameter-name">event</span></span></li>
 </ol>)
 
       <div class="features">@<a href="https://pub.dev/documentation/meta/1.8.0/meta/mustCallSuper-constant.html">mustCallSuper</a>, override</div>
@@ -70,14 +70,14 @@
   <p>Implementation of <a href="../../text_indexing/TextIndexer/emit.html">TextIndexer.emit</a> that:</p>
 <ul>
 <li>maps <code>event</code> to a set of unique terms;</li>
-<li>loads the existing <a href="../../text_indexing/PostingsEntry-class.html">PostingsEntry</a>s for the terms from a
+<li>loads the existing <a href="../../text_indexing/PostingsEntry.html">PostingsEntry</a>s for the terms from a
 <a href="../../text_indexing/Postings.html">Postings</a> by calling <a href="../../text_indexing/TextIndexer/loadTermPostings.html">loadTermPostings</a>;</li>
-<li>loads the existing <a href="../../text_indexing/DictionaryEntry-class.html">DictionaryEntry</a>s for the terms from a <a href="../../text_indexing/Dictionary.html">Dictionary</a> by
+<li>loads the existing <a href="../../text_indexing/DictionaryEntry.html">DictionaryEntry</a>s for the terms from a <a href="../../text_indexing/Dictionary.html">Dictionary</a> by
 calling <a href="../../text_indexing/TextIndexer/loadTerms.html">loadTerms</a>;</li>
-<li>iterates through the <a href="../../text_indexing/PostingsMap-class.html">PostingsMap</a> in <code>event</code> and:</li>
-<li>inserts or updates each <a href="../../text_indexing/PostingsMap-class.html">PostingsMap</a> instance to a collection of
+<li>iterates through the <a href="../../text_indexing/DocumentPostingsEntry.html">DocumentPostingsEntry</a> in <code>event</code> and:</li>
+<li>inserts or updates each <a href="../../text_indexing/DocumentPostingsEntry.html">DocumentPostingsEntry</a> instance to a collection of
 postings to update;</li>
-<li>if a <a href="../../text_indexing/PostingsMap-class.html">PostingsMap</a> instance did not exist previously, increments
+<li>if a <a href="../../text_indexing/DocumentPostingsEntry.html">DocumentPostingsEntry</a> instance did not exist previously, increments
 the document frequency of the associated term;</li>
 <li>then:</li>
 <li>asynchronously updates the <a href="../../text_indexing/Dictionary.html">Dictionary</a> by calling
@@ -94,21 +94,27 @@ the document frequency of the associated term;</li>
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
 @mustCallSuper
-Future&lt;void&gt; emit(List&lt;PostingsMap&gt; event) async {
+Future&lt;void&gt; emit(Postings event) async {
   &#47;&#47; - maps [event] to a set of unique terms;
-  final terms = Set&lt;String&gt;.from(event.map((e) =&gt; e.term));
+  final terms = Set&lt;Term&gt;.from(event.keys);
   &#47;&#47; - loads the existing [PostingsEntry]s for the terms from a [Postings] by calling [loadTermPostings];
   final postingsToUpdate = await loadTermPostings(terms);
 &#47;&#47; - loads the existing [DictionaryEntry]s for the terms from a [Dictionary] by calling [loadTerms];
   final Dictionary termsToUpdate = await loadTerms(terms);
-  &#47;&#47; - iterates through the [PostingsMap] in [event];
-  await Future.forEach(event, (PostingsMap e) {
-    &#47;&#47; - inserts or updates each [PostingsMap] instance to a collection of postings to update;
-    final increment =
-        postingsToUpdate.addTermPositions(e.term, e.docId, e.fieldPositions);
-    &#47;&#47; - if a [PostingsMap] instance did not exist previously, also increments the document frequency of the associated term;
-    if (increment) {
-      termsToUpdate.incrementFrequency(e.term);
+  &#47;&#47; - iterates through the [DocumentPostingsEntry] in [event];
+  await Future.forEach(event.entries, (PostingsEntry entry) {
+    final term = entry.key;
+    final postings = entry.value;
+    for (final docEntry in postings.entries) {
+      final docId = docEntry.key;
+      final fieldPositions = docEntry.value;
+      &#47;&#47; - inserts or updates each [DocumentPostingsEntry] instance to a collection of postings to update;
+      final increment =
+          postingsToUpdate.addFieldPostings(term, docId, fieldPositions);
+      &#47;&#47; - if a [DocumentPostingsEntry] instance did not exist previously, also increments the document frequency of the associated term;
+      if (increment) {
+        termsToUpdate.incrementFrequency(term);
+      }
     }
   });
   &#47;&#47; - asynchronously updates the [Dictionary] by calling [updateDictionary];
@@ -183,7 +189,7 @@ Future&lt;void&gt; emit(List&lt;PostingsMap&gt; event) async {
 <footer>
   <span class="no-break">
     text_indexing
-      0.1.0
+      0.2.0
   </span>
 
   

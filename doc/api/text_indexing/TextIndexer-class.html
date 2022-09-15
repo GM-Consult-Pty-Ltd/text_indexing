@@ -54,9 +54,9 @@
   <p>Interface for classes that construct and maintain an inverted text index.</p>
 <p>The inverted index is comprised of two artifacts:</p>
 <ul>
-<li>a <a href="../text_indexing/Dictionary.html">Dictionary</a> is a hashmap of <a href="../text_indexing/DictionaryEntry-class.html">DictionaryEntry</a>s with the vocabulary as
+<li>a <a href="../text_indexing/Dictionary.html">Dictionary</a> is a hashmap of <a href="../text_indexing/DictionaryEntry.html">DictionaryEntry</a>s with the vocabulary as
 key and the document frequency as the values; and</li>
-<li>a <a href="../text_indexing/Postings.html">Postings</a> a hashmap of <a href="../text_indexing/PostingsEntry-class.html">PostingsEntry</a>s with the vocabulary as key
+<li>a <a href="../text_indexing/Postings.html">Postings</a> a hashmap of <a href="../text_indexing/PostingsEntry.html">PostingsEntry</a>s with the vocabulary as key
 and the postings lists for the linked documents as values.</li>
 </ul>
 <p>The <a href="../text_indexing/Dictionary.html">Dictionary</a> and <a href="../text_indexing/Postings.html">Postings</a> can be asynchronous data sources or
@@ -64,31 +64,31 @@ in-memory hashmaps.  The <a href="../text_indexing/TextIndexer-class.html">TextI
 artifacts using the <a href="../text_indexing/TextIndexer/loadTerms.html">loadTerms</a>, <a href="../text_indexing/TextIndexer/updateDictionary.html">updateDictionary</a>, <a href="../text_indexing/TextIndexer/loadTermPostings.html">loadTermPostings</a> and
 <a href="../text_indexing/TextIndexer/upsertTermPostings.html">upsertTermPostings</a> asynchronous methods.</p>
 <p>The <a href="../text_indexing/TextIndexer/index.html">index</a> method indexes a text document, returning a list of
-<a href="../text_indexing/PostingsMap-class.html">PostingsMap</a> that is also emitted by <a href="../text_indexing/TextIndexer/postingsStream.html">postingsStream</a>. The <a href="../text_indexing/TextIndexer/index.html">index</a> method
-implementation calls <a href="../text_indexing/TextIndexer/emit.html">emit</a>, passing the list of <a href="../text_indexing/PostingsMap-class.html">PostingsMap</a>.</p>
+<a href="../text_indexing/DocumentPostingsEntry.html">DocumentPostingsEntry</a> that is also emitted by <a href="../text_indexing/TextIndexer/postingsStream.html">postingsStream</a>. The <a href="../text_indexing/TextIndexer/index.html">index</a> method
+implementation calls <a href="../text_indexing/TextIndexer/emit.html">emit</a>, passing the list of <a href="../text_indexing/DocumentPostingsEntry.html">DocumentPostingsEntry</a>.</p>
 <p>The <a href="../text_indexing/TextIndexer/emit.html">emit</a> method is called by <a href="../text_indexing/TextIndexer/index.html">index</a>, and adds an event to the
 <a href="../text_indexing/TextIndexer/postingsStream.html">postingsStream</a>.</p>
 <p>Listen to <a href="../text_indexing/TextIndexer/postingsStream.html">postingsStream</a> to update your term dictionary and postings map.</p>
 <p>Implementing classes override the following fields:</p>
 <ul>
-<li><a href="../text_indexing/TextIndexer/tokenizer.html">tokenizer</a> is the <a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/Tokenizer.html">Tokenizer</a> instance used by the indexer to parse
+<li><a href="../text_indexing/TextIndexer/tokenizer.html">tokenizer</a> is the <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Tokenizer.html">Tokenizer</a> instance used by the indexer to parse
 text to tokens;</li>
-<li><a href="../text_indexing/TextIndexer/postingsStream.html">postingsStream</a> emits a list of <a href="../text_indexing/PostingsMap-class.html">PostingsMap</a> instances whenever a
+<li><a href="../text_indexing/TextIndexer/postingsStream.html">postingsStream</a> emits a list of <a href="../text_indexing/DocumentPostingsEntry.html">DocumentPostingsEntry</a> instances whenever a
 document is indexed.</li>
 </ul>
 <p>Implementing classes override the following asynchronous methods:</p>
 <ul>
-<li><a href="../text_indexing/TextIndexer/index.html">index</a> indexes a text document, returning a list of <a href="../text_indexing/PostingsMap-class.html">PostingsMap</a> and
+<li><a href="../text_indexing/TextIndexer/index.html">index</a> indexes a text document, returning a list of <a href="../text_indexing/DocumentPostingsEntry.html">DocumentPostingsEntry</a> and
 adding it to the <a href="../text_indexing/TextIndexer/postingsStream.html">postingsStream</a> by calling <a href="../text_indexing/TextIndexer/emit.html">emit</a>;</li>
 <li><a href="../text_indexing/TextIndexer/emit.html">emit</a> is called by <a href="../text_indexing/TextIndexer/index.html">index</a>, and adds an event to the <a href="../text_indexing/TextIndexer/postingsStream.html">postingsStream</a>
 after updating the <a href="../text_indexing/Dictionary.html">Dictionary</a> and <a href="../text_indexing/Postings.html">Postings</a>;</li>
 <li><a href="../text_indexing/TextIndexer/loadTerms.html">loadTerms</a> returns a <a href="../text_indexing/Dictionary.html">Dictionary</a> for a vocabulary from
 a <a href="../text_indexing/Dictionary.html">Dictionary</a>;</li>
-<li><a href="../text_indexing/TextIndexer/updateDictionary.html">updateDictionary</a> passes new or updated <a href="../text_indexing/DictionaryEntry-class.html">DictionaryEntry</a> instances for persisting
+<li><a href="../text_indexing/TextIndexer/updateDictionary.html">updateDictionary</a> passes new or updated <a href="../text_indexing/DictionaryEntry.html">DictionaryEntry</a> instances for persisting
 to a <a href="../text_indexing/Dictionary.html">Dictionary</a>;</li>
-<li><a href="../text_indexing/TextIndexer/loadTermPostings.html">loadTermPostings</a> returns <a href="../text_indexing/PostingsEntry-class.html">PostingsEntry</a> entities for a collection
+<li><a href="../text_indexing/TextIndexer/loadTermPostings.html">loadTermPostings</a> returns <a href="../text_indexing/PostingsEntry.html">PostingsEntry</a> entities for a collection
 of terms from a <a href="../text_indexing/Postings.html">Postings</a>; and</li>
-<li><a href="../text_indexing/TextIndexer/upsertTermPostings.html">upsertTermPostings</a> passes new or updated <a href="../text_indexing/PostingsEntry-class.html">PostingsEntry</a> instances
+<li><a href="../text_indexing/TextIndexer/upsertTermPostings.html">upsertTermPostings</a> passes new or updated <a href="../text_indexing/PostingsEntry.html">PostingsEntry</a> instances
 for upserting to a <a href="../text_indexing/Postings.html">Postings</a>.</li>
 </ul>
 </section>
@@ -142,11 +142,11 @@ for upserting to a <a href="../text_indexing/Postings.html">Postings</a>.</li>
 
         <dt id="jsonTokenizer" class="property">
   <span class="name"><a href="../text_indexing/TextIndexer/jsonTokenizer.html">jsonTokenizer</a></span>
-  <span class="signature">&#8594; <a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/JsonTokenizer.html">JsonTokenizer</a></span> 
+  <span class="signature">&#8594; <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/JsonTokenizer.html">JsonTokenizer</a></span> 
 
 </dt>
 <dd>
-  The <a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/JsonTokenizer.html">JsonTokenizer</a> used by the indexer to parse documents to tokens from
+  The <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/JsonTokenizer.html">JsonTokenizer</a> used by the indexer to parse documents to tokens from
 the fields in a JSON document.
   <div class="features">read-only</div>
 
@@ -154,11 +154,11 @@ the fields in a JSON document.
 
         <dt id="postingsStream" class="property">
   <span class="name"><a href="../text_indexing/TextIndexer/postingsStream.html">postingsStream</a></span>
-  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/PostingsMap-class.html">PostingsMap</a></span>&gt;</span></span>&gt;</span></span> 
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Postings.html">Postings</a></span>&gt;</span></span> 
 
 </dt>
 <dd>
-  Emits a list of <a href="../text_indexing/PostingsMap-class.html">PostingsMap</a> instances whenever a document is indexed.
+  Emits <code>Postings</code> hashmap for an indexed document when it is indexed.
   <div class="features">read-only</div>
 
 </dd>
@@ -176,11 +176,11 @@ the fields in a JSON document.
 
         <dt id="tokenizer" class="property">
   <span class="name"><a href="../text_indexing/TextIndexer/tokenizer.html">tokenizer</a></span>
-  <span class="signature">&#8594; <a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/Tokenizer.html">Tokenizer</a></span> 
+  <span class="signature">&#8594; <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Tokenizer.html">Tokenizer</a></span> 
 
 </dt>
 <dd>
-  The <a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/Tokenizer.html">Tokenizer</a> used by the indexer to parse documents to tokens.
+  The <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Tokenizer.html">Tokenizer</a> used by the indexer to parse documents to tokens.
   <div class="features">read-only</div>
 
 </dd>
@@ -195,7 +195,7 @@ the fields in a JSON document.
     <h2>Methods</h2>
     <dl class="callables">
         <dt id="emit" class="callable">
-  <span class="name"><a href="../text_indexing/TextIndexer/emit.html">emit</a></span><span class="signature">(<wbr><span class="parameter" id="emit-param-event"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/PostingsMap-class.html">PostingsMap</a></span>&gt;</span></span> <span class="parameter-name">event</span></span>)
+  <span class="name"><a href="../text_indexing/TextIndexer/emit.html">emit</a></span><span class="signature">(<wbr><span class="parameter" id="emit-param-event"><span class="type-annotation"><a href="../text_indexing/Postings.html">Postings</a></span> <span class="parameter-name">event</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
   </span>
   
@@ -209,48 +209,48 @@ the fields in a JSON document.
 </dd>
 
         <dt id="index" class="callable">
-  <span class="name"><a href="../text_indexing/TextIndexer/index.html">index</a></span><span class="signature">(<wbr><span class="parameter" id="index-param-docId"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">docId</span>, </span><span class="parameter" id="index-param-docText"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">docText</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/FutureOr-class.html">FutureOr</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/PostingsMap-class.html">PostingsMap</a></span>&gt;</span></span>&gt;</span></span>
+  <span class="name"><a href="../text_indexing/TextIndexer/index.html">index</a></span><span class="signature">(<wbr><span class="parameter" id="index-param-docId"><span class="type-annotation"><a href="../text_indexing/DocId.html">DocId</a></span> <span class="parameter-name">docId</span>, </span><span class="parameter" id="index-param-docText"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/SourceText.html">SourceText</a></span> <span class="parameter-name">docText</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/FutureOr-class.html">FutureOr</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Postings.html">Postings</a></span>&gt;</span></span>
   </span>
   
 
 </dt>
 <dd>
-  Indexes a text document, returning a list of <a href="../text_indexing/PostingsMap-class.html">PostingsMap</a>.
+  Indexes a text document, returning a list of <a href="../text_indexing/DocumentPostingsEntry.html">DocumentPostingsEntry</a>.
   
 
 </dd>
 
         <dt id="indexJson" class="callable">
-  <span class="name"><a href="../text_indexing/TextIndexer/indexJson.html">indexJson</a></span><span class="signature">(<wbr><span class="parameter" id="indexJson-param-docId"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">docId</span>, </span><span class="parameter" id="indexJson-param-json"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">json</span>, </span><span class="parameter" id="indexJson-param-fields"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">fields</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/FutureOr-class.html">FutureOr</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/PostingsMap-class.html">PostingsMap</a></span>&gt;</span></span>&gt;</span></span>
+  <span class="name"><a href="../text_indexing/TextIndexer/indexJson.html">indexJson</a></span><span class="signature">(<wbr><span class="parameter" id="indexJson-param-docId"><span class="type-annotation"><a href="../text_indexing/DocId.html">DocId</a></span> <span class="parameter-name">docId</span>, </span><span class="parameter" id="indexJson-param-json"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/FieldName.html">FieldName</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">json</span>, </span><span class="parameter" id="indexJson-param-fields"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/FieldName.html">FieldName</a></span>&gt;</span></span> <span class="parameter-name">fields</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/FutureOr-class.html">FutureOr</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Postings.html">Postings</a></span>&gt;</span></span>
   </span>
   
 
 </dt>
 <dd>
   Indexes the <code>fields</code> in a <code>json</code> document, returning a list of
-<a href="../text_indexing/PostingsMap-class.html">PostingsMap</a>.
+<a href="../text_indexing/DocumentPostingsEntry.html">DocumentPostingsEntry</a>.
   
 
 </dd>
 
         <dt id="loadTermPostings" class="callable">
-  <span class="name"><a href="../text_indexing/TextIndexer/loadTermPostings.html">loadTermPostings</a></span><span class="signature">(<wbr><span class="parameter" id="loadTermPostings-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
+  <span class="name"><a href="../text_indexing/TextIndexer/loadTermPostings.html">loadTermPostings</a></span><span class="signature">(<wbr><span class="parameter" id="loadTermPostings-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Postings.html">Postings</a></span>&gt;</span></span>
   </span>
   
 
 </dt>
 <dd>
-  Asynchronously retrieves <a href="../text_indexing/PostingsEntry-class.html">PostingsEntry</a> entities for <code>terms</code> from a
+  Asynchronously retrieves <a href="../text_indexing/PostingsEntry.html">PostingsEntry</a> entities for <code>terms</code> from a
 <code>Postings</code>.
   
 
 </dd>
 
         <dt id="loadTerms" class="callable">
-  <span class="name"><a href="../text_indexing/TextIndexer/loadTerms.html">loadTerms</a></span><span class="signature">(<wbr><span class="parameter" id="loadTerms-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
+  <span class="name"><a href="../text_indexing/TextIndexer/loadTerms.html">loadTerms</a></span><span class="signature">(<wbr><span class="parameter" id="loadTerms-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Dictionary.html">Dictionary</a></span>&gt;</span></span>
   </span>
   
@@ -346,27 +346,27 @@ the fields in a JSON document.
     <h2>Static Methods</h2>
     <dl class="callables">
         <dt id="kDefaultJsonTokenizer" class="callable">
-  <span class="name"><a href="../text_indexing/TextIndexer/kDefaultJsonTokenizer.html">kDefaultJsonTokenizer</a></span><span class="signature">(<wbr><span class="parameter" id="kDefaultJsonTokenizer-param-json"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">json</span>, </span><span class="parameter" id="kDefaultJsonTokenizer-param-fields"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">fields</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span></span>
+  <span class="name"><a href="../text_indexing/TextIndexer/kDefaultJsonTokenizer.html">kDefaultJsonTokenizer</a></span><span class="signature">(<wbr><span class="parameter" id="kDefaultJsonTokenizer-param-json"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/FieldName.html">FieldName</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">json</span>, </span><span class="parameter" id="kDefaultJsonTokenizer-param-fields"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/FieldName.html">FieldName</a></span>&gt;</span></span> <span class="parameter-name">fields</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span></span>
   </span>
   
 
 </dt>
 <dd>
-  A <a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/Tokenizer.html">Tokenizer</a> that tokenizes English language text.
+  A <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Tokenizer.html">Tokenizer</a> that tokenizes English language text.
   
 
 </dd>
 
         <dt id="kDefaultTokenizer" class="callable">
-  <span class="name"><a href="../text_indexing/TextIndexer/kDefaultTokenizer.html">kDefaultTokenizer</a></span><span class="signature">(<wbr><span class="parameter" id="kDefaultTokenizer-param-source"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">source</span>, </span><span class="parameter" id="kDefaultTokenizer-param-field">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">field</span>]</span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span></span>
+  <span class="name"><a href="../text_indexing/TextIndexer/kDefaultTokenizer.html">kDefaultTokenizer</a></span><span class="signature">(<wbr><span class="parameter" id="kDefaultTokenizer-param-source"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/SourceText.html">SourceText</a></span> <span class="parameter-name">source</span>, </span><span class="parameter" id="kDefaultTokenizer-param-field">[<span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/FieldName.html">FieldName</a>?</span> <span class="parameter-name">field</span>]</span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span></span>
   </span>
   
 
 </dt>
 <dd>
-  A <a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/Tokenizer.html">Tokenizer</a> that tokenizes English language text.
+  A <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Tokenizer.html">Tokenizer</a> that tokenizes English language text.
   
 
 </dd>
@@ -395,29 +395,30 @@ the fields in a JSON document.
     <h5>text_indexing library</h5>
     <ol>
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#classes">Classes</a></li>
-  <li><a href="../text_indexing/DictionaryEntry-class.html">DictionaryEntry</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/English-class.html">English</a></li>
+  <li><a href="../text_indexing/Document-class.html">Document</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/English-class.html">English</a></li>
   <li><a href="../text_indexing/InMemoryIndexer-class.html">InMemoryIndexer</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></li>
   <li><a href="../text_indexing/PersistedIndexer-class.html">PersistedIndexer</a></li>
   <li><a href="https://pub.dev/documentation/porter_2_stemmer/1.0.0+5/porter_2_stemmer/Porter2Stemmer-class.html">Porter2Stemmer</a></li>
-  <li><a href="../text_indexing/PostingsEntry-class.html">PostingsEntry</a></li>
-  <li><a href="../text_indexing/PostingsMap-class.html">PostingsMap</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/Sentence-class.html">Sentence</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/TextAnalyzerBase-class.html">TextAnalyzerBase</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/TextAnalyzerConfiguration-class.html">TextAnalyzerConfiguration</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Sentence-class.html">Sentence</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/TextAnalyzerBase-class.html">TextAnalyzerBase</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/TextAnalyzerConfiguration-class.html">TextAnalyzerConfiguration</a></li>
   <li><a href="../text_indexing/TextIndexer-class.html">TextIndexer</a></li>
   <li><a href="../text_indexing/TextIndexerBase-class.html">TextIndexerBase</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/TextSource-class.html">TextSource</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/Token-class.html">Token</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/TextSource-class.html">TextSource</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Token-class.html">Token</a></li>
 
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#extensions">Extensions</a></li>
+  <li><a href="../text_indexing/DictionaryEntryCollectionExtension.html">DictionaryEntryCollectionExtension</a></li>
+  <li><a href="../text_indexing/DictionaryEntryExtension.html">DictionaryEntryExtension</a></li>
+  <li><a href="../text_indexing/DictionaryExtensions.html">DictionaryExtensions</a></li>
+  <li><a href="../text_indexing/DocumentPostingsEntryExtension.html">DocumentPostingsEntryExtension</a></li>
   <li><a href="https://pub.dev/documentation/porter_2_stemmer/1.0.0+5/porter_2_stemmer/Porter2StemmerExtension.html">Porter2StemmerExtension</a></li>
-  <li><a href="../text_indexing/PostingsMapExtension.html">PostingsMapExtension</a></li>
-  <li><a href="../text_indexing/TermDictionaryExtensions.html">TermDictionaryExtensions</a></li>
-  <li><a href="../text_indexing/TermsCollectionExtension.html">TermsCollectionExtension</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/TokenCollectionExtension.html">TokenCollectionExtension</a></li>
+  <li><a href="../text_indexing/PostingsEntryExtension.html">PostingsEntryExtension</a></li>
+  <li><a href="../text_indexing/PostingsExtension.html">PostingsExtension</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/TokenCollectionExtension.html">TokenCollectionExtension</a></li>
 
 
 
@@ -427,20 +428,34 @@ the fields in a JSON document.
   <li><a href="../text_indexing/TermSortStrategy.html">TermSortStrategy</a></li>
 
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#typedefs">Typedefs</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/CharacterFilter.html">CharacterFilter</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/CharacterFilter.html">CharacterFilter</a></li>
   <li><a href="../text_indexing/Dictionary.html">Dictionary</a></li>
+  <li><a href="../text_indexing/DictionaryEntry.html">DictionaryEntry</a></li>
   <li><a href="../text_indexing/DictionaryLoader.html">DictionaryLoader</a></li>
   <li><a href="../text_indexing/DictionaryUpdater.html">DictionaryUpdater</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/JsonTokenizer.html">JsonTokenizer</a></li>
+  <li><a href="../text_indexing/DocId.html">DocId</a></li>
+  <li><a href="../text_indexing/DocumentPostings.html">DocumentPostings</a></li>
+  <li><a href="../text_indexing/DocumentPostingsEntry.html">DocumentPostingsEntry</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/FieldName.html">FieldName</a></li>
+  <li><a href="../text_indexing/FieldPostings.html">FieldPostings</a></li>
+  <li><a href="../text_indexing/FieldPostingsEntry.html">FieldPostingsEntry</a></li>
+  <li><a href="../text_indexing/Ft.html">Ft</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/JsonTokenizer.html">JsonTokenizer</a></li>
   <li><a href="../text_indexing/Postings.html">Postings</a></li>
+  <li><a href="../text_indexing/PostingsEntry.html">PostingsEntry</a></li>
   <li><a href="../text_indexing/PostingsLoader.html">PostingsLoader</a></li>
   <li><a href="../text_indexing/PostingsUpdater.html">PostingsUpdater</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/SentenceSplitter.html">SentenceSplitter</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/Stemmer.html">Stemmer</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/TermFilter.html">TermFilter</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/TermSplitter.html">TermSplitter</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/TokenFilter.html">TokenFilter</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.0/text_analysis/Tokenizer.html">Tokenizer</a></li>
+  <li><a href="../text_indexing/Pt.html">Pt</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/SentenceSplitter.html">SentenceSplitter</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/SourceText.html">SourceText</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Stemmer.html">Stemmer</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/StopWords.html">StopWords</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Term.html">Term</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/TermFilter.html">TermFilter</a></li>
+  <li><a href="../text_indexing/TermPositions.html">TermPositions</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/TermSplitter.html">TermSplitter</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/TokenFilter.html">TokenFilter</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Tokenizer.html">Tokenizer</a></li>
 
 </ol>
 
@@ -491,7 +506,7 @@ the fields in a JSON document.
 <footer>
   <span class="no-break">
     text_indexing
-      0.1.0
+      0.2.0
   </span>
 
   

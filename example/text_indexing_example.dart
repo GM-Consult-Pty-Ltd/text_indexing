@@ -46,9 +46,13 @@ Future<void> _inMemoryIndexerExample(Map<String, String> documents) async {
 
   indexer.postingsStream.listen((event) {
     if (event.isNotEmpty) {
-      final docId = event.first.docId;
-      final terms = event.map((e) => e.term).toList();
-      print('$docId: $terms');
+      final PostingsEntry posting = event.entries.first;
+      if (posting.value.isNotEmpty) {
+        final DocumentPostingsEntry docPostings = posting.value.entries.first;
+        final docId = docPostings.docId;
+        final terms = event.terms;
+        print('$docId: $terms');
+      }
     }
   });
 
@@ -98,9 +102,13 @@ Future<void> _persistedIndexerExample(
 
   indexer.postingsStream.listen((event) {
     if (event.isNotEmpty) {
-      final docId = event.first.docId;
-      final terms = event.map((e) => e.term).toList();
-      print('$docId: $terms');
+      final PostingsEntry posting = event.entries.first;
+      if (posting.value.isNotEmpty) {
+        final DocumentPostingsEntry docPostings = posting.value.entries.first;
+        final docId = docPostings.docId;
+        final terms = event.terms;
+        print('$docId: $terms');
+      }
     }
   });
 

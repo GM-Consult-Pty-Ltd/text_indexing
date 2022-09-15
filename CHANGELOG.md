@@ -4,6 +4,20 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+### 0.2.0
+
+- **PRE-RELEASE, BREAKING CHANGES**
+- *BREAKING CHANGE*:Replaced object-model class `PostingsEntry` with typedef `PostingsEntry`.
+- *BREAKING CHANGE*:Replaced object-model class `DocumentPostingsEntry` with typedef `DocumentPostingsEntry`.
+- *BREAKING CHANGE*:Replaced object-model class `DictionaryEntry` with typedef `DictionaryEntry`.
+- Added `FieldPostings`, `DocumentPostings`, and `FieldPostingsEntry`  type definitions.
+- Added `Ft`, `Pt`, `TermPositions` and `DocId` type aliases.
+- Added interface `Document`.
+- Restructured and simplified the codebase.
+- Updated tests.
+- Updated examples.
+- Updated documentation.
+
 ### 0.1.0
 
 - **PRE-RELEASE**
@@ -84,10 +98,10 @@ All rights reserved.
 - *BREAKING CHANGES:* `TextIndexerBase`.
 - *BREAKING CHANGES:* `InMemoryIndexer`.
 - *BREAKING CHANGE:* `TermDictionary` renamed `Dictionary`.
-- *BREAKING CHANGE:* `PostingsMap` renamed `Postings`.
+- *BREAKING CHANGE:* `DocumentPostingsEntry` renamed `Postings`.
 - *BREAKING CHANGE:* `PostingsMapEntry` renamed `PostingsEntry`.
 - *BREAKING CHANGE:* `Term` renamed `DictionaryEntry`.
-- *BREAKING CHANGE:* `TermPositions` renamed `PostingsMap`.
+- *BREAKING CHANGE:* `TermPositions` renamed `DocumentPostingsEntry`.
 - Added a test for [PersistedIndexer].
 - Added an example for [PersistedIndexer].
 - Updated documentation.

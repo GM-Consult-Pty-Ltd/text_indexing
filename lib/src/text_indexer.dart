@@ -21,8 +21,8 @@ import 'package:text_indexing/text_indexing.dart';
 /// [upsertTermPostings] asynchronous methods.
 ///
 /// The [index] method indexes a text document, returning a list of
-/// [PostingsMap] that is also emitted by [postingsStream]. The [index] method
-/// implementation calls [emit], passing the list of [PostingsMap].
+/// [DocumentPostingsEntry] that is also emitted by [postingsStream]. The [index] method
+/// implementation calls [emit], passing the list of [DocumentPostingsEntry].
 ///
 /// The [emit] method is called by [index], and adds an event to the
 /// [postingsStream].
@@ -32,11 +32,11 @@ import 'package:text_indexing/text_indexing.dart';
 /// Implementing classes override the following fields:
 /// - [tokenizer] is the [Tokenizer] instance used by the indexer to parse
 ///   text to tokens;
-/// - [postingsStream] emits a list of [PostingsMap] instances whenever a
+/// - [postingsStream] emits a list of [DocumentPostingsEntry] instances whenever a
 ///   document is indexed.
 ///
 /// Implementing classes override the following asynchronous methods:
-/// - [index] indexes a text document, returning a list of [PostingsMap] and
+/// - [index] indexes a text document, returning a list of [DocumentPostingsEntry] and
 ///   adding it to the [postingsStream] by calling [emit];
 /// - [emit] is called by [index], and adds an event to the [postingsStream]
 ///   after updating the [Dictionary] and [Postings];
@@ -51,11 +51,11 @@ import 'package:text_indexing/text_indexing.dart';
 abstract class TextIndexer {
   //
 
-  /// Emits a list of [PostingsMap] instances whenever a document is indexed.
+  /// Emits [Postings] hashmap for an indexed document when it is indexed.
   ///
   /// Listen to [postingsStream] to update your term dictionary and postings
   /// map.
-  Stream<List<PostingsMap>> get postingsStream;
+  Stream<Postings> get postingsStream;
 
   /// The [Tokenizer] used by the indexer to parse documents to tokens.
   Tokenizer get tokenizer;
@@ -65,13 +65,13 @@ abstract class TextIndexer {
   JsonTokenizer get jsonTokenizer;
 
   /// A [Tokenizer] that tokenizes English language text.
-  static Future<List<Token>> kDefaultTokenizer(String source,
-          [String? field]) async =>
+  static Future<List<Token>> kDefaultTokenizer(SourceText source,
+          [FieldName? field]) async =>
       (await TextAnalyzer().tokenize(source, field)).tokens;
 
   /// A [Tokenizer] that tokenizes English language text.
   static Future<List<Token>> kDefaultJsonTokenizer(
-          Map<String, dynamic> json, List<String> fields) async =>
+          Map<FieldName, dynamic> json, List<FieldName> fields) async =>
       (await TextAnalyzer().tokenizeJson(json, fields)).tokens;
 
   /// The [emit] method is called by [index] and adds the [event] to the
@@ -79,25 +79,25 @@ abstract class TextIndexer {
   ///
   /// Sub-classes override [emit] to perform additional actions whenever a
   /// document is indexed.
-  Future<void> emit(List<PostingsMap> event);
+  Future<void> emit(Postings event);
 
-  /// Indexes a text document, returning a list of [PostingsMap].
+  /// Indexes a text document, returning a list of [DocumentPostingsEntry].
   ///
-  /// Adds the list of [PostingsMap] to the [postingsStream] by calling
+  /// Adds the list of [DocumentPostingsEntry] to the [postingsStream] by calling
   /// [emit].
-  FutureOr<List<PostingsMap>> index(String docId, String docText);
+  FutureOr<Postings> index(DocId docId, SourceText docText);
 
   /// Indexes the [fields] in a [json] document, returning a list of
-  /// [PostingsMap].
+  /// [DocumentPostingsEntry].
   ///
-  /// Adds the list of [PostingsMap] to the [postingsStream] by calling
+  /// Adds the list of [DocumentPostingsEntry] to the [postingsStream] by calling
   /// [emit].
-  FutureOr<List<PostingsMap>> indexJson(
-      String docId, Map<String, dynamic> json, List<String> fields);
+  FutureOr<Postings> indexJson(
+      DocId docId, Map<FieldName, dynamic> json, List<FieldName> fields);
 
   /// Asynchronously retrieves a [Dictionary] for [terms] from a
   /// [Dictionary] data source.
-  Future<Dictionary> loadTerms(Iterable<String> terms);
+  Future<Dictionary> loadTerms(Iterable<Term> terms);
 
   /// A callback that passes new or updated [values] for persisting to a
   /// [Dictionary].
@@ -105,7 +105,7 @@ abstract class TextIndexer {
 
   /// Asynchronously retrieves [PostingsEntry] entities for [terms] from a
   /// [Postings].
-  Future<Postings> loadTermPostings(Iterable<String> terms);
+  Future<Postings> loadTermPostings(Iterable<Term> terms);
 
   /// A callback that passes new or updated [values] for upserting to a
   /// [Postings].
@@ -121,7 +121,7 @@ abstract class TextIndexer {
 /// in-memory hashmaps.
 ///
 /// The [index] method implementation tokenizes a text document using
-/// [tokenizer], before mapping the tokens to a list of [PostingsMap] that is
+/// [tokenizer], before mapping the tokens to a list of [DocumentPostingsEntry] that is
 /// passed to [emit].
 ///
 /// The [emit] method implementation is called by [index], and:
@@ -140,67 +140,67 @@ abstract class TextIndexerBase implements TextIndexer {
   //
 
   /// The private stream controller for the [postingsStream].
-  final _postingsStreamController = BehaviorSubject<List<PostingsMap>>();
+  final _postingsStreamController = BehaviorSubject<Postings>();
 
   /// Implementation of [TextIndexer.index] that:
   /// - parses [docText] to a collection of [Token]s;
   /// - maps the tokens to postings for [docId];
-  /// - maps the postings for [docId] to a list of [PostingsMap];
-  /// - calls [emit], passing the list of [PostingsMap] for [docId]; and
-  /// - returns the list of [PostingsMap] for [docId].
+  /// - maps the postings for [docId] to a list of [DocumentPostingsEntry];
+  /// - calls [emit], passing the list of [DocumentPostingsEntry] for [docId]; and
+  /// - returns the list of [DocumentPostingsEntry] for [docId].
   @override
-  FutureOr<List<PostingsMap>> index(String docId, String docText) async {
+  FutureOr<Postings> index(DocId docId, SourceText docText) async {
     // get the terms using tokenizer
     final tokens = (await tokenizer(docText));
     // map the tokens to postings
     final Postings postings = _tokensToPostings(docId, tokens);
-    // map postings to a list of PostingsMap for docId.
-    final event = _postingsToTermPositions(docId, postings);
+    // map postings to a list of DocumentPostingsEntry for docId.
+    // final event = _postingsToTermPositions(docId, postings);
     // emit the postings list for docId
-    await emit(event);
-    return event;
+    await emit(postings);
+    return postings;
   }
 
   /// Implementation of [TextIndexer.index] that:
   /// - parses [docText] to a collection of [Token]s;
   /// - maps the tokens to postings for [docId];
-  /// - maps the postings for [docId] to a list of [PostingsMap];
-  /// - calls [emit], passing the list of [PostingsMap] for [docId]; and
-  /// - returns the list of [PostingsMap] for [docId].
+  /// - maps the postings for [docId] to a list of [DocumentPostingsEntry];
+  /// - calls [emit], passing the list of [DocumentPostingsEntry] for [docId]; and
+  /// - returns the list of [DocumentPostingsEntry] for [docId].
   @override
-  FutureOr<List<PostingsMap>> indexJson(
-      String docId, Map<String, dynamic> json, List<String> fields) async {
+  FutureOr<Postings> indexJson(
+      DocId docId, Map<FieldName, dynamic> json, List<FieldName> fields) async {
     // get the terms using tokenizer
     final tokens = (await jsonTokenizer(json, fields));
     // map the tokens to postings
     final Postings postings = _tokensToPostings(docId, tokens);
-    // map postings to a list of PostingsMap for docId.
-    final event = _postingsToTermPositions(docId, postings);
+    // map postings to a list of DocumentPostingsEntry for docId.
+    // final event = _postingsToTermPositions(docId, postings);
     // emit the postings list for docId
-    await emit(event);
-    return event;
+    await emit(postings);
+    return postings;
   }
 
-  /// Maps [postings] to a list of [PostingsMap] for [docId].
-  List<PostingsMap> _postingsToTermPositions(String docId, Postings postings) {
-    // initialize the list of PostingsMap that will be emitted
-    final event = <PostingsMap>[];
-    // iterate through postings.entries
-    for (final entry in postings.entries) {
-      // shortcut to the term
-      final term = entry.key;
-      // get the posting for docId and term
-      final positions = entry.value[docId];
-      if (positions != null) {
-        // add a PostingsMap instance for docId and term to event
-        event.add(PostingsMap(term, docId, positions));
-      }
-    }
-    return event;
-  }
+  // /// Maps [postings] to a list of [DocumentPostingsEntry] for [docId].
+  // Postings _postingsToTermPositions(DocId docId, Postings postings) {
+  //   // initialize the list of DocumentPostingsEntry that will be emitted
+  //   final Postings event = {};
+  //   // iterate through postings.entries
+  //   for (final entry in postings.entries) {
+  //     // shortcut to the term
+  //     final term = entry.key;
+  //     // get the posting for docId and term
+  //     final positions = entry.value[docId];
+  //     if (positions != null) {
+  //       // add a DocumentPostingsEntry instance for docId and term to event
+  //       event.add(DocumentPostingsEntry(term, docId, positions));
+  //     }
+  //   }
+  //   return event;
+  // }
 
   /// Maps the [tokens] to a [Postings].
-  Postings _tokensToPostings(String docId, Iterable<Token> tokens) {
+  Postings _tokensToPostings(DocId docId, Iterable<Token> tokens) {
     // initialize a Postings collection to hold the postings
     final Postings postings = {};
     // initialize the term position index
@@ -221,10 +221,10 @@ abstract class TextIndexerBase implements TextIndexer {
   ///   [Postings] by calling [loadTermPostings];
   /// - loads the existing [DictionaryEntry]s for the terms from a [Dictionary] by
   ///   calling [loadTerms];
-  /// - iterates through the [PostingsMap] in [event] and:
-  /// - inserts or updates each [PostingsMap] instance to a collection of
+  /// - iterates through the [DocumentPostingsEntry] in [event] and:
+  /// - inserts or updates each [DocumentPostingsEntry] instance to a collection of
   ///   postings to update;
-  /// - if a [PostingsMap] instance did not exist previously, increments
+  /// - if a [DocumentPostingsEntry] instance did not exist previously, increments
   ///   the document frequency of the associated term;
   /// - then:
   /// - asynchronously updates the [Dictionary] by calling
@@ -234,21 +234,27 @@ abstract class TextIndexerBase implements TextIndexer {
   /// - adds the [event] to the [_postingsStreamController] sink.
   @override
   @mustCallSuper
-  Future<void> emit(List<PostingsMap> event) async {
+  Future<void> emit(Postings event) async {
     // - maps [event] to a set of unique terms;
-    final terms = Set<String>.from(event.map((e) => e.term));
+    final terms = Set<Term>.from(event.keys);
     // - loads the existing [PostingsEntry]s for the terms from a [Postings] by calling [loadTermPostings];
     final postingsToUpdate = await loadTermPostings(terms);
 // - loads the existing [DictionaryEntry]s for the terms from a [Dictionary] by calling [loadTerms];
     final Dictionary termsToUpdate = await loadTerms(terms);
-    // - iterates through the [PostingsMap] in [event];
-    await Future.forEach(event, (PostingsMap e) {
-      // - inserts or updates each [PostingsMap] instance to a collection of postings to update;
-      final increment =
-          postingsToUpdate.addTermPositions(e.term, e.docId, e.fieldPositions);
-      // - if a [PostingsMap] instance did not exist previously, also increments the document frequency of the associated term;
-      if (increment) {
-        termsToUpdate.incrementFrequency(e.term);
+    // - iterates through the [DocumentPostingsEntry] in [event];
+    await Future.forEach(event.entries, (PostingsEntry entry) {
+      final term = entry.key;
+      final postings = entry.value;
+      for (final docEntry in postings.entries) {
+        final docId = docEntry.key;
+        final fieldPositions = docEntry.value;
+        // - inserts or updates each [DocumentPostingsEntry] instance to a collection of postings to update;
+        final increment =
+            postingsToUpdate.addFieldPostings(term, docId, fieldPositions);
+        // - if a [DocumentPostingsEntry] instance did not exist previously, also increments the document frequency of the associated term;
+        if (increment) {
+          termsToUpdate.incrementFrequency(term);
+        }
       }
     });
     // - asynchronously updates the [Dictionary] by calling [updateDictionary];
@@ -263,6 +269,5 @@ abstract class TextIndexerBase implements TextIndexer {
   ///
   /// Returns [_postingsStreamController] stream.
   @override
-  Stream<List<PostingsMap>> get postingsStream =>
-      _postingsStreamController.stream;
+  Stream<Postings> get postingsStream => _postingsStreamController.stream;
 }

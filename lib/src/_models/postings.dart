@@ -4,8 +4,83 @@
 
 import 'package:text_indexing/text_indexing.dart';
 
+/// Type definition for a hashmap of terms to [DocumentPostings].
+typedef Postings = Map<Term, DocumentPostings>;
+
+/// Type definition for an entry in a [Postings] hashmap.
+typedef PostingsEntry = MapEntry<Term, DocumentPostings>;
+
+/// An alias for [int], used to denote the position of a [Term] in [SourceText]
+/// indexed object (the term position).
+typedef Pt = int;
+
+/// An alias for [String], used whenever a document id is referenced.
+typedef DocId = String;
+
+/// Type definition for a hashmap of document ids to [FieldPostings].
+typedef DocumentPostings = Map<DocId, FieldPostings>;
+
+/// Type definition for an entry in a [DocumentPostings] hashmap.
+typedef DocumentPostingsEntry = MapEntry<DocId, FieldPostings>;
+
+/// Type definition for a hashmap of [FieldName]s to [TermPositions] in the
+/// field with [FieldName].
+typedef FieldPostings = Map<FieldName, TermPositions>;
+
+/// Type definition for an entry in a [FieldPostings] hashmap.
+typedef FieldPostingsEntry = MapEntry<FieldName, TermPositions>;
+
+/// Type definition for an ordered [Set] of unique zero-based term
+/// positions in a text source, sorted in ascending order.
+typedef TermPositions = List<Pt>;
+
+/// Asynchronously retrieves a [Postings] subset for a collection of
+/// [terms] from a [Postings] data source, usually persisted storage.
+typedef PostingsLoader = Future<Postings> Function(Iterable<Term> terms);
+
+/// A callback that [values] for persisting to a [Postings].
+///
+/// Parameter [values] is a subset of a [Postings] containing new or changed
+/// [PostingsEntry] instances.
+typedef PostingsUpdater = Future<void> Function(Postings values);
+
+/// The [PostingsEntry] class enumerates the properties of an entry in a
+/// [Postings] collection:
+/// - [term] is the word/term that is indexed; and
+/// - [postings] is a hashmap of the [DocumentPostingsEntry] for [term].
+extension PostingsEntryExtension on PostingsEntry {
+  //
+
+  /// Returns [key], the indexed [Term].
+  Term get term => key;
+
+  /// Returns [value], a hashmap of the [DocId] to [FieldPostings].
+  DocumentPostings get postings => value;
+}
+
+/// The [DocumentPostingsEntry] class enumerates the properties of a document
+/// posting in a [Postings] as part of an inverted index of a dataset:
+/// - [docId] is the document's id value, (the [DocumentPostingsEntry.key]);
+/// - [fieldPositions] is a hashmap of field names that contain the term to
+///   the a zero-based, ordered list of word positions of the term in the
+///   field (the [DocumentPostingsEntry.value]).
+extension DocumentPostingsEntryExtension on DocumentPostingsEntry {
+  //
+  /// The document's id value.
+  ///
+  /// Usually the value of the document's primary key field in the dataset.
+  DocId get docId => key;
+
+  /// A hashmap of field names that conatin the term to the a zero-based,
+  /// ordered list of unique word positions of the [Term] in the field.
+  ///
+  /// A word position means the index of the word in an array of all the words
+  /// in the document.
+  FieldPostings get fieldPositions => value;
+}
+
 /// Extension methods and properties on [Postings].
-extension PostingsMapExtension on Postings {
+extension PostingsExtension on Postings {
   //
 
   /// Filters the [Postings] by [terms], [docIds] AND [fields].
@@ -15,9 +90,9 @@ extension PostingsMapExtension on Postings {
   /// - [documentPostings], if [docIds] is not null; and finally
   /// - [fieldPostings], if [fields] is not null.
   Postings filter(
-      {Iterable<String>? terms,
-      Iterable<String>? docIds,
-      Iterable<String>? fields}) {
+      {Iterable<Term>? terms,
+      Iterable<DocId>? docIds,
+      Iterable<FieldName>? fields}) {
     Postings retVal = terms != null ? termPostings(terms) : Postings.from(this);
     retVal = docIds != null ? retVal.documentPostings(docIds) : retVal;
     return fields != null ? retVal.fieldPostings(fields) : retVal;
@@ -27,7 +102,7 @@ extension PostingsMapExtension on Postings {
   ///
   /// Returns a subset of the [Postings] instance that only contains
   /// entires with a key in the [terms] collection.
-  Postings termPostings(Iterable<String> terms) {
+  Postings termPostings(Iterable<Term> terms) {
     final Postings retVal = {};
     for (final term in terms) {
       final posting = this[term];
@@ -42,7 +117,7 @@ extension PostingsMapExtension on Postings {
   ///
   /// Returns a subset of the [Postings] instance that only contains entries
   /// where a document id in [docIds] has a key in the entry's postings lists.
-  Postings documentPostings(Iterable<String> docIds) => Postings.from(this)
+  Postings documentPostings(Iterable<DocId> docIds) => Postings.from(this)
     ..removeWhere((key, value) =>
         value.keys.toSet().intersection(docIds.toSet()).isEmpty);
 
@@ -51,43 +126,33 @@ extension PostingsMapExtension on Postings {
   /// Returns a subset of the [Postings] instance that only contains entries
   /// where a field name in [fields] has a key in any document's postings the
   /// entry's postings lists.
-  Postings fieldPostings(Iterable<String> fields) => Postings.from(this)
+  Postings fieldPostings(Iterable<FieldName> fields) => Postings.from(this)
     ..removeWhere((key, value) {
-      final docFields = <String>[];
+      final docFields = <FieldName>[];
       for (final doc in value.values) {
         docFields.addAll(doc.keys);
       }
       return docFields.toSet().intersection(fields.toSet()).isEmpty;
     });
 
-  /// Returns the list of [PostingsMap] for the [term] from the
+  /// Returns the list of [DocumentPostingsEntry] for the [term] from the
   /// [Postings].
-  List<PostingsMap> termPostingsList(String term) {
+  List<DocumentPostingsEntry> termPostingsList(Term term) {
     final entry = this[term];
-    return entry?.entries.map((e) => PostingsMap.fromEntry(term, e)).toList() ??
-        [];
+    return entry?.entries.toList() ?? [];
   }
 
   /// Returns the list of [PostingsEntry] elements in the [Postings] in
   /// alphapetic order of the terms (keys).
-  List<PostingsEntry> toList() {
-    final postingsMapEntries =
-        entries.map((e) => PostingsEntry.fromEntry(e)).toList();
-    postingsMapEntries.sort((a, b) => a.term.compareTo(b.term));
-    return postingsMapEntries;
-  }
+  List<PostingsEntry> toList() => entries.toList();
 
   /// Returns the dictionary terms (keys) as an ordered list,
   /// sorted alphabetically.
-  List<String> get terms {
+  List<Term> get terms {
     final terms = keys.toList();
     terms.sort((a, b) => a.compareTo(b));
     return terms;
   }
-
-  /// Inserts or replaces the [value] in the [Postings].
-  void addEntry(PostingsEntry value) =>
-      this[value.term] = value.toMapEntry().value;
 
   /// Adds a postings for the [docId] to [Postings] entry for the [term].
   ///
@@ -99,11 +164,10 @@ extension PostingsMapExtension on Postings {
   ///
   /// If no entry for [term] exists in the [Postings], creates a new entry
   /// and adds [positions] for [docId] to the new entry.
-  bool addTermPositions(
-      String term, String docId, Map<String, List<int>> positions) {
+  bool addFieldPostings(Term term, DocId docId, FieldPostings positions) {
     //
     // get the entry for the term or initialize a new one if it does not exist
-    final entry = this[term] ?? <String, Map<String, List<int>>>{};
+    final DocumentPostings entry = this[term] ?? {};
     // get the existing positions list for [docId] if it exists
     final existingEntry = entry[docId];
     // overwrite the positions for docId
@@ -136,10 +200,10 @@ extension PostingsMapExtension on Postings {
   ///
   /// Updates the [term] entry in the [Postings].
   bool addTermPosition(
-      {required String term,
-      required String docId,
-      required int position,
-      String? field}) {
+      {required Term term,
+      required DocId docId,
+      required Pt position,
+      FieldName? field}) {
     //
     field = field ?? 'null';
     // get the entry for the term or initialize a new one if it does not exist
@@ -149,7 +213,7 @@ extension PostingsMapExtension on Postings {
     // get the existing psitions in the field for [field] if it exists
     final docFieldPostings = docPostings[field];
     // initializes positions set from docFieldPostings or an empty list
-    final set = Set<int>.from(docFieldPostings ?? []);
+    final set = (docFieldPostings ?? []).toSet();
     // add position to the set
     set.add(position);
     // convert to list

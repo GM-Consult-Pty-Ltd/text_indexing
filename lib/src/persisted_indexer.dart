@@ -8,7 +8,7 @@ import 'package:text_indexing/text_indexing.dart';
 /// document  is indexed.
 ///
 /// Use the [index] method to index a text document, returning a list
-/// of [PostingsMap] and adding it to the [postingsStream].
+/// of [DocumentPostingsEntry] and adding it to the [postingsStream].
 ///
 /// The [loadTerms], [updateDictionary], [loadTermPostings] and
 /// [upsertTermPostings] implementations read and write from a [Dictionary]
