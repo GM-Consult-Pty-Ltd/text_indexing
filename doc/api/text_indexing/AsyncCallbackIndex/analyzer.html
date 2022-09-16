@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the controller property from the InMemoryIndexer class, for the Dart programming language.">
-  <title>controller property - InMemoryIndexer class - text_indexing library - Dart API</title>
+  <meta name="description" content="API docs for the analyzer property from the AsyncCallbackIndex class, for the Dart programming language.">
+  <title>analyzer property - AsyncCallbackIndex class - text_indexing library - Dart API</title>
 
 
   
@@ -31,10 +31,10 @@
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../../index.html">text_indexing</a></li>
     <li><a href="../../text_indexing/text_indexing-library.html">text_indexing</a></li>
-    <li><a href="../../text_indexing/InMemoryIndexer-class.html">InMemoryIndexer</a></li>
-    <li class="self-crumb">controller property</li>
+    <li><a href="../../text_indexing/AsyncCallbackIndex-class.html">AsyncCallbackIndex</a></li>
+    <li class="self-crumb">analyzer property</li>
   </ol>
-  <div class="self-name">controller</div>
+  <div class="self-name">analyzer</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -45,26 +45,26 @@
 
   <div id="dartdoc-main-content" class="main-content">
       <div>
-<h1><span class="kind-property">controller</span> property 
+<h1><span class="kind-property">analyzer</span> property 
     <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
 </h1></div>
 
         <section class="multi-line-signature">
-          <a href="https://pub.dev/documentation/rxdart/0.27.5/rx/BehaviorSubject-class.html">BehaviorSubject</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_indexing/Postings.html">Postings</a></span>&gt;</span>
-          <span class="name ">controller</span>
+          <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a>
+          <span class="name ">analyzer</span>
           <div class="features">final</div>
 
         </section>
         
 <section class="desc markdown">
-  <p>The private stream controller for the <a href="../../text_indexing/TextIndexerBase/postingsStream.html">postingsStream</a>.</p>
+  <p>The text analyser that extracts tokens from text for the index.</p>
 </section>
 
         
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
-final controller = BehaviorSubject&lt;Postings&gt;();
+final ITextAnalyzer analyzer;
 
 </code></pre>
 </section>
@@ -82,36 +82,38 @@ final controller = BehaviorSubject&lt;Postings&gt;();
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
   <li><a href="../../index.html">text_indexing</a></li>
   <li><a href="../../text_indexing/text_indexing-library.html">text_indexing</a></li>
-  <li><a href="../../text_indexing/InMemoryIndexer-class.html">InMemoryIndexer</a></li>
-  <li class="self-crumb">controller property</li>
+  <li><a href="../../text_indexing/AsyncCallbackIndex-class.html">AsyncCallbackIndex</a></li>
+  <li class="self-crumb">analyzer property</li>
 </ol>
 
 
-    <h5>InMemoryIndexer class</h5>
+    <h5>AsyncCallbackIndex class</h5>
     <ol>
 
-        <li class="section-title"><a href="../../text_indexing/InMemoryIndexer-class.html#constructors">Constructors</a></li>
-          <li><a href="../../text_indexing/InMemoryIndexer/InMemoryIndexer.html">InMemoryIndexer</a></li>
+        <li class="section-title"><a href="../../text_indexing/AsyncCallbackIndex-class.html#constructors">Constructors</a></li>
+          <li><a href="../../text_indexing/AsyncCallbackIndex/AsyncCallbackIndex.html">AsyncCallbackIndex</a></li>
 
 
     <li class="section-title">
-      <a href="../../text_indexing/InMemoryIndexer-class.html#instance-properties">Properties</a>
+      <a href="../../text_indexing/AsyncCallbackIndex-class.html#instance-properties">Properties</a>
     </li>
-    <li><a href="../../text_indexing/InMemoryIndexer/controller.html">controller</a></li>
+    <li><a href="../../text_indexing/AsyncCallbackIndex/analyzer.html">analyzer</a></li>
+    <li><a href="../../text_indexing/AsyncCallbackIndex/dictionaryUpdater.html">dictionaryUpdater</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
-    <li><a href="../../text_indexing/InMemoryIndexer/index.html">index</a></li>
-    <li class="inherited"><a href="../../text_indexing/TextIndexerBase/postingsStream.html">postingsStream</a></li>
+    <li><a href="../../text_indexing/AsyncCallbackIndex/postingsLoader.html">postingsLoader</a></li>
+    <li><a href="../../text_indexing/AsyncCallbackIndex/postingsUpdater.html">postingsUpdater</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
+    <li><a href="../../text_indexing/AsyncCallbackIndex/termsLoader.html">termsLoader</a></li>
 
-    <li class="section-title inherited"><a href="../../text_indexing/InMemoryIndexer-class.html#instance-methods">Methods</a></li>
-    <li class="inherited"><a href="../../text_indexing/TextIndexerBase/emit.html">emit</a></li>
-    <li class="inherited"><a href="../../text_indexing/TextIndexerBase/indexCollection.html">indexCollection</a></li>
-    <li class="inherited"><a href="../../text_indexing/TextIndexerBase/indexJson.html">indexJson</a></li>
-    <li class="inherited"><a href="../../text_indexing/TextIndexerBase/indexText.html">indexText</a></li>
+    <li class="section-title"><a href="../../text_indexing/AsyncCallbackIndex-class.html#instance-methods">Methods</a></li>
+    <li><a href="../../text_indexing/AsyncCallbackIndex/getDictionary.html">getDictionary</a></li>
+    <li><a href="../../text_indexing/AsyncCallbackIndex/getPostings.html">getPostings</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
+    <li><a href="../../text_indexing/AsyncCallbackIndex/upsertDictionary.html">upsertDictionary</a></li>
+    <li><a href="../../text_indexing/AsyncCallbackIndex/upsertPostings.html">upsertPostings</a></li>
 
-    <li class="section-title inherited"><a href="../../text_indexing/InMemoryIndexer-class.html#operators">Operators</a></li>
+    <li class="section-title inherited"><a href="../../text_indexing/AsyncCallbackIndex-class.html#operators">Operators</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/operator_equals.html">operator ==</a></li>
 
 

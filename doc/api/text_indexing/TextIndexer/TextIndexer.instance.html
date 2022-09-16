@@ -50,35 +50,26 @@
 </h1></div>
 
     <section class="multi-line-signature">
-      <span class="name ">TextIndexer.instance</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="instance-param-index">{<span>required</span> <span class="type-annotation"><a href="../../text_indexing/InvertedPositionalZoneIndex-class.html">InvertedPositionalZoneIndex</a></span> <span class="parameter-name">index</span>, </span></li>
-<li><span class="parameter" id="instance-param-tokenizer"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Tokenizer.html">Tokenizer</a></span> <span class="parameter-name">tokenizer</span> = <span class="default-value">TextIndexer.kDefaultTokenizer</span>, </span></li>
-<li><span class="parameter" id="instance-param-jsonTokenizer"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/JsonTokenizer.html">JsonTokenizer</a></span> <span class="parameter-name">jsonTokenizer</span> = <span class="default-value">TextIndexer.kDefaultJsonTokenizer</span>}</span></li>
+      <span class="name ">TextIndexer.instance</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="instance-param-index">{<span>required</span> <span class="type-annotation"><a href="../../text_indexing/InvertedPositionalZoneIndex-class.html">InvertedPositionalZoneIndex</a></span> <span class="parameter-name">index</span>}</span></li>
 </ol>)
     </section>
 
     
 <section class="desc markdown">
-  <p>Factory constructor returns a <a href="../../text_indexing/TextIndexer-class.html">TextIndexer</a> instance with a custom
-<code>index</code> repository:</p>
-<ul>
-<li>pass a <code>index</code> that provides access to the <a href="../../text_indexing/Dictionary.html">Dictionary</a> and <a href="../../text_indexing/Postings.html">Postings</a>
-artifacts;</li>
-<li>pass a <code>tokenizer</code> to parse text to tokens,
-or use the default <a href="../../text_indexing/TextIndexer/kDefaultTokenizer.html">TextIndexer.kDefaultTokenizer</a>; and</li>
-<li>pass a <code>jsonTokenizer</code> used to parse JSON documents to tokens,
-or use the default <a href="../../text_indexing/TextIndexer/kDefaultJsonTokenizer.html">TextIndexer.kDefaultJsonTokenizer</a>.</li>
-</ul>
+  <p>Factory constructor initializes a <a href="../../text_indexing/TextIndexer-class.html">TextIndexer</a> instance, passing in a
+<code>index</code> instance.</p>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">factory TextIndexer.instance(
-        {required InvertedPositionalZoneIndex index,
-        Tokenizer tokenizer = TextIndexer.kDefaultTokenizer,
-        JsonTokenizer jsonTokenizer = TextIndexer.kDefaultJsonTokenizer}) =&gt;
-    _TextIndexerImpl(index, tokenizer, jsonTokenizer);</code></pre>
+  <pre class="language-dart"><code class="language-dart">factory TextIndexer.instance({
+  required InvertedPositionalZoneIndex index,
+  &#47;&#47; Tokenizer tokenizer = TextIndexer.kDefaultTokenizer,
+  &#47;&#47; JsonTokenizer jsonTokenizer = TextIndexer.kDefaultJsonTokenizer
+}) =&gt;
+    _TextIndexerImpl(index);</code></pre>
 </section>
 
 
@@ -114,31 +105,22 @@ or use the default <a href="../../text_indexing/TextIndexer/kDefaultJsonTokenize
     </li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
     <li><a href="../../text_indexing/TextIndexer/index.html">index</a></li>
-    <li><a href="../../text_indexing/TextIndexer/jsonTokenizer.html">jsonTokenizer</a></li>
     <li><a href="../../text_indexing/TextIndexer/postingsStream.html">postingsStream</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
-    <li><a href="../../text_indexing/TextIndexer/tokenizer.html">tokenizer</a></li>
 
     <li class="section-title"><a href="../../text_indexing/TextIndexer-class.html#instance-methods">Methods</a></li>
     <li><a href="../../text_indexing/TextIndexer/emit.html">emit</a></li>
-    <li><a class="deprecated" href="../../text_indexing/TextIndexer/getDictionary.html">getDictionary</a></li>
-    <li><a class="deprecated" href="../../text_indexing/TextIndexer/getPostings.html">getPostings</a></li>
     <li><a href="../../text_indexing/TextIndexer/indexCollection.html">indexCollection</a></li>
     <li><a href="../../text_indexing/TextIndexer/indexJson.html">indexJson</a></li>
     <li><a href="../../text_indexing/TextIndexer/indexText.html">indexText</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
-    <li><a class="deprecated" href="../../text_indexing/TextIndexer/upsertDictionary.html">upsertDictionary</a></li>
-    <li><a class="deprecated" href="../../text_indexing/TextIndexer/upsertPostings.html">upsertPostings</a></li>
 
     <li class="section-title inherited"><a href="../../text_indexing/TextIndexer-class.html#operators">Operators</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/operator_equals.html">operator ==</a></li>
 
 
 
-        <li class="section-title"><a href="../../text_indexing/TextIndexer-class.html#static-methods">Static methods</a></li>
-          <li><a href="../../text_indexing/TextIndexer/kDefaultJsonTokenizer.html">kDefaultJsonTokenizer</a></li>
-          <li><a href="../../text_indexing/TextIndexer/kDefaultTokenizer.html">kDefaultTokenizer</a></li>
 
 </ol>
 
@@ -152,7 +134,7 @@ or use the default <a href="../../text_indexing/TextIndexer/kDefaultJsonTokenize
 <footer>
   <span class="no-break">
     text_indexing
-      0.6.0-2
+      0.6.0-3
   </span>
 
   

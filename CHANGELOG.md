@@ -4,6 +4,24 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+### 0.6.0 (PRE-RELEASE, BREAKING CHANGES)
+
+#### Breaking changes:
+
+- Changed signature of extension method `Postings.termPostingsList(Term)` to `Postings.termPostingsList([Iterable<Term>?])`.
+- Removed field `InMemoryIndexer.dictionary`. Use `InMemoryIndexer.index.dictionary` instead.
+- Removed field `InMemoryIndexer.postings`. Use `InMemoryIndexer.index.postings` instead.
+- Removed method `TextIndexer.upsertDictionary`. Use `TextIndexer.index.upsertDictionary` instead;
+- Removed method `TextIndexer.getDictionary`. Use `TextIndexer.index.getDictionary` instead;
+- Removed method `TextIndexer.getPostings`. Use `TextIndexer.index.getPostings` instead;
+- Removed method `TextIndexer.upsertPostings`. Use `TextIndexer.index.upsertPostings` instead.
+- Removed field `InMemoryIndexer.dictionary`. Use `index.dictionary` instead.
+- Removed field `InMemoryIndexer.postings`. Use `index.postings` instead.
+- Added new field `InvertedPositionalZoneIndex.analyzer`, changing the signatures of factory constructors `TextIndexer.inMemory` and 'TextIndexer.async'.
+
+
+Updated dependencies, tests, examples and documentation.
+
 ### 0.6.0-2 (PRE-RELEASE, BREAKING CHANGES)
 
 #### Breaking changes:

@@ -17,6 +17,9 @@ import 'package:text_indexing/text_indexing.dart';
 abstract class InvertedPositionalZoneIndex {
   //
 
+  /// The text analyser that extracts tokens from text for the index.
+  ITextAnalyzer get analyzer;
+
   /// Asynchronously retrieves a [Dictionary] for the [terms] from a
   /// [Dictionary] repository.
   ///

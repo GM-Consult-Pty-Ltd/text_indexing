@@ -42,7 +42,7 @@ Future<void> _inMemoryIndexerExample(Map<String, String> documents) async {
   // - initialize the [Postings]
   final postings = <String, Map<String, Map<String, List<int>>>>{};
 
-  // - initialize a [InMemoryIndexer]
+  // - initialize a [InMemoryIndexer] with the default analyzer
   final indexer =
       TextIndexer.inMemory(dictionary: dictionary, postings: postings);
 
@@ -94,7 +94,7 @@ Future<void> _persistedIndexerExample(Map<String, JSON> documents) async {
   // - initialize a [_TestIndex()]
   final index = _TestIndex();
 
-  // - initialize a [InMemoryIndexer]
+  // - initialize a [InMemoryIndexer] with the default analyzer
   final indexer = TextIndexer.async(
       termsLoader: index.getDictionary,
       dictionaryUpdater: index.upsertDictionary,

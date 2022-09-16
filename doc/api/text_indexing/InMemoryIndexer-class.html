@@ -83,7 +83,7 @@ in-memory inverted index</p>
 
     <dl class="constructor-summary-list">
         <dt id="InMemoryIndexer" class="callable">
-          <span class="name"><a href="../text_indexing/InMemoryIndexer/InMemoryIndexer.html">InMemoryIndexer</a></span><span class="signature">(<span class="parameter" id="-param-dictionary">{<span class="type-annotation"><a href="../text_indexing/Dictionary.html">Dictionary</a>?</span> <span class="parameter-name">dictionary</span>, </span><span class="parameter" id="-param-postings"><span class="type-annotation"><a href="../text_indexing/Postings.html">Postings</a>?</span> <span class="parameter-name">postings</span>, </span><span class="parameter" id="-param-tokenizer"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Tokenizer.html">Tokenizer</a></span> <span class="parameter-name">tokenizer</span> = <span class="default-value">TextIndexer.kDefaultTokenizer</span>, </span><span class="parameter" id="-param-jsonTokenizer"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/JsonTokenizer.html">JsonTokenizer</a></span> <span class="parameter-name">jsonTokenizer</span> = <span class="default-value">TextIndexer.kDefaultJsonTokenizer</span>}</span>)</span>
+          <span class="name"><a href="../text_indexing/InMemoryIndexer/InMemoryIndexer.html">InMemoryIndexer</a></span><span class="signature">(<span class="parameter" id="-param-analyzer">{<span>required</span> <span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></span> <span class="parameter-name">analyzer</span>, </span><span class="parameter" id="-param-dictionary"><span class="type-annotation"><a href="../text_indexing/Dictionary.html">Dictionary</a>?</span> <span class="parameter-name">dictionary</span>, </span><span class="parameter" id="-param-postings"><span class="type-annotation"><a href="../text_indexing/Postings.html">Postings</a>?</span> <span class="parameter-name">postings</span>}</span>)</span>
         </dt>
         <dd>
           Initializes a <a href="../text_indexing/InMemoryIndexer-class.html">InMemoryIndexer</a> instance:
@@ -106,17 +106,6 @@ in-memory inverted index</p>
 
 </dd>
 
-        <dt id="dictionary" class="property">
-  <span class="name"><a class="deprecated" href="../text_indexing/InMemoryIndexer/dictionary.html">dictionary</a></span>
-  <span class="signature">&#8594; <a href="../text_indexing/Dictionary.html">Dictionary</a></span> 
-
-</dt>
-<dd>
-  The in-memory term dictionary of the <a href="../text_indexing/InMemoryIndexer/index.html">index</a>.
-  <div class="features">@<a href="https://api.flutter.dev/flutter/dart-core/Deprecated-class.html">Deprecated</a>(&#39;Field `dictionary` is deprecated. Use `index.dictionary` instead.&#39;), read-only</div>
-
-</dd>
-
         <dt id="hashCode" class="property inherited">
   <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></span>
   <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> 
@@ -134,32 +123,9 @@ in-memory inverted index</p>
 
 </dt>
 <dd>
-  The <a href="../text_indexing/InvertedPositionalZoneIndex-class.html">InvertedPositionalZoneIndex</a> repository that provides access to the
-index <a href="../text_indexing/Dictionary.html">Dictionary</a> and <a href="../text_indexing/Postings.html">Postings</a>.
+  The <a href="../text_indexing/InvertedPositionalZoneIndex-class.html">InvertedPositionalZoneIndex</a> that provides access to the
+index <a href="../text_indexing/Dictionary.html">Dictionary</a> and <a href="../text_indexing/Postings.html">Postings</a> and a <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a>.
   <div class="features">final</div>
-
-</dd>
-
-        <dt id="jsonTokenizer" class="property">
-  <span class="name"><a href="../text_indexing/InMemoryIndexer/jsonTokenizer.html">jsonTokenizer</a></span>
-  <span class="signature">&#8594; <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/JsonTokenizer.html">JsonTokenizer</a></span> 
-
-</dt>
-<dd>
-  The <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/JsonTokenizer.html">JsonTokenizer</a> used by the indexer to parse the fields in a JSON
-document to tokens.
-  <div class="features">final</div>
-
-</dd>
-
-        <dt id="postings" class="property">
-  <span class="name"><a class="deprecated" href="../text_indexing/InMemoryIndexer/postings.html">postings</a></span>
-  <span class="signature">&#8594; <a href="../text_indexing/Postings.html">Postings</a></span> 
-
-</dt>
-<dd>
-  The in-memory postings hashmap of the <a href="../text_indexing/InMemoryIndexer/index.html">index</a>.
-  <div class="features">@<a href="https://api.flutter.dev/flutter/dart-core/Deprecated-class.html">Deprecated</a>(&#39;Field `postings` is deprecated. Use `index.postings` instead.&#39;), read-only</div>
 
 </dd>
 
@@ -185,17 +151,6 @@ document to tokens.
 
 </dd>
 
-        <dt id="tokenizer" class="property">
-  <span class="name"><a href="../text_indexing/InMemoryIndexer/tokenizer.html">tokenizer</a></span>
-  <span class="signature">&#8594; <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Tokenizer.html">Tokenizer</a></span> 
-
-</dt>
-<dd>
-  The <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Tokenizer.html">Tokenizer</a> used by the indexer to parse text to tokens.
-  <div class="features">final</div>
-
-</dd>
-
       </dl>
     </section>
 
@@ -218,34 +173,6 @@ document to tokens.
 
 </dd>
 
-        <dt id="getDictionary" class="callable inherited">
-  <span class="name"><a href="../text_indexing/TextIndexerBase/getDictionary.html">getDictionary</a></span><span class="signature">(<wbr><span class="parameter" id="getDictionary-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Dictionary.html">Dictionary</a></span>&gt;</span></span>
-  </span>
-  
-
-</dt>
-<dd class="inherited">
-  Asynchronously retrieves a <code>Dictionary</code> for <code>terms</code> from a
-<code>Dictionary</code> data source.
-  <div class="features">inherited</div>
-
-</dd>
-
-        <dt id="getPostings" class="callable inherited">
-  <span class="name"><a href="../text_indexing/TextIndexerBase/getPostings.html">getPostings</a></span><span class="signature">(<wbr><span class="parameter" id="getPostings-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Postings.html">Postings</a></span>&gt;</span></span>
-  </span>
-  
-
-</dt>
-<dd class="inherited">
-  Asynchronously retrieves <a href="../text_indexing/PostingsEntry.html">PostingsEntry</a> entities for <code>terms</code> from a
-<code>Postings</code>.
-  <div class="features">inherited</div>
-
-</dd>
-
         <dt id="indexCollection" class="callable inherited">
   <span class="name"><a href="../text_indexing/TextIndexerBase/indexCollection.html">indexCollection</a></span><span class="signature">(<wbr><span class="parameter" id="indexCollection-param-collection"><span class="type-annotation"><a href="../text_indexing/JsonCollection.html">JsonCollection</a></span> <span class="parameter-name">collection</span>, </span><span class="parameter" id="indexCollection-param-fields"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/FieldName.html">FieldName</a></span>&gt;</span></span> <span class="parameter-name">fields</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
@@ -254,8 +181,9 @@ document to tokens.
 
 </dt>
 <dd class="inherited">
-  Indexes the <code>fields</code> of all the documents in <code>collection</code>, adding
-<a href="../text_indexing/Postings.html">Postings</a> to the <a href="../text_indexing/TextIndexerBase/postingsStream.html">postingsStream</a> for each document.
+  Implementation of <a href="../text_indexing/TextIndexer/indexCollection.html">TextIndexer.indexCollection</a> that parses each JSON
+document in <code>collection</code> to <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Token-class.html">Token</a>s and maps the tokens to a <a href="../text_indexing/Postings.html">Postings</a>
+that is passed to <a href="../text_indexing/TextIndexerBase/emit.html">emit</a>.
   <div class="features">inherited</div>
 
 </dd>
@@ -268,7 +196,7 @@ document to tokens.
 
 </dt>
 <dd class="inherited">
-  Implementation of <a href="../text_indexing/TextIndexer/index.html">TextIndexer.index</a> that:
+  Implementation of <a href="../text_indexing/TextIndexer/indexJson.html">TextIndexer.indexJson</a> that:
   <div class="features">inherited</div>
 
 </dd>
@@ -281,7 +209,7 @@ document to tokens.
 
 </dt>
 <dd class="inherited">
-  Implementation of <a href="../text_indexing/TextIndexer/index.html">TextIndexer.index</a> that:
+  Implementation of <a href="../text_indexing/TextIndexer/indexText.html">TextIndexer.indexText</a> that:
   <div class="features">inherited</div>
 
 </dd>
@@ -308,34 +236,6 @@ document to tokens.
 </dt>
 <dd class="inherited">
   A string representation of this object.
-  <div class="features">inherited</div>
-
-</dd>
-
-        <dt id="upsertDictionary" class="callable inherited">
-  <span class="name"><a href="../text_indexing/TextIndexerBase/upsertDictionary.html">upsertDictionary</a></span><span class="signature">(<wbr><span class="parameter" id="upsertDictionary-param-values"><span class="type-annotation"><a href="../text_indexing/Dictionary.html">Dictionary</a></span> <span class="parameter-name">values</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
-  </span>
-  
-
-</dt>
-<dd class="inherited">
-  A callback that passes new or updated <code>values</code> for persisting to a
-<a href="../text_indexing/Dictionary.html">Dictionary</a>.
-  <div class="features">inherited</div>
-
-</dd>
-
-        <dt id="upsertPostings" class="callable inherited">
-  <span class="name"><a href="../text_indexing/TextIndexerBase/upsertPostings.html">upsertPostings</a></span><span class="signature">(<wbr><span class="parameter" id="upsertPostings-param-values"><span class="type-annotation"><a href="../text_indexing/Postings.html">Postings</a></span> <span class="parameter-name">values</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
-  </span>
-  
-
-</dt>
-<dd class="inherited">
-  A callback that passes new or updated <code>values</code> for upserting to a
-<a href="../text_indexing/Postings.html">Postings</a>.
   <div class="features">inherited</div>
 
 </dd>
@@ -468,26 +368,18 @@ document to tokens.
       <a href="../text_indexing/InMemoryIndexer-class.html#instance-properties">Properties</a>
     </li>
     <li><a href="../text_indexing/InMemoryIndexer/controller.html">controller</a></li>
-    <li><a class="deprecated" href="../text_indexing/InMemoryIndexer/dictionary.html">dictionary</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
     <li><a href="../text_indexing/InMemoryIndexer/index.html">index</a></li>
-    <li><a href="../text_indexing/InMemoryIndexer/jsonTokenizer.html">jsonTokenizer</a></li>
-    <li><a class="deprecated" href="../text_indexing/InMemoryIndexer/postings.html">postings</a></li>
     <li class="inherited"><a href="../text_indexing/TextIndexerBase/postingsStream.html">postingsStream</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
-    <li><a href="../text_indexing/InMemoryIndexer/tokenizer.html">tokenizer</a></li>
 
     <li class="section-title inherited"><a href="../text_indexing/InMemoryIndexer-class.html#instance-methods">Methods</a></li>
     <li class="inherited"><a href="../text_indexing/TextIndexerBase/emit.html">emit</a></li>
-    <li class="inherited"><a href="../text_indexing/TextIndexerBase/getDictionary.html">getDictionary</a></li>
-    <li class="inherited"><a href="../text_indexing/TextIndexerBase/getPostings.html">getPostings</a></li>
     <li class="inherited"><a href="../text_indexing/TextIndexerBase/indexCollection.html">indexCollection</a></li>
     <li class="inherited"><a href="../text_indexing/TextIndexerBase/indexJson.html">indexJson</a></li>
     <li class="inherited"><a href="../text_indexing/TextIndexerBase/indexText.html">indexText</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
-    <li class="inherited"><a href="../text_indexing/TextIndexerBase/upsertDictionary.html">upsertDictionary</a></li>
-    <li class="inherited"><a href="../text_indexing/TextIndexerBase/upsertPostings.html">upsertPostings</a></li>
 
     <li class="section-title inherited"><a href="../text_indexing/InMemoryIndexer-class.html#operators">Operators</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/operator_equals.html">operator ==</a></li>
@@ -504,7 +396,7 @@ document to tokens.
 <footer>
   <span class="no-break">
     text_indexing
-      0.6.0-2
+      0.6.0-3
   </span>
 
   

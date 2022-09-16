@@ -51,48 +51,22 @@
 
     
 <section class="desc markdown">
-  <p>Interface for classes that construct and maintain an inverted text index.</p>
-<p>The inverted index is comprised of two artifacts:</p>
-<ul>
-<li>a <a href="../text_indexing/Dictionary.html">Dictionary</a> is a hashmap of <a href="../text_indexing/DictionaryEntry.html">DictionaryEntry</a>s with the vocabulary as
-key and the document frequency as the values; and</li>
-<li>a <a href="../text_indexing/Postings.html">Postings</a> a hashmap of <a href="../text_indexing/PostingsEntry.html">PostingsEntry</a>s with the vocabulary as key
-and the postings lists for the linked documents as values.</li>
-</ul>
-<p>The <a href="../text_indexing/Dictionary.html">Dictionary</a> and <a href="../text_indexing/Postings.html">Postings</a> can be asynchronous data sources or
-in-memory hashmaps.  The <a href="../text_indexing/TextIndexer-class.html">TextIndexer</a> reads and writes to/from these
-artifacts using the <a class="deprecated" href="../text_indexing/TextIndexer/getDictionary.html">getDictionary</a>, <a class="deprecated" href="../text_indexing/TextIndexer/upsertDictionary.html">upsertDictionary</a>, <a class="deprecated" href="../text_indexing/TextIndexer/getPostings.html">getPostings</a> and
-<a class="deprecated" href="../text_indexing/TextIndexer/upsertPostings.html">upsertPostings</a> asynchronous methods.</p>
-<p>The <a href="../text_indexing/TextIndexer/index.html">index</a> method indexes a text document, returning a list of
-<a href="../text_indexing/DocumentPostingsEntry.html">DocumentPostingsEntry</a> that is also emitted by <a href="../text_indexing/TextIndexer/postingsStream.html">postingsStream</a>. The <a href="../text_indexing/TextIndexer/index.html">index</a> method
-implementation calls <a href="../text_indexing/TextIndexer/emit.html">emit</a>, passing the list of <a href="../text_indexing/DocumentPostingsEntry.html">DocumentPostingsEntry</a>.</p>
-<p>The <a href="../text_indexing/TextIndexer/emit.html">emit</a> method is called by <a href="../text_indexing/TextIndexer/index.html">index</a>, and adds an event to the
-<a href="../text_indexing/TextIndexer/postingsStream.html">postingsStream</a>.</p>
-<p>Listen to <a href="../text_indexing/TextIndexer/postingsStream.html">postingsStream</a> to update your term dictionary and postings map.</p>
+  <p>Interface for classes that construct and maintain a inverted, positional,
+zoned index <a href="../text_indexing/InvertedPositionalZoneIndex-class.html">InvertedPositionalZoneIndex</a>.</p>
 <p>Implementing classes override the following fields:</p>
 <ul>
-<li><a href="../text_indexing/TextIndexer/tokenizer.html">tokenizer</a> is the <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Tokenizer.html">Tokenizer</a> instance used by the indexer to parse
-text to tokens;</li>
-<li><a href="../text_indexing/TextIndexer/jsonTokenizer.html">jsonTokenizer</a> is the <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/JsonTokenizer.html">JsonTokenizer</a> instance used by the indexer used
-to parse JSON documents to tokens, or use the default
-<a href="../text_indexing/TextIndexer/kDefaultJsonTokenizer.html">TextIndexer.kDefaultJsonTokenizer</a>;</li>
-<li><a href="../text_indexing/TextIndexer/postingsStream.html">postingsStream</a> emits a list of <a href="../text_indexing/DocumentPostingsEntry.html">DocumentPostingsEntry</a> instances whenever a
+<li><a href="../text_indexing/TextIndexer/index.html">index</a> is the <a href="../text_indexing/InvertedPositionalZoneIndex-class.html">InvertedPositionalZoneIndex</a> that provides access to the
+index <a href="../text_indexing/Dictionary.html">Dictionary</a> and <a href="../text_indexing/Postings.html">Postings</a> and a <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a>;</li>
+<li><a href="../text_indexing/TextIndexer/postingsStream.html">postingsStream</a> emits a <a href="../text_indexing/Postings.html">Postings</a> whenever a
 document is indexed.</li>
 </ul>
 <p>Implementing classes override the following asynchronous methods:</p>
 <ul>
-<li><a href="../text_indexing/TextIndexer/index.html">index</a> indexes a text document, returning a list of <a href="../text_indexing/DocumentPostingsEntry.html">DocumentPostingsEntry</a> and
-adding it to the <a href="../text_indexing/TextIndexer/postingsStream.html">postingsStream</a> by calling <a href="../text_indexing/TextIndexer/emit.html">emit</a>;</li>
-<li><a href="../text_indexing/TextIndexer/emit.html">emit</a> is called by <a href="../text_indexing/TextIndexer/index.html">index</a>, and adds an event to the <a href="../text_indexing/TextIndexer/postingsStream.html">postingsStream</a>
-after updating the <a href="../text_indexing/Dictionary.html">Dictionary</a> and <a href="../text_indexing/Postings.html">Postings</a>;</li>
-<li><a class="deprecated" href="../text_indexing/TextIndexer/getDictionary.html">getDictionary</a> returns a <a href="../text_indexing/Dictionary.html">Dictionary</a> for a vocabulary from
-a <a href="../text_indexing/Dictionary.html">Dictionary</a>;</li>
-<li><a class="deprecated" href="../text_indexing/TextIndexer/upsertDictionary.html">upsertDictionary</a> passes new or updated <a href="../text_indexing/DictionaryEntry.html">DictionaryEntry</a> instances for persisting
-to a <a href="../text_indexing/Dictionary.html">Dictionary</a>;</li>
-<li><a class="deprecated" href="../text_indexing/TextIndexer/getPostings.html">getPostings</a> returns <a href="../text_indexing/PostingsEntry.html">PostingsEntry</a> entities for a collection
-of terms from a <a href="../text_indexing/Postings.html">Postings</a>; and</li>
-<li><a class="deprecated" href="../text_indexing/TextIndexer/upsertPostings.html">upsertPostings</a> passes new or updated <a href="../text_indexing/PostingsEntry.html">PostingsEntry</a> instances
-for upserting to a <a href="../text_indexing/Postings.html">Postings</a>.</li>
+<li><a href="../text_indexing/TextIndexer/indexText.html">indexText</a> indexes a text document;</li>
+<li><a href="../text_indexing/TextIndexer/indexJson.html">indexJson</a> indexes the fields in a JSON document;</li>
+<li><a href="../text_indexing/TextIndexer/indexCollection.html">indexCollection</a> indexes the fields of all the documents in JSON
+document collection; and</li>
+<li><a href="../text_indexing/TextIndexer/emit.html">emit</a> adds an event to the <a href="../text_indexing/TextIndexer/postingsStream.html">postingsStream</a> after updating the <a href="../text_indexing/TextIndexer/index.html">index</a>;</li>
 </ul>
 </section>
 
@@ -127,7 +101,7 @@ for upserting to a <a href="../text_indexing/Postings.html">Postings</a>.</li>
             <div class="constructor-modifier features">const</div>
         </dd>
         <dt id="TextIndexer.async" class="callable">
-          <span class="name"><a href="../text_indexing/TextIndexer/TextIndexer.async.html">TextIndexer.async</a></span><span class="signature">(<span class="parameter" id="async-param-termsLoader">{<span>required</span> <span class="type-annotation"><a href="../text_indexing/DictionaryLoader.html">DictionaryLoader</a></span> <span class="parameter-name">termsLoader</span>, </span><span class="parameter" id="async-param-dictionaryUpdater"><span>required</span> <span class="type-annotation"><a href="../text_indexing/DictionaryUpdater.html">DictionaryUpdater</a></span> <span class="parameter-name">dictionaryUpdater</span>, </span><span class="parameter" id="async-param-postingsLoader"><span>required</span> <span class="type-annotation"><a href="../text_indexing/PostingsLoader.html">PostingsLoader</a></span> <span class="parameter-name">postingsLoader</span>, </span><span class="parameter" id="async-param-postingsUpdater"><span>required</span> <span class="type-annotation"><a href="../text_indexing/PostingsUpdater.html">PostingsUpdater</a></span> <span class="parameter-name">postingsUpdater</span>, </span><span class="parameter" id="async-param-tokenizer"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Tokenizer.html">Tokenizer</a></span> <span class="parameter-name">tokenizer</span> = <span class="default-value">TextIndexer.kDefaultTokenizer</span>, </span><span class="parameter" id="async-param-jsonTokenizer"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/JsonTokenizer.html">JsonTokenizer</a></span> <span class="parameter-name">jsonTokenizer</span> = <span class="default-value">TextIndexer.kDefaultJsonTokenizer</span>}</span>)</span>
+          <span class="name"><a href="../text_indexing/TextIndexer/TextIndexer.async.html">TextIndexer.async</a></span><span class="signature">(<span class="parameter" id="async-param-termsLoader">{<span>required</span> <span class="type-annotation"><a href="../text_indexing/DictionaryLoader.html">DictionaryLoader</a></span> <span class="parameter-name">termsLoader</span>, </span><span class="parameter" id="async-param-dictionaryUpdater"><span>required</span> <span class="type-annotation"><a href="../text_indexing/DictionaryUpdater.html">DictionaryUpdater</a></span> <span class="parameter-name">dictionaryUpdater</span>, </span><span class="parameter" id="async-param-postingsLoader"><span>required</span> <span class="type-annotation"><a href="../text_indexing/PostingsLoader.html">PostingsLoader</a></span> <span class="parameter-name">postingsLoader</span>, </span><span class="parameter" id="async-param-postingsUpdater"><span>required</span> <span class="type-annotation"><a href="../text_indexing/PostingsUpdater.html">PostingsUpdater</a></span> <span class="parameter-name">postingsUpdater</span>, </span><span class="parameter" id="async-param-analyzer"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></span> <span class="parameter-name">analyzer</span> = <span class="default-value">const TextAnalyzer()</span>}</span>)</span>
         </dt>
         <dd>
           Factory constructor returns a <a href="../text_indexing/TextIndexer-class.html">TextIndexer</a> instance that uses
@@ -136,7 +110,7 @@ repositories:
             <div class="constructor-modifier features">factory</div>
         </dd>
         <dt id="TextIndexer.inMemory" class="callable">
-          <span class="name"><a href="../text_indexing/TextIndexer/TextIndexer.inMemory.html">TextIndexer.inMemory</a></span><span class="signature">(<span class="parameter" id="inMemory-param-dictionary">{<span class="type-annotation"><a href="../text_indexing/Dictionary.html">Dictionary</a>?</span> <span class="parameter-name">dictionary</span>, </span><span class="parameter" id="inMemory-param-postings"><span class="type-annotation"><a href="../text_indexing/Postings.html">Postings</a>?</span> <span class="parameter-name">postings</span>, </span><span class="parameter" id="inMemory-param-tokenizer"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Tokenizer.html">Tokenizer</a></span> <span class="parameter-name">tokenizer</span> = <span class="default-value">TextIndexer.kDefaultTokenizer</span>, </span><span class="parameter" id="inMemory-param-jsonTokenizer"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/JsonTokenizer.html">JsonTokenizer</a></span> <span class="parameter-name">jsonTokenizer</span> = <span class="default-value">TextIndexer.kDefaultJsonTokenizer</span>}</span>)</span>
+          <span class="name"><a href="../text_indexing/TextIndexer/TextIndexer.inMemory.html">TextIndexer.inMemory</a></span><span class="signature">(<span class="parameter" id="inMemory-param-dictionary">{<span class="type-annotation"><a href="../text_indexing/Dictionary.html">Dictionary</a>?</span> <span class="parameter-name">dictionary</span>, </span><span class="parameter" id="inMemory-param-postings"><span class="type-annotation"><a href="../text_indexing/Postings.html">Postings</a>?</span> <span class="parameter-name">postings</span>, </span><span class="parameter" id="inMemory-param-analyzer"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></span> <span class="parameter-name">analyzer</span> = <span class="default-value">const TextAnalyzer()</span>}</span>)</span>
         </dt>
         <dd>
           Factory constructor returns a <a href="../text_indexing/TextIndexer-class.html">TextIndexer</a> instance with in-memory
@@ -144,11 +118,11 @@ repositories:
             <div class="constructor-modifier features">factory</div>
         </dd>
         <dt id="TextIndexer.instance" class="callable">
-          <span class="name"><a href="../text_indexing/TextIndexer/TextIndexer.instance.html">TextIndexer.instance</a></span><span class="signature">(<span class="parameter" id="instance-param-index">{<span>required</span> <span class="type-annotation"><a href="../text_indexing/InvertedPositionalZoneIndex-class.html">InvertedPositionalZoneIndex</a></span> <span class="parameter-name">index</span>, </span><span class="parameter" id="instance-param-tokenizer"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Tokenizer.html">Tokenizer</a></span> <span class="parameter-name">tokenizer</span> = <span class="default-value">TextIndexer.kDefaultTokenizer</span>, </span><span class="parameter" id="instance-param-jsonTokenizer"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/JsonTokenizer.html">JsonTokenizer</a></span> <span class="parameter-name">jsonTokenizer</span> = <span class="default-value">TextIndexer.kDefaultJsonTokenizer</span>}</span>)</span>
+          <span class="name"><a href="../text_indexing/TextIndexer/TextIndexer.instance.html">TextIndexer.instance</a></span><span class="signature">(<span class="parameter" id="instance-param-index">{<span>required</span> <span class="type-annotation"><a href="../text_indexing/InvertedPositionalZoneIndex-class.html">InvertedPositionalZoneIndex</a></span> <span class="parameter-name">index</span>}</span>)</span>
         </dt>
         <dd>
-          Factory constructor returns a <a href="../text_indexing/TextIndexer-class.html">TextIndexer</a> instance with a custom
-<code>index</code> repository:
+          Factory constructor initializes a <a href="../text_indexing/TextIndexer-class.html">TextIndexer</a> instance, passing in a
+<code>index</code> instance.
             <div class="constructor-modifier features">factory</div>
         </dd>
     </dl>
@@ -175,20 +149,8 @@ repositories:
 
 </dt>
 <dd>
-  The <a href="../text_indexing/InvertedPositionalZoneIndex-class.html">InvertedPositionalZoneIndex</a> repository that provides access to the
-index <a href="../text_indexing/Dictionary.html">Dictionary</a> and <a href="../text_indexing/Postings.html">Postings</a>.
-  <div class="features">read-only</div>
-
-</dd>
-
-        <dt id="jsonTokenizer" class="property">
-  <span class="name"><a href="../text_indexing/TextIndexer/jsonTokenizer.html">jsonTokenizer</a></span>
-  <span class="signature">&#8594; <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/JsonTokenizer.html">JsonTokenizer</a></span> 
-
-</dt>
-<dd>
-  The <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/JsonTokenizer.html">JsonTokenizer</a> used by the indexer to parse the fields in a JSON
-document to tokens.
+  The <a href="../text_indexing/InvertedPositionalZoneIndex-class.html">InvertedPositionalZoneIndex</a> that provides access to the
+index <a href="../text_indexing/Dictionary.html">Dictionary</a> and <a href="../text_indexing/Postings.html">Postings</a> and a <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a>.
   <div class="features">read-only</div>
 
 </dd>
@@ -215,17 +177,6 @@ document to tokens.
 
 </dd>
 
-        <dt id="tokenizer" class="property">
-  <span class="name"><a href="../text_indexing/TextIndexer/tokenizer.html">tokenizer</a></span>
-  <span class="signature">&#8594; <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Tokenizer.html">Tokenizer</a></span> 
-
-</dt>
-<dd>
-  The <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Tokenizer.html">Tokenizer</a> used by the indexer to parse text to tokens.
-  <div class="features">read-only</div>
-
-</dd>
-
       </dl>
     </section>
 
@@ -246,34 +197,6 @@ document to tokens.
   The <a href="../text_indexing/TextIndexer/emit.html">emit</a> method is called by <a href="../text_indexing/TextIndexer/index.html">index</a> and adds the <code>event</code> to the
 <a href="../text_indexing/TextIndexer/postingsStream.html">postingsStream</a>.
   
-
-</dd>
-
-        <dt id="getDictionary" class="callable">
-  <span class="name deprecated"><a class="deprecated" href="../text_indexing/TextIndexer/getDictionary.html">getDictionary</a></span><span class="signature">(<wbr><span class="parameter" id="getDictionary-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Dictionary.html">Dictionary</a></span>&gt;</span></span>
-  </span>
-  
-
-</dt>
-<dd>
-  Asynchronously retrieves a <code>Dictionary</code> for <code>terms</code> from a
-<code>Dictionary</code> data source.
-  <div class="features">@<a href="https://api.flutter.dev/flutter/dart-core/Deprecated-class.html">Deprecated</a>(&#39;Method `TextIndexer.getDictionary` is deprecated. Use `TextIndexer.index.getDictionary` instead.&#39;)</div>
-
-</dd>
-
-        <dt id="getPostings" class="callable">
-  <span class="name deprecated"><a class="deprecated" href="../text_indexing/TextIndexer/getPostings.html">getPostings</a></span><span class="signature">(<wbr><span class="parameter" id="getPostings-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Postings.html">Postings</a></span>&gt;</span></span>
-  </span>
-  
-
-</dt>
-<dd>
-  Asynchronously retrieves <a href="../text_indexing/PostingsEntry.html">PostingsEntry</a> entities for <code>terms</code> from a
-<code>Postings</code>.
-  <div class="features">@<a href="https://api.flutter.dev/flutter/dart-core/Deprecated-class.html">Deprecated</a>(&#39;Method `TextIndexer.getPostings` is deprecated. Use `TextIndexer.index.getPostings` instead.&#39;)</div>
 
 </dd>
 
@@ -313,7 +236,7 @@ document to tokens.
 
 </dt>
 <dd>
-  Indexes a text document, returning a list of <a href="../text_indexing/DocumentPostingsEntry.html">DocumentPostingsEntry</a>.
+  Indexes a text document, returning a <code>Postings</code>.
   
 
 </dd>
@@ -344,34 +267,6 @@ document to tokens.
 
 </dd>
 
-        <dt id="upsertDictionary" class="callable">
-  <span class="name deprecated"><a class="deprecated" href="../text_indexing/TextIndexer/upsertDictionary.html">upsertDictionary</a></span><span class="signature">(<wbr><span class="parameter" id="upsertDictionary-param-values"><span class="type-annotation"><a href="../text_indexing/Dictionary.html">Dictionary</a></span> <span class="parameter-name">values</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
-  </span>
-  
-
-</dt>
-<dd>
-  A callback that passes new or updated <code>values</code> for persisting to a
-<a href="../text_indexing/Dictionary.html">Dictionary</a>.
-  <div class="features">@<a href="https://api.flutter.dev/flutter/dart-core/Deprecated-class.html">Deprecated</a>(&#39;Method `TextIndexer.upsertDictionary` is deprecated. Use `TextIndexer.index.upsertDictionary` instead.&#39;)</div>
-
-</dd>
-
-        <dt id="upsertPostings" class="callable">
-  <span class="name deprecated"><a class="deprecated" href="../text_indexing/TextIndexer/upsertPostings.html">upsertPostings</a></span><span class="signature">(<wbr><span class="parameter" id="upsertPostings-param-values"><span class="type-annotation"><a href="../text_indexing/Postings.html">Postings</a></span> <span class="parameter-name">values</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
-  </span>
-  
-
-</dt>
-<dd>
-  A callback that passes new or updated <code>values</code> for upserting to a
-<a href="../text_indexing/Postings.html">Postings</a>.
-  <div class="features">@<a href="https://api.flutter.dev/flutter/dart-core/Deprecated-class.html">Deprecated</a>(&#39;Method `TextIndexer.upsertPostings` is deprecated. Use `TextIndexer.index.upsertPostings` instead.&#39;)</div>
-
-</dd>
-
     </dl>
   </section>
     
@@ -397,37 +292,6 @@ document to tokens.
   </section>
     
     
-  <section class="summary offset-anchor" id="static-methods">
-    <h2>Static Methods</h2>
-    <dl class="callables">
-        <dt id="kDefaultJsonTokenizer" class="callable">
-  <span class="name"><a href="../text_indexing/TextIndexer/kDefaultJsonTokenizer.html">kDefaultJsonTokenizer</a></span><span class="signature">(<wbr><span class="parameter" id="kDefaultJsonTokenizer-param-json"><span class="type-annotation"><a href="../text_indexing/JSON.html">JSON</a></span> <span class="parameter-name">json</span>, </span><span class="parameter" id="kDefaultJsonTokenizer-param-fields"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/FieldName.html">FieldName</a></span>&gt;</span></span> <span class="parameter-name">fields</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span></span>
-  </span>
-  
-
-</dt>
-<dd>
-  A <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Tokenizer.html">Tokenizer</a> that tokenizes English language text.
-  
-
-</dd>
-
-        <dt id="kDefaultTokenizer" class="callable">
-  <span class="name"><a href="../text_indexing/TextIndexer/kDefaultTokenizer.html">kDefaultTokenizer</a></span><span class="signature">(<wbr><span class="parameter" id="kDefaultTokenizer-param-source"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/SourceText.html">SourceText</a></span> <span class="parameter-name">source</span>, </span><span class="parameter" id="kDefaultTokenizer-param-field">[<span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/FieldName.html">FieldName</a>?</span> <span class="parameter-name">field</span>]</span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span></span>
-  </span>
-  
-
-</dt>
-<dd>
-  A <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Tokenizer.html">Tokenizer</a> that tokenizes English language text.
-  
-
-</dd>
-
-    </dl>
-  </section>
     
 
 
@@ -535,31 +399,22 @@ document to tokens.
     </li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
     <li><a href="../text_indexing/TextIndexer/index.html">index</a></li>
-    <li><a href="../text_indexing/TextIndexer/jsonTokenizer.html">jsonTokenizer</a></li>
     <li><a href="../text_indexing/TextIndexer/postingsStream.html">postingsStream</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
-    <li><a href="../text_indexing/TextIndexer/tokenizer.html">tokenizer</a></li>
 
     <li class="section-title"><a href="../text_indexing/TextIndexer-class.html#instance-methods">Methods</a></li>
     <li><a href="../text_indexing/TextIndexer/emit.html">emit</a></li>
-    <li><a class="deprecated" href="../text_indexing/TextIndexer/getDictionary.html">getDictionary</a></li>
-    <li><a class="deprecated" href="../text_indexing/TextIndexer/getPostings.html">getPostings</a></li>
     <li><a href="../text_indexing/TextIndexer/indexCollection.html">indexCollection</a></li>
     <li><a href="../text_indexing/TextIndexer/indexJson.html">indexJson</a></li>
     <li><a href="../text_indexing/TextIndexer/indexText.html">indexText</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
-    <li><a class="deprecated" href="../text_indexing/TextIndexer/upsertDictionary.html">upsertDictionary</a></li>
-    <li><a class="deprecated" href="../text_indexing/TextIndexer/upsertPostings.html">upsertPostings</a></li>
 
     <li class="section-title inherited"><a href="../text_indexing/TextIndexer-class.html#operators">Operators</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/operator_equals.html">operator ==</a></li>
 
 
 
-        <li class="section-title"><a href="../text_indexing/TextIndexer-class.html#static-methods">Static methods</a></li>
-          <li><a href="../text_indexing/TextIndexer/kDefaultJsonTokenizer.html">kDefaultJsonTokenizer</a></li>
-          <li><a href="../text_indexing/TextIndexer/kDefaultTokenizer.html">kDefaultTokenizer</a></li>
 
 </ol>
 
@@ -570,7 +425,7 @@ document to tokens.
 <footer>
   <span class="no-break">
     text_indexing
-      0.6.0-2
+      0.6.0-3
   </span>
 
   

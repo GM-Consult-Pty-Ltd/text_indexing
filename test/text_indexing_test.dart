@@ -38,8 +38,8 @@ void main() {
       final postings = <String, Map<String, Map<String, List<int>>>>{};
 
       // - initialize a [InMemoryIndexer]
-      final indexer =
-          InMemoryIndexer(dictionary: dictionary, postings: postings);
+      final indexer = InMemoryIndexer(
+          dictionary: dictionary, postings: postings, analyzer: TextAnalyzer());
 
       indexer.postingsStream.listen((event) {
         if (event.isNotEmpty) {
@@ -97,6 +97,7 @@ void main() {
 
       // - initialize a [AsyncIndexer]
       final indexer = AsyncIndexer(
+          analyzer: TextAnalyzer(),
           termsLoader: index.getDictionary,
           dictionaryUpdater: index.upsertDictionary,
           postingsLoader: index.getPostings,

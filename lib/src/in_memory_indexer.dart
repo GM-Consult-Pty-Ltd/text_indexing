@@ -2,8 +2,6 @@
 // BSD 3-Clause License
 // All rights reserved
 
-// ignore_for_file: deprecated_member_use_from_same_package
-
 import 'package:rxdart/rxdart.dart';
 import 'package:text_indexing/text_indexing.dart';
 
@@ -13,45 +11,30 @@ class InMemoryIndexer extends TextIndexerBase {
   //
 
   /// Initializes a [InMemoryIndexer] instance:
-  /// - pass a [tokenizer] to parse text to tokens,
-  ///   or use the default [TextIndexer.kDefaultTokenizer];
-  /// - pass a [jsonTokenizer] used to parse JSON documents to tokens,
-  ///   or use the default [TextIndexer.kDefaultJsonTokenizer];
+  /// - pass a [analyzer] text analyser that extracts tokens from text;
   /// - pass an in-memory [dictionary] instance, otherwise an empty
   ///   [Dictionary] will be initialized.
   /// - pass an in-memory [postings] instance, otherwise an empty [Postings]
   ///   will be initialized.
   InMemoryIndexer(
-      {Dictionary? dictionary,
-      Postings? postings,
-      this.tokenizer = TextIndexer.kDefaultTokenizer,
-      this.jsonTokenizer = TextIndexer.kDefaultJsonTokenizer})
-      : index = InMemoryIndex(dictionary ?? {}, postings ?? {});
+      {required ITextAnalyzer analyzer,
+      Dictionary? dictionary,
+      Postings? postings})
+      : index = InMemoryIndex(
+            dictionary: dictionary ?? {},
+            postings: postings ?? {},
+            analyzer: analyzer);
 
   @override
   final InMemoryIndex index;
 
   @override
-  final Tokenizer tokenizer;
-
-  @override
-  final JsonTokenizer jsonTokenizer;
-
-  @override
   final controller = BehaviorSubject<Postings>();
-
-  /// The in-memory term dictionary of the [index].
-  @Deprecated(
-      'Field `dictionary` is deprecated. Use `index.dictionary` instead.')
-  Dictionary get dictionary => index.dictionary;
-
-  /// The in-memory postings hashmap of the [index].
-  @Deprecated('Field `postings` is deprecated. Use `index.postings` instead.')
-  Postings get postings => index.postings;
 }
 
 /// An implementation class for the [InMemoryIndexer], implements
 /// [InvertedPositionalZoneIndex] interface:
+/// - [analyzer] is the [ITextAnalyzer] used to tokenize text for the index;
 /// - [dictionary] is the in-memory term dictionary for the indexer. Pass a
 ///   [dictionary] instance at instantiation, otherwise an empty [Dictionary]
 ///   will be initialized; and
@@ -67,13 +50,17 @@ class InMemoryIndex implements InvertedPositionalZoneIndex {
   final Postings postings;
 
   /// Instantiates a [InMemoryIndex] instance:
+  /// - [analyzer] is the [ITextAnalyzer] used to tokenize text for the index;
   /// - [dictionary] is the in-memory term dictionary for the indexer. Pass a
   ///   [dictionary] instance at instantiation, otherwise an empty [Dictionary]
   ///   will be initialized; and
   /// - [postings] is the in-memory postings hashmap for the indexer. Pass a
   ///   [postings] instance at instantiation, otherwise an empty [Postings]
   ///   will be initialized.
-  const InMemoryIndex(this.dictionary, this.postings);
+  const InMemoryIndex(
+      {required this.dictionary,
+      required this.postings,
+      required this.analyzer});
 
   @override
   Future<Dictionary> getDictionary([Iterable<Term>? terms]) async {
@@ -87,6 +74,9 @@ class InMemoryIndex implements InvertedPositionalZoneIndex {
     }
     return retVal;
   }
+
+  @override
+  final ITextAnalyzer analyzer;
 
   @override
   Future<Postings> getPostings(Iterable<Term> terms) async {

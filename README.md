@@ -51,7 +51,7 @@ import 'package:text_indexing/text_indexing.dart';
 For small collections, instantiate a `TextIndexer.inMemory`, (optionally passing empty `Dictionary` and `Postings` hashmaps), then iterate over a collection of documents to add them to the index.
 
 ```dart
-  // - initialize a in-memory [TextIndexer]
+  // - initialize a in-memory [TextIndexer] with defaults for all parameters
   final indexer =TextIndexer.inMemory();
 
   // - iterate through the sample data
@@ -91,7 +91,11 @@ To maximise performance of the indexers the API manipulates nested hashmaps of D
 
 ### InvertedPositionalZoneIndex Interface
 
-The `` is an interface that exposes methods for working with an inverted, positional zoned index on a collection of documents:
+The `InvertedPositionalZoneIndex` is an interface for an inverted, positional zoned index on a collection of documents. 
+
+The `InvertedPositionalZoneIndex` exposes the `analyzer` field, a text analyser that extracts tokens from text. 
+
+The `InvertedPositionalZoneIndex` exposes the following methods:
 * `getDictionary` Asynchronously retrieves a `Dictionary` for a collection of `Term`s from a `Dictionary` repository;
 * `upsertDictionary ` inserts entries into a `Dictionary` repository, overwriting any existing entries;
 * `getPostings` asynchronously retrieves `Postings` for a collection of `Term`s from a `Postings` repository; and 
@@ -110,39 +114,36 @@ Text or documents can be indexed by calling the following methods:
 * `TextIndexer.indexText` indexes text from a text document.
 * The `TextIndexer.indexCollection` method indexes text from a collection of `JSON `documents, emitting the `Postings` for each document in the `TextIndexer.postingsStream`.
 
-The `TextIndexer.emit` method is called by `TextIndexer.index`, and adds an event to the `postingsStream`.
+The `TextIndexer.emit` method adds an event to the `postingsStream`.
 
 Listen to `TextIndexer.postingsStream` to handle the postings list emitted whenever a document is indexed.
 
 Implementing classes override the following fields:
-* `TextIndexer.index` is a `InvertedPositionalZoneIndex` that exposes the `getDictionary`, `upsertDictionary`, `getPostings` and `upsertPostings` asynchronous methods;
-* `TextIndexer.tokenizer` is the `Tokenizer` instance used by the indexer to parse text to tokens;
-* `TextIndexer.jsonTokenizer` is the `JsonTokenizer` instance used by the indexer to parse JSON documents to tokens; and
-* `TextIndexer.postingsStream` emits a list of `DocumentPostingsEntry` instances whenever a document is indexed.
+- `TextIndexer.index` is the `InvertedPositionalZoneIndex` that provides access to the index `Dictionary` and `Postings` and a `ITextAnalyzer`;
+- `TextIndexer.postingsStream` emits a `Postings` whenever a document is indexed.
 
 Implementing classes override the following asynchronous methods:
-* `TextIndexer.indexText` indexes text, returning a list of `DocumentPostingsEntry` and adding it to the `TextIndexer.postingsStream` by calling `TextIndexer.emit`;
-* `TextIndexer.indexJson` indexes text from a JSON document, returning a list of `DocumentPostingsEntry` and adding it to the `TextIndexer.postingsStream` by calling `TextIndexer.emit`;
-`TextIndexer.indexCollection` method indexes text from a collection of `JSON `documents, emitting the `Postings` for each document in the `TextIndexer.postingsStream`.
-* `emit` is called by index, and adds an event to the `postingsStream` after updating the dictionary and postings data stores.
+- `TextIndexer.indexText` indexes a text document;
+- `TextIndexer.indexJson` indexes the fields in a JSON document;
+- `TextIndexer.indexCollection` indexes the fields of all the documents in JSON document collection; and
+- `TextIndexer.emit` adds an event to the `TextIndexer.postingsStream` after updating the `TextIndexer.index`;
 
 ### TextIndexerBase Class
 
 The `TextIndexerBase` is an abstract base class that implements the `TextIndexer.indexText`, `TextIndexer.indexJson`, `TextIndexer.indexCollection` and `TextIndexer.emit` methods and the `TextIndexer.postingsStream` field.
 
-The `TextIndexerBase.index` is updated whenever `TextIndexerBase.emit` is called at the end of the `InMemoryIndexer.index` method, so awaiting a call to `TextIndexerBase.index` will provide access to the updated `TextIndexerBase.index.dictionary` and `TextIndexerBase.index.postings` maps. 
+The `TextIndexerBase.index` is updated whenever `TextIndexerBase.emit` is called. 
 
 Subclasses of `TextIndexerBase` must implement:
-* `TextIndexer.index`;
-* `TextIndexer.tokenizer`
-* `TextIndexer.jsonTokenizer`; as well as
+* `TextIndexer.index`; and
 - `TextIndexerBase.controller`, a `BehaviorSubject<Postings>` that controls the `TextIndex.postingsStream`.
 
 ### InMemoryIndex Class
 
 The `InMemoryIndex` is a `InvertedPositionalZoneIndex` interface implementation with in-memory `Dictionary` and `Postings` hashmaps:
-- `dictionary` is the in-memory term dictionary for the indexer. Pass a `dictionary` instance at instantiation, otherwise an empty `Dictionary` will be initialized; and
-- `postings` is the in-memory postings hashmap for the indexer. Pass a `postings` instance at instantiation, otherwise an empty `Postings` will be initialized.
+- `InMemoryIndex.analyzer` is the `ITextAnalyzer` used to tokenize text for the `InMemoryIndex`;
+- `InMemoryIndex.dictionary` is the in-memory term dictionary for the indexer. Pass a `dictionary` instance at instantiation, otherwise an empty `Dictionary` will be initialized; and
+- `InMemoryIndex.postings` is the in-memory postings hashmap for the indexer. Pass a `postings` instance at instantiation, otherwise an empty `Postings` will be initialized.
 
 ### InMemoryIndexer Class
 
@@ -156,10 +157,11 @@ An example of the use of the `TextIndexer.inMemory` factory is included in the [
 
 The `AsyncCallbackIndex` is a `InvertedPositionalZoneIndex` implementation class 
 that uses asynchronous callbacks to perform read and write operations on `Dictionary` and `Postings` repositories:
-- `termsLoader` synchronously retrieves a `Dictionary` for a vocabulary from a data source;
-- `dictionaryUpdater` is callback that passes a `Dictionary` subset for persisting to `Dictionary` repository;
-- `postingsLoader` asynchronously retrieves a `Postings` for a vocabulary from a data source; and
-- `postingsUpdater` passes a `Postings` subset for persisting to a `Postings` repository.
+- `AsyncCallbackIndex.analyzer` is the `ITextAnalyzer` used to tokenize text for the `AsyncCallbackIndex`;
+- `AsyncCallbackIndex.termsLoader` synchronously retrieves a `Dictionary` for a vocabulary from a data source;
+- `AsyncCallbackIndex.dictionaryUpdater` is callback that passes a `Dictionary` subset for persisting to `Dictionary` repository;
+- `AsyncCallbackIndex.postingsLoader` asynchronously retrieves a `Postings` for a vocabulary from a data source; and
+- `AsyncCallbackIndex.postingsUpdater` passes a `Postings` subset for persisting to a `Postings` repository.
 
 ### AsyncIndexer Class
 
@@ -176,7 +178,7 @@ The following definitions are used throughout the [documentation](https://pub.de
 * `corpus`- the collection of `documents` for which an `index` is maintained.
 * `dictionary` - is a hash of `terms` (`vocabulary`) to the frequency of occurence in the `corpus` documents.
 * `document` - a record in the `corpus`, that has a unique identifier (`docId`) in the `corpus`'s primary key and that contains one or more text fields that are indexed.
-* `index` - an [inverted index](https://en.wikipedia.org/wiki/Inverted_index) used to look up `document` references from the `corpus` against a `vocabulary` of `terms`. The implementation in this package builds and maintains a positional inverted index, that also includes the positions of the indexed `term` in each `document`.
+* `index` - an [inverted index](https://en.wikipedia.org/wiki/Inverted_index) used to look up `document` references from the `corpus` against a `vocabulary` of `terms`. The implementation in this package builds and maintains a positional inverted index, that also includes the positions of the indexed `term` in each `document`'s fields (zones).
 * `index-elimination` - selecting a subset of the entries in an index where the `term` is in the collection of `terms` in a search phrase.
 * `postings` - a separate index that records which `documents` the `vocabulary` occurs in. In this implementation we also record the positions of each `term` in the `text` to create a positional inverted `index`.
 * `postings list` - a record of the positions of a `term` in a `document`. A position of a `term` refers to the index of the `term` in an array that contains all the `terms` in the `text`.

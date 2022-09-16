@@ -51,25 +51,9 @@
 
     
 <section class="desc markdown">
-  <p>Base class implementation of the <a href="../text_indexing/TextIndexer-class.html">TextIndexer</a> interface that constructs and
-maintains an inverted index consisting of a <a href="../text_indexing/Dictionary.html">Dictionary</a> and <a href="../text_indexing/Postings.html">Postings</a>.</p>
-<p>The <a href="../text_indexing/Dictionary.html">Dictionary</a> and <a href="../text_indexing/Postings.html">Postings</a> can be asynchronous data sources or
-in-memory hashmaps.</p>
-<p>The <a href="../text_indexing/TextIndexer/index.html">index</a> method implementation tokenizes a text document using
-<a href="../text_indexing/TextIndexer/tokenizer.html">tokenizer</a>, before mapping the tokens to a list of <a href="../text_indexing/DocumentPostingsEntry.html">DocumentPostingsEntry</a> that is
-passed to <a href="../text_indexing/TextIndexerBase/emit.html">emit</a>.</p>
-<p>The <a href="../text_indexing/TextIndexerBase/emit.html">emit</a> method implementation is called by <a href="../text_indexing/TextIndexer/index.html">index</a>, and:</p>
-<ul>
-<li>asynchronously updates the <a href="../text_indexing/Dictionary.html">Dictionary</a> by calling <a href="../text_indexing/TextIndexerBase/upsertDictionary.html">upsertDictionary</a>;</li>
-<li>asynchronously updates the <a href="../text_indexing/Postings.html">Postings</a> by calling <a href="../text_indexing/TextIndexerBase/upsertPostings.html">upsertPostings</a>;</li>
-<li>adds an event to the <a href="../text_indexing/TextIndexerBase/postingsStream.html">postingsStream</a>.</li>
-</ul>
-<p>Sub-classes must implement the <a href="../text_indexing/TextIndexer/tokenizer.html">tokenizer</a> field to parse documents to
-tokens.</p>
-<p>Sub-classes must implement the<a href="../text_indexing/TextIndexerBase/getDictionary.html">getDictionary</a>, <a href="../text_indexing/TextIndexerBase/upsertDictionary.html">upsertDictionary</a>,
-<a href="../text_indexing/TextIndexerBase/getPostings.html">getPostings</a> and <a href="../text_indexing/TextIndexerBase/upsertPostings.html">upsertPostings</a> asynchronous methods, used by
-the <a href="../text_indexing/TextIndexerBase-class.html">TextIndexerBase</a> to read and write to/from a <a href="../text_indexing/Dictionary.html">Dictionary</a> and a
-<a href="../text_indexing/Postings.html">Postings</a>.</p>
+  <p>Base class implementation of the <a href="../text_indexing/TextIndexer-class.html">TextIndexer</a> interface.</p>
+<p>Uses a <a href="https://pub.dev/documentation/rxdart/0.27.5/rx/BehaviorSubject-class.html">BehaviorSubject</a> as stream <a href="../text_indexing/TextIndexerBase/controller.html">controller</a> for <a href="../text_indexing/TextIndexerBase/postingsStream.html">postingsStream</a>.</p>
+<p>Sub-classes must implement the <a href="../text_indexing/TextIndexer/index.html">index</a> and <a href="../text_indexing/TextIndexerBase/controller.html">controller</a> fields</p>
 </section>
 
 
@@ -144,20 +128,8 @@ the <a href="../text_indexing/TextIndexerBase-class.html">TextIndexerBase</a> to
 
 </dt>
 <dd class="inherited">
-  The <a href="../text_indexing/InvertedPositionalZoneIndex-class.html">InvertedPositionalZoneIndex</a> repository that provides access to the
-index <a href="../text_indexing/Dictionary.html">Dictionary</a> and <a href="../text_indexing/Postings.html">Postings</a>.
-  <div class="features">read-only, inherited</div>
-
-</dd>
-
-        <dt id="jsonTokenizer" class="property inherited">
-  <span class="name"><a href="../text_indexing/TextIndexer/jsonTokenizer.html">jsonTokenizer</a></span>
-  <span class="signature">&#8594; <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/JsonTokenizer.html">JsonTokenizer</a></span> 
-
-</dt>
-<dd class="inherited">
-  The <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/JsonTokenizer.html">JsonTokenizer</a> used by the indexer to parse the fields in a JSON
-document to tokens.
+  The <a href="../text_indexing/InvertedPositionalZoneIndex-class.html">InvertedPositionalZoneIndex</a> that provides access to the
+index <a href="../text_indexing/Dictionary.html">Dictionary</a> and <a href="../text_indexing/Postings.html">Postings</a> and a <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a>.
   <div class="features">read-only, inherited</div>
 
 </dd>
@@ -184,17 +156,6 @@ document to tokens.
 
 </dd>
 
-        <dt id="tokenizer" class="property inherited">
-  <span class="name"><a href="../text_indexing/TextIndexer/tokenizer.html">tokenizer</a></span>
-  <span class="signature">&#8594; <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Tokenizer.html">Tokenizer</a></span> 
-
-</dt>
-<dd class="inherited">
-  The <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Tokenizer.html">Tokenizer</a> used by the indexer to parse text to tokens.
-  <div class="features">read-only, inherited</div>
-
-</dd>
-
       </dl>
     </section>
 
@@ -217,34 +178,6 @@ document to tokens.
 
 </dd>
 
-        <dt id="getDictionary" class="callable">
-  <span class="name"><a href="../text_indexing/TextIndexerBase/getDictionary.html">getDictionary</a></span><span class="signature">(<wbr><span class="parameter" id="getDictionary-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Dictionary.html">Dictionary</a></span>&gt;</span></span>
-  </span>
-  
-
-</dt>
-<dd>
-  Asynchronously retrieves a <code>Dictionary</code> for <code>terms</code> from a
-<code>Dictionary</code> data source.
-  <div class="features">override</div>
-
-</dd>
-
-        <dt id="getPostings" class="callable">
-  <span class="name"><a href="../text_indexing/TextIndexerBase/getPostings.html">getPostings</a></span><span class="signature">(<wbr><span class="parameter" id="getPostings-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Postings.html">Postings</a></span>&gt;</span></span>
-  </span>
-  
-
-</dt>
-<dd>
-  Asynchronously retrieves <a href="../text_indexing/PostingsEntry.html">PostingsEntry</a> entities for <code>terms</code> from a
-<code>Postings</code>.
-  <div class="features">override</div>
-
-</dd>
-
         <dt id="indexCollection" class="callable">
   <span class="name"><a href="../text_indexing/TextIndexerBase/indexCollection.html">indexCollection</a></span><span class="signature">(<wbr><span class="parameter" id="indexCollection-param-collection"><span class="type-annotation"><a href="../text_indexing/JsonCollection.html">JsonCollection</a></span> <span class="parameter-name">collection</span>, </span><span class="parameter" id="indexCollection-param-fields"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/FieldName.html">FieldName</a></span>&gt;</span></span> <span class="parameter-name">fields</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
@@ -253,8 +186,9 @@ document to tokens.
 
 </dt>
 <dd>
-  Indexes the <code>fields</code> of all the documents in <code>collection</code>, adding
-<a href="../text_indexing/Postings.html">Postings</a> to the <a href="../text_indexing/TextIndexerBase/postingsStream.html">postingsStream</a> for each document.
+  Implementation of <a href="../text_indexing/TextIndexer/indexCollection.html">TextIndexer.indexCollection</a> that parses each JSON
+document in <code>collection</code> to <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Token-class.html">Token</a>s and maps the tokens to a <a href="../text_indexing/Postings.html">Postings</a>
+that is passed to <a href="../text_indexing/TextIndexerBase/emit.html">emit</a>.
   <div class="features">override</div>
 
 </dd>
@@ -267,7 +201,7 @@ document to tokens.
 
 </dt>
 <dd>
-  Implementation of <a href="../text_indexing/TextIndexer/index.html">TextIndexer.index</a> that:
+  Implementation of <a href="../text_indexing/TextIndexer/indexJson.html">TextIndexer.indexJson</a> that:
   <div class="features">override</div>
 
 </dd>
@@ -280,7 +214,7 @@ document to tokens.
 
 </dt>
 <dd>
-  Implementation of <a href="../text_indexing/TextIndexer/index.html">TextIndexer.index</a> that:
+  Implementation of <a href="../text_indexing/TextIndexer/indexText.html">TextIndexer.indexText</a> that:
   <div class="features">override</div>
 
 </dd>
@@ -308,34 +242,6 @@ document to tokens.
 <dd class="inherited">
   A string representation of this object.
   <div class="features">inherited</div>
-
-</dd>
-
-        <dt id="upsertDictionary" class="callable">
-  <span class="name"><a href="../text_indexing/TextIndexerBase/upsertDictionary.html">upsertDictionary</a></span><span class="signature">(<wbr><span class="parameter" id="upsertDictionary-param-values"><span class="type-annotation"><a href="../text_indexing/Dictionary.html">Dictionary</a></span> <span class="parameter-name">values</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
-  </span>
-  
-
-</dt>
-<dd>
-  A callback that passes new or updated <code>values</code> for persisting to a
-<a href="../text_indexing/Dictionary.html">Dictionary</a>.
-  <div class="features">override</div>
-
-</dd>
-
-        <dt id="upsertPostings" class="callable">
-  <span class="name"><a href="../text_indexing/TextIndexerBase/upsertPostings.html">upsertPostings</a></span><span class="signature">(<wbr><span class="parameter" id="upsertPostings-param-values"><span class="type-annotation"><a href="../text_indexing/Postings.html">Postings</a></span> <span class="parameter-name">values</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
-  </span>
-  
-
-</dt>
-<dd>
-  A callback that passes new or updated <code>values</code> for upserting to a
-<a href="../text_indexing/Postings.html">Postings</a>.
-  <div class="features">override</div>
 
 </dd>
 
@@ -469,22 +375,16 @@ document to tokens.
     <li><a href="../text_indexing/TextIndexerBase/controller.html">controller</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
     <li class="inherited"><a href="../text_indexing/TextIndexer/index.html">index</a></li>
-    <li class="inherited"><a href="../text_indexing/TextIndexer/jsonTokenizer.html">jsonTokenizer</a></li>
     <li><a href="../text_indexing/TextIndexerBase/postingsStream.html">postingsStream</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
-    <li class="inherited"><a href="../text_indexing/TextIndexer/tokenizer.html">tokenizer</a></li>
 
     <li class="section-title"><a href="../text_indexing/TextIndexerBase-class.html#instance-methods">Methods</a></li>
     <li><a href="../text_indexing/TextIndexerBase/emit.html">emit</a></li>
-    <li><a href="../text_indexing/TextIndexerBase/getDictionary.html">getDictionary</a></li>
-    <li><a href="../text_indexing/TextIndexerBase/getPostings.html">getPostings</a></li>
     <li><a href="../text_indexing/TextIndexerBase/indexCollection.html">indexCollection</a></li>
     <li><a href="../text_indexing/TextIndexerBase/indexJson.html">indexJson</a></li>
     <li><a href="../text_indexing/TextIndexerBase/indexText.html">indexText</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
-    <li><a href="../text_indexing/TextIndexerBase/upsertDictionary.html">upsertDictionary</a></li>
-    <li><a href="../text_indexing/TextIndexerBase/upsertPostings.html">upsertPostings</a></li>
 
     <li class="section-title inherited"><a href="../text_indexing/TextIndexerBase-class.html#operators">Operators</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/operator_equals.html">operator ==</a></li>
@@ -501,7 +401,7 @@ document to tokens.
 <footer>
   <span class="no-break">
     text_indexing
-      0.6.0-2
+      0.6.0-3
   </span>
 
   

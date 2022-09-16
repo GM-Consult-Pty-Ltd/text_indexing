@@ -13,10 +13,7 @@ class AsyncIndexer extends TextIndexerBase {
   //
 
   /// Instantiates a [AsyncIndexer] instance:
-  /// - pass a custom [tokenizer] to parse text to tokens, or use the default
-  ///   [TextIndexer.kDefaultTokenizer];
-  /// - pass a custom [jsonTokenizer] used to parse JSON documents to tokens,
-  ///   or use the default [TextIndexer.kDefaultJsonTokenizer];
+  /// - pass a [analyzer] text analyser that extracts tokens from text;
   /// - [termsLoader] asynchronously retrieves a [Dictionary] for a vocabulary
   ///   from a data source;
   /// - [dictionaryUpdater] is callback that passes a [Dictionary] subset
@@ -30,16 +27,13 @@ class AsyncIndexer extends TextIndexerBase {
       required DictionaryUpdater dictionaryUpdater,
       required PostingsLoader postingsLoader,
       required PostingsUpdater postingsUpdater,
-      this.tokenizer = TextIndexer.kDefaultTokenizer,
-      this.jsonTokenizer = TextIndexer.kDefaultJsonTokenizer})
+      required ITextAnalyzer analyzer})
       : index = AsyncCallbackIndex(
-            termsLoader, dictionaryUpdater, postingsLoader, postingsUpdater);
-
-  @override
-  final Tokenizer tokenizer;
-
-  @override
-  final JsonTokenizer jsonTokenizer;
+            termsLoader: termsLoader,
+            dictionaryUpdater: dictionaryUpdater,
+            postingsLoader: postingsLoader,
+            postingsUpdater: postingsUpdater,
+            analyzer: analyzer);
 
   @override
   final InvertedPositionalZoneIndex index;
@@ -51,6 +45,7 @@ class AsyncIndexer extends TextIndexerBase {
 /// The [AsyncCallbackIndex] is a [InvertedPositionalZoneIndex] implementation class
 /// that uses asynchronous callbacks to perform read and write operations on
 /// [Dictionary] and [Postings] repositories:
+/// - [analyzer] is the [ITextAnalyzer] used to tokenize text for the index;
 /// - [termsLoader] synchronously retrieves a [Dictionary] for a vocabulary
 ///   from a data source;
 /// - [dictionaryUpdater] is callback that passes a [Dictionary] subset
@@ -80,6 +75,7 @@ class AsyncCallbackIndex implements InvertedPositionalZoneIndex {
   final PostingsUpdater postingsUpdater;
 
   /// Instantiates a [AsyncCallbackIndex] instance:
+  /// - [analyzer] is the [ITextAnalyzer] used to tokenize text for the index;
   /// - [termsLoader] synchronously retrieves a [Dictionary] for a vocabulary
   ///   from a data source;
   /// - [dictionaryUpdater] is callback that passes a [Dictionary] subset
@@ -88,8 +84,12 @@ class AsyncCallbackIndex implements InvertedPositionalZoneIndex {
   ///   from a data source; and
   /// - [postingsUpdater] passes a [Postings] subset for persisting to a
   ///   datastore.
-  AsyncCallbackIndex(this.termsLoader, this.dictionaryUpdater,
-      this.postingsLoader, this.postingsUpdater);
+  const AsyncCallbackIndex(
+      {required this.termsLoader,
+      required this.dictionaryUpdater,
+      required this.postingsLoader,
+      required this.postingsUpdater,
+      required this.analyzer});
 
   @override
   Future<Dictionary> getDictionary([Iterable<Term>? terms]) =>
@@ -102,4 +102,7 @@ class AsyncCallbackIndex implements InvertedPositionalZoneIndex {
 
   @override
   Future<void> upsertPostings(Postings values) => postingsUpdater(values);
+
+  @override
+  final ITextAnalyzer analyzer;
 }

@@ -173,7 +173,8 @@ in full-text search queries and indexes:
 
 </dt>
 <dd>
-  Interface for classes that construct and maintain an inverted text index.
+  Interface for classes that construct and maintain a inverted, positional,
+zoned index <a href="../text_indexing/InvertedPositionalZoneIndex-class.html">InvertedPositionalZoneIndex</a>.
 </dd>
 
         <dt id="TextIndexerBase">
@@ -181,8 +182,7 @@ in full-text search queries and indexes:
 
 </dt>
 <dd>
-  Base class implementation of the <a href="../text_indexing/TextIndexer-class.html">TextIndexer</a> interface that constructs and
-maintains an inverted index consisting of a <a href="../text_indexing/Dictionary.html">Dictionary</a> and <a href="../text_indexing/Postings.html">Postings</a>.
+  Base class implementation of the <a href="../text_indexing/TextIndexer-class.html">TextIndexer</a> interface.
 </dd>
 
         <dt id="TextSource">
@@ -409,7 +409,7 @@ text in preparation of tokenization.
 
 </dt>
 <dd>
-  Type definition for a hashmap of document ids to <a href="../text_indexing/FieldPostings.html">FieldPostings</a>.
+  Type definition for a hashmap of <a href="../text_indexing/DocId.html">DocId</a> to <a href="../text_indexing/FieldPostings.html">FieldPostings</a>.
   
 
 </dd>
@@ -424,7 +424,8 @@ text in preparation of tokenization.
 
 </dt>
 <dd>
-  Type definition for an entry in a <a href="../text_indexing/DocumentPostings.html">DocumentPostings</a> hashmap.
+  Type definition for a hashmap entry of <a href="../text_indexing/DocId.html">DocId</a> to <a href="../text_indexing/FieldPostings.html">FieldPostings</a> in a
+<a href="../text_indexing/DocumentPostings.html">DocumentPostings</a> hashmap.
   
 
 </dd>
@@ -454,8 +455,7 @@ text in preparation of tokenization.
 
 </dt>
 <dd>
-  Type definition for a hashmap of <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/FieldName.html">FieldName</a>s to <a href="../text_indexing/TermPositions.html">TermPositions</a> in the
-field with <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/FieldName.html">FieldName</a>.
+  Type definition for a hashmap of <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/FieldName.html">FieldName</a>s to <a href="../text_indexing/TermPositions.html">TermPositions</a>.
   
 
 </dd>
@@ -470,7 +470,8 @@ field with <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analy
 
 </dt>
 <dd>
-  Type definition for an entry in a <a href="../text_indexing/FieldPostings.html">FieldPostings</a> hashmap.
+  Type definition for a hashmap entry of <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/FieldName.html">FieldName</a> to <a href="../text_indexing/TermPositions.html">TermPositions</a> in a
+<a href="../text_indexing/FieldPostings.html">FieldPostings</a> hashmap.
   
 
 </dd>
@@ -548,7 +549,7 @@ the <code>fields</code> in a <code>json</code> document.
 
 </dt>
 <dd>
-  Type definition for a hashmap of terms to <a href="../text_indexing/DocumentPostings.html">DocumentPostings</a>.
+  Type definition for a hashmap of <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Term.html">Term</a> to <a href="../text_indexing/DocumentPostings.html">DocumentPostings</a>.
   
 
 </dd>
@@ -563,7 +564,8 @@ the <code>fields</code> in a <code>json</code> document.
 
 </dt>
 <dd>
-  Type definition for an entry in a <a href="../text_indexing/Postings.html">Postings</a> hashmap.
+  Type definition for a hashmap entry of <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Term.html">Term</a> to <a href="../text_indexing/DocumentPostings.html">DocumentPostings</a> in a
+<a href="../text_indexing/Postings.html">Postings</a> hashmap.
   
 
 </dd>
@@ -866,7 +868,7 @@ the <code>source</code> text.
 <footer>
   <span class="no-break">
     text_indexing
-      0.6.0-2
+      0.6.0-3
   </span>
 
   

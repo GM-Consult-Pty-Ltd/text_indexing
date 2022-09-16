@@ -54,8 +54,7 @@
 <li><span class="parameter" id="async-param-dictionaryUpdater"><span>required</span> <span class="type-annotation"><a href="../../text_indexing/DictionaryUpdater.html">DictionaryUpdater</a></span> <span class="parameter-name">dictionaryUpdater</span>, </span></li>
 <li><span class="parameter" id="async-param-postingsLoader"><span>required</span> <span class="type-annotation"><a href="../../text_indexing/PostingsLoader.html">PostingsLoader</a></span> <span class="parameter-name">postingsLoader</span>, </span></li>
 <li><span class="parameter" id="async-param-postingsUpdater"><span>required</span> <span class="type-annotation"><a href="../../text_indexing/PostingsUpdater.html">PostingsUpdater</a></span> <span class="parameter-name">postingsUpdater</span>, </span></li>
-<li><span class="parameter" id="async-param-tokenizer"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Tokenizer.html">Tokenizer</a></span> <span class="parameter-name">tokenizer</span> = <span class="default-value">TextIndexer.kDefaultTokenizer</span>, </span></li>
-<li><span class="parameter" id="async-param-jsonTokenizer"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/JsonTokenizer.html">JsonTokenizer</a></span> <span class="parameter-name">jsonTokenizer</span> = <span class="default-value">TextIndexer.kDefaultJsonTokenizer</span>}</span></li>
+<li><span class="parameter" id="async-param-analyzer"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></span> <span class="parameter-name">analyzer</span> = <span class="default-value">const TextAnalyzer()</span>}</span></li>
 </ol>)
     </section>
 
@@ -65,10 +64,7 @@
 asynchronous callback functions to access <a href="../../text_indexing/Dictionary.html">Dictionary</a> and <a href="../../text_indexing/Postings.html">Postings</a>
 repositories:</p>
 <ul>
-<li>pass a <code>tokenizer</code> to parse text to tokens,
-or use the default <a href="../../text_indexing/TextIndexer/kDefaultTokenizer.html">TextIndexer.kDefaultTokenizer</a>;</li>
-<li>pass a <code>jsonTokenizer</code> used to parse JSON documents to tokens,
-or use the default <a href="../../text_indexing/TextIndexer/kDefaultJsonTokenizer.html">TextIndexer.kDefaultJsonTokenizer</a>;</li>
+<li>pass a <code>analyzer</code> text analyser that extracts tokens from text;</li>
 <li><code>termsLoader</code> synchronously retrieves a <a href="../../text_indexing/Dictionary.html">Dictionary</a> for a vocabulary
 from a data source;</li>
 <li><code>dictionaryUpdater</code> is callback that passes a <a href="../../text_indexing/Dictionary.html">Dictionary</a> subset
@@ -89,15 +85,13 @@ datastore.</li>
         required DictionaryUpdater dictionaryUpdater,
         required PostingsLoader postingsLoader,
         required PostingsUpdater postingsUpdater,
-        Tokenizer tokenizer = TextIndexer.kDefaultTokenizer,
-        JsonTokenizer jsonTokenizer = TextIndexer.kDefaultJsonTokenizer}) =&gt;
+        ITextAnalyzer analyzer = const TextAnalyzer()}) =&gt;
     AsyncIndexer(
         termsLoader: termsLoader,
         dictionaryUpdater: dictionaryUpdater,
         postingsLoader: postingsLoader,
         postingsUpdater: postingsUpdater,
-        tokenizer: tokenizer,
-        jsonTokenizer: jsonTokenizer);</code></pre>
+        analyzer: analyzer);</code></pre>
 </section>
 
 
@@ -133,31 +127,22 @@ datastore.</li>
     </li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
     <li><a href="../../text_indexing/TextIndexer/index.html">index</a></li>
-    <li><a href="../../text_indexing/TextIndexer/jsonTokenizer.html">jsonTokenizer</a></li>
     <li><a href="../../text_indexing/TextIndexer/postingsStream.html">postingsStream</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
-    <li><a href="../../text_indexing/TextIndexer/tokenizer.html">tokenizer</a></li>
 
     <li class="section-title"><a href="../../text_indexing/TextIndexer-class.html#instance-methods">Methods</a></li>
     <li><a href="../../text_indexing/TextIndexer/emit.html">emit</a></li>
-    <li><a class="deprecated" href="../../text_indexing/TextIndexer/getDictionary.html">getDictionary</a></li>
-    <li><a class="deprecated" href="../../text_indexing/TextIndexer/getPostings.html">getPostings</a></li>
     <li><a href="../../text_indexing/TextIndexer/indexCollection.html">indexCollection</a></li>
     <li><a href="../../text_indexing/TextIndexer/indexJson.html">indexJson</a></li>
     <li><a href="../../text_indexing/TextIndexer/indexText.html">indexText</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
-    <li><a class="deprecated" href="../../text_indexing/TextIndexer/upsertDictionary.html">upsertDictionary</a></li>
-    <li><a class="deprecated" href="../../text_indexing/TextIndexer/upsertPostings.html">upsertPostings</a></li>
 
     <li class="section-title inherited"><a href="../../text_indexing/TextIndexer-class.html#operators">Operators</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/operator_equals.html">operator ==</a></li>
 
 
 
-        <li class="section-title"><a href="../../text_indexing/TextIndexer-class.html#static-methods">Static methods</a></li>
-          <li><a href="../../text_indexing/TextIndexer/kDefaultJsonTokenizer.html">kDefaultJsonTokenizer</a></li>
-          <li><a href="../../text_indexing/TextIndexer/kDefaultTokenizer.html">kDefaultTokenizer</a></li>
 
 </ol>
 
@@ -171,7 +156,7 @@ datastore.</li>
 <footer>
   <span class="no-break">
     text_indexing
-      0.6.0-2
+      0.6.0-3
   </span>
 
   

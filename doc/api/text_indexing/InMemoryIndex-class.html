@@ -54,6 +54,7 @@
   <p>An implementation class for the <a href="../text_indexing/InMemoryIndexer-class.html">InMemoryIndexer</a>, implements
 <a href="../text_indexing/InvertedPositionalZoneIndex-class.html">InvertedPositionalZoneIndex</a> interface:</p>
 <ul>
+<li><a href="../text_indexing/InMemoryIndex/analyzer.html">analyzer</a> is the <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a> used to tokenize text for the index;</li>
 <li><a href="../text_indexing/InMemoryIndex/dictionary.html">dictionary</a> is the in-memory term dictionary for the indexer. Pass a
 <a href="../text_indexing/InMemoryIndex/dictionary.html">dictionary</a> instance at instantiation, otherwise an empty <a href="../text_indexing/Dictionary.html">Dictionary</a>
 will be initialized; and</li>
@@ -89,7 +90,7 @@ will be initialized.</li>
 
     <dl class="constructor-summary-list">
         <dt id="InMemoryIndex" class="callable">
-          <span class="name"><a href="../text_indexing/InMemoryIndex/InMemoryIndex.html">InMemoryIndex</a></span><span class="signature">(<span class="parameter" id="-param-dictionary"><span class="type-annotation"><a href="../text_indexing/Dictionary.html">Dictionary</a></span> <span class="parameter-name">dictionary</span>, </span><span class="parameter" id="-param-postings"><span class="type-annotation"><a href="../text_indexing/Postings.html">Postings</a></span> <span class="parameter-name">postings</span></span>)</span>
+          <span class="name"><a href="../text_indexing/InMemoryIndex/InMemoryIndex.html">InMemoryIndex</a></span><span class="signature">(<span class="parameter" id="-param-dictionary">{<span>required</span> <span class="type-annotation"><a href="../text_indexing/Dictionary.html">Dictionary</a></span> <span class="parameter-name">dictionary</span>, </span><span class="parameter" id="-param-postings"><span>required</span> <span class="type-annotation"><a href="../text_indexing/Postings.html">Postings</a></span> <span class="parameter-name">postings</span>, </span><span class="parameter" id="-param-analyzer"><span>required</span> <span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></span> <span class="parameter-name">analyzer</span>}</span>)</span>
         </dt>
         <dd>
           Instantiates a <a href="../text_indexing/InMemoryIndex-class.html">InMemoryIndex</a> instance:
@@ -102,6 +103,17 @@ will be initialized.</li>
       <h2>Properties</h2>
 
       <dl class="properties">
+        <dt id="analyzer" class="property">
+  <span class="name"><a href="../text_indexing/InMemoryIndex/analyzer.html">analyzer</a></span>
+  <span class="signature">&#8594; <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></span> 
+
+</dt>
+<dd>
+  The text analyser that extracts tokens from text for the index.
+  <div class="features">final</div>
+
+</dd>
+
         <dt id="dictionary" class="property">
   <span class="name"><a href="../text_indexing/InMemoryIndex/dictionary.html">dictionary</a></span>
   <span class="signature">&#8594; <a href="../text_indexing/Dictionary.html">Dictionary</a></span> 
@@ -364,6 +376,7 @@ already exist.
     <li class="section-title">
       <a href="../text_indexing/InMemoryIndex-class.html#instance-properties">Properties</a>
     </li>
+    <li><a href="../text_indexing/InMemoryIndex/analyzer.html">analyzer</a></li>
     <li><a href="../text_indexing/InMemoryIndex/dictionary.html">dictionary</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
     <li><a href="../text_indexing/InMemoryIndex/postings.html">postings</a></li>
@@ -392,7 +405,7 @@ already exist.
 <footer>
   <span class="no-break">
     text_indexing
-      0.6.0-2
+      0.6.0-3
   </span>
 
   
