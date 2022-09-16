@@ -4,10 +4,11 @@
 
 import 'package:text_indexing/text_indexing.dart';
 
-/// Type definition for a hashmap of terms to [DocumentPostings].
+/// Type definition for a hashmap of [Term] to [DocumentPostings].
 typedef Postings = Map<Term, DocumentPostings>;
 
-/// Type definition for an entry in a [Postings] hashmap.
+/// Type definition for a hashmap entry of [Term] to [DocumentPostings] in a
+/// [Postings] hashmap.
 typedef PostingsEntry = MapEntry<Term, DocumentPostings>;
 
 /// An alias for [int], used to denote the position of a [Term] in [SourceText]
@@ -17,17 +18,18 @@ typedef Pt = int;
 /// An alias for [String], used whenever a document id is referenced.
 typedef DocId = String;
 
-/// Type definition for a hashmap of document ids to [FieldPostings].
+/// Type definition for a hashmap of [DocId] to [FieldPostings].
 typedef DocumentPostings = Map<DocId, FieldPostings>;
 
-/// Type definition for an entry in a [DocumentPostings] hashmap.
+/// Type definition for a hashmap entry of [DocId] to [FieldPostings] in a
+/// [DocumentPostings] hashmap.
 typedef DocumentPostingsEntry = MapEntry<DocId, FieldPostings>;
 
-/// Type definition for a hashmap of [FieldName]s to [TermPositions] in the
-/// field with [FieldName].
+/// Type definition for a hashmap of [FieldName]s to [TermPositions].
 typedef FieldPostings = Map<FieldName, TermPositions>;
 
-/// Type definition for an entry in a [FieldPostings] hashmap.
+/// Type definition for a hashmap entry of [FieldName] to [TermPositions] in a
+/// [FieldPostings] hashmap.
 typedef FieldPostingsEntry = MapEntry<FieldName, TermPositions>;
 
 /// Type definition for an ordered [Set] of unique zero-based term
