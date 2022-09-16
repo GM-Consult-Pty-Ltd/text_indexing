@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the fieldPostings method from the PostingsExtension extension, for the Dart programming language.">
-  <title>fieldPostings method - PostingsExtension extension - text_indexing library - Dart API</title>
+  <meta name="description" content="API docs for the docIds property from the PostingsExtension extension, for the Dart programming language.">
+  <title>docIds property - PostingsExtension extension - text_indexing library - Dart API</title>
 
 
   
@@ -32,9 +32,9 @@
     <li><a href="../../index.html">text_indexing</a></li>
     <li><a href="../../text_indexing/text_indexing-library.html">text_indexing</a></li>
     <li><a href="../../text_indexing/PostingsExtension.html">PostingsExtension</a></li>
-    <li class="self-crumb">fieldPostings method</li>
+    <li class="self-crumb">docIds property</li>
   </ol>
-  <div class="self-name">fieldPostings</div>
+  <div class="self-name">docIds</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -45,40 +45,38 @@
 
   <div id="dartdoc-main-content" class="main-content">
       <div>
-<h1><span class="kind-method">fieldPostings</span> method 
+<h1><span class="kind-property">docIds</span> property 
     <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
 </h1></div>
 
-    <section class="multi-line-signature">
-      
 
-<span class="returntype"><a href="../../text_indexing/Postings.html">Postings</a></span>
-<span class="name ">fieldPostings</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="fieldPostings-param-fields"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/FieldName.html">FieldName</a></span>&gt;</span></span> <span class="parameter-name">fields</span></span></li>
-</ol>)
+        
+<section id="getter">
 
-      
+<section class="multi-line-signature">
+  <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_indexing/DocId.html">DocId</a></span>&gt;</span></span>
+  <span class="name ">docIds</span>
+  
 
-    </section>
-    
-<section class="desc markdown">
-  <p>Filters the <a href="../../text_indexing/Postings.html">Postings</a> by field names.</p>
-<p>Returns a subset of the <a href="../../text_indexing/Postings.html">Postings</a> instance that only contains entries
-where a field name in <code>fields</code> has a key in any document's postings the
-entry's postings lists.</p>
 </section>
 
 
-    
+<section class="desc markdown">
+  <p>Returns all the unique document ids (<code>DocId</code>) in the <a href="../../text_indexing/Postings.html">Postings</a>.</p>
+</section>
+
+
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Postings fieldPostings(Iterable&lt;FieldName&gt; fields) =&gt; Postings.from(this)
-  ..removeWhere((key, value) {
-    final docFields = &lt;FieldName&gt;[];
-    for (final doc in value.values) {
-      docFields.addAll(doc.keys);
-    }
-    return docFields.toSet().intersection(fields.toSet()).isEmpty;
-  });</code></pre>
+  <pre class="language-dart"><code class="language-dart">Set&lt;DocId&gt; get docIds {
+  final Set&lt;DocId&gt; retVal = {};
+  for (final docPostings in values) {
+    retVal.addAll(docPostings.keys);
+  }
+  return retVal;
+}</code></pre>
+</section>
+
 </section>
 
 
@@ -95,7 +93,7 @@ entry's postings lists.</p>
   <li><a href="../../index.html">text_indexing</a></li>
   <li><a href="../../text_indexing/text_indexing-library.html">text_indexing</a></li>
   <li><a href="../../text_indexing/PostingsExtension.html">PostingsExtension</a></li>
-  <li class="self-crumb">fieldPostings method</li>
+  <li class="self-crumb">docIds property</li>
 </ol>
 
 

@@ -52,8 +52,8 @@
     <section class="multi-line-signature">
       
 
-<span class="returntype"><a href="../../text_indexing/Postings.html">Postings</a></span>
-<span class="name ">termPostings</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="termPostings-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span></li>
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_indexing/DocumentPostingsEntry.html">DocumentPostingsEntry</a></span>&gt;</span></span>
+<span class="name ">termPostings</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="termPostings-param-term"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Term.html">Term</a></span> <span class="parameter-name">term</span></span></li>
 </ol>)
 
       
@@ -61,25 +61,16 @@
     </section>
     
 <section class="desc markdown">
-  <p>Filters the <a href="../../text_indexing/Postings.html">Postings</a> by terms.</p>
-<p>Returns a subset of the <a href="../../text_indexing/Postings.html">Postings</a> instance that only contains
-entires with a key in the <code>terms</code> collection.</p>
+  <p>Returns the list of all the <code>DocumentPostingsEntry</code> for the <code>term</code>
+from the <a href="../../text_indexing/Postings.html">Postings</a>.</p>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Postings termPostings(Iterable&lt;Term&gt; terms) {
-  final Postings retVal = {};
-  for (final term in terms) {
-    final posting = this[term];
-    if (posting != null) {
-      retVal[term] = posting;
-    }
-  }
-  return retVal;
-}</code></pre>
+  <pre class="language-dart"><code class="language-dart">List&lt;DocumentPostingsEntry&gt; termPostings(Term term) =&gt;
+    this[term]?.entries.toList() ?? [];</code></pre>
 </section>
 
 
@@ -108,15 +99,18 @@ entires with a key in the <code>terms</code> collection.</p>
 
     <li class="section-title"> <a href="../../text_indexing/PostingsExtension.html#instance-properties">Properties</a>
     </li>
-    <li><a href="../../text_indexing/PostingsExtension/documents.html">documents</a></li>
+    <li><a href="../../text_indexing/PostingsExtension/docIds.html">docIds</a></li>
     <li><a href="../../text_indexing/PostingsExtension/terms.html">terms</a></li>
 
     <li class="section-title"><a href="../../text_indexing/PostingsExtension.html#instance-methods">Methods</a></li>
     <li><a href="../../text_indexing/PostingsExtension/addFieldPostings.html">addFieldPostings</a></li>
     <li><a href="../../text_indexing/PostingsExtension/addTermPosition.html">addTermPosition</a></li>
+    <li><a href="../../text_indexing/PostingsExtension/containsAll.html">containsAll</a></li>
+    <li><a href="../../text_indexing/PostingsExtension/containsAny.html">containsAny</a></li>
     <li><a href="../../text_indexing/PostingsExtension/documentPostings.html">documentPostings</a></li>
     <li><a href="../../text_indexing/PostingsExtension/fieldPostings.html">fieldPostings</a></li>
     <li><a href="../../text_indexing/PostingsExtension/filter.html">filter</a></li>
+    <li><a href="../../text_indexing/PostingsExtension/getPostings.html">getPostings</a></li>
     <li><a href="../../text_indexing/PostingsExtension/termPostings.html">termPostings</a></li>
     <li><a href="../../text_indexing/PostingsExtension/termPostingsList.html">termPostingsList</a></li>
     <li><a href="../../text_indexing/PostingsExtension/toList.html">toList</a></li>
@@ -136,7 +130,7 @@ entires with a key in the <code>terms</code> collection.</p>
 <footer>
   <span class="no-break">
     text_indexing
-      0.3.2
+      0.7.0
   </span>
 
   

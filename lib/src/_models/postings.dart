@@ -85,8 +85,24 @@ extension DocumentPostingsEntryExtension on DocumentPostingsEntry {
 extension PostingsExtension on Postings {
   //
 
+  /// Returns a [Set] of [DocId] of those documents that contain all the
+  /// [terms].
+  Set<DocId> containsAll(Iterable<Term> terms) {
+    final byTerm = getPostings(terms);
+    Set<String> intersection = byTerm.docIds;
+    for (final docPostings in byTerm.values) {
+      intersection = intersection.intersection(docPostings.keys.toSet());
+    }
+    return intersection;
+  }
+
+  /// Returns a [Set] of [DocId] of those documents that contain any of
+  /// the [terms]. Used for `index-elimination` as a fist pass in scoring and
+  /// ranking of search results.
+  Set<DocId> containsAny(Iterable<Term> terms) => getPostings(terms).docIds;
+
   /// Returns all the unique document ids ([DocId]) in the [Postings].
-  Set<DocId> get documents {
+  Set<DocId> get docIds {
     final Set<DocId> retVal = {};
     for (final docPostings in values) {
       retVal.addAll(docPostings.keys);
@@ -123,6 +139,11 @@ extension PostingsExtension on Postings {
     }
     return retVal;
   }
+
+  /// Returns the list of all the [DocumentPostingsEntry] for the [term]
+  /// from the [Postings].
+  List<DocumentPostingsEntry> termPostings(Term term) =>
+      this[term]?.entries.toList() ?? [];
 
   /// Filters the [Postings] by document ids.
   ///

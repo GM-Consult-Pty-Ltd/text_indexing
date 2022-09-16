@@ -4,6 +4,15 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+### 0.7.0 (PRE-RELEASE, BREAKING CHANGES)
+
+#### Breaking changes:
+- Renamed `Postings.documents` extension method to `Postings.docIds`.
+
+#### New:
+- Extension method `Set<DocId> containsAll(Iterable<Term>)`
+- Extension method `Set<DocId> containsAny(Iterable<Term>)`
+
 ### 0.6.0 (PRE-RELEASE, BREAKING CHANGES)
 
 #### Breaking changes:
