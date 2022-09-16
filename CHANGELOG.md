@@ -4,157 +4,166 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
-### 0.3.2
+### 0.4.0 (PRE-RELEASE)
 
-- **PRE-RELEASE**
-- Added `JSON` and `JsonCollection` type aliases.
-- Added and implemented `TextIndexer.indexCollection` method.
-- Added `PostingsExtension.documents` getter.
-- Updated tests.
-- Updated examples.
-- Updated documentation.
+#### New:
 
-### 0.3.1
+- `InvertedIndex` interface and implementation.
 
-- **PRE-RELEASE**
-- Added `JSON` and `JsonCollection` type aliases.
-- Added and implemented `TextIndexer.indexCollection` method.
-- Updated tests.
-- Updated examples.
-- Updated documentation.
+#### Deprecated:
 
-### 0.3.0
+- class `PersistedIndexer` is deprecated, use factory `TextIndexer.async` instead;
+- class `InMemoryIndexer` is deprecated, use factory `TextIndexer.async` instead.
 
-- **PRE-RELEASE, BREAKING CHANGES**
-- *BREAKING CHANGE*: Removed interface `Document`.
+Updated dependencies, tests, examples and documentation.
 
-### 0.2.0
+### 0.3.2 (PRE-RELEASE)
 
-- **PRE-RELEASE, BREAKING CHANGES**
-- *BREAKING CHANGE*: Replaced object-model class `PostingsEntry` with typedef `PostingsEntry`.
-- *BREAKING CHANGE*: Replaced object-model class `DocumentPostingsEntry` with typedef `DocumentPostingsEntry`.
-- *BREAKING CHANGE*: Replaced object-model class `DictionaryEntry` with typedef `DictionaryEntry`.
-- Added `FieldPostings`, `DocumentPostings`, and `FieldPostingsEntry`  type definitions.
-- Added `Ft`, `Pt`, `TermPositions` and `DocId` type aliases.
-- Added interface `Document`.
-- Restructured and simplified the codebase.
-- Updated tests.
-- Updated examples.
-- Updated documentation.
+#### New:
 
-### 0.1.0
+- `JSON` and `JsonCollection` type aliases;
+- `TextIndexer.indexCollection` method; and
+- `PostingsExtension.documents` getter.
 
-- **PRE-RELEASE**
+Updated dependencies, tests, examples and documentation.
+
+### 0.3.1 (PRE-RELEASE)
+
+#### New:
+
+- `JSON` and `JsonCollection` type aliases.
+- implemented `TextIndexer.indexCollection` method.
+
+Updated dependencies, tests, examples and documentation.
+
+### 0.3.0 (PRE-RELEASE, BREAKING CHANGES)
+
+#### Breaking changes:
+- Removed interface `Document`.
+
+### 0.2.0 (PRE-RELEASE, BREAKING CHANGES)
+
+#### New:
+
+- `FieldPostings`, `DocumentPostings`, and `FieldPostingsEntry`  type definitions.
+- `Ft`, `Pt`, `TermPositions` and `DocId` type aliases.
+- interface `Document`.
+
+#### Breaking changes:
+
+- replaced object-model class `PostingsEntry` with typedef `PostingsEntry`;
+- replaced object-model class `DocumentPostingsEntry` with typedef `DocumentPostingsEntry`; and
+- replaced object-model class `DictionaryEntry` with typedef `DictionaryEntry`.
+
+Restructured and simplified the codebase.
+
+Updated dependencies, tests, examples and documentation.
+
+### 0.1.0 (PRE-RELEASE)
+
+#### New:
+
+- `ITextIndexer.indexJson` method.
+
+Updated dependencies, tests, examples and documentation.
+
+### 0.0.2+1 (PRE-RELEASE)
+
+Updated dependencies, tests, examples and documentation.
+
+### 0.0.2 (PRE-RELEASE)
+
+#### New:
+
+- `text_analysis` package to exports.
+
+Updated dependencies, tests, examples and documentation.
+
+### 0.0.1+10 (PRE-RELEASE)
+
+Updated dependencies, tests, examples and documentation.
+
+### 0.0.1+9 (PRE-RELEASE)
+
+Updated dependencies, tests, examples and documentation.
+
+### 0.0.1+8 (PRE-RELEASE)
+
+Updated dependencies, tests, examples and documentation.
+
+### 0.0.1+7 (PRE-RELEASE)
+
+Updated dependencies, tests, examples and documentation.
+
+### 0.0.1+6 (PRE-RELEASE)
+
+Re-worked private methods to suit changes in text_analysis package.
+
+Updated dependencies, tests, examples and documentation.
+
+### 0.0.1+5 (PRE-RELEASE)
+
 - Updated dependencies.
-- Added `ITextIndexer.indexJson` method.
-- Updated tests.
-- Updated examples.
-- Updated documentation.
 
-### 0.0.2+1
+### 0.0.1+4 (PRE-RELEASE)
 
-- **PRE-RELEASE**
-- Updated documentation.
+Updated dependencies, tests, examples and documentation.
 
-### 0.0.2
+### 0.0.1+3 (PRE-RELEASE)
 
-- **PRE-RELEASE**
-- Updated dependencies.
-- Added `text_analysis` package to exports.
-- Updated documentation.
+Updated dependencies, tests, examples and documentation.
 
-### 0.0.1+10
+### 0.0.1+2 (PRE-RELEASE)
 
-- **PRE-RELEASE**
-- Updated dependencies.
-- Updated documentation.
+Updated documentation.
 
-### 0.0.1+9
+### 0.0.1+1 (PRE-RELEASE)
 
-- **PRE-RELEASE**
-- Updated documentation.
+Updated dependencies, tests, examples and documentation.
 
-### 0.0.1+8
+### 0.0.1 (PRE-RELEASE, BREAKING CHANGES)
 
-- **PRE-RELEASE**
-- Updated documentation.
+Interfaces finalized (see [breaking changes](#breaking-changes))
 
-### 0.0.1+7
+#### Breaking changes:
 
-- **PRE-RELEASE**
-- Updated documentation.
+- `TermDictionary` renamed `Dictionary`;
+- `DocumentPostingsEntry` renamed `Postings`;
+- `PostingsMapEntry` renamed `PostingsEntry`;
+- `Term` renamed `DictionaryEntry`;
+- `TermPositions` renamed `DocumentPostingsEntry`;
+- `PersistedIndexer` implementation;
+- `TextIndexerBase` implementation; and
+- `InMemoryIndexer` implementation.
 
-### 0.0.1+6
+Updated dependencies, tests, examples and documentation.
 
-- **PRE-RELEASE**
-- Updated dependencies.
-- Re-worked private methods to suit changes in text_analysis package.
+### 0.0.1-beta.4 (PRE-RELEASE)
 
-### 0.0.1+5
+Updated dependencies, tests, examples and documentation.
 
-- **PRE-RELEASE**
-- Updated dependencies.
+### 0.0.1-beta.3 (PRE-RELEASE, BREAKING CHANGES)
 
-### 0.0.1+4
+#### New:
 
-- **PRE-RELEASE**
-- Updated documentation.
+- `PersistedIndexer` class.
 
-### 0.0.1+3
+#### Breaking changes:
 
-- **PRE-RELEASE**
-- Updated documentation.
+- `TextIndexerBase` implementation; and
+- `InMemoryIndexer` implementation.
 
-### 0.0.1+2
+Updated dependencies, tests, examples and documentation.
 
-- **PRE-RELEASE**
-- Updated documentation.
+### 0.0.1-beta.2 (PRE-RELEASE)
 
-### 0.0.1+1
+#### New:
 
-- **PRE-RELEASE**
-- Updated documentation.
+- `TextIndexerBase`.
+- `InMemoryIndexer`.
 
-### 0.0.1
+Updated dependencies, tests, examples and documentation.
 
-- **PRE-RELEASE, BREAKING CHANGES**
-- Interfaces finalized
-- *BREAKING CHANGES:* `TextIndexerBase`.
-- *BREAKING CHANGES:* `InMemoryIndexer`.
-- *BREAKING CHANGE:* `TermDictionary` renamed `Dictionary`.
-- *BREAKING CHANGE:* `DocumentPostingsEntry` renamed `Postings`.
-- *BREAKING CHANGE:* `PostingsMapEntry` renamed `PostingsEntry`.
-- *BREAKING CHANGE:* `Term` renamed `DictionaryEntry`.
-- *BREAKING CHANGE:* `TermPositions` renamed `DocumentPostingsEntry`.
-- Added a test for [PersistedIndexer].
-- Added an example for [PersistedIndexer].
-- Updated documentation.
+### 0.0.1-beta.1 (PRE-RELEASE)
 
-### 0.0.1-beta.4
-
-- **PRE-RELEASE**
-- Updated documentation.
-
-### 0.0.1-beta.3
-
-- **PRE-RELEASE, BREAKING CHANGES**
-- *BREAKING CHANGES:* `TextIndexerBase`.
-- *BREAKING CHANGES:* `InMemoryIndexer`.
-- Added `PersistedIndexer`.
-- Updated examples.
-- Updated tests.
-- Updated documentation.
-
-### 0.0.1-beta.2
-
-- **PRE-RELEASE**
-- Added `TextIndexerBase`.
-- Added `InMemoryIndexer`.
-- Created test of `InMemoryIndexer`.
-- Created example of `InMemoryIndexer`.
-- Updated documentation.
-
-### 0.0.1-beta.1
-
-- **PRE-RELEASE**
-- Initial version.
+Initial version.

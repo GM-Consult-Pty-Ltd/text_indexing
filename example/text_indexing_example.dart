@@ -2,6 +2,8 @@
 // BSD 3-Clause License
 // All rights reserved
 
+// ignore_for_file: deprecated_member_use_from_same_package
+
 // ignore: unused_import
 import 'package:text_indexing/text_indexing.dart';
 
@@ -59,7 +61,7 @@ Future<void> _inMemoryIndexerExample(Map<String, String> documents) async {
   // - iterate through the sample data
   await Future.forEach(documents.entries, (MapEntry<String, String> doc) async {
     // - index each document
-    await indexer.index(doc.key, doc.value);
+    await indexer.indexText(doc.key, doc.value);
   });
 
   // wait for stream elements to complete printing
@@ -95,7 +97,7 @@ Future<void> _persistedIndexerExample(Map<String, JSON> documents) async {
   // - initialize a [InMemoryIndexer]
   final indexer = PersistedIndexer(
       termsLoader: index.loadTerms,
-      dictionaryUpdater: index.updateDictionary,
+      dictionaryUpdater: index.upsertDictionary,
       postingsLoader: index.loadTermPostings,
       postingsUpdater: index.upsertTermPostings);
 
@@ -346,7 +348,7 @@ class _TestIndex {
   /// Adds/overwrites the [values] to [dictionary].
   ///
   /// Simulates latency of 50 milliseconds.
-  Future<void> updateDictionary(Dictionary values) async {
+  Future<void> upsertDictionary(Dictionary values) async {
     /// Simulate write latency of 50milliseconds.
     await Future.delayed(const Duration(milliseconds: 50));
     dictionary.addAll(values);
@@ -366,7 +368,8 @@ class _TestIndex {
   /// Returns a subset of [dictionary] corresponding to [terms].
   ///
   /// Simulates latency of 50 milliseconds.
-  Future<Dictionary> loadTerms(Iterable<String> terms) async {
+  Future<Dictionary> loadTerms([Iterable<String>? terms]) async {
+    if (terms == null) return dictionary;
     final Dictionary retVal = {};
     for (final term in terms) {
       final entry = dictionary[term];

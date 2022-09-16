@@ -2,6 +2,8 @@
 // BSD 3-Clause License
 // All rights reserved
 
+// ignore_for_file: deprecated_member_use_from_same_package
+
 import 'package:text_indexing/text_indexing.dart';
 
 /// Asynchronously updates [Dictionary] and [Postings] data stores whenever a
@@ -10,7 +12,7 @@ import 'package:text_indexing/text_indexing.dart';
 /// Use the [index] method to index a text document, returning a list
 /// of [DocumentPostingsEntry] and adding it to the [postingsStream].
 ///
-/// The [loadTerms], [updateDictionary], [loadTermPostings] and
+/// The [loadTerms], [upsertDictionary], [loadTermPostings] and
 /// [upsertTermPostings] implementations read and write from a [Dictionary]
 /// and [Postings] using the [termsLoader], [dictionaryUpdater],
 /// [postingsLoader] and [postingsUpdater] callback functions respectively:
@@ -22,6 +24,8 @@ import 'package:text_indexing/text_indexing.dart';
 ///   from a data source; and
 /// - [postingsUpdater] passes a [Postings] subset for persisting to a
 ///   datastore.
+@Deprecated('Implemention class `PersistedIndexer` is deprecated, use factory '
+    '`TextIndexer.async` instead.')
 class PersistedIndexer extends TextIndexerBase {
   //
 
@@ -37,12 +41,37 @@ class PersistedIndexer extends TextIndexerBase {
   /// - [postingsUpdater] passes a [Postings] subset for persisting to a
   ///   datastore.
   PersistedIndexer(
-      {required this.termsLoader,
-      required this.dictionaryUpdater,
-      required this.postingsLoader,
-      required this.postingsUpdater,
+      {required DictionaryLoader termsLoader,
+      required DictionaryUpdater dictionaryUpdater,
+      required PostingsLoader postingsLoader,
+      required PostingsUpdater postingsUpdater,
       this.tokenizer = TextIndexer.kDefaultTokenizer,
-      this.jsonTokenizer = TextIndexer.kDefaultJsonTokenizer});
+      this.jsonTokenizer = TextIndexer.kDefaultJsonTokenizer})
+      : index = _PersistedIndex(
+            termsLoader, dictionaryUpdater, postingsLoader, postingsUpdater);
+
+  @override
+  final Tokenizer tokenizer;
+
+  @override
+  final JsonTokenizer jsonTokenizer;
+
+  @override
+  final InvertedPositionalZoneIndex index;
+}
+
+/// An implementation class for the [PersistedIndexer], implementats
+/// [InvertedPositionalZoneIndex] interface:
+/// - [termsLoader] synchronously retrieves a [Dictionary] for a vocabulary
+///   from a data source;
+/// - [dictionaryUpdater] is callback that passes a [Dictionary] subset
+///    for persisting to a datastore;
+/// - [postingsLoader] asynchronously retrieves a [Postings] for a vocabulary
+///   from a data source; and
+/// - [postingsUpdater] passes a [Postings] subset for persisting to a
+///   datastore.
+class _PersistedIndex implements InvertedPositionalZoneIndex {
+  //
 
   /// Asynchronously retrieves a [Dictionary] subset for a vocabulary from a
   /// [Dictionary] data source, usually persisted storage.
@@ -61,34 +90,27 @@ class PersistedIndexer extends TextIndexerBase {
   /// [PostingsEntry] instances to the [Postings] datastore.
   final PostingsUpdater postingsUpdater;
 
-  @override
-  final Tokenizer tokenizer;
+  /// Instantiates a [_PersistedIndex] instance:
+  /// - [termsLoader] synchronously retrieves a [Dictionary] for a vocabulary
+  ///   from a data source;
+  /// - [dictionaryUpdater] is callback that passes a [Dictionary] subset
+  ///    for persisting to a datastore;
+  /// - [postingsLoader] asynchronously retrieves a [Postings] for a vocabulary
+  ///   from a data source; and
+  /// - [postingsUpdater] passes a [Postings] subset for persisting to a
+  ///   datastore.
+  _PersistedIndex(this.termsLoader, this.dictionaryUpdater, this.postingsLoader,
+      this.postingsUpdater);
 
   @override
-  final JsonTokenizer jsonTokenizer;
-
-  /// Implementation of [TextIndexer.updateDictionary].
-  ///
-  /// Calls the [dictionaryUpdater] callback function.
+  Future<Dictionary> getDictionary([Iterable<Term>? terms]) =>
+      termsLoader(terms);
   @override
-  Future<void> updateDictionary(Dictionary values) => dictionaryUpdater(values);
+  Future<Postings> getPostings(Iterable<Term> terms) => postingsLoader(terms);
 
-  /// Implementation of [TextIndexer.loadTermPostings].
-  ///
-  /// Calls the [postingsLoader] callback function.
   @override
-  Future<Postings> loadTermPostings(Iterable<String> terms) =>
-      postingsLoader(terms);
+  Future<void> upsertDictionary(Dictionary values) => dictionaryUpdater(values);
 
-  /// Implementation of [TextIndexer.upsertTermPostings].
-  ///
-  /// Calls the [postingsUpdater] callback function.
   @override
-  Future<void> upsertTermPostings(Postings values) => postingsUpdater(values);
-
-  /// Implementation of [TextIndexer.loadTerms].
-  ///
-  /// Calls the [termsLoader] callback function.
-  @override
-  Future<Dictionary> loadTerms(Iterable<String> terms) => termsLoader(terms);
+  Future<void> upsertPostings(Postings values) => postingsUpdater(values);
 }

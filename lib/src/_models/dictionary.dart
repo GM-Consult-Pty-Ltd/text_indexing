@@ -35,7 +35,9 @@ typedef DictionaryEntry = MapEntry<Term, Ft>;
 
 /// Asynchronously retrieves a [Dictionary] subset for a collection of
 /// [terms] from a [Dictionary] data source, usually persisted storage.
-typedef DictionaryLoader = Future<Dictionary> Function(Iterable<Term> terms);
+///
+/// Loads the entire [Dictionary] if [terms] is null.
+typedef DictionaryLoader = Future<Dictionary> Function([Iterable<Term>? terms]);
 
 /// A callback that passes [values] for persisting to a [Dictionary].
 ///

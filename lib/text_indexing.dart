@@ -8,6 +8,7 @@ library text_indexing;
 // List all exports below in alphabetical order.
 export 'src/_models/_index.dart';
 export 'src/persisted_indexer.dart';
+export 'src/inverted_index.dart';
 export 'src/in_memory_indexer.dart';
 export 'src/text_indexer.dart';
 export 'package:text_analysis/text_analysis.dart';

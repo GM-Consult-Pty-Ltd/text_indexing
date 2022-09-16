@@ -61,7 +61,7 @@ void main() {
       await Future.forEach(documents.entries,
           (MapEntry<String, String> doc) async {
         // - index each document
-        await indexer.index(doc.key, doc.value);
+        await indexer.indexText(doc.key, doc.value);
       });
 
       // wait for stream elements to complete printing
@@ -98,7 +98,7 @@ void main() {
       // - initialize a [PersistedIndexer]
       final indexer = PersistedIndexer(
           termsLoader: index.loadTerms,
-          dictionaryUpdater: index.updateDictionary,
+          dictionaryUpdater: index.upsertDictionary,
           postingsLoader: index.loadTermPostings,
           postingsUpdater: index.upsertTermPostings);
 

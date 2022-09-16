@@ -95,7 +95,7 @@ The text indexing classes (indexers) in this library implement `TextIndexer`, an
 * a hashmap with the vocabulary as key and the document frequency as the values (the `dictionary`); and
 * another hashmap with the vocabulary as key and the postings lists for the linked `documents` as values (the `postings`).
 
-The dictionary and postings can be asynchronous data sources or in-memory hashmaps.  The `TextIndexer` reads and writes to/from these artifacts using the `TextIndexer.loadTerms`, `TextIndexer.updateDictionary`, `TextIndexer.loadTermPostings` and `TextIndexer.upsertTermPostings` asynchronous methods.
+The dictionary and postings can be asynchronous data sources or in-memory hashmaps.  The `TextIndexer` reads and writes to/from these artifacts using the `TextIndexer.loadTerms`, `TextIndexer.upsertDictionary`, `TextIndexer.loadTermPostings` and `TextIndexer.upsertTermPostings` asynchronous methods.
 
 Text or documents can be indexed by calling the following methods:
 
@@ -115,7 +115,7 @@ Implementing classes override the following asynchronous methods:
 * `TextIndexer.index` indexes text from a document, returning a list of `DocumentPostingsEntry` and adding it to the `TextIndexer.postingsStream` by calling `TextIndexer.emit`;
 * `emit` is called by index, and adds an event to the `postingsStream` after updating the dictionary and postings data stores;
 * `TextIndexer.loadTerms` returns a `DictionaryTerm` map for a collection of terms from a dictionary;
-* `TextIndexer.updateDictionary` passes new or updated `DictionaryTerm` instances for persisting to a dictionary data store;
+* `TextIndexer.upsertDictionary` passes new or updated `DictionaryTerm` instances for persisting to a dictionary data store;
 * `TextIndexer.loadTermPostings` returns a `PostingsEntry` map for a collection of terms from a postings source; and
 * `TextIndexer.upsertTermPostings` passes new or updated `PostingsEntry` instances for upserting to a postings data store.
 

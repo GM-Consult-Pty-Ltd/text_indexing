@@ -95,14 +95,14 @@ extension PostingsExtension on Postings {
   /// Filters the [Postings] by [terms], [docIds] AND [fields].
   ///
   /// Filter is applied by succesively calling, in order:
-  /// - [termPostings] if [terms] is not null; then
+  /// - [getPostings] if [terms] is not null; then
   /// - [documentPostings], if [docIds] is not null; and finally
   /// - [fieldPostings], if [fields] is not null.
   Postings filter(
       {Iterable<Term>? terms,
       Iterable<DocId>? docIds,
       Iterable<FieldName>? fields}) {
-    Postings retVal = terms != null ? termPostings(terms) : Postings.from(this);
+    Postings retVal = terms != null ? getPostings(terms) : Postings.from(this);
     retVal = docIds != null ? retVal.documentPostings(docIds) : retVal;
     return fields != null ? retVal.fieldPostings(fields) : retVal;
   }
@@ -111,7 +111,7 @@ extension PostingsExtension on Postings {
   ///
   /// Returns a subset of the [Postings] instance that only contains
   /// entires with a key in the [terms] collection.
-  Postings termPostings(Iterable<Term> terms) {
+  Postings getPostings(Iterable<Term> terms) {
     final Postings retVal = {};
     for (final term in terms) {
       final posting = this[term];
