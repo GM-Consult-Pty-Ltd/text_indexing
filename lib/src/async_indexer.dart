@@ -4,35 +4,20 @@
 
 // ignore_for_file: deprecated_member_use_from_same_package
 
+import 'package:rxdart/rxdart.dart';
 import 'package:text_indexing/text_indexing.dart';
 
-/// Asynchronously updates [Dictionary] and [Postings] data stores whenever a
-/// document  is indexed.
-///
-/// Use the [index] method to index a text document, returning a list
-/// of [DocumentPostingsEntry] and adding it to the [postingsStream].
-///
-/// The [loadTerms], [upsertDictionary], [loadTermPostings] and
-/// [upsertTermPostings] implementations read and write from a [Dictionary]
-/// and [Postings] using the [termsLoader], [dictionaryUpdater],
-/// [postingsLoader] and [postingsUpdater] callback functions respectively:
-/// - [termsLoader] synchronously retrieves a [Dictionary] for a vocabulary from
-///   a data source;
-/// - [dictionaryUpdater] is callback that passes a [Dictionary] subset
-///    for persisting to a datastore;
-/// - [postingsLoader] asynchronously retrieves a [Postings] for a vocabulary
-///   from a data source; and
-/// - [postingsUpdater] passes a [Postings] subset for persisting to a
-///   datastore.
-@Deprecated('Implemention class `PersistedIndexer` is deprecated, use factory '
-    '`TextIndexer.async` instead.')
-class PersistedIndexer extends TextIndexerBase {
+/// Implementation of [TextIndexer] that uses asynchronous callbacks to perform
+/// read and write operations on a [Dictionary] and [Postings].
+class AsyncIndexer extends TextIndexerBase {
   //
 
-  /// Instantiates a [PersistedIndexer] instance:
-  ///  - pass a [tokenizer] used by the indexer to parse  documents to tokens,
-  ///   or use the default [TextIndexer.kDefaultTokenizer];
-  /// - [termsLoader] synchronously retrieves a [Dictionary] for a vocabulary
+  /// Instantiates a [AsyncIndexer] instance:
+  /// - pass a custom [tokenizer] to parse text to tokens, or use the default
+  ///   [TextIndexer.kDefaultTokenizer];
+  /// - pass a custom [jsonTokenizer] used to parse JSON documents to tokens,
+  ///   or use the default [TextIndexer.kDefaultJsonTokenizer];
+  /// - [termsLoader] asynchronously retrieves a [Dictionary] for a vocabulary
   ///   from a data source;
   /// - [dictionaryUpdater] is callback that passes a [Dictionary] subset
   ///    for persisting to a datastore;
@@ -40,14 +25,14 @@ class PersistedIndexer extends TextIndexerBase {
   ///   from a data source; and
   /// - [postingsUpdater] passes a [Postings] subset for persisting to a
   ///   datastore.
-  PersistedIndexer(
+  AsyncIndexer(
       {required DictionaryLoader termsLoader,
       required DictionaryUpdater dictionaryUpdater,
       required PostingsLoader postingsLoader,
       required PostingsUpdater postingsUpdater,
       this.tokenizer = TextIndexer.kDefaultTokenizer,
       this.jsonTokenizer = TextIndexer.kDefaultJsonTokenizer})
-      : index = _PersistedIndex(
+      : index = AsyncCallbackIndex(
             termsLoader, dictionaryUpdater, postingsLoader, postingsUpdater);
 
   @override
@@ -58,10 +43,14 @@ class PersistedIndexer extends TextIndexerBase {
 
   @override
   final InvertedPositionalZoneIndex index;
+
+  @override
+  final controller = BehaviorSubject<Postings>();
 }
 
-/// An implementation class for the [PersistedIndexer], implementats
-/// [InvertedPositionalZoneIndex] interface:
+/// The [AsyncCallbackIndex] is a [InvertedPositionalZoneIndex] implementation class
+/// that uses asynchronous callbacks to perform read and write operations on
+/// [Dictionary] and [Postings] repositories:
 /// - [termsLoader] synchronously retrieves a [Dictionary] for a vocabulary
 ///   from a data source;
 /// - [dictionaryUpdater] is callback that passes a [Dictionary] subset
@@ -70,7 +59,7 @@ class PersistedIndexer extends TextIndexerBase {
 ///   from a data source; and
 /// - [postingsUpdater] passes a [Postings] subset for persisting to a
 ///   datastore.
-class _PersistedIndex implements InvertedPositionalZoneIndex {
+class AsyncCallbackIndex implements InvertedPositionalZoneIndex {
   //
 
   /// Asynchronously retrieves a [Dictionary] subset for a vocabulary from a
@@ -90,7 +79,7 @@ class _PersistedIndex implements InvertedPositionalZoneIndex {
   /// [PostingsEntry] instances to the [Postings] datastore.
   final PostingsUpdater postingsUpdater;
 
-  /// Instantiates a [_PersistedIndex] instance:
+  /// Instantiates a [AsyncCallbackIndex] instance:
   /// - [termsLoader] synchronously retrieves a [Dictionary] for a vocabulary
   ///   from a data source;
   /// - [dictionaryUpdater] is callback that passes a [Dictionary] subset
@@ -99,8 +88,8 @@ class _PersistedIndex implements InvertedPositionalZoneIndex {
   ///   from a data source; and
   /// - [postingsUpdater] passes a [Postings] subset for persisting to a
   ///   datastore.
-  _PersistedIndex(this.termsLoader, this.dictionaryUpdater, this.postingsLoader,
-      this.postingsUpdater);
+  AsyncCallbackIndex(this.termsLoader, this.dictionaryUpdater,
+      this.postingsLoader, this.postingsUpdater);
 
   @override
   Future<Dictionary> getDictionary([Iterable<Term>? terms]) =>

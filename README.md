@@ -19,7 +19,7 @@ Skip to section:
 
 ## Overview
 
-This library provides an interface and implementation classes that build and maintain an (inverted, positional) index for a collection of documents or `corpus` (see [definitions](#definitions)).
+This library provides an interface and implementation classes that build and maintain an (inverted, positional, zoned) [index](#invertedpositionalzoneindex-interface) for a collection of documents or `corpus` (see [definitions](#definitions)).
 
 ![Index construction flowchart](https://github.com/GM-Consult-Pty-Ltd/text_indexing/raw/main/assets/images/indexing.png?raw=true?raw=true "Index construction overview")
 
@@ -27,7 +27,7 @@ The [TextIndexer](#textindexer-interface) constructs two artifacts:
 * a `dictionary` that holds the `vocabulary` of `terms` and the frequency of occurrence for each `term` in the `corpus`; and
 * a `postings` map that holds a list of references to the `documents` for each `term` (the `postings list`). 
 
-In this implementation, our `postings list` is a hashmap of the document id (`docId`) to maps that point to positions of the term in the document's fields. This allows query algorithms to score and rank search results based on the position(s) of a term in document fields.
+In this implementation, our `postings list` is a hashmap of the document id (`docId`) to maps that point to positions of the term in the document's fields (zones). This allows query algorithms to score and rank search results based on the position(s) of a term in document fields, applying different weights to the zones.
 
 ![Index artifacts](https://github.com/GM-Consult-Pty-Ltd/text_indexing/raw/main/assets/images/index_artifacts.png?raw=true?raw=true "Components of inverted positional index")
 
@@ -48,11 +48,11 @@ In your code file add the `text_indexing` import.
 import 'package:text_indexing/text_indexing.dart';
 ```
 
-For small collections, instantiate a [InMemoryIndexer](#inmemoryindexer-class), passing empty `Dictionary` and `Postings` hashmaps, then iterate over a collection of documents.
+For small collections, instantiate a `TextIndexer.inMemory`, (optionally passing empty `Dictionary` and `Postings` hashmaps), then iterate over a collection of documents to add them to the index.
 
 ```dart
-  // - initialize a [InMemoryIndexer]
-  final indexer = InMemoryIndexer(dictionary: {}, postings: {});
+  // - initialize a in-memory [TextIndexer]
+  final indexer =TextIndexer.inMemory();
 
   // - iterate through the sample data
   await Future.forEach(documents.entries, (MapEntry<String, String> doc) async {
@@ -61,7 +61,7 @@ For small collections, instantiate a [InMemoryIndexer](#inmemoryindexer-class), 
   });
 ```
 
-The [examples](https://pub.dev/packages/text_indexing/example) demonstrate the use of the [InMemoryIndexer](#inmemoryindexer-class) and [PersistedIndexer](#persistedindexer-class).
+The [examples](https://pub.dev/packages/text_indexing/example) demonstrate the use of the `TextIndexer.inMemory` and  `TextIndexer.async` factories.
 
 ## API
 
@@ -70,7 +70,7 @@ The [API](https://pub.dev/documentation/text_indexing/latest/) exposes the [Text
 Three implementations of the [TextIndexer](#textindexer-interface) interface are provided:
 * the [TextIndexerBase](#textindexerbase-class) abstract base class implements the `TextIndexer.index`, `TextIndexer.indexJson` and `TextIndexer.emit` methods;
 * the [InMemoryIndexer](#inmemoryindexer-class) class is for fast indexing of a smaller corpus using in-memory dictionary and postings hashmaps; and
-* the [PersistedIndexer](#persistedindexer-class) class, aimed at working with a larger corpus and asynchronous dictionaries and postings.
+* the [AsyncIndexer](#persistedindexer-class) class, aimed at working with a larger corpus and asynchronous dictionaries and postings.
 
 To maximise performance of the indexers the API manipulates nested hashmaps of DART core types `int` and `String` rather than defining strongly typed object models. To improve code legibility and maintainability the API makes use of [type aliases](#type-aliases) throughout.
 
@@ -89,18 +89,25 @@ To maximise performance of the indexers the API manipulates nested hashmaps of D
 * `Pt` is an alias for `int`, used to denote the position of a `Term` in `SourceText` indexed object (the term position); and
 * `TermPositions` is an alias for `List<Pt>`, an ordered `Set` of unique zero-based `Term` positions in `SourceText`, sorted in ascending order.
 
+### InvertedPositionalZoneIndex Interface
+
+The `` is an interface that exposes methods for working with an inverted, positional zoned index on a collection of documents:
+* `getDictionary` Asynchronously retrieves a `Dictionary` for a collection of `Term`s from a `Dictionary` repository;
+* `upsertDictionary ` inserts entries into a `Dictionary` repository, overwriting any existing entries;
+* `getPostings` asynchronously retrieves `Postings` for a collection of `Term`s from a `Postings` repository; and 
+* `upsertPostings` inserts entries into a `Postings` repository,  overwriting any existing entries.
+
 ### TextIndexer Interface
 
 The text indexing classes (indexers) in this library implement `TextIndexer`, an interface intended for information retrieval software applications. The design of the `TextIndexer` interface is consistent with [information retrieval theory](https://nlp.stanford.edu/IR-book/pdf/irbookonlinereading.pdf) and is intended to construct and/or maintain two artifacts:
 * a hashmap with the vocabulary as key and the document frequency as the values (the `dictionary`); and
 * another hashmap with the vocabulary as key and the postings lists for the linked `documents` as values (the `postings`).
 
-The dictionary and postings can be asynchronous data sources or in-memory hashmaps.  The `TextIndexer` reads and writes to/from these artifacts using the `TextIndexer.loadTerms`, `TextIndexer.upsertDictionary`, `TextIndexer.loadTermPostings` and `TextIndexer.upsertTermPostings` asynchronous methods.
+The dictionary and postings can be asynchronous data sources or in-memory hashmaps.  The `TextIndexer` reads and writes to/from these artifacts using the `TextIndexer.index`.
 
 Text or documents can be indexed by calling the following methods:
-
-* The `TextIndexer.indexJson` method indexes the fields in a `JSON` document, returning the `Postings` for the document.  The postings are also emitted by `TextIndexer.postingsStream`. 
-* The `TextIndexer.index` method indexes text from a text document, returning the `Postings` for the document.  The postings are also emitted by `TextIndexer.postingsStream`.
+* `TextIndexer.indexJson` indexes the fields in a `JSON` document; 
+* `TextIndexer.indexText` indexes text from a text document.
 * The `TextIndexer.indexCollection` method indexes text from a collection of `JSON `documents, emitting the `Postings` for each document in the `TextIndexer.postingsStream`.
 
 The `TextIndexer.emit` method is called by `TextIndexer.index`, and adds an event to the `postingsStream`.
@@ -108,36 +115,59 @@ The `TextIndexer.emit` method is called by `TextIndexer.index`, and adds an even
 Listen to `TextIndexer.postingsStream` to handle the postings list emitted whenever a document is indexed.
 
 Implementing classes override the following fields:
-* `TextIndexer.tokenizer` is the `Tokenizer` instance used by the indexer to parse documents to tokens;
+* `TextIndexer.index` is a `InvertedPositionalZoneIndex` that exposes the `getDictionary`, `upsertDictionary`, `getPostings` and `upsertPostings` asynchronous methods;
+* `TextIndexer.tokenizer` is the `Tokenizer` instance used by the indexer to parse text to tokens;
+* `TextIndexer.jsonTokenizer` is the `JsonTokenizer` instance used by the indexer to parse JSON documents to tokens; and
 * `TextIndexer.postingsStream` emits a list of `DocumentPostingsEntry` instances whenever a document is indexed.
 
 Implementing classes override the following asynchronous methods:
-* `TextIndexer.index` indexes text from a document, returning a list of `DocumentPostingsEntry` and adding it to the `TextIndexer.postingsStream` by calling `TextIndexer.emit`;
-* `emit` is called by index, and adds an event to the `postingsStream` after updating the dictionary and postings data stores;
-* `TextIndexer.loadTerms` returns a `DictionaryTerm` map for a collection of terms from a dictionary;
-* `TextIndexer.upsertDictionary` passes new or updated `DictionaryTerm` instances for persisting to a dictionary data store;
-* `TextIndexer.loadTermPostings` returns a `PostingsEntry` map for a collection of terms from a postings source; and
-* `TextIndexer.upsertTermPostings` passes new or updated `PostingsEntry` instances for upserting to a postings data store.
+* `TextIndexer.indexText` indexes text, returning a list of `DocumentPostingsEntry` and adding it to the `TextIndexer.postingsStream` by calling `TextIndexer.emit`;
+* `TextIndexer.indexJson` indexes text from a JSON document, returning a list of `DocumentPostingsEntry` and adding it to the `TextIndexer.postingsStream` by calling `TextIndexer.emit`;
+`TextIndexer.indexCollection` method indexes text from a collection of `JSON `documents, emitting the `Postings` for each document in the `TextIndexer.postingsStream`.
+* `emit` is called by index, and adds an event to the `postingsStream` after updating the dictionary and postings data stores.
 
 ### TextIndexerBase Class
 
-The `TextIndexerBase` is an abstract base class that implements the `TextIndexer.index` and `TextIndexer.emit` methods.  
+The `TextIndexerBase` is an abstract base class that implements the `TextIndexer.indexText`, `TextIndexer.indexJson`, `TextIndexer.indexCollection` and `TextIndexer.emit` methods and the `TextIndexer.postingsStream` field.
 
-Subclasses of `TextIndexerBase` may override the override `TextIndexerBase.emit` method to perform additional actions whenever a document is indexed.
+The `TextIndexerBase.index` is updated whenever `TextIndexerBase.emit` is called at the end of the `InMemoryIndexer.index` method, so awaiting a call to `TextIndexerBase.index` will provide access to the updated `TextIndexerBase.index.dictionary` and `TextIndexerBase.index.postings` maps. 
+
+Subclasses of `TextIndexerBase` must implement:
+* `TextIndexer.index`;
+* `TextIndexer.tokenizer`
+* `TextIndexer.jsonTokenizer`; as well as
+- `TextIndexerBase.controller`, a `BehaviorSubject<Postings>` that controls the `TextIndex.postingsStream`.
+
+### InMemoryIndex Class
+
+The `InMemoryIndex` is a `InvertedPositionalZoneIndex` interface implementation with in-memory `Dictionary` and `Postings` hashmaps:
+- `dictionary` is the in-memory term dictionary for the indexer. Pass a `dictionary` instance at instantiation, otherwise an empty `Dictionary` will be initialized; and
+- `postings` is the in-memory postings hashmap for the indexer. Pass a `postings` instance at instantiation, otherwise an empty `Postings` will be initialized.
 
 ### InMemoryIndexer Class
 
-The `InMemoryIndexer` is a subclass of [TextIndexerBase](#textindexerbase-class) that builds and maintains in-memory dictionary and postings hashmaps. These hashmaps are updated whenever `InMemoryIndexer.emit` is called at the end of the `InMemoryIndexer.index` method, so awaiting a call to `InMemoryIndexer.index` will provide access to the updated `InMemoryIndexer.dictionary` and `InMemoryIndexer.postings` maps. 
+The `InMemoryIndexer` is a subclass of [TextIndexerBase](#textindexerbase-class) that builds and maintains an in-memory `Dictionary` and `Postings` and can be initialized using the `TextIndexer.inMemory` factory. 
 
-The `InMemoryIndexer` is suitable for indexing a smaller corpus. An example of the use of `InMemoryIndexer` is included in the [examples](https://pub.dev/packages/text_indexing/example).
+The `InMemoryIndexer` is suitable for indexing a smaller corpus. The `InMemoryIndexer` may have latency and processing overhead for large indexes or queries with more than a few terms. Consider running `InMemoryIndexer` in an isolate to avoid slowing down the main thread.
 
-### PersistedIndexer Class
+An example of the use of the `TextIndexer.inMemory` factory is included in the [examples](https://pub.dev/packages/text_indexing/example).
 
-The `PersistedIndexer` is a subclass of [TextIndexerBase](#textindexerbase-class) that asynchronously reads and writes dictionary and postings data sources. These data sources are asynchronously updated whenever `PersistedIndexer.emit` is called by the `PersistedIndexer.index` method. 
+## AsyncCallbackIndex Class
 
-The `PersistedIndexer` is suitable for indexing a large corpus but may incur some latency penalty and processing overhead. Consider running `PersistedIndexer` in an isolate to avoid slowing down the main thread.
+The `AsyncCallbackIndex` is a `InvertedPositionalZoneIndex` implementation class 
+that uses asynchronous callbacks to perform read and write operations on `Dictionary` and `Postings` repositories:
+- `termsLoader` synchronously retrieves a `Dictionary` for a vocabulary from a data source;
+- `dictionaryUpdater` is callback that passes a `Dictionary` subset for persisting to `Dictionary` repository;
+- `postingsLoader` asynchronously retrieves a `Postings` for a vocabulary from a data source; and
+- `postingsUpdater` passes a `Postings` subset for persisting to a `Postings` repository.
 
-An example of the use of `PersistedIndexer` is included in the package [examples](https://pub.dev/packages/text_indexing/example).
+### AsyncIndexer Class
+
+The `AsyncIndexer` is a subclass of [TextIndexerBase](#textindexerbase-class) that asynchronously reads and writes from / to a `Dictionary` and `Postings` using asynchronous callbacks. A `AsyncIndexer` can be initialized using the `TextIndexer.async` factory. 
+
+The `AsyncIndexer` is suitable for indexing a large corpus but may have latency and processing overhead. Consider running `AsyncIndexer` in an isolate to avoid slowing down the main thread.
+
+An example of the use of the `TextIndexer.async` factory is included in the [examples](https://pub.dev/packages/text_indexing/example).
 
 ## Definitions
 

@@ -27,8 +27,8 @@ typedef JsonCollection = Map<DocId, JSON>;
 ///
 /// The [Dictionary] and [Postings] can be asynchronous data sources or
 /// in-memory hashmaps.  The [TextIndexer] reads and writes to/from these
-/// artifacts using the [loadTerms], [upsertDictionary], [loadTermPostings] and
-/// [upsertTermPostings] asynchronous methods.
+/// artifacts using the [getDictionary], [upsertDictionary], [getPostings] and
+/// [upsertPostings] asynchronous methods.
 ///
 /// The [index] method indexes a text document, returning a list of
 /// [DocumentPostingsEntry] that is also emitted by [postingsStream]. The [index] method
@@ -42,6 +42,9 @@ typedef JsonCollection = Map<DocId, JSON>;
 /// Implementing classes override the following fields:
 /// - [tokenizer] is the [Tokenizer] instance used by the indexer to parse
 ///   text to tokens;
+/// - [jsonTokenizer] is the [JsonTokenizer] instance used by the indexer used
+///   to parse JSON documents to tokens, or use the default
+///   [TextIndexer.kDefaultJsonTokenizer];
 /// - [postingsStream] emits a list of [DocumentPostingsEntry] instances whenever a
 ///   document is indexed.
 ///
@@ -50,16 +53,84 @@ typedef JsonCollection = Map<DocId, JSON>;
 ///   adding it to the [postingsStream] by calling [emit];
 /// - [emit] is called by [index], and adds an event to the [postingsStream]
 ///   after updating the [Dictionary] and [Postings];
-/// - [loadTerms] returns a [Dictionary] for a vocabulary from
+/// - [getDictionary] returns a [Dictionary] for a vocabulary from
 ///   a [Dictionary];
 /// - [upsertDictionary] passes new or updated [DictionaryEntry] instances for persisting
 ///   to a [Dictionary];
-/// - [loadTermPostings] returns [PostingsEntry] entities for a collection
+/// - [getPostings] returns [PostingsEntry] entities for a collection
 ///   of terms from a [Postings]; and
-/// - [upsertTermPostings] passes new or updated [PostingsEntry] instances
+/// - [upsertPostings] passes new or updated [PostingsEntry] instances
 ///   for upserting to a [Postings].
 abstract class TextIndexer {
   //
+
+  /// A const constructor for sub classes
+  const TextIndexer();
+
+  /// Factory constructor returns a [TextIndexer] instance with in-memory
+  /// [Dictionary] and [Postings] maps:
+  /// - pass a [tokenizer] to parse text to tokens, or use the default
+  ///   [TextIndexer.kDefaultTokenizer];
+  /// - pass a [jsonTokenizer] used to parse JSON documents to tokens,
+  ///   or use the default [TextIndexer.kDefaultJsonTokenizer];
+  /// - pass an in-memory [dictionary] instance, otherwise an empty
+  ///   [Dictionary] will be initialized.
+  /// - pass an in-memory [postings] instance, otherwise an empty [Postings]
+  ///   will be initialized.
+  factory TextIndexer.inMemory(
+          {Dictionary? dictionary,
+          Postings? postings,
+          Tokenizer tokenizer = TextIndexer.kDefaultTokenizer,
+          JsonTokenizer jsonTokenizer = TextIndexer.kDefaultJsonTokenizer}) =>
+      InMemoryIndexer(
+          postings: postings,
+          dictionary: dictionary,
+          tokenizer: tokenizer,
+          jsonTokenizer: jsonTokenizer);
+
+  /// Factory constructor returns a [TextIndexer] instance that uses
+  /// asynchronous callback functions to access [Dictionary] and [Postings]
+  /// repositories:
+  /// - pass a [tokenizer] to parse text to tokens,
+  ///   or use the default [TextIndexer.kDefaultTokenizer];
+  /// - pass a [jsonTokenizer] used to parse JSON documents to tokens,
+  ///   or use the default [TextIndexer.kDefaultJsonTokenizer];
+  /// - [termsLoader] synchronously retrieves a [Dictionary] for a vocabulary
+  ///   from a data source;
+  /// - [dictionaryUpdater] is callback that passes a [Dictionary] subset
+  ///    for persisting to a datastore;
+  /// - [postingsLoader] asynchronously retrieves a [Postings] for a vocabulary
+  ///   from a data source; and
+  /// - [postingsUpdater] passes a [Postings] subset for persisting to a
+  ///   datastore.
+  factory TextIndexer.async(
+          {required DictionaryLoader termsLoader,
+          required DictionaryUpdater dictionaryUpdater,
+          required PostingsLoader postingsLoader,
+          required PostingsUpdater postingsUpdater,
+          Tokenizer tokenizer = TextIndexer.kDefaultTokenizer,
+          JsonTokenizer jsonTokenizer = TextIndexer.kDefaultJsonTokenizer}) =>
+      AsyncIndexer(
+          termsLoader: termsLoader,
+          dictionaryUpdater: dictionaryUpdater,
+          postingsLoader: postingsLoader,
+          postingsUpdater: postingsUpdater,
+          tokenizer: tokenizer,
+          jsonTokenizer: jsonTokenizer);
+
+  /// Factory constructor returns a [TextIndexer] instance with a custom
+  /// [index] repository:
+  /// - pass a [index] that provides access to the [Dictionary] and [Postings]
+  ///   artifacts;
+  /// - pass a [tokenizer] to parse text to tokens,
+  ///   or use the default [TextIndexer.kDefaultTokenizer]; and
+  /// - pass a [jsonTokenizer] used to parse JSON documents to tokens,
+  ///   or use the default [TextIndexer.kDefaultJsonTokenizer].
+  factory TextIndexer.instance(
+          {required InvertedPositionalZoneIndex index,
+          Tokenizer tokenizer = TextIndexer.kDefaultTokenizer,
+          JsonTokenizer jsonTokenizer = TextIndexer.kDefaultJsonTokenizer}) =>
+      _TextIndexerImpl(index, tokenizer, jsonTokenizer);
 
   /// Emits [Postings] hashmap for an indexed document when it is indexed.
   ///
@@ -67,11 +138,11 @@ abstract class TextIndexer {
   /// map.
   Stream<Postings> get postingsStream;
 
-  /// The [Tokenizer] used by the indexer to parse documents to tokens.
+  /// The [Tokenizer] used by the indexer to parse text to tokens.
   Tokenizer get tokenizer;
 
-  /// The [JsonTokenizer] used by the indexer to parse documents to tokens from
-  /// the fields in a JSON document.
+  /// The [JsonTokenizer] used by the indexer to parse the fields in a JSON
+  /// document to tokens.
   JsonTokenizer get jsonTokenizer;
 
   /// A [Tokenizer] that tokenizes English language text.
@@ -114,8 +185,8 @@ abstract class TextIndexer {
   /// Asynchronously retrieves a [Dictionary] for [terms] from a
   /// [Dictionary] data source.
   @Deprecated(
-      'Method `TextIndexer.loadTerms` is deprecated. Use `TextIndexer.index.getDictionary` instead.')
-  Future<Dictionary> loadTerms(Iterable<Term> terms);
+      'Method `TextIndexer.getDictionary` is deprecated. Use `TextIndexer.index.getDictionary` instead.')
+  Future<Dictionary> getDictionary(Iterable<Term> terms);
 
   /// A callback that passes new or updated [values] for persisting to a
   /// [Dictionary].
@@ -126,14 +197,14 @@ abstract class TextIndexer {
   /// Asynchronously retrieves [PostingsEntry] entities for [terms] from a
   /// [Postings].
   @Deprecated(
-      'Method `TextIndexer.loadTermPostings` is deprecated. Use `TextIndexer.index.getPostings` instead.')
-  Future<Postings> loadTermPostings(Iterable<Term> terms);
+      'Method `TextIndexer.getPostings` is deprecated. Use `TextIndexer.index.getPostings` instead.')
+  Future<Postings> getPostings(Iterable<Term> terms);
 
   /// A callback that passes new or updated [values] for upserting to a
   /// [Postings].
   @Deprecated(
-      'Method `TextIndexer.upsertTermPostings` is deprecated. Use `TextIndexer.index.upsertPostings` instead.')
-  Future<void> upsertTermPostings(Postings values);
+      'Method `TextIndexer.upsertPostings` is deprecated. Use `TextIndexer.index.upsertPostings` instead.')
+  Future<void> upsertPostings(Postings values);
 
   //
 }
@@ -150,49 +221,39 @@ abstract class TextIndexer {
 ///
 /// The [emit] method implementation is called by [index], and:
 /// - asynchronously updates the [Dictionary] by calling [upsertDictionary];
-/// - asynchronously updates the [Postings] by calling [upsertTermPostings];
+/// - asynchronously updates the [Postings] by calling [upsertPostings];
 /// - adds an event to the [postingsStream].
 ///
 /// Sub-classes must implement the [tokenizer] field to parse documents to
 /// tokens.
 ///
-/// Sub-classes must implement the[loadTerms], [upsertDictionary],
-/// [loadTermPostings] and [upsertTermPostings] asynchronous methods, used by
+/// Sub-classes must implement the[getDictionary], [upsertDictionary],
+/// [getPostings] and [upsertPostings] asynchronous methods, used by
 /// the [TextIndexerBase] to read and write to/from a [Dictionary] and a
 /// [Postings].
 abstract class TextIndexerBase implements TextIndexer {
   //
 
-  /// Implementation of [TextIndexer.upsertDictionary].
-  ///
-  /// Calls the [index.upsertDictionary] callback function.
+  /// A const default constructor for classes that extend [TextIndexerBase].
+  const TextIndexerBase();
+
   @override
   Future<void> upsertDictionary(Dictionary values) =>
       index.upsertDictionary(values);
 
-  /// Implementation of [TextIndexer.loadTermPostings].
-  ///
-  /// Calls the [index.getPostings] callback function.
   @override
-  Future<Postings> loadTermPostings(Iterable<String> terms) =>
+  Future<Postings> getPostings(Iterable<String> terms) =>
       index.getPostings(terms);
 
-  /// Implementation of [TextIndexer.upsertTermPostings].
-  ///
-  /// Calls the [index.upsertPostings] callback function.
   @override
-  Future<void> upsertTermPostings(Postings values) =>
-      index.upsertPostings(values);
+  Future<void> upsertPostings(Postings values) => index.upsertPostings(values);
 
-  /// Implementation of [TextIndexer.loadTerms].
-  ///
-  /// Calls the [ndex.getDictionary] callback function.
   @override
-  Future<Dictionary> loadTerms(Iterable<String> terms) =>
+  Future<Dictionary> getDictionary(Iterable<String> terms) =>
       index.getDictionary(terms);
 
   /// The private stream controller for the [postingsStream].
-  final _postingsStreamController = BehaviorSubject<Postings>();
+  BehaviorSubject<Postings> get controller;
 
   /// Implementation of [TextIndexer.index] that:
   /// - parses [docText] to a collection of [Token]s;
@@ -262,9 +323,9 @@ abstract class TextIndexerBase implements TextIndexer {
   /// Implementation of [TextIndexer.emit] that:
   /// - maps [event] to a set of unique terms;
   /// - loads the existing [PostingsEntry]s for the terms from a
-  ///   [Postings] by calling [loadTermPostings];
+  ///   [Postings] by calling [getPostings];
   /// - loads the existing [DictionaryEntry]s for the terms from a [Dictionary] by
-  ///   calling [loadTerms];
+  ///   calling [getDictionary];
   /// - iterates through the [DocumentPostingsEntry] in [event] and:
   /// - inserts or updates each [DocumentPostingsEntry] instance to a collection of
   ///   postings to update;
@@ -274,17 +335,17 @@ abstract class TextIndexerBase implements TextIndexer {
   /// - asynchronously updates the [Dictionary] by calling
   ///   [upsertDictionary];
   /// - asynchronously updates the [Postings] by calling
-  ///   [upsertTermPostings]; and
-  /// - adds the [event] to the [_postingsStreamController] sink.
+  ///   [upsertPostings]; and
+  /// - adds the [event] to the [controller] sink.
   @override
   @mustCallSuper
   Future<void> emit(Postings event) async {
     // - maps [event] to a set of unique terms;
     final terms = Set<Term>.from(event.keys);
-    // - loads the existing [PostingsEntry]s for the terms from a [Postings] by calling [loadTermPostings];
-    final postingsToUpdate = await loadTermPostings(terms);
-// - loads the existing [DictionaryEntry]s for the terms from a [Dictionary] by calling [loadTerms];
-    final Dictionary termsToUpdate = await loadTerms(terms);
+    // - loads the existing [PostingsEntry]s for the terms from a [Postings] by calling [getPostings];
+    final postingsToUpdate = await getPostings(terms);
+// - loads the existing [DictionaryEntry]s for the terms from a [Dictionary] by calling [getDictionary];
+    final Dictionary termsToUpdate = await getDictionary(terms);
     // - iterates through the [DocumentPostingsEntry] in [event];
     await Future.forEach(event.entries, (PostingsEntry entry) {
       final term = entry.key;
@@ -303,15 +364,31 @@ abstract class TextIndexerBase implements TextIndexer {
     });
     // - asynchronously updates the [Dictionary] by calling [upsertDictionary];
     await upsertDictionary(termsToUpdate);
-    // - asynchronously updates the [Postings] by calling [upsertTermPostings]; and
-    await upsertTermPostings(postingsToUpdate);
-    // - adds the [event] to the [_postingsStreamController] sink.
-    _postingsStreamController.sink.add(event);
+    // - asynchronously updates the [Postings] by calling [upsertPostings]; and
+    await upsertPostings(postingsToUpdate);
+    // - adds the [event] to the [controller] sink.
+    controller.sink.add(event);
   }
 
   /// Implements [TextIndexer.postingsStream].
   ///
-  /// Returns [_postingsStreamController] stream.
+  /// Returns [controller] stream.
   @override
-  Stream<Postings> get postingsStream => _postingsStreamController.stream;
+  Stream<Postings> get postingsStream => controller.stream;
+}
+
+class _TextIndexerImpl extends TextIndexerBase {
+  @override
+  final InvertedPositionalZoneIndex index;
+
+  @override
+  final Tokenizer tokenizer;
+
+  @override
+  final JsonTokenizer jsonTokenizer;
+
+  @override
+  final controller = BehaviorSubject<Postings>();
+
+  _TextIndexerImpl(this.index, this.tokenizer, this.jsonTokenizer);
 }

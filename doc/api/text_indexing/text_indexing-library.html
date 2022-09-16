@@ -67,13 +67,31 @@
 analysis.
 </dd>
 
+        <dt id="InMemoryIndex">
+  <span class="name "><a href="../text_indexing/InMemoryIndex-class.html">InMemoryIndex</a></span> 
+
+</dt>
+<dd>
+  An implementation class for the <a href="../text_indexing/InMemoryIndexer-class.html">InMemoryIndexer</a>, implements
+<a href="../text_indexing/InvertedPositionalZoneIndex-class.html">InvertedPositionalZoneIndex</a> interface:
+</dd>
+
         <dt id="InMemoryIndexer">
   <span class="name "><a href="../text_indexing/InMemoryIndexer-class.html">InMemoryIndexer</a></span> 
 
 </dt>
 <dd>
   Implementation of <a href="../text_indexing/TextIndexerBase-class.html">TextIndexerBase</a> that constructs and maintains an
-in-memory inverted index:
+in-memory inverted index
+</dd>
+
+        <dt id="InvertedPositionalZoneIndex">
+  <span class="name "><a href="../text_indexing/InvertedPositionalZoneIndex-class.html">InvertedPositionalZoneIndex</a></span> 
+
+</dt>
+<dd>
+  An interface that exposes methods for working with an inverted, positional
+zoned index on a collection of documents:
 </dd>
 
         <dt id="ITextAnalyzer">
@@ -83,15 +101,6 @@ in-memory inverted index:
 <dd>
   Interface for a text analyser class that extracts tokens from text for use
 in full-text search queries and indexes:
-</dd>
-
-        <dt id="PersistedIndexer">
-  <span class="name "><a href="../text_indexing/PersistedIndexer-class.html">PersistedIndexer</a></span> 
-
-</dt>
-<dd>
-  Asynchronously updates <a href="../text_indexing/Dictionary.html">Dictionary</a> and <a href="../text_indexing/Postings.html">Postings</a> data stores whenever a
-document  is indexed.
 </dd>
 
         <dt id="Porter2Stemmer">
@@ -331,7 +340,7 @@ text in preparation of tokenization.
           
   <dt id="DictionaryLoader" class="callable">
     <span class="name"><a href="../text_indexing/DictionaryLoader.html">DictionaryLoader</a></span><span class="signature">
-      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Dictionary.html">Dictionary</a></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)</span></span>
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Dictionary.html">Dictionary</a></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-terms">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Term.html">Term</a></span>&gt;</span>?</span> <span class="parameter-name">terms</span>]</span>)</span></span>
     </span>
     
 
@@ -764,9 +773,10 @@ the <code>source</code> text.
     <ol>
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#classes">Classes</a></li>
   <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/English-class.html">English</a></li>
+  <li><a href="../text_indexing/InMemoryIndex-class.html">InMemoryIndex</a></li>
   <li><a href="../text_indexing/InMemoryIndexer-class.html">InMemoryIndexer</a></li>
+  <li><a href="../text_indexing/InvertedPositionalZoneIndex-class.html">InvertedPositionalZoneIndex</a></li>
   <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></li>
-  <li><a href="../text_indexing/PersistedIndexer-class.html">PersistedIndexer</a></li>
   <li><a href="https://pub.dev/documentation/porter_2_stemmer/1.0.0+5/porter_2_stemmer/Porter2Stemmer-class.html">Porter2Stemmer</a></li>
   <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Sentence-class.html">Sentence</a></li>
   <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></li>
@@ -835,7 +845,7 @@ the <code>source</code> text.
 <footer>
   <span class="no-break">
     text_indexing
-      0.3.2
+      0.4.0
   </span>
 
   

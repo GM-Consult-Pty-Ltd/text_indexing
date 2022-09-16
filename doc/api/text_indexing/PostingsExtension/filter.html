@@ -66,7 +66,7 @@
   <p>Filters the <a href="../../text_indexing/Postings.html">Postings</a> by <code>terms</code>, <code>docIds</code> AND <code>fields</code>.</p>
 <p>Filter is applied by succesively calling, in order:</p>
 <ul>
-<li><a href="../../text_indexing/PostingsExtension/termPostings.html">termPostings</a> if <code>terms</code> is not null; then</li>
+<li><a href="../../text_indexing/PostingsExtension/getPostings.html">getPostings</a> if <code>terms</code> is not null; then</li>
 <li><a href="../../text_indexing/PostingsExtension/documentPostings.html">documentPostings</a>, if <code>docIds</code> is not null; and finally</li>
 <li><a href="../../text_indexing/PostingsExtension/fieldPostings.html">fieldPostings</a>, if <code>fields</code> is not null.</li>
 </ul>
@@ -80,7 +80,7 @@
     {Iterable&lt;Term&gt;? terms,
     Iterable&lt;DocId&gt;? docIds,
     Iterable&lt;FieldName&gt;? fields}) {
-  Postings retVal = terms != null ? termPostings(terms) : Postings.from(this);
+  Postings retVal = terms != null ? getPostings(terms) : Postings.from(this);
   retVal = docIds != null ? retVal.documentPostings(docIds) : retVal;
   return fields != null ? retVal.fieldPostings(fields) : retVal;
 }</code></pre>
@@ -121,7 +121,7 @@
     <li><a href="../../text_indexing/PostingsExtension/documentPostings.html">documentPostings</a></li>
     <li><a href="../../text_indexing/PostingsExtension/fieldPostings.html">fieldPostings</a></li>
     <li><a href="../../text_indexing/PostingsExtension/filter.html">filter</a></li>
-    <li><a href="../../text_indexing/PostingsExtension/termPostings.html">termPostings</a></li>
+    <li><a href="../../text_indexing/PostingsExtension/getPostings.html">getPostings</a></li>
     <li><a href="../../text_indexing/PostingsExtension/termPostingsList.html">termPostingsList</a></li>
     <li><a href="../../text_indexing/PostingsExtension/toList.html">toList</a></li>
 
@@ -140,7 +140,7 @@
 <footer>
   <span class="no-break">
     text_indexing
-      0.3.2
+      0.4.0
   </span>
 
   

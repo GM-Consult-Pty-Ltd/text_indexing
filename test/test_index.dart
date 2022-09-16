@@ -24,7 +24,7 @@ class _TestIndex {
   /// Returns a subset of [postings] corresponding to [terms].
   ///
   /// Simulates latency of 50 milliseconds.
-  Future<Postings> loadTermPostings(Iterable<String> terms) async {
+  Future<Postings> getPostings(Iterable<String> terms) async {
     final Postings retVal = {};
     for (final term in terms) {
       final entry = postings[term];
@@ -51,7 +51,7 @@ class _TestIndex {
   /// Adds/overwrites the [values] to [postings].
   ///
   /// Simulates latency of 50 milliseconds.
-  Future<void> upsertTermPostings(Postings values) async {
+  Future<void> upsertPostings(Postings values) async {
     postings.addAll(values);
   }
 
@@ -60,7 +60,7 @@ class _TestIndex {
   /// Returns a subset of [dictionary] corresponding to [terms].
   ///
   /// Simulates latency of 50 milliseconds.
-  Future<Dictionary> loadTerms([Iterable<String>? terms]) async {
+  Future<Dictionary> getDictionary([Iterable<String>? terms]) async {
     if (terms == null) return dictionary;
     final Dictionary retVal = {};
     for (final term in terms) {

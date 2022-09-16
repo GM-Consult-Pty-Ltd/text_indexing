@@ -4,16 +4,27 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
-### 0.4.0 (PRE-RELEASE)
+### 0.4.0 (PRE-RELEASE, BREAKING CHANGES)
+
+#### Breaking changes:
+
+- Renamed method `TextIndexer.index` to `TextIndexer.indexText`.
+- Renamed class `PersistedIndexer` to `AsyncIndexer`.
 
 #### New:
 
-- `InvertedIndex` interface and implementation.
+- `InvertedPositionalZoneIndex` interface and implementation.
+- `TextIndexer.index` field getter.
+- `TextIndexer.instance` factory constructor.
+- `TextIndexer.async` factory constructor.
+- `TextIndexer.inMemory` factory constructor.
 
 #### Deprecated:
 
-- class `PersistedIndexer` is deprecated, use factory `TextIndexer.async` instead;
-- class `InMemoryIndexer` is deprecated, use factory `TextIndexer.async` instead.
+- Method `TextIndexer.upsertDictionary` is deprecated. Use `TextIndexer.index.upsertDictionary` instead;
+- Method `TextIndexer.getDictionary` is deprecated. Use `TextIndexer.index.getDictionary` instead;
+- 'Method `TextIndexer.getPostings` is deprecated. Use `TextIndexer.index.getPostings` instead;
+- Method `TextIndexer.upsertPostings` is deprecated. Use `TextIndexer.index.upsertPostings` instead.
 
 Updated dependencies, tests, examples and documentation.
 
@@ -21,8 +32,8 @@ Updated dependencies, tests, examples and documentation.
 
 #### New:
 
-- `JSON` and `JsonCollection` type aliases;
-- `TextIndexer.indexCollection` method; and
+- `JSON` and `JsonCollection` type aliases.
+- `TextIndexer.indexCollection` method.
 - `PostingsExtension.documents` getter.
 
 Updated dependencies, tests, examples and documentation.
@@ -51,9 +62,9 @@ Updated dependencies, tests, examples and documentation.
 
 #### Breaking changes:
 
-- replaced object-model class `PostingsEntry` with typedef `PostingsEntry`;
-- replaced object-model class `DocumentPostingsEntry` with typedef `DocumentPostingsEntry`; and
-- replaced object-model class `DictionaryEntry` with typedef `DictionaryEntry`.
+- Replaced object-model class `PostingsEntry` with typedef `PostingsEntry`.
+- Replaced object-model class `DocumentPostingsEntry` with typedef `DocumentPostingsEntry`.
+- Replaced object-model class `DictionaryEntry` with typedef `DictionaryEntry`.
 
 Restructured and simplified the codebase.
 
@@ -127,13 +138,13 @@ Interfaces finalized (see [breaking changes](#breaking-changes))
 
 #### Breaking changes:
 
-- `TermDictionary` renamed `Dictionary`;
-- `DocumentPostingsEntry` renamed `Postings`;
-- `PostingsMapEntry` renamed `PostingsEntry`;
-- `Term` renamed `DictionaryEntry`;
-- `TermPositions` renamed `DocumentPostingsEntry`;
-- `PersistedIndexer` implementation;
-- `TextIndexerBase` implementation; and
+- `TermDictionary` renamed `Dictionary`.
+- `DocumentPostingsEntry` renamed `Postings`.
+- `PostingsMapEntry` renamed `PostingsEntry`.
+- `Term` renamed `DictionaryEntry`.
+- `TermPositions` renamed `DocumentPostingsEntry`.
+- `AsyncIndexer` implementation.
+- `TextIndexerBase` implementation.
 - `InMemoryIndexer` implementation.
 
 Updated dependencies, tests, examples and documentation.
@@ -146,11 +157,11 @@ Updated dependencies, tests, examples and documentation.
 
 #### New:
 
-- `PersistedIndexer` class.
+- `AsyncIndexer` class.
 
 #### Breaking changes:
 
-- `TextIndexerBase` implementation; and
+- `TextIndexerBase` implementation.
 - `InMemoryIndexer` implementation.
 
 Updated dependencies, tests, examples and documentation.

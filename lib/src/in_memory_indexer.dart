@@ -4,39 +4,29 @@
 
 // ignore_for_file: deprecated_member_use_from_same_package
 
+import 'package:rxdart/rxdart.dart';
 import 'package:text_indexing/text_indexing.dart';
 
 /// Implementation of [TextIndexerBase] that constructs and maintains an
-/// in-memory inverted index:
-///
-/// Use the [indexText] method to index a text document, returning a list
-/// of [DocumentPostingsEntry] and adding it to the [postingsStream].
-///
-/// The [dictionary] and [postings] hashmaps are updated by [index]. Awaiting
-/// the return value of [index] will ensure that [dictionary] and [postings]
-/// updates have completed and are accessible.
-///
-/// The [loadTerms], [upsertDictionary], [loadTermPostings] and
-/// [upsertTermPostings] implementations read and write from [dictionary] and
-/// [postings] respectively.
-@Deprecated('Implemention class `InMemoryIndexer` is deprecated, use factory '
-    '`TextIndexer.async` instead.')
+/// in-memory inverted index
 class InMemoryIndexer extends TextIndexerBase {
   //
 
   /// Initializes a [InMemoryIndexer] instance:
-  /// - pass a [tokenizer] used by the indexer to parse  documents to tokens,
-  ///   or use the default [TextIndexer.kDefaultTokenizer].
+  /// - pass a [tokenizer] to parse text to tokens,
+  ///   or use the default [TextIndexer.kDefaultTokenizer];
+  /// - pass a [jsonTokenizer] used to parse JSON documents to tokens,
+  ///   or use the default [TextIndexer.kDefaultJsonTokenizer];
   /// - pass an in-memory [dictionary] instance, otherwise an empty
   ///   [Dictionary] will be initialized.
   /// - pass an in-memory [postings] instance, otherwise an empty [Postings]
   ///   will be initialized.
-  InMemoryIndexer({
-    Dictionary? dictionary,
-    this.tokenizer = TextIndexer.kDefaultTokenizer,
-    this.jsonTokenizer = TextIndexer.kDefaultJsonTokenizer,
-    Postings? postings,
-  }) : index = _InMemoryIndex(dictionary ?? {}, postings ?? {});
+  InMemoryIndexer(
+      {Dictionary? dictionary,
+      Postings? postings,
+      this.tokenizer = TextIndexer.kDefaultTokenizer,
+      this.jsonTokenizer = TextIndexer.kDefaultJsonTokenizer})
+      : index = InMemoryIndex(dictionary ?? {}, postings ?? {});
 
   @override
   final InvertedPositionalZoneIndex index;
@@ -46,6 +36,9 @@ class InMemoryIndexer extends TextIndexerBase {
 
   @override
   final JsonTokenizer jsonTokenizer;
+
+  @override
+  final controller = BehaviorSubject<Postings>();
 }
 
 /// An implementation class for the [InMemoryIndexer], implements
@@ -56,8 +49,7 @@ class InMemoryIndexer extends TextIndexerBase {
 /// - [postings] is the in-memory postings hashmap for the indexer. Pass a
 ///   [postings] instance at instantiation, otherwise an empty [Postings]
 ///   will be initialized.
-
-class _InMemoryIndex implements InvertedPositionalZoneIndex {
+class InMemoryIndex implements InvertedPositionalZoneIndex {
   //
   /// The in-memory term dictionary for the indexer.
   final Dictionary dictionary;
@@ -65,14 +57,14 @@ class _InMemoryIndex implements InvertedPositionalZoneIndex {
   /// The in-memory postings hashmap for the indexer.
   final Postings postings;
 
-  /// Instantiates a [_InMemoryIndex] instance:
+  /// Instantiates a [InMemoryIndex] instance:
   /// - [dictionary] is the in-memory term dictionary for the indexer. Pass a
   ///   [dictionary] instance at instantiation, otherwise an empty [Dictionary]
   ///   will be initialized; and
   /// - [postings] is the in-memory postings hashmap for the indexer. Pass a
   ///   [postings] instance at instantiation, otherwise an empty [Postings]
   ///   will be initialized.
-  const _InMemoryIndex(this.dictionary, this.postings);
+  const InMemoryIndex(this.dictionary, this.postings);
 
   @override
   Future<Dictionary> getDictionary([Iterable<Term>? terms]) async {

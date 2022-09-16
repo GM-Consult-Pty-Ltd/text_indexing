@@ -77,30 +77,30 @@ void main() {
       }
     });
 
-    /// A simple test of the [PersistedIndexer] on a small dataset using a
+    /// A simple test of the [AsyncIndexer] on a small dataset using a
     /// simulated persisted index repository with 50 millisecond latency on
     /// read/write operations to the [Dictionary] and [Postings]:
     /// - initialize the [_TestIndex()];
-    /// - initialize a [PersistedIndexer];
-    /// - listen to the [PersistedIndexer.postingsStream], printing the
+    /// - initialize a [AsyncIndexer];
+    /// - listen to the [AsyncIndexer.postingsStream], printing the
     ///   emitted postings for each indexed document;
     /// - get the sample data;
     /// - iterate through the sample data;
     /// - index each document, adding/updating terms in the [_TestIndex.dictionary]
     ///   and postings in the [_TestIndex.postings] ; and
     /// - print the top 5 most popular [_TestIndex.dictionary.terms].
-    test('PersistedIndexer.index', () async {
+    test('AsyncIndexer.index', () async {
       //
 
       // - initialize a [_TestIndex()]
       final index = _TestIndex();
 
-      // - initialize a [PersistedIndexer]
-      final indexer = PersistedIndexer(
-          termsLoader: index.loadTerms,
+      // - initialize a [AsyncIndexer]
+      final indexer = AsyncIndexer(
+          termsLoader: index.getDictionary,
           dictionaryUpdater: index.upsertDictionary,
-          postingsLoader: index.loadTermPostings,
-          postingsUpdater: index.upsertTermPostings);
+          postingsLoader: index.getPostings,
+          postingsUpdater: index.upsertPostings);
 
       indexer.postingsStream.listen((event) {
         if (event.isNotEmpty) {

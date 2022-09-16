@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the InMemoryIndex class from the text_indexing library, for the Dart programming language.">
+  <title>InMemoryIndex class - text_indexing library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../static-assets/styles.css?v1">
+  <link rel="icon" href="../static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="../"
+      data-using-base-href="false">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../index.html">text_indexing</a></li>
+    <li><a href="../text_indexing/text_indexing-library.html">text_indexing</a></li>
+    <li class="self-crumb">InMemoryIndex class</li>
+  </ol>
+  <div class="self-name">InMemoryIndex</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+
+  <div id="dartdoc-main-content" class="main-content">
+      <div>
+<h1><span class="kind-class">InMemoryIndex</span> class 
+    <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
+ 
+</h1></div>
+
+    
+<section class="desc markdown">
+  <p>An implementation class for the <a href="../text_indexing/InMemoryIndexer-class.html">InMemoryIndexer</a>, implements
+<a href="../text_indexing/InvertedPositionalZoneIndex-class.html">InvertedPositionalZoneIndex</a> interface:</p>
+<ul>
+<li><a href="../text_indexing/InMemoryIndex/dictionary.html">dictionary</a> is the in-memory term dictionary for the indexer. Pass a
+<a href="../text_indexing/InMemoryIndex/dictionary.html">dictionary</a> instance at instantiation, otherwise an empty <a href="../text_indexing/Dictionary.html">Dictionary</a>
+will be initialized; and</li>
+<li><a href="../text_indexing/InMemoryIndex/postings.html">postings</a> is the in-memory postings hashmap for the indexer. Pass a
+<a href="../text_indexing/InMemoryIndex/postings.html">postings</a> instance at instantiation, otherwise an empty <a href="../text_indexing/Postings.html">Postings</a>
+will be initialized.</li>
+</ul>
+</section>
+
+
+    <section>
+      <dl class="dl-horizontal">
+        
+
+        
+  <dt>Implemented types</dt>
+  <dd>
+    <ul class="comma-separated clazz-relationships">
+        <li><a href="../text_indexing/InvertedPositionalZoneIndex-class.html">InvertedPositionalZoneIndex</a></li>
+    </ul>
+  </dd>
+        
+
+
+
+        
+      </dl>
+    </section>
+
+    
+  <section class="summary offset-anchor" id="constructors">
+    <h2>Constructors</h2>
+
+    <dl class="constructor-summary-list">
+        <dt id="InMemoryIndex" class="callable">
+          <span class="name"><a href="../text_indexing/InMemoryIndex/InMemoryIndex.html">InMemoryIndex</a></span><span class="signature">(<span class="parameter" id="-param-dictionary"><span class="type-annotation"><a href="../text_indexing/Dictionary.html">Dictionary</a></span> <span class="parameter-name">dictionary</span>, </span><span class="parameter" id="-param-postings"><span class="type-annotation"><a href="../text_indexing/Postings.html">Postings</a></span> <span class="parameter-name">postings</span></span>)</span>
+        </dt>
+        <dd>
+          Instantiates a <a href="../text_indexing/InMemoryIndex-class.html">InMemoryIndex</a> instance:
+            <div class="constructor-modifier features">const</div>
+        </dd>
+    </dl>
+  </section>
+
+    <section class="summary offset-anchor" id="instance-properties">
+      <h2>Properties</h2>
+
+      <dl class="properties">
+        <dt id="dictionary" class="property">
+  <span class="name"><a href="../text_indexing/InMemoryIndex/dictionary.html">dictionary</a></span>
+  <span class="signature">&#8594; <a href="../text_indexing/Dictionary.html">Dictionary</a></span> 
+
+</dt>
+<dd>
+  The in-memory term dictionary for the indexer.
+  <div class="features">final</div>
+
+</dd>
+
+        <dt id="hashCode" class="property inherited">
+  <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> 
+
+</dt>
+<dd class="inherited">
+  The hash code for this object.
+  <div class="features">read-only, inherited</div>
+
+</dd>
+
+        <dt id="postings" class="property">
+  <span class="name"><a href="../text_indexing/InMemoryIndex/postings.html">postings</a></span>
+  <span class="signature">&#8594; <a href="../text_indexing/Postings.html">Postings</a></span> 
+
+</dt>
+<dd>
+  The in-memory postings hashmap for the indexer.
+  <div class="features">final</div>
+
+</dd>
+
+        <dt id="runtimeType" class="property inherited">
+  <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Type-class.html">Type</a></span> 
+
+</dt>
+<dd class="inherited">
+  A representation of the runtime type of the object.
+  <div class="features">read-only, inherited</div>
+
+</dd>
+
+      </dl>
+    </section>
+
+    
+  <section
+      class="summary offset-anchor"
+      id="instance-methods">
+    <h2>Methods</h2>
+    <dl class="callables">
+        <dt id="getDictionary" class="callable">
+  <span class="name"><a href="../text_indexing/InMemoryIndex/getDictionary.html">getDictionary</a></span><span class="signature">(<wbr><span class="parameter" id="getDictionary-param-terms">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Term.html">Term</a></span>&gt;</span>?</span> <span class="parameter-name">terms</span>]</span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Dictionary.html">Dictionary</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Asynchronously retrieves a <code>Dictionary</code> for the <code>terms</code> from a
+<code>Dictionary</code> repository.
+  <div class="features">override</div>
+
+</dd>
+
+        <dt id="getPostings" class="callable">
+  <span class="name"><a href="../text_indexing/InMemoryIndex/getPostings.html">getPostings</a></span><span class="signature">(<wbr><span class="parameter" id="getPostings-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Postings.html">Postings</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Asynchronously retrieves <a href="../text_indexing/PostingsEntry.html">PostingsEntry</a> entities for the <code>terms</code> from a
+<code>Postings</code> repository.
+  <div class="features">override</div>
+
+</dd>
+
+        <dt id="noSuchMethod" class="callable inherited">
+  <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></span><span class="signature">(<wbr><span class="parameter" id="noSuchMethod-param-invocation"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Invocation-class.html">Invocation</a></span> <span class="parameter-name">invocation</span></span>)
+    <span class="returntype parameter">&#8594; dynamic</span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Invoked when a non-existent method or property is accessed.
+  <div class="features">inherited</div>
+
+</dd>
+
+        <dt id="toString" class="callable inherited">
+  <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  A string representation of this object.
+  <div class="features">inherited</div>
+
+</dd>
+
+        <dt id="upsertDictionary" class="callable">
+  <span class="name"><a href="../text_indexing/InMemoryIndex/upsertDictionary.html">upsertDictionary</a></span><span class="signature">(<wbr><span class="parameter" id="upsertDictionary-param-values"><span class="type-annotation"><a href="../text_indexing/Dictionary.html">Dictionary</a></span> <span class="parameter-name">values</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Inserts <code>values</code> into a <a href="../text_indexing/Dictionary.html">Dictionary</a> repository, overwriting them if they
+already exist.
+  <div class="features">override</div>
+
+</dd>
+
+        <dt id="upsertPostings" class="callable">
+  <span class="name"><a href="../text_indexing/InMemoryIndex/upsertPostings.html">upsertPostings</a></span><span class="signature">(<wbr><span class="parameter" id="upsertPostings-param-values"><span class="type-annotation"><a href="../text_indexing/Postings.html">Postings</a></span> <span class="parameter-name">values</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Inserts <code>values</code> into a <a href="../text_indexing/Postings.html">Postings</a> repository, overwriting them if they
+already exist.
+  <div class="features">override</div>
+
+</dd>
+
+    </dl>
+  </section>
+    
+  <section
+      class="summary offset-anchor inherited"
+      id="operators">
+    <h2>Operators</h2>
+    <dl class="callables">
+        <dt id="operator ==" class="callable inherited">
+  <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/operator_equals.html">operator ==</a></span><span class="signature">(<wbr><span class="parameter" id="==-param-other"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Object-class.html">Object</a></span> <span class="parameter-name">other</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  The equality operator.
+  <div class="features">inherited</div>
+
+</dd>
+
+    </dl>
+  </section>
+    
+    
+    
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+  <li><a href="../index.html">text_indexing</a></li>
+  <li><a href="../text_indexing/text_indexing-library.html">text_indexing</a></li>
+  <li class="self-crumb">InMemoryIndex class</li>
+</ol>
+
+
+    <h5>text_indexing library</h5>
+    <ol>
+  <li class="section-title"><a href="../text_indexing/text_indexing-library.html#classes">Classes</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/English-class.html">English</a></li>
+  <li><a href="../text_indexing/InMemoryIndex-class.html">InMemoryIndex</a></li>
+  <li><a href="../text_indexing/InMemoryIndexer-class.html">InMemoryIndexer</a></li>
+  <li><a href="../text_indexing/InvertedPositionalZoneIndex-class.html">InvertedPositionalZoneIndex</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></li>
+  <li><a href="https://pub.dev/documentation/porter_2_stemmer/1.0.0+5/porter_2_stemmer/Porter2Stemmer-class.html">Porter2Stemmer</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Sentence-class.html">Sentence</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/TextAnalyzerBase-class.html">TextAnalyzerBase</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/TextAnalyzerConfiguration-class.html">TextAnalyzerConfiguration</a></li>
+  <li><a href="../text_indexing/TextIndexer-class.html">TextIndexer</a></li>
+  <li><a href="../text_indexing/TextIndexerBase-class.html">TextIndexerBase</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/TextSource-class.html">TextSource</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Token-class.html">Token</a></li>
+
+  <li class="section-title"><a href="../text_indexing/text_indexing-library.html#extensions">Extensions</a></li>
+  <li><a href="../text_indexing/DictionaryEntryCollectionExtension.html">DictionaryEntryCollectionExtension</a></li>
+  <li><a href="../text_indexing/DictionaryEntryExtension.html">DictionaryEntryExtension</a></li>
+  <li><a href="../text_indexing/DictionaryExtensions.html">DictionaryExtensions</a></li>
+  <li><a href="../text_indexing/DocumentPostingsEntryExtension.html">DocumentPostingsEntryExtension</a></li>
+  <li><a href="https://pub.dev/documentation/porter_2_stemmer/1.0.0+5/porter_2_stemmer/Porter2StemmerExtension.html">Porter2StemmerExtension</a></li>
+  <li><a href="../text_indexing/PostingsEntryExtension.html">PostingsEntryExtension</a></li>
+  <li><a href="../text_indexing/PostingsExtension.html">PostingsExtension</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/TokenCollectionExtension.html">TokenCollectionExtension</a></li>
+
+
+
+
+
+  <li class="section-title"><a href="../text_indexing/text_indexing-library.html#enums">Enums</a></li>
+  <li><a href="../text_indexing/TermSortStrategy.html">TermSortStrategy</a></li>
+
+  <li class="section-title"><a href="../text_indexing/text_indexing-library.html#typedefs">Typedefs</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/CharacterFilter.html">CharacterFilter</a></li>
+  <li><a href="../text_indexing/Dictionary.html">Dictionary</a></li>
+  <li><a href="../text_indexing/DictionaryEntry.html">DictionaryEntry</a></li>
+  <li><a href="../text_indexing/DictionaryLoader.html">DictionaryLoader</a></li>
+  <li><a href="../text_indexing/DictionaryUpdater.html">DictionaryUpdater</a></li>
+  <li><a href="../text_indexing/DocId.html">DocId</a></li>
+  <li><a href="../text_indexing/DocumentPostings.html">DocumentPostings</a></li>
+  <li><a href="../text_indexing/DocumentPostingsEntry.html">DocumentPostingsEntry</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/FieldName.html">FieldName</a></li>
+  <li><a href="../text_indexing/FieldPostings.html">FieldPostings</a></li>
+  <li><a href="../text_indexing/FieldPostingsEntry.html">FieldPostingsEntry</a></li>
+  <li><a href="../text_indexing/Ft.html">Ft</a></li>
+  <li><a href="../text_indexing/JSON.html">JSON</a></li>
+  <li><a href="../text_indexing/JsonCollection.html">JsonCollection</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/JsonTokenizer.html">JsonTokenizer</a></li>
+  <li><a href="../text_indexing/Postings.html">Postings</a></li>
+  <li><a href="../text_indexing/PostingsEntry.html">PostingsEntry</a></li>
+  <li><a href="../text_indexing/PostingsLoader.html">PostingsLoader</a></li>
+  <li><a href="../text_indexing/PostingsUpdater.html">PostingsUpdater</a></li>
+  <li><a href="../text_indexing/Pt.html">Pt</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/SentenceSplitter.html">SentenceSplitter</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/SourceText.html">SourceText</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Stemmer.html">Stemmer</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/StopWords.html">StopWords</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Term.html">Term</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/TermFilter.html">TermFilter</a></li>
+  <li><a href="../text_indexing/TermPositions.html">TermPositions</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/TermSplitter.html">TermSplitter</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/TokenFilter.html">TokenFilter</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Tokenizer.html">Tokenizer</a></li>
+
+</ol>
+
+  </div>
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+    <ol>
+
+        <li class="section-title"><a href="../text_indexing/InMemoryIndex-class.html#constructors">Constructors</a></li>
+          <li><a href="../text_indexing/InMemoryIndex/InMemoryIndex.html">InMemoryIndex</a></li>
+
+
+    <li class="section-title">
+      <a href="../text_indexing/InMemoryIndex-class.html#instance-properties">Properties</a>
+    </li>
+    <li><a href="../text_indexing/InMemoryIndex/dictionary.html">dictionary</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
+    <li><a href="../text_indexing/InMemoryIndex/postings.html">postings</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
+
+    <li class="section-title"><a href="../text_indexing/InMemoryIndex-class.html#instance-methods">Methods</a></li>
+    <li><a href="../text_indexing/InMemoryIndex/getDictionary.html">getDictionary</a></li>
+    <li><a href="../text_indexing/InMemoryIndex/getPostings.html">getPostings</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
+    <li><a href="../text_indexing/InMemoryIndex/upsertDictionary.html">upsertDictionary</a></li>
+    <li><a href="../text_indexing/InMemoryIndex/upsertPostings.html">upsertPostings</a></li>
+
+    <li class="section-title inherited"><a href="../text_indexing/InMemoryIndex-class.html#operators">Operators</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/operator_equals.html">operator ==</a></li>
+
+
+
+
+</ol>
+
+  </div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    text_indexing
+      0.4.0
+  </span>
+
+  
+</footer>
+
+
+
+<script src="../static-assets/highlight.pack.js?v1"></script>
+<script src="../static-assets/script.js?v1"></script>
+
+
+
+</body>
+
+</html>
+

@@ -5,7 +5,15 @@
 import 'package:text_indexing/text_indexing.dart';
 
 /// An interface that exposes methods for working with an inverted, positional
-/// zoned index on a collection of documents.
+/// zoned index on a collection of documents:
+/// - [getDictionary] Asynchronously retrieves a [Dictionary] for a collection
+///   of [Term]s from a [Dictionary] repository;
+/// - [upsertDictionary ] inserts entries into a [Dictionary] repository,
+///   overwriting any existing entries;
+/// - [getPostings] asynchronously retrieves [Postings] for a collection
+///   of [Term]s from a [Postings] repository; and
+/// - [upsertPostings] inserts entries into a [Postings] repository,
+///   overwriting any existing entries.
 abstract class InvertedPositionalZoneIndex {
   //
 
@@ -15,7 +23,8 @@ abstract class InvertedPositionalZoneIndex {
   /// Loads the entire [Dictionary] if [terms] is null.
   Future<Dictionary> getDictionary([Iterable<Term>? terms]);
 
-  /// Inserts [values] into a [Dictionary] repository.
+  /// Inserts [values] into a [Dictionary] repository, overwriting them if they
+  /// already exist.
   Future<void> upsertDictionary(Dictionary values);
 
   /// Asynchronously retrieves [PostingsEntry] entities for the [terms] from a

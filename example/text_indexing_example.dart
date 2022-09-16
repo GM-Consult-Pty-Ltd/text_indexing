@@ -4,13 +4,12 @@
 
 // ignore_for_file: deprecated_member_use_from_same_package
 
-// ignore: unused_import
 import 'package:text_indexing/text_indexing.dart';
 
 /// Two examples using the indexers in this package are provided:
 /// - [_inMemoryIndexerExample] is a simple example of a [InMemoryIndexer]
 ///   indexing the [textData] dataset; and
-/// - [_persistedIndexerExample] is a simple example of a [PersistedIndexer]
+/// - [_persistedIndexerExample] is a simple example of a [AsyncIndexer]
 ///   indexing the [textData] dataset.
 void main() async {
   //
@@ -18,7 +17,7 @@ void main() async {
   // Run a simple example of the [InMemoryIndexer] on the [textData] dataset.
   await _inMemoryIndexerExample(textData);
 
-  //  Run a simple example of the [PersistedIndexer] on the [textData] dataset.
+  //  Run a simple example of the [AsyncIndexer] on the [textData] dataset.
   await _persistedIndexerExample(jsonData);
 
   //
@@ -44,7 +43,8 @@ Future<void> _inMemoryIndexerExample(Map<String, String> documents) async {
   final postings = <String, Map<String, Map<String, List<int>>>>{};
 
   // - initialize a [InMemoryIndexer]
-  final indexer = InMemoryIndexer(dictionary: dictionary, postings: postings);
+  final indexer =
+      TextIndexer.inMemory(dictionary: dictionary, postings: postings);
 
   indexer.postingsStream.listen((event) {
     if (event.isNotEmpty) {
@@ -77,12 +77,12 @@ Future<void> _inMemoryIndexerExample(Map<String, String> documents) async {
   }
 }
 
-/// A simple test of the [PersistedIndexer] on a small JSON dataset using a
+/// A simple test of the [AsyncIndexer] on a small JSON dataset using a
 /// simulated persisted index repository with 50 millisecond latency on
 /// read/write operations to [Dictionary] and [Postings] hashmaps:
 /// - initialize the [_TestIndex()];
-/// - initialize a [PersistedIndexer];
-/// - listen to the [PersistedIndexer.postingsStream], printing the
+/// - initialize a [AsyncIndexer];
+/// - listen to the [AsyncIndexer.postingsStream], printing the
 ///   emitted postings for each indexed document;
 /// - iterate through the JSON documents;
 /// - index each document, adding/updating terms in the [_TestIndex.dictionary]
@@ -95,11 +95,11 @@ Future<void> _persistedIndexerExample(Map<String, JSON> documents) async {
   final index = _TestIndex();
 
   // - initialize a [InMemoryIndexer]
-  final indexer = PersistedIndexer(
-      termsLoader: index.loadTerms,
+  final indexer = TextIndexer.async(
+      termsLoader: index.getDictionary,
       dictionaryUpdater: index.upsertDictionary,
-      postingsLoader: index.loadTermPostings,
-      postingsUpdater: index.upsertTermPostings);
+      postingsLoader: index.getPostings,
+      postingsUpdater: index.upsertPostings);
 
   indexer.postingsStream.listen((event) {
     if (event.isNotEmpty) {
@@ -332,7 +332,7 @@ class _TestIndex {
   /// Returns a subset of [postings] corresponding to [terms].
   ///
   /// Simulates latency of 50 milliseconds.
-  Future<Postings> loadTermPostings(Iterable<String> terms) async {
+  Future<Postings> getPostings(Iterable<String> terms) async {
     final Postings retVal = {};
     for (final term in terms) {
       final entry = postings[term];
@@ -359,7 +359,7 @@ class _TestIndex {
   /// Adds/overwrites the [values] to [postings].
   ///
   /// Simulates latency of 50 milliseconds.
-  Future<void> upsertTermPostings(Postings values) async {
+  Future<void> upsertPostings(Postings values) async {
     postings.addAll(values);
   }
 
@@ -368,7 +368,7 @@ class _TestIndex {
   /// Returns a subset of [dictionary] corresponding to [terms].
   ///
   /// Simulates latency of 50 milliseconds.
-  Future<Dictionary> loadTerms([Iterable<String>? terms]) async {
+  Future<Dictionary> getDictionary([Iterable<String>? terms]) async {
     if (terms == null) return dictionary;
     final Dictionary retVal = {};
     for (final term in terms) {
