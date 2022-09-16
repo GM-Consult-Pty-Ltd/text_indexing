@@ -4,6 +4,10 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+### 0.7.1 (PRE-RELEASE, BREAKING CHANGES)
+
+Updated dependencies
+
 ### 0.7.0 (PRE-RELEASE, BREAKING CHANGES)
 
 #### Breaking changes:
@@ -27,7 +31,6 @@ All rights reserved.
 - Removed field `InMemoryIndexer.dictionary`. Use `index.dictionary` instead.
 - Removed field `InMemoryIndexer.postings`. Use `index.postings` instead.
 - Added new field `InvertedPositionalZoneIndex.analyzer`, changing the signatures of factory constructors `TextIndexer.inMemory` and 'TextIndexer.async'.
-
 
 Updated dependencies, tests, examples and documentation.
 

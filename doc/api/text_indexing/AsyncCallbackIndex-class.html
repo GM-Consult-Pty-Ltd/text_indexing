@@ -55,7 +55,7 @@
 that uses asynchronous callbacks to perform read and write operations on
 <a href="../text_indexing/Dictionary.html">Dictionary</a> and <a href="../text_indexing/Postings.html">Postings</a> repositories:</p>
 <ul>
-<li><a href="../text_indexing/AsyncCallbackIndex/analyzer.html">analyzer</a> is the <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a> used to tokenize text for the index;</li>
+<li><a href="../text_indexing/AsyncCallbackIndex/analyzer.html">analyzer</a> is the <a href="https://pub.dev/documentation/text_analysis/0.6.2/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a> used to tokenize text for the index;</li>
 <li><a href="../text_indexing/AsyncCallbackIndex/termsLoader.html">termsLoader</a> synchronously retrieves a <a href="../text_indexing/Dictionary.html">Dictionary</a> for a vocabulary
 from a data source;</li>
 <li><a href="../text_indexing/AsyncCallbackIndex/dictionaryUpdater.html">dictionaryUpdater</a> is callback that passes a <a href="../text_indexing/Dictionary.html">Dictionary</a> subset
@@ -93,7 +93,7 @@ datastore.</li>
 
     <dl class="constructor-summary-list">
         <dt id="AsyncCallbackIndex" class="callable">
-          <span class="name"><a href="../text_indexing/AsyncCallbackIndex/AsyncCallbackIndex.html">AsyncCallbackIndex</a></span><span class="signature">(<span class="parameter" id="-param-termsLoader">{<span>required</span> <span class="type-annotation"><a href="../text_indexing/DictionaryLoader.html">DictionaryLoader</a></span> <span class="parameter-name">termsLoader</span>, </span><span class="parameter" id="-param-dictionaryUpdater"><span>required</span> <span class="type-annotation"><a href="../text_indexing/DictionaryUpdater.html">DictionaryUpdater</a></span> <span class="parameter-name">dictionaryUpdater</span>, </span><span class="parameter" id="-param-postingsLoader"><span>required</span> <span class="type-annotation"><a href="../text_indexing/PostingsLoader.html">PostingsLoader</a></span> <span class="parameter-name">postingsLoader</span>, </span><span class="parameter" id="-param-postingsUpdater"><span>required</span> <span class="type-annotation"><a href="../text_indexing/PostingsUpdater.html">PostingsUpdater</a></span> <span class="parameter-name">postingsUpdater</span>, </span><span class="parameter" id="-param-analyzer"><span>required</span> <span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></span> <span class="parameter-name">analyzer</span>}</span>)</span>
+          <span class="name"><a href="../text_indexing/AsyncCallbackIndex/AsyncCallbackIndex.html">AsyncCallbackIndex</a></span><span class="signature">(<span class="parameter" id="-param-termsLoader">{<span>required</span> <span class="type-annotation"><a href="../text_indexing/DictionaryLoader.html">DictionaryLoader</a></span> <span class="parameter-name">termsLoader</span>, </span><span class="parameter" id="-param-dictionaryUpdater"><span>required</span> <span class="type-annotation"><a href="../text_indexing/DictionaryUpdater.html">DictionaryUpdater</a></span> <span class="parameter-name">dictionaryUpdater</span>, </span><span class="parameter" id="-param-postingsLoader"><span>required</span> <span class="type-annotation"><a href="../text_indexing/PostingsLoader.html">PostingsLoader</a></span> <span class="parameter-name">postingsLoader</span>, </span><span class="parameter" id="-param-postingsUpdater"><span>required</span> <span class="type-annotation"><a href="../text_indexing/PostingsUpdater.html">PostingsUpdater</a></span> <span class="parameter-name">postingsUpdater</span>, </span><span class="parameter" id="-param-analyzer"><span>required</span> <span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.6.2/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></span> <span class="parameter-name">analyzer</span>}</span>)</span>
         </dt>
         <dd>
           Instantiates a <a href="../text_indexing/AsyncCallbackIndex-class.html">AsyncCallbackIndex</a> instance:
@@ -108,7 +108,7 @@ datastore.</li>
       <dl class="properties">
         <dt id="analyzer" class="property">
   <span class="name"><a href="../text_indexing/AsyncCallbackIndex/analyzer.html">analyzer</a></span>
-  <span class="signature">&#8594; <a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></span> 
+  <span class="signature">&#8594; <a href="https://pub.dev/documentation/text_analysis/0.6.2/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></span> 
 
 </dt>
 <dd>
@@ -198,7 +198,7 @@ datastore.
     <h2>Methods</h2>
     <dl class="callables">
         <dt id="getDictionary" class="callable">
-  <span class="name"><a href="../text_indexing/AsyncCallbackIndex/getDictionary.html">getDictionary</a></span><span class="signature">(<wbr><span class="parameter" id="getDictionary-param-terms">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Term.html">Term</a></span>&gt;</span>?</span> <span class="parameter-name">terms</span>]</span>)
+  <span class="name"><a href="../text_indexing/AsyncCallbackIndex/getDictionary.html">getDictionary</a></span><span class="signature">(<wbr><span class="parameter" id="getDictionary-param-terms">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.2/text_analysis/Term.html">Term</a></span>&gt;</span>?</span> <span class="parameter-name">terms</span>]</span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Dictionary.html">Dictionary</a></span>&gt;</span></span>
   </span>
   
@@ -212,7 +212,7 @@ datastore.
 </dd>
 
         <dt id="getPostings" class="callable">
-  <span class="name"><a href="../text_indexing/AsyncCallbackIndex/getPostings.html">getPostings</a></span><span class="signature">(<wbr><span class="parameter" id="getPostings-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
+  <span class="name"><a href="../text_indexing/AsyncCallbackIndex/getPostings.html">getPostings</a></span><span class="signature">(<wbr><span class="parameter" id="getPostings-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.2/text_analysis/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Postings.html">Postings</a></span>&gt;</span></span>
   </span>
   
@@ -328,20 +328,20 @@ already exist.
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#classes">Classes</a></li>
   <li><a href="../text_indexing/AsyncCallbackIndex-class.html">AsyncCallbackIndex</a></li>
   <li><a href="../text_indexing/AsyncIndexer-class.html">AsyncIndexer</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/English-class.html">English</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.2/text_analysis/English-class.html">English</a></li>
   <li><a href="../text_indexing/InMemoryIndex-class.html">InMemoryIndex</a></li>
   <li><a href="../text_indexing/InMemoryIndexer-class.html">InMemoryIndexer</a></li>
   <li><a href="../text_indexing/InvertedPositionalZoneIndex-class.html">InvertedPositionalZoneIndex</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.2/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></li>
   <li><a href="https://pub.dev/documentation/porter_2_stemmer/1.0.0+5/porter_2_stemmer/Porter2Stemmer-class.html">Porter2Stemmer</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Sentence-class.html">Sentence</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/TextAnalyzerBase-class.html">TextAnalyzerBase</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/TextAnalyzerConfiguration-class.html">TextAnalyzerConfiguration</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.2/text_analysis/Sentence-class.html">Sentence</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.2/text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.2/text_analysis/TextAnalyzerBase-class.html">TextAnalyzerBase</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.2/text_analysis/TextAnalyzerConfiguration-class.html">TextAnalyzerConfiguration</a></li>
   <li><a href="../text_indexing/TextIndexer-class.html">TextIndexer</a></li>
   <li><a href="../text_indexing/TextIndexerBase-class.html">TextIndexerBase</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/TextSource-class.html">TextSource</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Token-class.html">Token</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.2/text_analysis/TextSource-class.html">TextSource</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.2/text_analysis/Token-class.html">Token</a></li>
 
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#extensions">Extensions</a></li>
   <li><a href="../text_indexing/DictionaryEntryCollectionExtension.html">DictionaryEntryCollectionExtension</a></li>
@@ -351,7 +351,7 @@ already exist.
   <li><a href="https://pub.dev/documentation/porter_2_stemmer/1.0.0+5/porter_2_stemmer/Porter2StemmerExtension.html">Porter2StemmerExtension</a></li>
   <li><a href="../text_indexing/PostingsEntryExtension.html">PostingsEntryExtension</a></li>
   <li><a href="../text_indexing/PostingsExtension.html">PostingsExtension</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/TokenCollectionExtension.html">TokenCollectionExtension</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.2/text_analysis/TokenCollectionExtension.html">TokenCollectionExtension</a></li>
 
 
 
@@ -361,7 +361,7 @@ already exist.
   <li><a href="../text_indexing/TermSortStrategy.html">TermSortStrategy</a></li>
 
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#typedefs">Typedefs</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/CharacterFilter.html">CharacterFilter</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.2/text_analysis/CharacterFilter.html">CharacterFilter</a></li>
   <li><a href="../text_indexing/Dictionary.html">Dictionary</a></li>
   <li><a href="../text_indexing/DictionaryEntry.html">DictionaryEntry</a></li>
   <li><a href="../text_indexing/DictionaryLoader.html">DictionaryLoader</a></li>
@@ -369,28 +369,28 @@ already exist.
   <li><a href="../text_indexing/DocId.html">DocId</a></li>
   <li><a href="../text_indexing/DocumentPostings.html">DocumentPostings</a></li>
   <li><a href="../text_indexing/DocumentPostingsEntry.html">DocumentPostingsEntry</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/FieldName.html">FieldName</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.2/text_analysis/FieldName.html">FieldName</a></li>
   <li><a href="../text_indexing/FieldPostings.html">FieldPostings</a></li>
   <li><a href="../text_indexing/FieldPostingsEntry.html">FieldPostingsEntry</a></li>
   <li><a href="../text_indexing/Ft.html">Ft</a></li>
   <li><a href="../text_indexing/JSON.html">JSON</a></li>
   <li><a href="../text_indexing/JsonCollection.html">JsonCollection</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/JsonTokenizer.html">JsonTokenizer</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.2/text_analysis/JsonTokenizer.html">JsonTokenizer</a></li>
   <li><a href="../text_indexing/Postings.html">Postings</a></li>
   <li><a href="../text_indexing/PostingsEntry.html">PostingsEntry</a></li>
   <li><a href="../text_indexing/PostingsLoader.html">PostingsLoader</a></li>
   <li><a href="../text_indexing/PostingsUpdater.html">PostingsUpdater</a></li>
   <li><a href="../text_indexing/Pt.html">Pt</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/SentenceSplitter.html">SentenceSplitter</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/SourceText.html">SourceText</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Stemmer.html">Stemmer</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/StopWords.html">StopWords</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Term.html">Term</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/TermFilter.html">TermFilter</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.2/text_analysis/SentenceSplitter.html">SentenceSplitter</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.2/text_analysis/SourceText.html">SourceText</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.2/text_analysis/Stemmer.html">Stemmer</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.2/text_analysis/StopWords.html">StopWords</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.2/text_analysis/Term.html">Term</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.2/text_analysis/TermFilter.html">TermFilter</a></li>
   <li><a href="../text_indexing/TermPositions.html">TermPositions</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/TermSplitter.html">TermSplitter</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/TokenFilter.html">TokenFilter</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Tokenizer.html">Tokenizer</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.2/text_analysis/TermSplitter.html">TermSplitter</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.2/text_analysis/TokenFilter.html">TokenFilter</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.6.2/text_analysis/Tokenizer.html">Tokenizer</a></li>
 
 </ol>
 
@@ -437,7 +437,7 @@ already exist.
 <footer>
   <span class="no-break">
     text_indexing
-      0.7.0
+      0.7.1
   </span>
 
   
