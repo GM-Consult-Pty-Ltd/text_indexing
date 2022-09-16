@@ -21,6 +21,9 @@ abstract class InvertedPositionalZoneIndex {
   /// [Dictionary] repository.
   ///
   /// Loads the entire [Dictionary] if [terms] is null.
+  ///
+  /// As a first pass `index-elimination`, loads a subset of the [Dictionary]
+  /// where the key ([Term]) is in [terms].
   Future<Dictionary> getDictionary([Iterable<Term>? terms]);
 
   /// Inserts [values] into a [Dictionary] repository, overwriting them if they
@@ -29,6 +32,9 @@ abstract class InvertedPositionalZoneIndex {
 
   /// Asynchronously retrieves [PostingsEntry] entities for the [terms] from a
   /// [Postings] repository.
+  ///
+  /// As a first pass `index-elimination`, loads a subset of the [Postings]
+  /// where the key ([Term]) is in [terms].
   Future<Postings> getPostings(Iterable<Term> terms);
 
   /// Inserts [values] into a [Postings] repository, overwriting them if they

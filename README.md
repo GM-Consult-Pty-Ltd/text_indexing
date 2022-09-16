@@ -76,17 +76,17 @@ To maximise performance of the indexers the API manipulates nested hashmaps of D
 
 ### Type Aliases
 
-* `Dictionary` is an alias for `Map<Term, Ft>`,  a hashmap of `Term` to `Ft`;
-* `DictionaryEntry` is an alias for `MapEntry<Term, Ft>`, an entry in a `Dictionary`;
-* `DocId` is an alias for `String`, used whenever a document id is referenced;
-* `DocumentPostings` is an alias for `Map<DocId, FieldPostings>`, a hashmap of document ids to `FieldPostings`;
-* `DocumentPostingsEntry` is an alias for `MapEntry<DocId, FieldPostings>`, an entry in a `DocumentPostings` hashmap;
-* `FieldPostings` is an alias for `Map<FieldName, TermPositions>`, a hashmap of `FieldName`s to `TermPositions` in the field with `FieldName`;
-* `FieldPostingsEntry` is an alias for `MapEntry<FieldName, TermPositions>`, an entry in a `FieldPostings` hashmap;
-* `Ft` is an lias for `int` and denotes the frequency of a `Term` in an index or indexed object (the term frequency);
-* `JSON` is an alias for `Map<String, dynamic>`, a hashmap known as `"Java Script Object Notation" (JSON)`, a common format for persisting data;
-* `JsonCollection` is an alias for `Map<String, Map<String, dynamic>>`, a hashmap of `DocId` to `JSON` documents;
-* `Pt` is an alias for `int`, used to denote the position of a `Term` in `SourceText` indexed object (the term position); and
+* `Dictionary` is an alias for `Map<Term, Ft>`,  a hashmap of `Term` to `Ft`.
+* `DictionaryEntry` is an alias for `MapEntry<Term, Ft>`, an entry in a `Dictionary`.
+* `DocId` is an alias for `String`, used whenever a document id is referenced.
+* `DocumentPostings` is an alias for `Map<DocId, FieldPostings>`, a hashmap of document ids to `FieldPostings`.
+* `DocumentPostingsEntry` is an alias for `MapEntry<DocId, FieldPostings>`, an entry in a `DocumentPostings` hashmap.
+* `FieldPostings` is an alias for `Map<FieldName, TermPositions>`, a hashmap of `FieldName`s to `TermPositions` in the field with `FieldName`.
+* `FieldPostingsEntry` is an alias for `MapEntry<FieldName, TermPositions>`, an entry in a `FieldPostings` hashmap.
+* `Ft` is an lias for `int` and denotes the frequency of a `Term` in an index or indexed object (the term frequency).
+* `JSON` is an alias for `Map<String, dynamic>`, a hashmap known as `"Java Script Object Notation" (JSON)`, a common format for persisting data.
+* `JsonCollection` is an alias for `Map<String, Map<String, dynamic>>`, a hashmap of `DocId` to `JSON` documents.
+* `Pt` is an alias for `int`, used to denote the position of a `Term` in `SourceText` indexed object (the term position). 
 * `TermPositions` is an alias for `List<Pt>`, an ordered `Set` of unique zero-based `Term` positions in `SourceText`, sorted in ascending order.
 
 ### InvertedPositionalZoneIndex Interface
@@ -177,6 +177,7 @@ The following definitions are used throughout the [documentation](https://pub.de
 * `dictionary` - is a hash of `terms` (`vocabulary`) to the frequency of occurence in the `corpus` documents.
 * `document` - a record in the `corpus`, that has a unique identifier (`docId`) in the `corpus`'s primary key and that contains one or more text fields that are indexed.
 * `index` - an [inverted index](https://en.wikipedia.org/wiki/Inverted_index) used to look up `document` references from the `corpus` against a `vocabulary` of `terms`. The implementation in this package builds and maintains a positional inverted index, that also includes the positions of the indexed `term` in each `document`.
+* `index-elimination` - selecting a subset of the entries in an index where the `term` is in the collection of `terms` in a search phrase.
 * `postings` - a separate index that records which `documents` the `vocabulary` occurs in. In this implementation we also record the positions of each `term` in the `text` to create a positional inverted `index`.
 * `postings list` - a record of the positions of a `term` in a `document`. A position of a `term` refers to the index of the `term` in an array that contains all the `terms` in the `text`.
 * `term` - a word or phrase that is indexed from the `corpus`. The `term` may differ from the actual word used in the corpus depending on the `tokenizer` used.

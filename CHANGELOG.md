@@ -4,7 +4,17 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+### 0.6.0-2 (PRE-RELEASE, BREAKING CHANGES)
+
+#### Breaking changes:
+
+- Changed signature of extension method `Postings.termPostingsList(Term)` to `Postings.termPostingsList([Iterable<Term>?])`.
+
+Updated dependencies, tests, examples and documentation.
+
 ### 0.6.0-1 (PRE-RELEASE, BREAKING CHANGES)
+
+Updated dependencies, tests, examples and documentation.
 
 ### 0.5.0 (PRE-RELEASE, BREAKING CHANGES)
 

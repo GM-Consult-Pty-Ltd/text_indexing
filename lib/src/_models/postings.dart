@@ -144,11 +144,26 @@ extension PostingsExtension on Postings {
       return docFields.toSet().intersection(fields.toSet()).isEmpty;
     });
 
-  /// Returns the list of [DocumentPostingsEntry] for the [term] from the
-  /// [Postings].
-  List<DocumentPostingsEntry> termPostingsList(Term term) {
-    final entry = this[term];
-    return entry?.entries.toList() ?? [];
+  /// Returns the list of all the [DocumentPostingsEntry] for the [terms]
+  /// from the [Postings].
+  ///
+  /// Returns all the [DocumentPostingsEntry] instances for all terms in
+  /// the [Postings] if [terms] is null.
+  List<DocumentPostingsEntry> termPostingsList([Iterable<Term>? terms]) {
+    final List<DocumentPostingsEntry> termPostings = [];
+    if (terms != null) {
+      for (final term in terms) {
+        final entry = this[term];
+        if (entry != null) {
+          termPostings.addAll(entry.entries);
+        }
+      }
+    } else {
+      for (final entry in values) {
+        termPostings.addAll(entry.entries);
+      }
+    }
+    return termPostings;
   }
 
   /// Returns the list of [PostingsEntry] elements in the [Postings] in

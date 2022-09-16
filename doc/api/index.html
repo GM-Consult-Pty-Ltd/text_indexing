@@ -101,17 +101,17 @@ Copyright (c) 2022, GM Consult Pty Ltd#class-persistedindexerAll rights reserved
 <p>To maximise performance of the indexers the API manipulates nested hashmaps of DART core types <code>int</code> and <code>String</code> rather than defining strongly typed object models. To improve code legibility and maintainability the API makes use of <a href="#type-aliases">type aliases</a> throughout.</p>
 <h3 id="type-aliases">Type Aliases</h3>
 <ul>
-<li><code>Dictionary</code> is an alias for <code>Map&lt;Term, Ft&gt;</code>,  a hashmap of <code>Term</code> to <code>Ft</code>;</li>
-<li><code>DictionaryEntry</code> is an alias for <code>MapEntry&lt;Term, Ft&gt;</code>, an entry in a <code>Dictionary</code>;</li>
-<li><code>DocId</code> is an alias for <code>String</code>, used whenever a document id is referenced;</li>
-<li><code>DocumentPostings</code> is an alias for <code>Map&lt;DocId, FieldPostings&gt;</code>, a hashmap of document ids to <code>FieldPostings</code>;</li>
-<li><code>DocumentPostingsEntry</code> is an alias for <code>MapEntry&lt;DocId, FieldPostings&gt;</code>, an entry in a <code>DocumentPostings</code> hashmap;</li>
-<li><code>FieldPostings</code> is an alias for <code>Map&lt;FieldName, TermPositions&gt;</code>, a hashmap of <code>FieldName</code>s to <code>TermPositions</code> in the field with <code>FieldName</code>;</li>
-<li><code>FieldPostingsEntry</code> is an alias for <code>MapEntry&lt;FieldName, TermPositions&gt;</code>, an entry in a <code>FieldPostings</code> hashmap;</li>
-<li><code>Ft</code> is an lias for <code>int</code> and denotes the frequency of a <code>Term</code> in an index or indexed object (the term frequency);</li>
-<li><code>JSON</code> is an alias for <code>Map&lt;String, dynamic&gt;</code>, a hashmap known as <code>"Java Script Object Notation" (JSON)</code>, a common format for persisting data;</li>
-<li><code>JsonCollection</code> is an alias for <code>Map&lt;String, Map&lt;String, dynamic&gt;&gt;</code>, a hashmap of <code>DocId</code> to <code>JSON</code> documents;</li>
-<li><code>Pt</code> is an alias for <code>int</code>, used to denote the position of a <code>Term</code> in <code>SourceText</code> indexed object (the term position); and</li>
+<li><code>Dictionary</code> is an alias for <code>Map&lt;Term, Ft&gt;</code>,  a hashmap of <code>Term</code> to <code>Ft</code>.</li>
+<li><code>DictionaryEntry</code> is an alias for <code>MapEntry&lt;Term, Ft&gt;</code>, an entry in a <code>Dictionary</code>.</li>
+<li><code>DocId</code> is an alias for <code>String</code>, used whenever a document id is referenced.</li>
+<li><code>DocumentPostings</code> is an alias for <code>Map&lt;DocId, FieldPostings&gt;</code>, a hashmap of document ids to <code>FieldPostings</code>.</li>
+<li><code>DocumentPostingsEntry</code> is an alias for <code>MapEntry&lt;DocId, FieldPostings&gt;</code>, an entry in a <code>DocumentPostings</code> hashmap.</li>
+<li><code>FieldPostings</code> is an alias for <code>Map&lt;FieldName, TermPositions&gt;</code>, a hashmap of <code>FieldName</code>s to <code>TermPositions</code> in the field with <code>FieldName</code>.</li>
+<li><code>FieldPostingsEntry</code> is an alias for <code>MapEntry&lt;FieldName, TermPositions&gt;</code>, an entry in a <code>FieldPostings</code> hashmap.</li>
+<li><code>Ft</code> is an lias for <code>int</code> and denotes the frequency of a <code>Term</code> in an index or indexed object (the term frequency).</li>
+<li><code>JSON</code> is an alias for <code>Map&lt;String, dynamic&gt;</code>, a hashmap known as <code>"Java Script Object Notation" (JSON)</code>, a common format for persisting data.</li>
+<li><code>JsonCollection</code> is an alias for <code>Map&lt;String, Map&lt;String, dynamic&gt;&gt;</code>, a hashmap of <code>DocId</code> to <code>JSON</code> documents.</li>
+<li><code>Pt</code> is an alias for <code>int</code>, used to denote the position of a <code>Term</code> in <code>SourceText</code> indexed object (the term position).</li>
 <li><code>TermPositions</code> is an alias for <code>List&lt;Pt&gt;</code>, an ordered <code>Set</code> of unique zero-based <code>Term</code> positions in <code>SourceText</code>, sorted in ascending order.</li>
 </ul>
 <h3 id="invertedpositionalzoneindex-interface">InvertedPositionalZoneIndex Interface</h3>
@@ -193,6 +193,7 @@ that uses asynchronous callbacks to perform read and write operations on <code>D
 <li><code>dictionary</code> - is a hash of <code>terms</code> (<code>vocabulary</code>) to the frequency of occurence in the <code>corpus</code> documents.</li>
 <li><code>document</code> - a record in the <code>corpus</code>, that has a unique identifier (<code>docId</code>) in the <code>corpus</code>'s primary key and that contains one or more text fields that are indexed.</li>
 <li><code>index</code> - an <a href="https://en.wikipedia.org/wiki/Inverted_index">inverted index</a> used to look up <code>document</code> references from the <code>corpus</code> against a <code>vocabulary</code> of <code>terms</code>. The implementation in this package builds and maintains a positional inverted index, that also includes the positions of the indexed <code>term</code> in each <code>document</code>.</li>
+<li><code>index-elimination</code> - selecting a subset of the entries in an index where the <code>term</code> is in the collection of <code>terms</code> in a search phrase.</li>
 <li><code>postings</code> - a separate index that records which <code>documents</code> the <code>vocabulary</code> occurs in. In this implementation we also record the positions of each <code>term</code> in the <code>text</code> to create a positional inverted <code>index</code>.</li>
 <li><code>postings list</code> - a record of the positions of a <code>term</code> in a <code>document</code>. A position of a <code>term</code> refers to the index of the <code>term</code> in an array that contains all the <code>terms</code> in the <code>text</code>.</li>
 <li><code>term</code> - a word or phrase that is indexed from the <code>corpus</code>. The <code>term</code> may differ from the actual word used in the corpus depending on the <code>tokenizer</code> used.</li>
@@ -258,7 +259,7 @@ that uses asynchronous callbacks to perform read and write operations on <code>D
 <footer>
   <span class="no-break">
     text_indexing
-      0.5.0
+      0.6.0-2
   </span>
 
   

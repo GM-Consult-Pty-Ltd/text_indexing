@@ -68,6 +68,8 @@
 <section class="desc markdown">
   <p>Asynchronously retrieves <a href="../../text_indexing/PostingsEntry.html">PostingsEntry</a> entities for the <code>terms</code> from a
 <code>Postings</code> repository.</p>
+<p>As a first pass <code>index-elimination</code>, loads a subset of the <code>Postings</code>
+where the key (<a href="https://pub.dev/documentation/text_analysis/0.6.1/text_analysis/Term.html">Term</a>) is in <code>terms</code>.</p>
 </section>
 
 
@@ -139,7 +141,7 @@ Future&lt;Postings&gt; getPostings(Iterable&lt;Term&gt; terms) =&gt; postingsLoa
 <footer>
   <span class="no-break">
     text_indexing
-      0.5.0
+      0.6.0-2
   </span>
 
   
