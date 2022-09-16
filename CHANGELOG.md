@@ -4,6 +4,13 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+### 0.5.0 (PRE-RELEASE, BREAKING CHANGES)
+
+#### Deprecated:
+
+- Field `InMemoryIndexer.dictionary` is deprecated. Use `index.dictionary` instead.
+- Field `InMemoryIndexer.postings` is deprecated. Use `index.postings` instead.
+
 ### 0.4.0 (PRE-RELEASE, BREAKING CHANGES)
 
 #### Breaking changes:
@@ -23,8 +30,10 @@ All rights reserved.
 
 - Method `TextIndexer.upsertDictionary` is deprecated. Use `TextIndexer.index.upsertDictionary` instead;
 - Method `TextIndexer.getDictionary` is deprecated. Use `TextIndexer.index.getDictionary` instead;
-- 'Method `TextIndexer.getPostings` is deprecated. Use `TextIndexer.index.getPostings` instead;
+- Method `TextIndexer.getPostings` is deprecated. Use `TextIndexer.index.getPostings` instead;
 - Method `TextIndexer.upsertPostings` is deprecated. Use `TextIndexer.index.upsertPostings` instead.
+- Field `InMemoryIndexer.dictionary` is deprecated. Use `index.dictionary` instead.
+- Field `InMemoryIndexer.postings` is deprecated. Use `index.postings` instead.
 
 Updated dependencies, tests, examples and documentation.
 

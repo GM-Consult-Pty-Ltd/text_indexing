@@ -29,7 +29,7 @@ class InMemoryIndexer extends TextIndexerBase {
       : index = InMemoryIndex(dictionary ?? {}, postings ?? {});
 
   @override
-  final InvertedPositionalZoneIndex index;
+  final InMemoryIndex index;
 
   @override
   final Tokenizer tokenizer;
@@ -39,6 +39,15 @@ class InMemoryIndexer extends TextIndexerBase {
 
   @override
   final controller = BehaviorSubject<Postings>();
+
+  /// The in-memory term dictionary of the [index].
+  @Deprecated(
+      'Field `dictionary` is deprecated. Use `index.dictionary` instead.')
+  Dictionary get dictionary => index.dictionary;
+
+  /// The in-memory postings hashmap of the [index].
+  @Deprecated('Field `postings` is deprecated. Use `index.postings` instead.')
+  Postings get postings => index.postings;
 }
 
 /// An implementation class for the [InMemoryIndexer], implements
