@@ -59,7 +59,7 @@
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_indexing/Postings.html">Postings</a></span>&gt;</span></span>
 <span class="name ">indexText</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="indexText-param-docId"><span class="type-annotation"><a href="../../text_indexing/DocId.html">DocId</a></span> <span class="parameter-name">docId</span>, </span></li>
-<li><span class="parameter" id="indexText-param-docText"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.6.2/text_analysis/SourceText.html">SourceText</a></span> <span class="parameter-name">docText</span></span></li>
+<li><span class="parameter" id="indexText-param-docText"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.6.5/text_analysis/SourceText.html">SourceText</a></span> <span class="parameter-name">docText</span></span></li>
 </ol>)
 
       <div class="features">override</div>
@@ -69,7 +69,7 @@
 <section class="desc markdown">
   <p>Implementation of <a href="../../text_indexing/TextIndexer/indexText.html">TextIndexer.indexText</a> that:</p>
 <ul>
-<li>parses <code>docText</code> to a collection of <a href="https://pub.dev/documentation/text_analysis/0.6.2/text_analysis/Token-class.html">Token</a>s;</li>
+<li>parses <code>docText</code> to a collection of <a href="https://pub.dev/documentation/text_analysis/0.6.5/text_analysis/Token-class.html">Token</a>s;</li>
 <li>maps the tokens to postings for <code>docId</code>;</li>
 <li>maps the postings for <code>docId</code> to a <code>Postings</code>;</li>
 <li>calls <a href="../../text_indexing/TextIndexerBase/emit.html">emit</a>, passing the <code>Postings</code> for <code>docId</code>; and</li>
@@ -155,7 +155,7 @@ Future&lt;Postings&gt; indexText(DocId docId, SourceText docText) async {
 <footer>
   <span class="no-break">
     text_indexing
-      0.7.1
+      0.8.0
   </span>
 
   

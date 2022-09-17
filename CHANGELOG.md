@@ -4,7 +4,23 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
-### 0.7.1 (PRE-RELEASE, BREAKING CHANGES)
+### 0.8.0 (PRE-RELEASE, BREAKING CHANGES)
+
+#### Breaking changes:
+
+- Implementation of `TextIndexer.indexText` changed to also insert postings for every pair of terms in the source text.
+
+Updated dependencies, tests, examples and documentation.
+
+### 0.7.2+1 (PRE-RELEASE)
+
+Updated dependencies
+
+### 0.7.2 (PRE-RELEASE)
+
+Updated dependencies
+
+### 0.7.1 (PRE-RELEASE)
 
 Updated dependencies
 
@@ -16,6 +32,8 @@ Updated dependencies
 #### New:
 - Extension method `Set<DocId> containsAll(Iterable<Term>)`
 - Extension method `Set<DocId> containsAny(Iterable<Term>)`
+
+Updated dependencies, tests, examples and documentation.
 
 ### 0.6.0 (PRE-RELEASE, BREAKING CHANGES)
 

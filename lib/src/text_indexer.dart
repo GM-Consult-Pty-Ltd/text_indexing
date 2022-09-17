@@ -33,6 +33,8 @@ typedef JsonCollection = Map<DocId, JSON>;
 abstract class TextIndexer {
   //
 
+  static const kTermPairsZone = '%termPairs%';
+
   /// A const constructor for sub classes
   const TextIndexer();
 
@@ -186,18 +188,35 @@ abstract class TextIndexerBase implements TextIndexer {
     });
   }
 
-  /// Maps the [tokens] to a [Postings].
+  /// Maps the [tokens] to a [Postings] by creating a [FieldPostings] for
+  /// every element in [tokens].
+  ///
+  /// Also adds a [FieldPostings] entry for term pairs in [tokens].
   Postings _tokensToPostings(DocId docId, Iterable<Token> tokens) {
     // initialize a Postings collection to hold the postings
     final Postings postings = {};
     // initialize the term position index
+    Term term1 = '';
     for (var token in tokens) {
-      // add a term position to postings
-      postings.addTermPosition(
-          term: token.term,
-          docId: docId,
-          field: token.field,
-          position: token.termPosition);
+      final term2 = token.term;
+      if (term2.isNotEmpty) {
+        // add a term position to postings
+        postings.addTermPosition(
+            term: term2,
+            docId: docId,
+            field: token.field,
+            position: token.termPosition);
+        if (term1.isNotEmpty) {
+          final termPair = TermPair(term1, term2);
+          // add the term
+          postings.addTermPosition(
+              term: termPair.toString(),
+              docId: docId,
+              field: token.field,
+              position: token.termPosition);
+        }
+        term1 = term2;
+      }
     }
     return postings;
   }
