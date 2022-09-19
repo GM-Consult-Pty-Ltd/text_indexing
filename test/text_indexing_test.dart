@@ -7,7 +7,7 @@
 import 'package:text_indexing/text_indexing.dart';
 import 'package:test/test.dart';
 import 'data/text.dart';
-import 'data/sample_news_subset.dart';
+import 'data/sample_news.dart';
 
 part 'test_index.dart';
 
@@ -93,6 +93,8 @@ void main() {
     /// - print the top 5 most popular [_TestIndex.dictionary.terms].
     test('AsyncIndexer.index', () async {
       //
+      final termsSet = <String>{};
+      final docsSet = <String>{};
 
       // - initialize a [_TestIndex()]
       final index = _TestIndex();
@@ -107,18 +109,15 @@ void main() {
 
       // listen to the indexer.postingsStream and print the postings count for each term.
       indexer.postingsStream.listen((event) {
-        if (event.isNotEmpty) {
-          final docPostings = event.values.first;
-          if (docPostings.isNotEmpty) {
-            print(
-                'Postings received for document  {${docPostings.entries.first.key}}');
-          }
+        for (final termPosting in event.entries) {
+          termsSet.add(termPosting.key);
+          docsSet.add(termPosting.value.entries.first.key);
         }
+        print('Indexed ${termsSet.length} in ${docsSet.length} documents.');
       });
 
-
       // - iterate through the sample data
-      await indexer.indexCollection(sampleNewsSubset);
+      await indexer.indexCollection(sampleNews);
 
       // wait for stream elements to complete printing
       await Future.delayed(const Duration(milliseconds: 250));
@@ -129,7 +128,7 @@ void main() {
         terms = terms.sublist(0, 5);
       }
 
-      // print the 5 most popular terms with their frequencies
+      // print the 5 most popular terms (by document Frequency) with their frequencies
       print('_______________________________________________________');
       print('DOCUMENT FREQUENCY (top 5 terms)');
       for (final term in terms) {
@@ -154,6 +153,9 @@ void main() {
       /// get the document term frequency postings for the search terms
       final tfPostings = await index.getFtdPostings(searchTerms, 2);
 
+      /// get the term frequency in the corpus of the search terms
+      final tFtIndex = await index.getTfIndex(searchTerms);
+
       /// print the term frequency postings for the search terms
       print('_______________________________________________________');
       print('TERM DOCUMENT FREQUENCY (search terms, minimum dFt = 2)');
@@ -163,6 +165,26 @@ void main() {
           print('   DocId: {${posting.key}}:    dFt: [${posting.value}]');
         }
       }
+      final Map<Term, List<num>> searchTermStats = {};
+      print(''.padLeft(80, '_'));
+      print('DICTIONARY STATISTICS (search terms, minimum dFt = 2)');
+      print(''.padLeft(80, '-'));
+      print('${'Term'.padRight(10)}'
+          '${'Term Frequency'.toString().padLeft(20)}'
+          '${'Document Frequency'.toString().padLeft(20)}'
+          '${'Inverse Document Frequency'.toString().padLeft(30)}');
+      print(''.padLeft(80, '-'));
+      for (final term in searchTerms) {
+        final df = index.dictionary[term] ?? 0;
+        final idf = iDftIndex[term] ?? 0.0;
+        final tf = tFtIndex[term] ?? 0;
+        print('${term.padRight(10)}'
+            '${tf.toString().padLeft(20)}'
+            '${df.toString().padLeft(20)}'
+            '${idf.toStringAsFixed(2).padLeft(4, '0').padLeft(30)}');
+      }
+      expect(index.dictionary.length, termsSet.length);
+      expect(sampleNews.length, docsSet.length);
     });
   });
 }

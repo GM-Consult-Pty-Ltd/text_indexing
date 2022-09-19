@@ -87,6 +87,11 @@ abstract class InvertedIndex {
   /// the [Dictionary].
   Future<IdFtIndex> getIdFtIndex(Iterable<Term> terms);
 
+  /// Returns a hashmap of [Term] to [Ft] for the [terms].
+  ///
+  /// Represents the tnumber of times each of [terms] occurs in the `corpus`.
+  Future<Dictionary> getTfIndex(Iterable<Term> terms);
+
   /// Asynchronously retrieves a [Dictionary] for the [terms] from a
   /// [Dictionary] repository.
   ///
@@ -156,5 +161,29 @@ mixin InvertedIndexMixin implements InvertedIndex {
     final dictionary = await getDictionary(terms);
     final n = await vocabularyLength;
     return dictionary.map((key, value) => MapEntry(key, log(n / value)));
+  }
+
+  /// Implements [InvertedIndex.getTfIndex] method:
+  /// - loads a subset of [Postings] for [terms] by calling [getPostings].
+  /// - iterates over the loaded [Postings] to map aggregate the postings for
+  ///  the term.
+  @override
+  Future<Dictionary> getTfIndex(Iterable<Term> terms) async {
+    final Map<String, Ft> tfIndex = {};
+    final postings = await getPostings(terms);
+    for (final termPosting in postings.entries) {
+      var tF = 0;
+      for (final docPosting in termPosting.value.entries) {
+        var dTf = 0;
+        for (final fieldPositions in docPosting.value.values) {
+          dTf += fieldPositions.length;
+        }
+        tF += dTf;
+      }
+      if (tF > 0) {
+        tfIndex[termPosting.key] = tF;
+      }
+    }
+    return tfIndex;
   }
 }
