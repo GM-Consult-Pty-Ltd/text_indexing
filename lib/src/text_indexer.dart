@@ -198,26 +198,29 @@ abstract class TextIndexerBase implements TextIndexer {
     // initialize a Postings collection to hold the postings
     final Postings postings = {};
     // initialize the term position index
-    Term term1 = '';
+    final phraseTerms = [];
     for (var token in tokens) {
-      final term2 = token.term;
-      if (term2.isNotEmpty) {
+      final term = token.term;
+      if (term.isNotEmpty) {
         // add a term position to postings
         postings.addTermPosition(
-            term: term2,
+            term: term,
             docId: docId,
             zone: token.zone,
             position: token.termPosition);
-        if (term1.isNotEmpty) {
-          final termPair = TermPair(term1, term2);
+        phraseTerms.add(term);
+        if (phraseTerms.length > index.phraseLength) {
+          phraseTerms.removeAt(0);
+        }
+        if (phraseTerms.length > 1) {
+          final phrase = phraseTerms.join(' ');
           // add the term
           postings.addTermPosition(
-              term: termPair.toString(),
+              term: phrase,
               docId: docId,
               zone: token.zone,
               position: token.termPosition);
         }
-        term1 = term2;
       }
     }
     return postings;

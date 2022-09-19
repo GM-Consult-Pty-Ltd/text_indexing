@@ -134,7 +134,9 @@ mixin InvertedIndexMixin implements InvertedIndex {
           docPostings[docId] = ft;
         }
       }
-      ftdPostings[termPosting.key] = docPostings;
+      if (docPostings.isNotEmpty) {
+        ftdPostings[termPosting.key] = docPostings;
+      }
     }
 
     return ftdPostings;
