@@ -46,15 +46,10 @@ Future<void> _inMemoryIndexerExample(Map<String, String> documents) async {
   final indexer =
       TextIndexer.inMemory(dictionary: dictionary, postings: postings);
 
+  // listen to the indexer.postingsStream and print the postings count for each term.
   indexer.postingsStream.listen((event) {
-    if (event.isNotEmpty) {
-      final PostingsEntry posting = event.entries.first;
-      if (posting.value.isNotEmpty) {
-        final DocumentPostingsEntry docPostings = posting.value.entries.first;
-        final docId = docPostings.docId;
-        final terms = event.terms;
-        print('$docId: $terms');
-      }
+    for (final term in event.entries) {
+      print('Term ${term.key} has ${term.value.length} postings');
     }
   });
 
@@ -94,21 +89,22 @@ Future<void> _persistedIndexerExample(Map<String, JSON> documents) async {
   // - initialize a [_TestIndex()]
   final index = _TestIndex();
 
-  // - initialize a [InMemoryIndexer] with the default analyzer
-  final indexer = TextIndexer.async(
-      termsLoader: index.getDictionary,
-      dictionaryUpdater: index.upsertDictionary,
-      postingsLoader: index.getPostings,
-      postingsUpdater: index.upsertPostings);
+  /// - tokenize a phrase into searh terms
+  final searchTerms =
+      (await index.analyzer.tokenize('stock market tesla EV battery'))
+          .tokens
+          .terms;
 
+  // - initialize a [AsyncIndexer]
+  final indexer = TextIndexer.index(index: index);
+
+  // listen to the indexer.postingsStream and print the postings count for each term.
   indexer.postingsStream.listen((event) {
     if (event.isNotEmpty) {
-      final PostingsEntry posting = event.entries.first;
-      if (posting.value.isNotEmpty) {
-        final DocumentPostingsEntry docPostings = posting.value.entries.first;
-        final docId = docPostings.docId;
-        final terms = event.terms;
-        print('$docId: $terms');
+      final docPostings = event.values.first;
+      if (docPostings.isNotEmpty) {
+        print(
+            'Postings received for document  {${docPostings.entries.first.key}}');
       }
     }
   });
@@ -129,6 +125,30 @@ Future<void> _persistedIndexerExample(Map<String, JSON> documents) async {
   }
   for (final term in terms) {
     print('${term.term}: ${term.dFt}');
+  }
+
+  /// get the inverse term frequency index for the search terms
+  final iDftIndex = await index.getIdFtIndex(searchTerms);
+
+  // print the 5 terms with the highest inverse document frequency.
+  var idftIndex = iDftIndex.toList(TermSortStrategy.byFrequency);
+  if (idftIndex.length > 5) {
+    idftIndex = idftIndex.sublist(0, 5);
+  }
+  for (final term in idftIndex) {
+    print(
+        'Term: ${term.term}:    Inverse document frequency ${term.iDFt.toStringAsFixed(2)}');
+  }
+
+  /// get the document term frequency postings for the search terms
+  final tfPostings = await index.getFtdPostings(searchTerms, 2);
+
+  /// print the term frequency postings for the search terms
+  for (final e in tfPostings.entries) {
+    print('Term: ${e.key}');
+    for (final posting in e.value.entries) {
+      print('   DocId: {${posting.key}}:    IdFt: [${posting.value}]');
+    }
   }
 }
 
@@ -316,7 +336,7 @@ final jsonData = {
 /// read/write operations to the [dictionary] and [postings].
 ///
 /// Use for testing and examples.
-class _TestIndex {
+class _TestIndex with InvertedIndexMixin implements InvertedIndex {
   //
 
   /// The [Dictionary] instance that is the data-store for the index's term
@@ -332,6 +352,7 @@ class _TestIndex {
   /// Returns a subset of [postings] corresponding to [terms].
   ///
   /// Simulates latency of 50 milliseconds.
+  @override
   Future<Postings> getPostings(Iterable<String> terms) async {
     final Postings retVal = {};
     for (final term in terms) {
@@ -348,6 +369,7 @@ class _TestIndex {
   /// Adds/overwrites the [values] to [dictionary].
   ///
   /// Simulates latency of 50 milliseconds.
+  @override
   Future<void> upsertDictionary(Dictionary values) async {
     /// Simulate write latency of 50milliseconds.
     await Future.delayed(const Duration(milliseconds: 50));
@@ -359,7 +381,10 @@ class _TestIndex {
   /// Adds/overwrites the [values] to [postings].
   ///
   /// Simulates latency of 50 milliseconds.
+  @override
   Future<void> upsertPostings(Postings values) async {
+    /// Simulate write latency of 50milliseconds.
+    await Future.delayed(const Duration(milliseconds: 50));
     postings.addAll(values);
   }
 
@@ -368,6 +393,7 @@ class _TestIndex {
   /// Returns a subset of [dictionary] corresponding to [terms].
   ///
   /// Simulates latency of 50 milliseconds.
+  @override
   Future<Dictionary> getDictionary([Iterable<String>? terms]) async {
     if (terms == null) return dictionary;
     final Dictionary retVal = {};
@@ -379,4 +405,17 @@ class _TestIndex {
     }
     return retVal;
   }
+
+  @override
+  final ITextAnalyzer analyzer = TextAnalyzer();
+
+  @override
+  Future<Ft> get vocabularyLength async {
+    /// Simulate write latency of 50milliseconds.
+    await Future.delayed(const Duration(milliseconds: 50));
+    return dictionary.length;
+  }
+
+  @override
+  int get phraseLength => 3;
 }

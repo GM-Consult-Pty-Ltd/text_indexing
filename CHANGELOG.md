@@ -4,6 +4,32 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+### 0.9.0 (PRE-RELEASE)
+
+#### Breaking changes:
+
+- Renamed `InvertedPositionalZoneIndex` interface to `InvertedIndex`.
+- Renamed `TextIndexer.instance` factory to `TextIndexer.index`.
+- Parameter `dictionaryLengthLoader` added to `AsynCallbackIndex` constructor;
+- Parameter `dictionaryLengthLoader` added to `AsyncIndexer` constructor;
+- Parameter `dictionaryLengthLoader` added to `TextIndexer.async` factory constructor;
+- Removed class `InMemoryIndexer`, use factory constructor `TextIndexer.inMemory` in stead.
+- Removed class `AsyncIndexer`, use factory constructor `TextIndexer.async` in stead.
+
+#### New:
+
+- Type definition `FtdPostings`.
+- Type definition `IdFtIndex`.
+- Type definition `IdFt`.
+- Type definition `ZoneWeightMap`.
+- Property `Future<int> InvertedIndex.vocabularyLength`.
+- Property `Future<int> Function() AsynCallbackIndex.dictionaryLengthLoader`;
+- Property `int InvertedIndex.phraseLength`.
+- Method `Future<FtdPostings> InvertedIndex.getFtdPostings(Iterable<Term>, int)`.
+- Method `Future<IdFtIndex> InvertedIndex.getIdFtIndex(Iterable<Term>)`.
+
+Updated dependencies, tests, examples and documentation.
+
 ### 0.8.0+1 (PRE-RELEASE)
 
 Updated dependencies
@@ -52,7 +78,7 @@ Updated dependencies, tests, examples and documentation.
 - Removed method `TextIndexer.upsertPostings`. Use `TextIndexer.index.upsertPostings` instead.
 - Removed field `InMemoryIndexer.dictionary`. Use `index.dictionary` instead.
 - Removed field `InMemoryIndexer.postings`. Use `index.postings` instead.
-- Added new field `InvertedPositionalZoneIndex.analyzer`, changing the signatures of factory constructors `TextIndexer.inMemory` and 'TextIndexer.async'.
+- Added new field `InvertedIndex.analyzer`, changing the signatures of factory constructors `TextIndexer.inMemory` and 'TextIndexer.async'.
 
 Updated dependencies, tests, examples and documentation.
 
@@ -86,9 +112,9 @@ Updated dependencies, tests, examples and documentation.
 
 #### New:
 
-- `InvertedPositionalZoneIndex` interface and implementation.
+- `InvertedIndex` interface and implementation.
 - `TextIndexer.index` field getter.
-- `TextIndexer.instance` factory constructor.
+- `TextIndexer.index` factory constructor.
 - `TextIndexer.async` factory constructor.
 - `TextIndexer.inMemory` factory constructor.
 
@@ -131,7 +157,7 @@ Updated dependencies, tests, examples and documentation.
 
 #### New:
 
-- `FieldPostings`, `DocumentPostings`, and `FieldPostingsEntry`  type definitions.
+- `ZonePostings`, `DocumentPostings`, and `FieldPostingsEntry`  type definitions.
 - `Ft`, `Pt`, `TermPositions` and `DocId` type aliases.
 - interface `Document`.
 

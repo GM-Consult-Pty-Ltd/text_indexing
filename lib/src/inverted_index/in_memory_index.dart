@@ -2,46 +2,36 @@
 // BSD 3-Clause License
 // All rights reserved
 
-import 'package:rxdart/rxdart.dart';
 import 'package:text_indexing/text_indexing.dart';
 
-/// Implementation of [TextIndexerBase] that constructs and maintains an
-/// in-memory inverted index
-class InMemoryIndexer extends TextIndexerBase {
-  //
-
-  /// Initializes a [InMemoryIndexer] instance:
-  /// - pass a [analyzer] text analyser that extracts tokens from text;
-  /// - pass an in-memory [dictionary] instance, otherwise an empty
-  ///   [Dictionary] will be initialized.
-  /// - pass an in-memory [postings] instance, otherwise an empty [Postings]
-  ///   will be initialized.
-  InMemoryIndexer(
-      {required ITextAnalyzer analyzer,
-      Dictionary? dictionary,
-      Postings? postings})
-      : index = InMemoryIndex(
-            dictionary: dictionary ?? {},
-            postings: postings ?? {},
-            analyzer: analyzer);
-
-  @override
-  final InMemoryIndex index;
-
-  @override
-  final controller = BehaviorSubject<Postings>();
-}
-
 /// An implementation class for the [InMemoryIndexer], implements
-/// [InvertedPositionalZoneIndex] interface:
-/// - [analyzer] is the [ITextAnalyzer] used to tokenize text for the index;
+/// [InvertedIndex] interface:
+/// - [phraseLength] is the maximum length of phrases in the index vocabulary.
+///   The minimum phrase length is 1. If phrase length is greater than 1, the
+///   index vocabulary also contains phrases up to [phraseLength] long,
+///   concatenated from consecutive terms. The index size is increased by a
+///   factor of [phraseLength];
+/// - [analyzer] is the [ITextAnalyzer] used to index the corpus terms;
+/// - [vocabularyLength] is the number of unique terms in the corpus;
+/// - [getDictionary] Asynchronously retrieves a [Dictionary] for a collection
+///   of [Term]s from a [Dictionary] repository;
+/// - [upsertDictionary ] inserts entries into a [Dictionary] repository,
+///   overwriting any existing entries;
+/// - [getPostings] asynchronously retrieves [Postings] for a collection
+///   of [Term]s from a [Postings] repository;
+/// - [upsertPostings] inserts entries into a [Postings] repository,
+///   overwriting any existing entries;
+/// - [getFtdPostings] return a [FtdPostings] for a collection of [Term]s from
+/// the [Postings], optionally filtered by minimum term frequency; and
+/// - [getIdFtIndex] returns a [IdFtIndex] for a collection of [Term]s from
+/// the [Dictionary].
 /// - [dictionary] is the in-memory term dictionary for the indexer. Pass a
 ///   [dictionary] instance at instantiation, otherwise an empty [Dictionary]
 ///   will be initialized; and
 /// - [postings] is the in-memory postings hashmap for the indexer. Pass a
 ///   [postings] instance at instantiation, otherwise an empty [Postings]
 ///   will be initialized.
-class InMemoryIndex implements InvertedPositionalZoneIndex {
+class InMemoryIndex with InvertedIndexMixin implements InvertedIndex {
   //
   /// The in-memory term dictionary for the indexer.
   final Dictionary dictionary;
@@ -49,18 +39,24 @@ class InMemoryIndex implements InvertedPositionalZoneIndex {
   /// The in-memory postings hashmap for the indexer.
   final Postings postings;
 
+  @override
+  Future<Ft> get vocabularyLength async => dictionary.length;
+
   /// Instantiates a [InMemoryIndex] instance:
   /// - [analyzer] is the [ITextAnalyzer] used to tokenize text for the index;
   /// - [dictionary] is the in-memory term dictionary for the indexer. Pass a
   ///   [dictionary] instance at instantiation, otherwise an empty [Dictionary]
-  ///   will be initialized; and
+  ///   will be initialized;
   /// - [postings] is the in-memory postings hashmap for the indexer. Pass a
   ///   [postings] instance at instantiation, otherwise an empty [Postings]
-  ///   will be initialized.
+  ///   will be initialized; and
+  /// - [phraseLength] is the maximum length of phrases in the index vocabulary.
   const InMemoryIndex(
       {required this.dictionary,
       required this.postings,
-      required this.analyzer});
+      required this.analyzer,
+      this.phraseLength = 1})
+      : assert(phraseLength > 0, 'The phrase length must be 1 or greater');
 
   @override
   Future<Dictionary> getDictionary([Iterable<Term>? terms]) async {
@@ -96,4 +92,7 @@ class InMemoryIndex implements InvertedPositionalZoneIndex {
 
   @override
   Future<void> upsertPostings(Postings values) async => postings.addAll(values);
+
+  @override
+  final int phraseLength;
 }

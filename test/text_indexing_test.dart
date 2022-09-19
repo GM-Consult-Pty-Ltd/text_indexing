@@ -2,6 +2,8 @@
 // BSD 3-Clause License
 // All rights reserved
 
+// ignore_for_file: unused_local_variable
+
 import 'package:text_indexing/text_indexing.dart';
 import 'package:test/test.dart';
 import 'data/text.dart';
@@ -38,7 +40,7 @@ void main() {
       final postings = <String, Map<String, Map<String, List<int>>>>{};
 
       // - initialize a [InMemoryIndexer]
-      final indexer = InMemoryIndexer(
+      final indexer = TextIndexer.inMemory(
           dictionary: dictionary, postings: postings, analyzer: TextAnalyzer());
 
       indexer.postingsStream.listen((event) {
@@ -95,13 +97,13 @@ void main() {
       // - initialize a [_TestIndex()]
       final index = _TestIndex();
 
+      final searchTerms =
+          (await index.analyzer.tokenize('stock market tesla EV battery'))
+              .tokens
+              .terms;
+
       // - initialize a [AsyncIndexer]
-      final indexer = AsyncIndexer(
-          analyzer: TextAnalyzer(),
-          termsLoader: index.getDictionary,
-          dictionaryUpdater: index.upsertDictionary,
-          postingsLoader: index.getPostings,
-          postingsUpdater: index.upsertPostings);
+      final indexer = TextIndexer.index(index: index);
 
       indexer.postingsStream.listen((event) {
         if (event.isNotEmpty) {
@@ -130,6 +132,11 @@ void main() {
       if (terms.length > 5) {
         terms = terms.sublist(0, 5);
       }
+
+      final iDftIndex = await indexer.index.getIdFtIndex(searchTerms);
+
+      final tfPostings = await indexer.index.getFtdPostings(searchTerms, 2);
+
       for (final term in terms) {
         print('${term.term}: ${term.dFt}');
       }

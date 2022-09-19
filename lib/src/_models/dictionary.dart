@@ -16,10 +16,6 @@ enum TermSortStrategy {
   byFrequency
 }
 
-/// An alias for [int], used to denote the frequency of a [Term] in an index or
-/// indexed object.
-typedef Ft = int;
-
 /// Defines a term dictionary used in an inverted index.
 ///
 /// The [Dictionary] is a hashmap of [DictionaryEntry]s with the vocabulary as
@@ -39,11 +35,19 @@ typedef DictionaryEntry = MapEntry<Term, Ft>;
 /// Loads the entire [Dictionary] if [terms] is null.
 typedef DictionaryLoader = Future<Dictionary> Function([Iterable<Term>? terms]);
 
+/// Asynchronously retrieves the number of terms in the vocabulary (N).
+typedef DictionaryLengthLoader = Future<int> Function();
+
 /// A callback that passes [values] for persisting to a [Dictionary].
 ///
 /// Parameter [values] is a subset of a [Dictionary] containing new or changed
 /// [DictionaryEntry] instances.
 typedef DictionaryUpdater = Future<void> Function(Dictionary values);
+
+/// Alias for Map<String, double>.
+///
+/// Maps the vocabulary [Term] to [IdFt].
+typedef IdFtIndex = Map<Term, IdFt>;
 
 /// A [DictionaryEntry] is a unit of entry in the [Dictionary] of an inverted
 /// index.
@@ -73,6 +77,25 @@ extension DictionaryEntryExtension on DictionaryEntry {
   DictionaryEntry incrementFrequency() => setFrequency(dFt + 1);
 }
 
+/// A [DictionaryEntry] is a unit of entry in the [Dictionary] of an inverted
+/// index.
+/// It enumerates the following property getters:
+/// - [term] is the word/term that is indexed; and
+/// - [dFt] is the number of documents that contain [term].
+extension IDftDictionaryEntryExtension on MapEntry<String, double> {
+  //
+
+  /// The word/term that is indexed.
+  ///
+  /// The [term] must not be an empty String.
+  ///
+  /// The [term] must only occur once in the [Dictionary].
+  Term get term => key;
+
+  /// The inverse document frequency of [term] in the `corpus`.
+  IdFt get iDFt => value;
+}
+
 /// Extension methods on [Dictionary.entries].
 extension DictionaryEntryCollectionExtension on Iterable<DictionaryEntry> {
 //
@@ -96,6 +119,39 @@ extension DictionaryEntryCollectionExtension on Iterable<DictionaryEntry> {
   List<DictionaryEntry> sortByTerm() {
     final terms = List<DictionaryEntry>.from(this);
     terms.sort((a, b) => a.term.compareTo(b.term));
+    return terms;
+  }
+}
+
+/// Extensions on [IdFtIndex].
+extension IdFtIndexExtensions on Map<String, double> {
+  //
+
+  /// Returns a list of [DictionaryEntry]s from the [entries] in the [Dictionary].
+  ///
+  /// Sorts the terms according to [sortBy] value:
+  /// - [TermSortStrategy.byTerm] sorts the [DictionaryEntry]s alphabetically (default); or
+  /// - [TermSortStrategy.byFrequency] sorts the [DictionaryEntry]s by [Ft] in
+  ///   descending order.
+  List<MapEntry<String, double>> toList(
+      [TermSortStrategy sortBy = TermSortStrategy.byTerm]) {
+    final list = entries.toList();
+    switch (sortBy) {
+      case TermSortStrategy.byTerm:
+        list.sort(((a, b) => a.key.compareTo(b.key)));
+        break;
+      case TermSortStrategy.byFrequency:
+        list.sort(((a, b) => b.value.compareTo(a.value)));
+        break;
+    }
+    return list;
+  }
+
+  /// Returns the dictionary terms (keys) as an ordered list,
+  /// sorted alphabetically.
+  List<String> get terms {
+    final terms = keys.toList();
+    terms.sort((a, b) => a.compareTo(b));
     return terms;
   }
 }

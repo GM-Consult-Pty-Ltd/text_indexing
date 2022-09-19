@@ -18,19 +18,19 @@ typedef Pt = int;
 /// An alias for [String], used whenever a document id is referenced.
 typedef DocId = String;
 
-/// Type definition for a hashmap of [DocId] to [FieldPostings].
-typedef DocumentPostings = Map<DocId, FieldPostings>;
+/// Type definition for a hashmap of [DocId] to [ZonePostings].
+typedef DocumentPostings = Map<DocId, ZonePostings>;
 
-/// Type definition for a hashmap entry of [DocId] to [FieldPostings] in a
+/// Type definition for a hashmap entry of [DocId] to [ZonePostings] in a
 /// [DocumentPostings] hashmap.
-typedef DocumentPostingsEntry = MapEntry<DocId, FieldPostings>;
+typedef DocumentPostingsEntry = MapEntry<DocId, ZonePostings>;
 
-/// Type definition for a hashmap of [FieldName]s to [TermPositions].
-typedef FieldPostings = Map<FieldName, TermPositions>;
+/// Type definition for a hashmap of [Zone]s to [TermPositions].
+typedef ZonePostings = Map<Zone, TermPositions>;
 
-/// Type definition for a hashmap entry of [FieldName] to [TermPositions] in a
-/// [FieldPostings] hashmap.
-typedef FieldPostingsEntry = MapEntry<FieldName, TermPositions>;
+/// Type definition for a hashmap entry of [Zone] to [TermPositions] in a
+/// [ZonePostings] hashmap.
+typedef FieldPostingsEntry = MapEntry<Zone, TermPositions>;
 
 /// Type definition for an ordered [Set] of unique zero-based term
 /// positions in a text source, sorted in ascending order.
@@ -56,29 +56,29 @@ extension PostingsEntryExtension on PostingsEntry {
   /// Returns [key], the indexed [Term].
   Term get term => key;
 
-  /// Returns [value], a hashmap of the [DocId] to [FieldPostings].
+  /// Returns [value], a hashmap of the [DocId] to [ZonePostings].
   DocumentPostings get postings => value;
 }
 
 /// The [DocumentPostingsEntry] class enumerates the properties of a document
 /// posting in a [Postings] as part of an inverted index of a dataset:
 /// - [docId] is the document's id value, (the [DocumentPostingsEntry.key]);
-/// - [fieldPostings] is a hashmap of field names that contain the term to
+/// - [fieldPostings] is a hashmap of zone names that contain the term to
 ///   the a zero-based, ordered list of word positions of the term in the
-///   field (the [DocumentPostingsEntry.value]).
+///   zone (the [DocumentPostingsEntry.value]).
 extension DocumentPostingsEntryExtension on DocumentPostingsEntry {
   //
   /// The document's id value.
   ///
-  /// Usually the value of the document's primary key field in the dataset.
+  /// Usually the value of the document's primary key zone in the dataset.
   DocId get docId => key;
 
-  /// A hashmap of field names that conatin the term to the a zero-based,
-  /// ordered list of unique word positions of the [Term] in the field.
+  /// A hashmap of zone names that conatin the term to the a zero-based,
+  /// ordered list of unique word positions of the [Term] in the zone.
   ///
   /// A word position means the index of the word in an array of all the words
   /// in the document.
-  FieldPostings get fieldPostings => value;
+  ZonePostings get fieldPostings => value;
 }
 
 /// Extension methods and properties on [Postings].
@@ -119,7 +119,7 @@ extension PostingsExtension on Postings {
   Postings filter(
       {Iterable<Term>? terms,
       Iterable<DocId>? docIds,
-      Iterable<FieldName>? fields}) {
+      Iterable<Zone>? fields}) {
     Postings retVal = terms != null ? getPostings(terms) : Postings.from(this);
     retVal = docIds != null ? retVal.documentPostings(docIds) : retVal;
     return fields != null ? retVal.fieldPostings(fields) : retVal;
@@ -153,14 +153,14 @@ extension PostingsExtension on Postings {
     ..removeWhere((key, value) =>
         value.keys.toSet().intersection(docIds.toSet()).isEmpty);
 
-  /// Filters the [Postings] by field names.
+  /// Filters the [Postings] by zone names.
   ///
   /// Returns a subset of the [Postings] instance that only contains entries
-  /// where a field name in [fields] has a key in any document's postings the
+  /// where a zone name in [fields] has a key in any document's postings the
   /// entry's postings lists.
-  Postings fieldPostings(Iterable<FieldName> fields) => Postings.from(this)
+  Postings fieldPostings(Iterable<Zone> fields) => Postings.from(this)
     ..removeWhere((key, value) {
-      final docFields = <FieldName>[];
+      final docFields = <Zone>[];
       for (final doc in value.values) {
         docFields.addAll(doc.keys);
       }
@@ -211,7 +211,7 @@ extension PostingsExtension on Postings {
   ///
   /// If no entry for [term] exists in the [Postings], creates a new entry
   /// and adds [positions] for [docId] to the new entry.
-  bool addFieldPostings(Term term, DocId docId, FieldPostings positions) {
+  bool addZonePostings(Term term, DocId docId, ZonePostings positions) {
     //
     // get the entry for the term or initialize a new one if it does not exist
     final DocumentPostings entry = this[term] ?? {};
@@ -250,15 +250,15 @@ extension PostingsExtension on Postings {
       {required Term term,
       required DocId docId,
       required Pt position,
-      FieldName? field}) {
+      Zone? zone}) {
     //
-    field = field ?? 'null';
+    zone = zone ?? 'null';
     // get the entry for the term or initialize a new one if it does not exist
     final entry = this[term] ?? {};
-    // get the existing field postings for [docId] if it exists
+    // get the existing zone postings for [docId] if it exists
     final docPostings = entry[docId] ?? {};
-    // get the existing psitions in the field for [field] if it exists
-    final docFieldPostings = docPostings[field];
+    // get the existing psitions in the zone for [zone] if it exists
+    final docFieldPostings = docPostings[zone];
     // initializes positions set from docFieldPostings or an empty list
     final set = (docFieldPostings ?? []).toSet();
     // add position to the set
@@ -268,8 +268,8 @@ extension PostingsExtension on Postings {
     // order the list of positions in ascending order
     positions.sort(((a, b) => a.compareTo(b)));
     // set the positions for docId
-    docPostings[field] = positions;
-    // overwrite the field postings for docId
+    docPostings[zone] = positions;
+    // overwrite the zone postings for docId
     entry[docId] = docPostings;
 
     // set the entry for term with the new positions for docId

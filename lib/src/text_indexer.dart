@@ -9,17 +9,17 @@ import 'package:text_indexing/text_indexing.dart';
 
 /// Alias for Map<String, dynamic>, a hashmap known as "Java Script Object
 /// Notation" (JSON), a common format for persisting data.
-typedef JSON = Map<FieldName, dynamic>;
+typedef JSON = Map<Zone, dynamic>;
 
 /// Alias for Map<String, Map<String, dynamic>>, a hashmap of [DocId] to [JSON]
 /// documents.
 typedef JsonCollection = Map<DocId, JSON>;
 
 /// Interface for classes that construct and maintain a inverted, positional,
-/// zoned index [InvertedPositionalZoneIndex].
+/// zoned index [InvertedIndex].
 ///
 /// Implementing classes override the following fields:
-/// - [index] is the [InvertedPositionalZoneIndex] that provides access to the
+/// - [index] is the [InvertedIndex] that provides access to the
 ///   index [Dictionary] and [Postings] and a [ITextAnalyzer];
 /// - [postingsStream] emits a [Postings] whenever a
 ///   document is indexed.
@@ -32,8 +32,6 @@ typedef JsonCollection = Map<DocId, JSON>;
 /// - [emit] adds an event to the [postingsStream] after updating the [index];
 abstract class TextIndexer {
   //
-
-  static const kTermPairsZone = '%termPairs%';
 
   /// A const constructor for sub classes
   const TextIndexer();
@@ -49,15 +47,19 @@ abstract class TextIndexer {
           {Dictionary? dictionary,
           Postings? postings,
           ITextAnalyzer analyzer = const TextAnalyzer()}) =>
-      InMemoryIndexer(
-          postings: postings, dictionary: dictionary, analyzer: analyzer);
+      _TextIndexerImpl(InMemoryIndex(
+          dictionary: dictionary ?? {},
+          postings: postings ?? {},
+          analyzer: analyzer));
 
   /// Factory constructor returns a [TextIndexer] instance that uses
   /// asynchronous callback functions to access [Dictionary] and [Postings]
   /// repositories:
   /// - pass a [analyzer] text analyser that extracts tokens from text;
-  /// - [termsLoader] synchronously retrieves a [Dictionary] for a vocabulary
+  /// - [dictionaryLoader] synchronously retrieves a [Dictionary] for a vocabulary
   ///   from a data source;
+  /// - [dictionaryLengthLoader] asynchronously retrieves the number of terms in
+  ///   the vocabulary (N);
   /// - [dictionaryUpdater] is callback that passes a [Dictionary] subset
   ///    for persisting to a datastore;
   /// - [postingsLoader] asynchronously retrieves a [Postings] for a vocabulary
@@ -65,22 +67,24 @@ abstract class TextIndexer {
   /// - [postingsUpdater] passes a [Postings] subset for persisting to a
   ///   datastore.
   factory TextIndexer.async(
-          {required DictionaryLoader termsLoader,
+          {required DictionaryLoader dictionaryLoader,
+          required DictionaryLengthLoader dictionaryLengthLoader,
           required DictionaryUpdater dictionaryUpdater,
           required PostingsLoader postingsLoader,
           required PostingsUpdater postingsUpdater,
           ITextAnalyzer analyzer = const TextAnalyzer()}) =>
-      AsyncIndexer(
-          termsLoader: termsLoader,
+      _TextIndexerImpl(AsyncCallbackIndex(
+          dictionaryLoader: dictionaryLoader,
+          dictionaryLengthLoader: dictionaryLengthLoader,
           dictionaryUpdater: dictionaryUpdater,
           postingsLoader: postingsLoader,
           postingsUpdater: postingsUpdater,
-          analyzer: analyzer);
+          analyzer: analyzer));
 
   /// Factory constructor initializes a [TextIndexer] instance, passing in a
   /// [index] instance.
-  factory TextIndexer.instance({
-    required InvertedPositionalZoneIndex index,
+  factory TextIndexer.index({
+    required InvertedIndex index,
     // Tokenizer tokenizer = TextIndexer.kDefaultTokenizer,
     // JsonTokenizer jsonTokenizer = TextIndexer.kDefaultJsonTokenizer
   }) =>
@@ -108,16 +112,15 @@ abstract class TextIndexer {
   /// [DocumentPostingsEntry].
   ///
   /// Adds [Postings] for [json] to the [postingsStream].
-  Future<Postings> indexJson(DocId docId, JSON json, List<FieldName> fields);
+  Future<Postings> indexJson(DocId docId, JSON json, List<Zone> fields);
 
   /// Indexes the [fields] of all the documents in [collection], adding
   /// [Postings] to the [postingsStream] for each document.
-  Future<void> indexCollection(
-      JsonCollection collection, List<FieldName> fields);
+  Future<void> indexCollection(JsonCollection collection, List<Zone> fields);
 
-  /// The [InvertedPositionalZoneIndex] that provides access to the
+  /// The [InvertedIndex] that provides access to the
   /// index [Dictionary] and [Postings] and a [ITextAnalyzer].
-  InvertedPositionalZoneIndex get index;
+  InvertedIndex get index;
 
   //
 }
@@ -162,8 +165,7 @@ abstract class TextIndexerBase implements TextIndexer {
   /// - calls [emit], passing the [Postings] for [docId]; and
   /// - returns the [Postings] for [docId].
   @override
-  Future<Postings> indexJson(
-      DocId docId, JSON json, List<FieldName> fields) async {
+  Future<Postings> indexJson(DocId docId, JSON json, List<Zone> fields) async {
     // get the terms using tokenizer
     final tokens = (await index.analyzer.tokenizeJson(json, fields)).tokens;
     // map the tokens to postings
@@ -180,7 +182,7 @@ abstract class TextIndexerBase implements TextIndexer {
   /// that is passed to [emit].
   @override
   Future<void> indexCollection(
-      JsonCollection collection, List<FieldName> fields) async {
+      JsonCollection collection, List<Zone> fields) async {
     await Future.forEach(collection.entries, (MapEntry<DocId, JSON> e) async {
       final docId = e.key;
       final json = e.value;
@@ -188,10 +190,10 @@ abstract class TextIndexerBase implements TextIndexer {
     });
   }
 
-  /// Maps the [tokens] to a [Postings] by creating a [FieldPostings] for
+  /// Maps the [tokens] to a [Postings] by creating a [ZonePostings] for
   /// every element in [tokens].
   ///
-  /// Also adds a [FieldPostings] entry for term pairs in [tokens].
+  /// Also adds a [ZonePostings] entry for term pairs in [tokens].
   Postings _tokensToPostings(DocId docId, Iterable<Token> tokens) {
     // initialize a Postings collection to hold the postings
     final Postings postings = {};
@@ -204,7 +206,7 @@ abstract class TextIndexerBase implements TextIndexer {
         postings.addTermPosition(
             term: term2,
             docId: docId,
-            field: token.field,
+            zone: token.zone,
             position: token.termPosition);
         if (term1.isNotEmpty) {
           final termPair = TermPair(term1, term2);
@@ -212,7 +214,7 @@ abstract class TextIndexerBase implements TextIndexer {
           postings.addTermPosition(
               term: termPair.toString(),
               docId: docId,
-              field: token.field,
+              zone: token.zone,
               position: token.termPosition);
         }
         term1 = term2;
@@ -253,7 +255,7 @@ abstract class TextIndexerBase implements TextIndexer {
         final fieldPostings = docEntry.value;
         // - inserts or updates each [DocumentPostingsEntry] instance to a collection of postings to update;
         final increment =
-            postingsToUpdate.addFieldPostings(term, docId, fieldPostings);
+            postingsToUpdate.addZonePostings(term, docId, fieldPostings);
         // - if a [DocumentPostingsEntry] instance did not exist previously, also increments the document frequency of the associated term;
         if (increment) {
           termsToUpdate.incrementFrequency(term);
@@ -279,7 +281,7 @@ class _TextIndexerImpl extends TextIndexerBase {
   //
 
   @override
-  final InvertedPositionalZoneIndex index;
+  final InvertedIndex index;
 
   @override
   final controller = BehaviorSubject<Postings>();
