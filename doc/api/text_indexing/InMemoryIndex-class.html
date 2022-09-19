@@ -51,10 +51,29 @@
 
     
 <section class="desc markdown">
-  <p>An implementation class for the <a href="../text_indexing/InMemoryIndexer-class.html">InMemoryIndexer</a>, implements
-<a href="../text_indexing/InvertedPositionalZoneIndex-class.html">InvertedPositionalZoneIndex</a> interface:</p>
+  <p>An implementation the <a href="../text_indexing/InvertedIndex-class.html">InvertedIndex</a> interface, implements
+<a href="../text_indexing/InvertedIndex-class.html">InvertedIndex</a> interface:</p>
 <ul>
-<li><a href="../text_indexing/InMemoryIndex/analyzer.html">analyzer</a> is the <a href="https://pub.dev/documentation/text_analysis/0.6.5/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a> used to tokenize text for the index;</li>
+<li><a href="../text_indexing/InMemoryIndex/phraseLength.html">phraseLength</a> is the maximum length of phrases in the index vocabulary.
+The minimum phrase length is 1. If phrase length is greater than 1, the
+index vocabulary also contains phrases up to <a href="../text_indexing/InMemoryIndex/phraseLength.html">phraseLength</a> long,
+concatenated from consecutive terms. The index size is increased by a
+factor of <a href="../text_indexing/InMemoryIndex/phraseLength.html">phraseLength</a>;</li>
+<li><a href="../text_indexing/InMemoryIndex/analyzer.html">analyzer</a> is the <a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a> used to index the corpus terms;</li>
+<li><a href="../text_indexing/InMemoryIndex/vocabularyLength.html">vocabularyLength</a> is the number of unique terms in the corpus;</li>
+<li><a href="../text_indexing/InMemoryIndex/zones.html">zones</a> is a hashmap of zone names to their relative weight in the index;</li>
+<li><a href="../text_indexing/InMemoryIndex/getDictionary.html">getDictionary</a> Asynchronously retrieves a <a href="../text_indexing/Dictionary.html">Dictionary</a> for a collection
+of <a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/Term.html">Term</a>s from a <a href="../text_indexing/Dictionary.html">Dictionary</a> repository;</li>
+<li><a href="../text_indexing/InMemoryIndex/upsertDictionary.html">upsertDictionary </a> inserts entries into a <a href="../text_indexing/Dictionary.html">Dictionary</a> repository,
+overwriting any existing entries;</li>
+<li><a href="../text_indexing/InMemoryIndex/getPostings.html">getPostings</a> asynchronously retrieves <a href="../text_indexing/Postings.html">Postings</a> for a collection
+of <a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/Term.html">Term</a>s from a <a href="../text_indexing/Postings.html">Postings</a> repository;</li>
+<li><a href="../text_indexing/InMemoryIndex/upsertPostings.html">upsertPostings</a> inserts entries into a <a href="../text_indexing/Postings.html">Postings</a> repository,
+overwriting any existing entries;</li>
+<li><a href="../text_indexing/InvertedIndexMixin/getFtdPostings.html">getFtdPostings</a> return a <a href="../text_indexing/FtdPostings.html">FtdPostings</a> for a collection of <a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/Term.html">Term</a>s from
+the <a href="../text_indexing/Postings.html">Postings</a>, optionally filtered by minimum term frequency; and</li>
+<li><a href="../text_indexing/InvertedIndexMixin/getIdFtIndex.html">getIdFtIndex</a> returns a <a href="../text_indexing/IdFtIndex.html">IdFtIndex</a> for a collection of <a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/Term.html">Term</a>s from
+the <a href="../text_indexing/Dictionary.html">Dictionary</a>.</li>
 <li><a href="../text_indexing/InMemoryIndex/dictionary.html">dictionary</a> is the in-memory term dictionary for the indexer. Pass a
 <a href="../text_indexing/InMemoryIndex/dictionary.html">dictionary</a> instance at instantiation, otherwise an empty <a href="../text_indexing/Dictionary.html">Dictionary</a>
 will be initialized; and</li>
@@ -73,10 +92,16 @@ will be initialized.</li>
   <dt>Implemented types</dt>
   <dd>
     <ul class="comma-separated clazz-relationships">
-        <li><a href="../text_indexing/InvertedPositionalZoneIndex-class.html">InvertedPositionalZoneIndex</a></li>
+        <li><a href="../text_indexing/InvertedIndex-class.html">InvertedIndex</a></li>
     </ul>
   </dd>
         
+  <dt>Mixed in types</dt>
+  <dd>
+    <ul class="comma-separated clazz-relationships">
+        <li><a href="../text_indexing/InvertedIndexMixin-mixin.html">InvertedIndexMixin</a></li>
+    </ul>
+  </dd>
 
 
 
@@ -90,7 +115,7 @@ will be initialized.</li>
 
     <dl class="constructor-summary-list">
         <dt id="InMemoryIndex" class="callable">
-          <span class="name"><a href="../text_indexing/InMemoryIndex/InMemoryIndex.html">InMemoryIndex</a></span><span class="signature">(<span class="parameter" id="-param-dictionary">{<span>required</span> <span class="type-annotation"><a href="../text_indexing/Dictionary.html">Dictionary</a></span> <span class="parameter-name">dictionary</span>, </span><span class="parameter" id="-param-postings"><span>required</span> <span class="type-annotation"><a href="../text_indexing/Postings.html">Postings</a></span> <span class="parameter-name">postings</span>, </span><span class="parameter" id="-param-analyzer"><span>required</span> <span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.6.5/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></span> <span class="parameter-name">analyzer</span>}</span>)</span>
+          <span class="name"><a href="../text_indexing/InMemoryIndex/InMemoryIndex.html">InMemoryIndex</a></span><span class="signature">(<span class="parameter" id="-param-dictionary">{<span>required</span> <span class="type-annotation"><a href="../text_indexing/Dictionary.html">Dictionary</a></span> <span class="parameter-name">dictionary</span>, </span><span class="parameter" id="-param-postings"><span>required</span> <span class="type-annotation"><a href="../text_indexing/Postings.html">Postings</a></span> <span class="parameter-name">postings</span>, </span><span class="parameter" id="-param-analyzer"><span>required</span> <span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></span> <span class="parameter-name">analyzer</span>, </span><span class="parameter" id="-param-zones"><span class="type-annotation"><a href="../text_indexing/ZoneWeightMap.html">ZoneWeightMap</a></span> <span class="parameter-name">zones</span> = <span class="default-value">const &lt;String, double&gt;{}</span>, </span><span class="parameter" id="-param-phraseLength"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">phraseLength</span> = <span class="default-value">1</span>}</span>)</span>
         </dt>
         <dd>
           Instantiates a <a href="../text_indexing/InMemoryIndex-class.html">InMemoryIndex</a> instance:
@@ -105,7 +130,7 @@ will be initialized.</li>
       <dl class="properties">
         <dt id="analyzer" class="property">
   <span class="name"><a href="../text_indexing/InMemoryIndex/analyzer.html">analyzer</a></span>
-  <span class="signature">&#8594; <a href="https://pub.dev/documentation/text_analysis/0.6.5/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></span> 
+  <span class="signature">&#8594; <a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></span> 
 
 </dt>
 <dd>
@@ -136,6 +161,17 @@ will be initialized.</li>
 
 </dd>
 
+        <dt id="phraseLength" class="property">
+  <span class="name"><a href="../text_indexing/InMemoryIndex/phraseLength.html">phraseLength</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> 
+
+</dt>
+<dd>
+  The maximum length of phrases in the index vocabulary.
+  <div class="features">final</div>
+
+</dd>
+
         <dt id="postings" class="property">
   <span class="name"><a href="../text_indexing/InMemoryIndex/postings.html">postings</a></span>
   <span class="signature">&#8594; <a href="../text_indexing/Postings.html">Postings</a></span> 
@@ -158,6 +194,28 @@ will be initialized.</li>
 
 </dd>
 
+        <dt id="vocabularyLength" class="property">
+  <span class="name"><a href="../text_indexing/InMemoryIndex/vocabularyLength.html">vocabularyLength</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Ft.html">Ft</a></span>&gt;</span></span> 
+
+</dt>
+<dd>
+  Returns the number of terms in the vocabulary (N).
+  <div class="features">read-only, override</div>
+
+</dd>
+
+        <dt id="zones" class="property">
+  <span class="name"><a href="../text_indexing/InMemoryIndex/zones.html">zones</a></span>
+  <span class="signature">&#8594; <a href="../text_indexing/ZoneWeightMap.html">ZoneWeightMap</a></span> 
+
+</dt>
+<dd>
+  Maps zone names to their relative weight in the index.
+  <div class="features">final</div>
+
+</dd>
+
       </dl>
     </section>
 
@@ -168,7 +226,7 @@ will be initialized.</li>
     <h2>Methods</h2>
     <dl class="callables">
         <dt id="getDictionary" class="callable">
-  <span class="name"><a href="../text_indexing/InMemoryIndex/getDictionary.html">getDictionary</a></span><span class="signature">(<wbr><span class="parameter" id="getDictionary-param-terms">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.5/text_analysis/Term.html">Term</a></span>&gt;</span>?</span> <span class="parameter-name">terms</span>]</span>)
+  <span class="name"><a href="../text_indexing/InMemoryIndex/getDictionary.html">getDictionary</a></span><span class="signature">(<wbr><span class="parameter" id="getDictionary-param-terms">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/Term.html">Term</a></span>&gt;</span>?</span> <span class="parameter-name">terms</span>]</span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Dictionary.html">Dictionary</a></span>&gt;</span></span>
   </span>
   
@@ -181,8 +239,34 @@ will be initialized.</li>
 
 </dd>
 
+        <dt id="getFtdPostings" class="callable inherited">
+  <span class="name"><a href="../text_indexing/InvertedIndexMixin/getFtdPostings.html">getFtdPostings</a></span><span class="signature">(<wbr><span class="parameter" id="getFtdPostings-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span>, </span><span class="parameter" id="getFtdPostings-param-minFtd">[<span class="type-annotation"><a href="../text_indexing/Ft.html">Ft</a></span> <span class="parameter-name">minFtd</span> = <span class="default-value">1</span>]</span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/FtdPostings.html">FtdPostings</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Implements <a href="../text_indexing/InvertedIndex/getFtdPostings.html">InvertedIndex.getFtdPostings</a> method:
+  <div class="features">inherited</div>
+
+</dd>
+
+        <dt id="getIdFtIndex" class="callable inherited">
+  <span class="name"><a href="../text_indexing/InvertedIndexMixin/getIdFtIndex.html">getIdFtIndex</a></span><span class="signature">(<wbr><span class="parameter" id="getIdFtIndex-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/IdFtIndex.html">IdFtIndex</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Implements <a href="../text_indexing/InvertedIndex/getFtdPostings.html">InvertedIndex.getFtdPostings</a> method:
+  <div class="features">inherited</div>
+
+</dd>
+
         <dt id="getPostings" class="callable">
-  <span class="name"><a href="../text_indexing/InMemoryIndex/getPostings.html">getPostings</a></span><span class="signature">(<wbr><span class="parameter" id="getPostings-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.5/text_analysis/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
+  <span class="name"><a href="../text_indexing/InMemoryIndex/getPostings.html">getPostings</a></span><span class="signature">(<wbr><span class="parameter" id="getPostings-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Postings.html">Postings</a></span>&gt;</span></span>
   </span>
   
@@ -192,6 +276,19 @@ will be initialized.</li>
   Asynchronously retrieves <a href="../text_indexing/PostingsEntry.html">PostingsEntry</a> entities for the <code>terms</code> from a
 <code>Postings</code> repository.
   <div class="features">override</div>
+
+</dd>
+
+        <dt id="getTfIndex" class="callable inherited">
+  <span class="name"><a href="../text_indexing/InvertedIndexMixin/getTfIndex.html">getTfIndex</a></span><span class="signature">(<wbr><span class="parameter" id="getTfIndex-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Dictionary.html">Dictionary</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Implements <a href="../text_indexing/InvertedIndex/getTfIndex.html">InvertedIndex.getTfIndex</a> method:
+  <div class="features">inherited</div>
 
 </dd>
 
@@ -297,33 +394,35 @@ already exist.
     <ol>
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#classes">Classes</a></li>
   <li><a href="../text_indexing/AsyncCallbackIndex-class.html">AsyncCallbackIndex</a></li>
-  <li><a href="../text_indexing/AsyncIndexer-class.html">AsyncIndexer</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.5/text_analysis/English-class.html">English</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/English-class.html">English</a></li>
   <li><a href="../text_indexing/InMemoryIndex-class.html">InMemoryIndex</a></li>
-  <li><a href="../text_indexing/InMemoryIndexer-class.html">InMemoryIndexer</a></li>
-  <li><a href="../text_indexing/InvertedPositionalZoneIndex-class.html">InvertedPositionalZoneIndex</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.5/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></li>
+  <li><a href="../text_indexing/InvertedIndex-class.html">InvertedIndex</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></li>
   <li><a href="https://pub.dev/documentation/porter_2_stemmer/1.0.0+5/porter_2_stemmer/Porter2Stemmer-class.html">Porter2Stemmer</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.5/text_analysis/Sentence-class.html">Sentence</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.5/text_analysis/TermPair-class.html">TermPair</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.5/text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.5/text_analysis/TextAnalyzerBase-class.html">TextAnalyzerBase</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.5/text_analysis/TextAnalyzerConfiguration-class.html">TextAnalyzerConfiguration</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/Sentence-class.html">Sentence</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/TermPair-class.html">TermPair</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/TextAnalyzerBase-class.html">TextAnalyzerBase</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/TextAnalyzerConfiguration-class.html">TextAnalyzerConfiguration</a></li>
   <li><a href="../text_indexing/TextIndexer-class.html">TextIndexer</a></li>
   <li><a href="../text_indexing/TextIndexerBase-class.html">TextIndexerBase</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.5/text_analysis/TextSource-class.html">TextSource</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.5/text_analysis/Token-class.html">Token</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/TextSource-class.html">TextSource</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/Token-class.html">Token</a></li>
 
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#extensions">Extensions</a></li>
   <li><a href="../text_indexing/DictionaryEntryCollectionExtension.html">DictionaryEntryCollectionExtension</a></li>
   <li><a href="../text_indexing/DictionaryEntryExtension.html">DictionaryEntryExtension</a></li>
   <li><a href="../text_indexing/DictionaryExtensions.html">DictionaryExtensions</a></li>
   <li><a href="../text_indexing/DocumentPostingsEntryExtension.html">DocumentPostingsEntryExtension</a></li>
+  <li><a href="../text_indexing/IDftDictionaryEntryExtension.html">IDftDictionaryEntryExtension</a></li>
+  <li><a href="../text_indexing/IdFtIndexExtensions.html">IdFtIndexExtensions</a></li>
   <li><a href="https://pub.dev/documentation/porter_2_stemmer/1.0.0+5/porter_2_stemmer/Porter2StemmerExtension.html">Porter2StemmerExtension</a></li>
   <li><a href="../text_indexing/PostingsEntryExtension.html">PostingsEntryExtension</a></li>
   <li><a href="../text_indexing/PostingsExtension.html">PostingsExtension</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.5/text_analysis/TokenCollectionExtension.html">TokenCollectionExtension</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/TokenCollectionExtension.html">TokenCollectionExtension</a></li>
 
+  <li class="section-title"><a href="../text_indexing/text_indexing-library.html#mixins">Mixins</a></li>
+  <li><a href="../text_indexing/InvertedIndexMixin-mixin.html">InvertedIndexMixin</a></li>
 
 
 
@@ -332,36 +431,41 @@ already exist.
   <li><a href="../text_indexing/TermSortStrategy.html">TermSortStrategy</a></li>
 
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#typedefs">Typedefs</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.5/text_analysis/CharacterFilter.html">CharacterFilter</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/CharacterFilter.html">CharacterFilter</a></li>
   <li><a href="../text_indexing/Dictionary.html">Dictionary</a></li>
   <li><a href="../text_indexing/DictionaryEntry.html">DictionaryEntry</a></li>
+  <li><a href="../text_indexing/DictionaryLengthLoader.html">DictionaryLengthLoader</a></li>
   <li><a href="../text_indexing/DictionaryLoader.html">DictionaryLoader</a></li>
   <li><a href="../text_indexing/DictionaryUpdater.html">DictionaryUpdater</a></li>
   <li><a href="../text_indexing/DocId.html">DocId</a></li>
   <li><a href="../text_indexing/DocumentPostings.html">DocumentPostings</a></li>
   <li><a href="../text_indexing/DocumentPostingsEntry.html">DocumentPostingsEntry</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.5/text_analysis/FieldName.html">FieldName</a></li>
-  <li><a href="../text_indexing/FieldPostings.html">FieldPostings</a></li>
   <li><a href="../text_indexing/FieldPostingsEntry.html">FieldPostingsEntry</a></li>
   <li><a href="../text_indexing/Ft.html">Ft</a></li>
+  <li><a href="../text_indexing/FtdPostings.html">FtdPostings</a></li>
+  <li><a href="../text_indexing/IdFt.html">IdFt</a></li>
+  <li><a href="../text_indexing/IdFtIndex.html">IdFtIndex</a></li>
   <li><a href="../text_indexing/JSON.html">JSON</a></li>
   <li><a href="../text_indexing/JsonCollection.html">JsonCollection</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.5/text_analysis/JsonTokenizer.html">JsonTokenizer</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/JsonTokenizer.html">JsonTokenizer</a></li>
   <li><a href="../text_indexing/Postings.html">Postings</a></li>
   <li><a href="../text_indexing/PostingsEntry.html">PostingsEntry</a></li>
   <li><a href="../text_indexing/PostingsLoader.html">PostingsLoader</a></li>
   <li><a href="../text_indexing/PostingsUpdater.html">PostingsUpdater</a></li>
   <li><a href="../text_indexing/Pt.html">Pt</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.5/text_analysis/SentenceSplitter.html">SentenceSplitter</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.5/text_analysis/SourceText.html">SourceText</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.5/text_analysis/Stemmer.html">Stemmer</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.5/text_analysis/StopWords.html">StopWords</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.5/text_analysis/Term.html">Term</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.5/text_analysis/TermFilter.html">TermFilter</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/SentenceSplitter.html">SentenceSplitter</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/SourceText.html">SourceText</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/Stemmer.html">Stemmer</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/StopWords.html">StopWords</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/Term.html">Term</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/TermFilter.html">TermFilter</a></li>
   <li><a href="../text_indexing/TermPositions.html">TermPositions</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.5/text_analysis/TermSplitter.html">TermSplitter</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.5/text_analysis/TokenFilter.html">TokenFilter</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.6.5/text_analysis/Tokenizer.html">Tokenizer</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/TermSplitter.html">TermSplitter</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/TokenFilter.html">TokenFilter</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/Tokenizer.html">Tokenizer</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/Zone.html">Zone</a></li>
+  <li><a href="../text_indexing/ZonePostings.html">ZonePostings</a></li>
+  <li><a href="../text_indexing/ZoneWeightMap.html">ZoneWeightMap</a></li>
 
 </ol>
 
@@ -380,12 +484,18 @@ already exist.
     <li><a href="../text_indexing/InMemoryIndex/analyzer.html">analyzer</a></li>
     <li><a href="../text_indexing/InMemoryIndex/dictionary.html">dictionary</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
+    <li><a href="../text_indexing/InMemoryIndex/phraseLength.html">phraseLength</a></li>
     <li><a href="../text_indexing/InMemoryIndex/postings.html">postings</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
+    <li><a href="../text_indexing/InMemoryIndex/vocabularyLength.html">vocabularyLength</a></li>
+    <li><a href="../text_indexing/InMemoryIndex/zones.html">zones</a></li>
 
     <li class="section-title"><a href="../text_indexing/InMemoryIndex-class.html#instance-methods">Methods</a></li>
     <li><a href="../text_indexing/InMemoryIndex/getDictionary.html">getDictionary</a></li>
+    <li class="inherited"><a href="../text_indexing/InvertedIndexMixin/getFtdPostings.html">getFtdPostings</a></li>
+    <li class="inherited"><a href="../text_indexing/InvertedIndexMixin/getIdFtIndex.html">getIdFtIndex</a></li>
     <li><a href="../text_indexing/InMemoryIndex/getPostings.html">getPostings</a></li>
+    <li class="inherited"><a href="../text_indexing/InvertedIndexMixin/getTfIndex.html">getTfIndex</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
     <li><a href="../text_indexing/InMemoryIndex/upsertDictionary.html">upsertDictionary</a></li>
@@ -406,7 +516,7 @@ already exist.
 <footer>
   <span class="no-break">
     text_indexing
-      0.8.0
+      0.9.0
   </span>
 
   

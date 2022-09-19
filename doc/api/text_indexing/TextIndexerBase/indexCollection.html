@@ -58,8 +58,7 @@
 </div>
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
-<span class="name ">indexCollection</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="indexCollection-param-collection"><span class="type-annotation"><a href="../../text_indexing/JsonCollection.html">JsonCollection</a></span> <span class="parameter-name">collection</span>, </span></li>
-<li><span class="parameter" id="indexCollection-param-fields"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.5/text_analysis/FieldName.html">FieldName</a></span>&gt;</span></span> <span class="parameter-name">fields</span></span></li>
+<span class="name ">indexCollection</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="indexCollection-param-collection"><span class="type-annotation"><a href="../../text_indexing/JsonCollection.html">JsonCollection</a></span> <span class="parameter-name">collection</span></span></li>
 </ol>)
 
       <div class="features">override</div>
@@ -68,7 +67,7 @@
     
 <section class="desc markdown">
   <p>Implementation of <a href="../../text_indexing/TextIndexer/indexCollection.html">TextIndexer.indexCollection</a> that parses each JSON
-document in <code>collection</code> to <a href="https://pub.dev/documentation/text_analysis/0.6.5/text_analysis/Token-class.html">Token</a>s and maps the tokens to a <a href="../../text_indexing/Postings.html">Postings</a>
+document in <code>collection</code> to <a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/Token-class.html">Token</a>s and maps the tokens to a <a href="../../text_indexing/Postings.html">Postings</a>
 that is passed to <a href="../../text_indexing/TextIndexerBase/emit.html">emit</a>.</p>
 </section>
 
@@ -77,12 +76,11 @@ that is passed to <a href="../../text_indexing/TextIndexerBase/emit.html">emit</
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
-Future&lt;void&gt; indexCollection(
-    JsonCollection collection, List&lt;FieldName&gt; fields) async {
+Future&lt;void&gt; indexCollection(JsonCollection collection) async {
   await Future.forEach(collection.entries, (MapEntry&lt;DocId, JSON&gt; e) async {
     final docId = e.key;
     final json = e.value;
-    await indexJson(docId, json, fields);
+    await indexJson(docId, json);
   });
 }</code></pre>
 </section>
@@ -147,7 +145,7 @@ Future&lt;void&gt; indexCollection(
 <footer>
   <span class="no-break">
     text_indexing
-      0.8.0
+      0.9.0
   </span>
 
   

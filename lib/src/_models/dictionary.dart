@@ -81,8 +81,8 @@ extension DictionaryEntryExtension on DictionaryEntry {
 /// index.
 /// It enumerates the following property getters:
 /// - [term] is the word/term that is indexed; and
-/// - [dFt] is the number of documents that contain [term].
-extension IDftDictionaryEntryExtension on MapEntry<String, double> {
+/// - [iDFt] is the number of documents that contain [term].
+extension IDftDictionaryEntryExtension on MapEntry<String, IdFt> {
   //
 
   /// The word/term that is indexed.

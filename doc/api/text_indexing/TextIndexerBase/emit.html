@@ -107,7 +107,7 @@ Future&lt;void&gt; emit(Postings event) async {
       final fieldPostings = docEntry.value;
       &#47;&#47; - inserts or updates each [DocumentPostingsEntry] instance to a collection of postings to update;
       final increment =
-          postingsToUpdate.addFieldPostings(term, docId, fieldPostings);
+          postingsToUpdate.addZonePostings(term, docId, fieldPostings);
       &#47;&#47; - if a [DocumentPostingsEntry] instance did not exist previously, also increments the document frequency of the associated term;
       if (increment) {
         termsToUpdate.incrementFrequency(term);
@@ -183,7 +183,7 @@ Future&lt;void&gt; emit(Postings event) async {
 <footer>
   <span class="no-break">
     text_indexing
-      0.8.0
+      0.9.0
   </span>
 
   

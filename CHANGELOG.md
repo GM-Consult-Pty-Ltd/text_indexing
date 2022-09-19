@@ -30,6 +30,7 @@ All rights reserved.
 - Optional named parameter `ZoneWeightMap zones` added to `TextIndexer.inMemory` factory.
 - Method `Future<FtdPostings> InvertedIndex.getFtdPostings(Iterable<Term>, int)`.
 - Method `Future<IdFtIndex> InvertedIndex.getIdFtIndex(Iterable<Term>)`.
+- Method `Future<Dictionary> InvertedIndex.getTfIndex(Iterable<Term>)`.
 
 Updated dependencies, tests, examples and documentation.
 

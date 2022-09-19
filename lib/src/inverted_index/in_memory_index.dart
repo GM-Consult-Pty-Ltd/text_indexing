@@ -4,7 +4,7 @@
 
 import 'package:text_indexing/text_indexing.dart';
 
-/// An implementation class for the [InMemoryIndexer], implements
+/// An implementation the [InvertedIndex] interface, implements
 /// [InvertedIndex] interface:
 /// - [phraseLength] is the maximum length of phrases in the index vocabulary.
 ///   The minimum phrase length is 1. If phrase length is greater than 1, the

@@ -68,7 +68,7 @@ Copyright (c) 2022, GM Consult Pty Ltd#class-persistedindexerAll rights reserved
 <li>a <code>dictionary</code> that holds the <code>vocabulary</code> of <code>terms</code> and the frequency of occurrence for each <code>term</code> in the <code>corpus</code>; and</li>
 <li>a <code>postings</code> map that holds a list of references to the <code>documents</code> for each <code>term</code> (the <code>postings list</code>).</li>
 </ul>
-<p>In this implementation, our <code>postings list</code> is a hashmap of the document id (<code>docId</code>) to maps that point to positions of the term in the document's fields (zones). This allows query algorithms to score and rank search results based on the position(s) of a term in document fields, applying different weights to the zones.</p>
+<p>In this implementation, our <code>postings list</code> is a hashmap of the document id (<code>docId</code>) to maps that point to positions of the term in the document's zones. This allows query algorithms to score and rank search results based on the position(s) of a term in document fields, applying different weights to the zones.</p>
 <p><img src="https://github.com/GM-Consult-Pty-Ltd/text_indexing/raw/main/assets/images/index_artifacts.png?raw=true?raw=true" alt="Index artifacts" title="Components of inverted positional index"></p>
 <p>Refer to the <a href="#references">references</a> to learn more about information retrieval systems and the theory behind this library.</p>
 <h2 id="usage">Usage</h2>
@@ -104,26 +104,36 @@ Copyright (c) 2022, GM Consult Pty Ltd#class-persistedindexerAll rights reserved
 <li><code>Dictionary</code> is an alias for <code>Map&lt;Term, Ft&gt;</code>,  a hashmap of <code>Term</code> to <code>Ft</code>.</li>
 <li><code>DictionaryEntry</code> is an alias for <code>MapEntry&lt;Term, Ft&gt;</code>, an entry in a <code>Dictionary</code>.</li>
 <li><code>DocId</code> is an alias for <code>String</code>, used whenever a document id is referenced.</li>
-<li><code>DocumentPostings</code> is an alias for <code>Map&lt;DocId, FieldPostings&gt;</code>, a hashmap of document ids to <code>FieldPostings</code>.</li>
-<li><code>DocumentPostingsEntry</code> is an alias for <code>MapEntry&lt;DocId, FieldPostings&gt;</code>, an entry in a <code>DocumentPostings</code> hashmap.</li>
-<li><code>FieldPostings</code> is an alias for <code>Map&lt;FieldName, TermPositions&gt;</code>, a hashmap of <code>FieldName</code>s to <code>TermPositions</code> in the field with <code>FieldName</code>.</li>
-<li><code>FieldPostingsEntry</code> is an alias for <code>MapEntry&lt;FieldName, TermPositions&gt;</code>, an entry in a <code>FieldPostings</code> hashmap.</li>
+<li><code>DocumentPostings</code> is an alias for <code>Map&lt;DocId, ZonePostings&gt;</code>, a hashmap of document ids to <code>ZonePostings</code>.</li>
+<li><code>DocumentPostingsEntry</code> is an alias for <code>MapEntry&lt;DocId, ZonePostings&gt;</code>, an entry in a <code>DocumentPostings</code> hashmap.</li>
+<li><code>ZonePostings</code> is an alias for <code>Map&lt;Zone, TermPositions&gt;</code>, a hashmap of <code>Zone</code>s to <code>TermPositions</code> in the <code>Zone</code>.</li>
+<li><code>FieldPostingsEntry</code> is an alias for <code>MapEntry&lt;Zone, TermPositions&gt;</code>, an entry in a <code>ZonePostings</code> hashmap.</li>
 <li><code>Ft</code> is an lias for <code>int</code> and denotes the frequency of a <code>Term</code> in an index or indexed object (the term frequency).</li>
+<li><code>FtdPostings</code> is an alias for for <code>Map&lt;String, Map&lt;String, int&gt;&gt;</code>, a hashmap of vocabulary to hashmaps of document id to term frequency in the document.</li>
+<li><code>IdFt</code> is an alias for <code>double</code>, where it represents the inverse document frequency of a term, defined as idft = log (N / dft), where N is the total number of terms in the index and dft is the document frequency of the term (number of documents that contain the term).</li>
+<li><code>IdFtIndex</code> is an alias for <code>Map&lt;String, double&gt;</code>, a hashmap of the vocabulary to the inverse document frequency (<code>Idft</code>)  of the term.</li>
 <li><code>JSON</code> is an alias for <code>Map&lt;String, dynamic&gt;</code>, a hashmap known as <code>"Java Script Object Notation" (JSON)</code>, a common format for persisting data.</li>
 <li><code>JsonCollection</code> is an alias for <code>Map&lt;String, Map&lt;String, dynamic&gt;&gt;</code>, a hashmap of <code>DocId</code> to <code>JSON</code> documents.</li>
 <li><code>Pt</code> is an alias for <code>int</code>, used to denote the position of a <code>Term</code> in <code>SourceText</code> indexed object (the term position).</li>
 <li><code>TermPositions</code> is an alias for <code>List&lt;Pt&gt;</code>, an ordered <code>Set</code> of unique zero-based <code>Term</code> positions in <code>SourceText</code>, sorted in ascending order.</li>
+<li><code>ZoneWeightMap</code> is</li>
 </ul>
-<h3 id="invertedpositionalzoneindex-interface">InvertedPositionalZoneIndex Interface</h3>
-<p>The <code>InvertedPositionalZoneIndex</code> is an interface for an inverted, positional zoned index on a collection of documents.</p>
-<p>The <code>InvertedPositionalZoneIndex</code> exposes the <code>analyzer</code> field, a text analyser that extracts tokens from text.</p>
-<p>The <code>InvertedPositionalZoneIndex</code> exposes the following methods:</p>
+<h3 id="invertedindex-interface">InvertedIndex Interface</h3>
+<p>The <code>InvertedIndex</code> is an interface for an inverted, positional zoned index on a collection of documents.</p>
+<p>The <code>InvertedIndex</code> exposes the <code>analyzer</code> field, a text analyser that extracts tokens from text.</p>
+<p>The <code>InvertedIndex</code> exposes the following methods:</p>
 <ul>
 <li><code>getDictionary</code> Asynchronously retrieves a <code>Dictionary</code> for a collection of <code>Term</code>s from a <code>Dictionary</code> repository;</li>
 <li><code>upsertDictionary</code> inserts entries into a <code>Dictionary</code> repository, overwriting any existing entries;</li>
-<li><code>getPostings</code> asynchronously retrieves <code>Postings</code> for a collection of <code>Term</code>s from a <code>Postings</code> repository; and</li>
-<li><code>upsertPostings</code> inserts entries into a <code>Postings</code> repository,  overwriting any existing entries.</li>
+<li><code>getPostings</code> asynchronously retrieves <code>Postings</code> for a collection of <code>Term</code>s from a <code>Postings</code> repository;</li>
+<li><code>upsertPostings</code> inserts entries into a <code>Postings</code> repository,  overwriting any existing entries;</li>
 </ul>
+<ul>
+<li><code>getTfIndex</code> returns hashmap of <code>Term</code> to <code>Ft</code> for a collection of <code>Term</code>s, where <code>Ft</code> is the number of times each of the terms occurs in the <code>corpus</code>;</li>
+<li><code>getFtdPostings</code> return a <code>FtdPostings</code> for a collection of <code>Term</code>s from the <code>Postings</code>, optionally filtered by minimum term frequency; and</li>
+<li><code>getIdFtIndex</code> returns a <code>IdFtIndex</code> for a collection of <code>Term</code>s from the <code>Dictionary</code>.</li>
+</ul>
+<p>The <code>InvertedIndexMixin</code> implements the <code>InvertedIndex.getTfIndex</code>, <code>InvertedIndex.getFtdPostings</code> and <code>InvertedIndex.getIdFtIndex</code> methods.</p>
 <h3 id="textindexer-interface">TextIndexer Interface</h3>
 <p>The text indexing classes (indexers) in this library implement <code>TextIndexer</code>, an interface intended for information retrieval software applications. The design of the <code>TextIndexer</code> interface is consistent with <a href="https://nlp.stanford.edu/IR-book/pdf/irbookonlinereading.pdf">information retrieval theory</a> and is intended to construct and/or maintain two artifacts:</p>
 <ul>
@@ -141,7 +151,7 @@ Copyright (c) 2022, GM Consult Pty Ltd#class-persistedindexerAll rights reserved
 <p>Listen to <code>TextIndexer.postingsStream</code> to handle the postings list emitted whenever a document is indexed.</p>
 <p>Implementing classes override the following fields:</p>
 <ul>
-<li><code>TextIndexer.index</code> is the <code>InvertedPositionalZoneIndex</code> that provides access to the index <code>Dictionary</code> and <code>Postings</code> and a <code>ITextAnalyzer</code>;</li>
+<li><code>TextIndexer.index</code> is the <code>InvertedIndex</code> that provides access to the index <code>Dictionary</code> and <code>Postings</code> and a <code>ITextAnalyzer</code>;</li>
 <li><code>TextIndexer.postingsStream</code> emits a <code>Postings</code> whenever a document is indexed.</li>
 </ul>
 <p>Implementing classes override the following asynchronous methods:</p>
@@ -151,6 +161,33 @@ Copyright (c) 2022, GM Consult Pty Ltd#class-persistedindexerAll rights reserved
 <li><code>TextIndexer.indexCollection</code> indexes the fields of all the documents in JSON document collection; and</li>
 <li><code>TextIndexer.emit</code> adds an event to the <code>TextIndexer.postingsStream</code> after updating the <code>TextIndexer.index</code>;</li>
 </ul>
+<p>Use one of three factory constructors to instantiate a <code>TextIndexer</code>:</p>
+<h4 id="textindexerindex">TextIndexer.index</h4>
+<p>The <code>TextIndexer.index</code> factory constructor returns a <code>TextIndexer</code> instance, using a <code>InvertedIndex</code> instance passed in as a parameter at instantiation.</p>
+<h4 id="textindexerinmemory">TextIndexer.inMemory</h4>
+<p>The <code>TextIndexer.async</code> factory constructor returns a <code>TextIndexer</code> instance with in-memory
+<code>Dictionary</code> and <code>Postings</code> maps:</p>
+<ul>
+<li>pass a <code>analyzer</code> text analyser that extracts tokens from text;</li>
+<li>pass an in-memory <code>dictionary</code> instance, otherwise an empty <code>Dictionary</code> will be initialized; and</li>
+<li>pass an in-memory <code>postings</code> instance, otherwise an empty <code>Postings</code> will be initialized.</li>
+</ul>
+<p>The <code>InMemoryIndexer</code> is suitable for indexing a smaller corpus. The <code>InMemoryIndexer</code> may have latency and processing overhead for large indexes or queries with more than a few terms. Consider running <code>InMemoryIndexer</code> in an isolate to avoid slowing down the main thread.</p>
+<p>An example of the use of the <code>TextIndexer.inMemory</code> factory is included in the <a href="https://pub.dev/packages/text_indexing/example">examples</a>.</p>
+<h4 id="textindexerasync">TextIndexer.async</h4>
+<p>The <code>TextIndexer.async</code> factory constructor returns a <code>TextIndexer</code> instance that uses
+asynchronous callback functions to access <code>Dictionary</code> and <code>Postings</code>
+repositories:</p>
+<ul>
+<li>pass a <code>analyzer</code> text analyser that extracts tokens from text;</li>
+<li><code>dictionaryLoader</code> synchronously retrieves a <code>Dictionary</code> for a vocabulary from a data source;</li>
+<li><code>dictionaryLengthLoader</code> asynchronously retrieves the number of terms in the vocabulary (N);</li>
+<li><code>dictionaryUpdater</code> is callback that passes a <code>Dictionary</code> subset for persisting to a datastore;</li>
+<li><code>postingsLoader</code> asynchronously retrieves a <code>Postings</code> for a vocabulary from a data source; and</li>
+<li><code>postingsUpdater</code> passes a <code>Postings</code> subset for persisting to a datastore.</li>
+</ul>
+<p>The <code>AsyncIndexer</code> is suitable for indexing a large corpus but may have latency and processing overhead. Consider running <code>AsyncIndexer</code> in an isolate to avoid slowing down the main thread.</p>
+<p>An example of the use of the <code>TextIndexer.async</code> factory is included in the <a href="https://pub.dev/packages/text_indexing/example">examples</a>.</p>
 <h3 id="textindexerbase-class">TextIndexerBase Class</h3>
 <p>The <code>TextIndexerBase</code> is an abstract base class that implements the <code>TextIndexer.indexText</code>, <code>TextIndexer.indexJson</code>, <code>TextIndexer.indexCollection</code> and <code>TextIndexer.emit</code> methods and the <code>TextIndexer.postingsStream</code> field.</p>
 <p>The <code>TextIndexerBase.index</code> is updated whenever <code>TextIndexerBase.emit</code> is called.</p>
@@ -162,43 +199,40 @@ Copyright (c) 2022, GM Consult Pty Ltd#class-persistedindexerAll rights reserved
 <li><code>TextIndexerBase.controller</code>, a <code>BehaviorSubject&lt;Postings&gt;</code> that controls the <code>TextIndex.postingsStream</code>.</li>
 </ul>
 <h3 id="inmemoryindex-class">InMemoryIndex Class</h3>
-<p>The <code>InMemoryIndex</code> is a <code>InvertedPositionalZoneIndex</code> interface implementation with in-memory <code>Dictionary</code> and <code>Postings</code> hashmaps:</p>
+<p>The <code>InMemoryIndex</code> is a <code>InvertedIndex</code> interface implementation with in-memory <code>Dictionary</code> and <code>Postings</code> hashmaps:</p>
 <ul>
 <li><code>InMemoryIndex.analyzer</code> is the <code>ITextAnalyzer</code> used to tokenize text for the <code>InMemoryIndex</code>;</li>
 <li><code>InMemoryIndex.dictionary</code> is the in-memory term dictionary for the indexer. Pass a <code>dictionary</code> instance at instantiation, otherwise an empty <code>Dictionary</code> will be initialized; and</li>
 <li><code>InMemoryIndex.postings</code> is the in-memory postings hashmap for the indexer. Pass a <code>postings</code> instance at instantiation, otherwise an empty <code>Postings</code> will be initialized.</li>
 </ul>
-<h3 id="inmemoryindexer-class">InMemoryIndexer Class</h3>
-<p>The <code>InMemoryIndexer</code> is a subclass of <a href="#textindexerbase-class">TextIndexerBase</a> that builds and maintains an in-memory <code>Dictionary</code> and <code>Postings</code> and can be initialized using the <code>TextIndexer.inMemory</code> factory.</p>
-<p>The <code>InMemoryIndexer</code> is suitable for indexing a smaller corpus. The <code>InMemoryIndexer</code> may have latency and processing overhead for large indexes or queries with more than a few terms. Consider running <code>InMemoryIndexer</code> in an isolate to avoid slowing down the main thread.</p>
-<p>An example of the use of the <code>TextIndexer.inMemory</code> factory is included in the <a href="https://pub.dev/packages/text_indexing/example">examples</a>.</p>
 <h2 id="asynccallbackindex-class">AsyncCallbackIndex Class</h2>
-<p>The <code>AsyncCallbackIndex</code> is a <code>InvertedPositionalZoneIndex</code> implementation class 
+<p>The <code>AsyncCallbackIndex</code> is a <code>InvertedIndex</code> implementation class 
 that uses asynchronous callbacks to perform read and write operations on <code>Dictionary</code> and <code>Postings</code> repositories:</p>
 <ul>
 <li><code>AsyncCallbackIndex.analyzer</code> is the <code>ITextAnalyzer</code> used to tokenize text for the <code>AsyncCallbackIndex</code>;</li>
-<li><code>AsyncCallbackIndex.termsLoader</code> synchronously retrieves a <code>Dictionary</code> for a vocabulary from a data source;</li>
+<li><code>AsyncCallbackIndex.dictionaryLoader</code> synchronously retrieves a <code>Dictionary</code> for a vocabulary from a data source;</li>
 <li><code>AsyncCallbackIndex.dictionaryUpdater</code> is callback that passes a <code>Dictionary</code> subset for persisting to <code>Dictionary</code> repository;</li>
 <li><code>AsyncCallbackIndex.postingsLoader</code> asynchronously retrieves a <code>Postings</code> for a vocabulary from a data source; and</li>
 <li><code>AsyncCallbackIndex.postingsUpdater</code> passes a <code>Postings</code> subset for persisting to a <code>Postings</code> repository.</li>
 </ul>
-<h3 id="asyncindexer-class">AsyncIndexer Class</h3>
-<p>The <code>AsyncIndexer</code> is a subclass of <a href="#textindexerbase-class">TextIndexerBase</a> that asynchronously reads and writes from / to a <code>Dictionary</code> and <code>Postings</code> using asynchronous callbacks. A <code>AsyncIndexer</code> can be initialized using the <code>TextIndexer.async</code> factory.</p>
-<p>The <code>AsyncIndexer</code> is suitable for indexing a large corpus but may have latency and processing overhead. Consider running <code>AsyncIndexer</code> in an isolate to avoid slowing down the main thread.</p>
-<p>An example of the use of the <code>TextIndexer.async</code> factory is included in the <a href="https://pub.dev/packages/text_indexing/example">examples</a>.</p>
 <h2 id="definitions">Definitions</h2>
 <p>The following definitions are used throughout the <a href="https://pub.dev/documentation/text_indexing/latest/">documentation</a>:</p>
 <ul>
 <li><code>corpus</code>- the collection of <code>documents</code> for which an <code>index</code> is maintained.</li>
 <li><code>dictionary</code> - is a hash of <code>terms</code> (<code>vocabulary</code>) to the frequency of occurence in the <code>corpus</code> documents.</li>
 <li><code>document</code> - a record in the <code>corpus</code>, that has a unique identifier (<code>docId</code>) in the <code>corpus</code>'s primary key and that contains one or more text fields that are indexed.</li>
-<li><code>index</code> - an <a href="https://en.wikipedia.org/wiki/Inverted_index">inverted index</a> used to look up <code>document</code> references from the <code>corpus</code> against a <code>vocabulary</code> of <code>terms</code>. The implementation in this package builds and maintains a positional inverted index, that also includes the positions of the indexed <code>term</code> in each <code>document</code>'s fields (zones).</li>
+<li><code>index</code> - an <a href="https://en.wikipedia.org/wiki/Inverted_index">inverted index</a> used to look up <code>document</code> references from the <code>corpus</code> against a <code>vocabulary</code> of <code>terms</code>. The implementation in this package builds and maintains a positional inverted index, that also includes the positions of the indexed <code>term</code> in each <code>document</code>'s zones.</li>
+<li><code>document frequency (dFt)</code> is number of documents in the <code>corpus</code> that contain a term.</li>
 <li><code>index-elimination</code> - selecting a subset of the entries in an index where the <code>term</code> is in the collection of <code>terms</code> in a search phrase.</li>
+<li><code>inverse document frequency</code> or <code>iDft</code> is equal to log (N / <code>dft</code>), where N is the total number of terms in the index. The <code>IdFt</code> of a rare term is high, whereas the <a href="text_indexing/IdFt.html">IdFt</a> of a frequent term is likely to be low.</li>
+<li><code>JSON</code> is an acronym for <code>"Java Script Object Notation"</code>, a common format for persisting data.</li>
 <li><code>postings</code> - a separate index that records which <code>documents</code> the <code>vocabulary</code> occurs in. In this implementation we also record the positions of each <code>term</code> in the <code>text</code> to create a positional inverted <code>index</code>.</li>
 <li><code>postings list</code> - a record of the positions of a <code>term</code> in a <code>document</code>. A position of a <code>term</code> refers to the index of the <code>term</code> in an array that contains all the <code>terms</code> in the <code>text</code>.</li>
 <li><code>term</code> - a word or phrase that is indexed from the <code>corpus</code>. The <code>term</code> may differ from the actual word used in the corpus depending on the <code>tokenizer</code> used.</li>
+<li><code>term frequency (Ft)</code> is the frequency of a <code>term</code> in an index or indexed object.</li>
+<li><code>term position</code> is the zero-based index of a <code>term</code> in an ordered array of <code>terms</code> tokenized from the <code>corpus</code>.</li>
 <li><code>text</code> - the indexable content of a <code>document</code>.</li>
-<li><code>token</code> - representation of a <code>term</code> in a text source returned by a <code>tokenizer</code>. The token may include information about the <code>term</code> such as its position(s) in the text or frequency of occurrence.</li>
+<li><code>token</code> - representation of a <code>term</code> in a text source returned by a <code>tokenizer</code>. The token may include information about the <code>term</code> such as its position(s) (<code>term position</code>) in the text or frequency of occurrence (<code>term frequency</code>).</li>
 <li><code>tokenizer</code> - a function that returns a collection of <code>token</code>s from <code>text</code>, after applying a character filter, <code>term</code> filter, <a href="https://en.wikipedia.org/wiki/Stemming">stemmer</a> and / or <a href="https://en.wikipedia.org/wiki/Lemmatisation">lemmatizer</a>.</li>
 <li><code>vocabulary</code> - the collection of <code>terms</code> indexed from the <code>corpus</code>.</li>
 </ul>
@@ -259,7 +293,7 @@ that uses asynchronous callbacks to perform read and write operations on <code>D
 <footer>
   <span class="no-break">
     text_indexing
-      0.8.0
+      0.9.0
   </span>
 
   

@@ -49,10 +49,13 @@ typedef FtdPostings = Map<Term, Map<DocId, Ft>>;
 ///   of [Term]s from a [Postings] repository;
 /// - [upsertPostings] inserts entries into a [Postings] repository,
 ///   overwriting any existing entries;
+/// - [getTfIndex] returns hashmap of [Term] to [Ft] for a collection of
+///   [Term]s, where [Ft] is the number of times each of the terms occurs in
+///   the `corpus`;
 /// - [getFtdPostings] return a [FtdPostings] for a collection of [Term]s from
-/// the [Postings], optionally filtered by minimum term frequency; and
+///   the [Postings], optionally filtered by minimum term frequency; and
 /// - [getIdFtIndex] returns a [IdFtIndex] for a collection of [Term]s from
-/// the [Dictionary].
+///   the [Dictionary].
 abstract class InvertedIndex {
   //
 
@@ -87,9 +90,8 @@ abstract class InvertedIndex {
   /// the [Dictionary].
   Future<IdFtIndex> getIdFtIndex(Iterable<Term> terms);
 
-  /// Returns a hashmap of [Term] to [Ft] for the [terms].
-  ///
-  /// Represents the tnumber of times each of [terms] occurs in the `corpus`.
+  /// Returns a hashmap of [Term] to [Ft] for the [terms], where [Ft] is
+  /// the number of times each of [terms] occurs in the `corpus`.
   Future<Dictionary> getTfIndex(Iterable<Term> terms);
 
   /// Asynchronously retrieves a [Dictionary] for the [terms] from a
@@ -117,7 +119,8 @@ abstract class InvertedIndex {
   Future<void> upsertPostings(Postings values);
 }
 
-/// A mixin class that implements [getFtdPostings] and [getIdFtIndex].
+/// A mixin that implements the [InvertedIndex.getTfIndex],
+/// [InvertedIndex.getFtdPostings] and [InvertedIndex.getIdFtIndex] methods.
 mixin InvertedIndexMixin implements InvertedIndex {
 //
 

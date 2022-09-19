@@ -53,9 +53,9 @@
       
 
 <span class="returntype"><a href="../../text_indexing/Postings.html">Postings</a></span>
-<span class="name ">filter</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="filter-param-terms">{<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.5/text_analysis/Term.html">Term</a></span>&gt;</span>?</span> <span class="parameter-name">terms</span>, </span></li>
+<span class="name ">filter</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="filter-param-terms">{<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/Term.html">Term</a></span>&gt;</span>?</span> <span class="parameter-name">terms</span>, </span></li>
 <li><span class="parameter" id="filter-param-docIds"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_indexing/DocId.html">DocId</a></span>&gt;</span>?</span> <span class="parameter-name">docIds</span>, </span></li>
-<li><span class="parameter" id="filter-param-fields"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.5/text_analysis/FieldName.html">FieldName</a></span>&gt;</span>?</span> <span class="parameter-name">fields</span>}</span></li>
+<li><span class="parameter" id="filter-param-fields"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/Zone.html">Zone</a></span>&gt;</span>?</span> <span class="parameter-name">fields</span>}</span></li>
 </ol>)
 
       
@@ -79,7 +79,7 @@
   <pre class="language-dart"><code class="language-dart">Postings filter(
     {Iterable&lt;Term&gt;? terms,
     Iterable&lt;DocId&gt;? docIds,
-    Iterable&lt;FieldName&gt;? fields}) {
+    Iterable&lt;Zone&gt;? fields}) {
   Postings retVal = terms != null ? getPostings(terms) : Postings.from(this);
   retVal = docIds != null ? retVal.documentPostings(docIds) : retVal;
   return fields != null ? retVal.fieldPostings(fields) : retVal;
@@ -116,8 +116,8 @@
     <li><a href="../../text_indexing/PostingsExtension/terms.html">terms</a></li>
 
     <li class="section-title"><a href="../../text_indexing/PostingsExtension.html#instance-methods">Methods</a></li>
-    <li><a href="../../text_indexing/PostingsExtension/addFieldPostings.html">addFieldPostings</a></li>
     <li><a href="../../text_indexing/PostingsExtension/addTermPosition.html">addTermPosition</a></li>
+    <li><a href="../../text_indexing/PostingsExtension/addZonePostings.html">addZonePostings</a></li>
     <li><a href="../../text_indexing/PostingsExtension/containsAll.html">containsAll</a></li>
     <li><a href="../../text_indexing/PostingsExtension/containsAny.html">containsAny</a></li>
     <li><a href="../../text_indexing/PostingsExtension/documentPostings.html">documentPostings</a></li>
@@ -143,7 +143,7 @@
 <footer>
   <span class="no-break">
     text_indexing
-      0.8.0
+      0.9.0
   </span>
 
   

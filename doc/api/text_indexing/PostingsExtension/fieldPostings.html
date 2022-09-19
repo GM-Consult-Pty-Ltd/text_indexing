@@ -53,7 +53,7 @@
       
 
 <span class="returntype"><a href="../../text_indexing/Postings.html">Postings</a></span>
-<span class="name ">fieldPostings</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="fieldPostings-param-fields"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.5/text_analysis/FieldName.html">FieldName</a></span>&gt;</span></span> <span class="parameter-name">fields</span></span></li>
+<span class="name ">fieldPostings</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="fieldPostings-param-fields"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/Zone.html">Zone</a></span>&gt;</span></span> <span class="parameter-name">fields</span></span></li>
 </ol>)
 
       
@@ -61,9 +61,9 @@
     </section>
     
 <section class="desc markdown">
-  <p>Filters the <a href="../../text_indexing/Postings.html">Postings</a> by field names.</p>
+  <p>Filters the <a href="../../text_indexing/Postings.html">Postings</a> by zone names.</p>
 <p>Returns a subset of the <a href="../../text_indexing/Postings.html">Postings</a> instance that only contains entries
-where a field name in <code>fields</code> has a key in any document's postings the
+where a zone name in <code>fields</code> has a key in any document's postings the
 entry's postings lists.</p>
 </section>
 
@@ -71,9 +71,9 @@ entry's postings lists.</p>
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Postings fieldPostings(Iterable&lt;FieldName&gt; fields) =&gt; Postings.from(this)
+  <pre class="language-dart"><code class="language-dart">Postings fieldPostings(Iterable&lt;Zone&gt; fields) =&gt; Postings.from(this)
   ..removeWhere((key, value) {
-    final docFields = &lt;FieldName&gt;[];
+    final docFields = &lt;Zone&gt;[];
     for (final doc in value.values) {
       docFields.addAll(doc.keys);
     }
@@ -111,8 +111,8 @@ entry's postings lists.</p>
     <li><a href="../../text_indexing/PostingsExtension/terms.html">terms</a></li>
 
     <li class="section-title"><a href="../../text_indexing/PostingsExtension.html#instance-methods">Methods</a></li>
-    <li><a href="../../text_indexing/PostingsExtension/addFieldPostings.html">addFieldPostings</a></li>
     <li><a href="../../text_indexing/PostingsExtension/addTermPosition.html">addTermPosition</a></li>
+    <li><a href="../../text_indexing/PostingsExtension/addZonePostings.html">addZonePostings</a></li>
     <li><a href="../../text_indexing/PostingsExtension/containsAll.html">containsAll</a></li>
     <li><a href="../../text_indexing/PostingsExtension/containsAny.html">containsAny</a></li>
     <li><a href="../../text_indexing/PostingsExtension/documentPostings.html">documentPostings</a></li>
@@ -138,7 +138,7 @@ entry's postings lists.</p>
 <footer>
   <span class="no-break">
     text_indexing
-      0.8.0
+      0.9.0
   </span>
 
   

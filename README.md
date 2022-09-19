@@ -102,8 +102,13 @@ The `InvertedIndex` exposes the `analyzer` field, a text analyser that extracts 
 The `InvertedIndex` exposes the following methods:
 * `getDictionary` Asynchronously retrieves a `Dictionary` for a collection of `Term`s from a `Dictionary` repository;
 * `upsertDictionary ` inserts entries into a `Dictionary` repository, overwriting any existing entries;
-* `getPostings` asynchronously retrieves `Postings` for a collection of `Term`s from a `Postings` repository; and 
-* `upsertPostings` inserts entries into a `Postings` repository,  overwriting any existing entries.
+* `getPostings` asynchronously retrieves `Postings` for a collection of `Term`s from a `Postings` repository; 
+* `upsertPostings` inserts entries into a `Postings` repository,  overwriting any existing entries;
+- `getTfIndex` returns hashmap of `Term` to `Ft` for a collection of `Term`s, where `Ft` is the number of times each of the terms occurs in the `corpus`;
+- `getFtdPostings` return a `FtdPostings` for a collection of `Term`s from the `Postings`, optionally filtered by minimum term frequency; and
+- `getIdFtIndex` returns a `IdFtIndex` for a collection of `Term`s from the `Dictionary`.
+
+The `InvertedIndexMixin` implements the `InvertedIndex.getTfIndex`, `InvertedIndex.getFtdPostings` and `InvertedIndex.getIdFtIndex` methods.
 
 ### TextIndexer Interface
 
@@ -204,12 +209,12 @@ The following definitions are used throughout the [documentation](https://pub.de
 * `index` - an [inverted index](https://en.wikipedia.org/wiki/Inverted_index) used to look up `document` references from the `corpus` against a `vocabulary` of `terms`. The implementation in this package builds and maintains a positional inverted index, that also includes the positions of the indexed `term` in each `document`'s zones.
 * `document frequency (dFt)` is number of documents in the `corpus` that contain a term.
 * `index-elimination` - selecting a subset of the entries in an index where the `term` is in the collection of `terms` in a search phrase.
-* `inverse document frequency` or `iDft` is equal to log (N / `dft`), where N is the total number of terms in the index. The [IdFt] of a rare term is high, whereas the [IdFt] of a frequent term is likely to be low. 
+* `inverse document frequency` or `iDft` is equal to log (N / `dft`), where N is the total number of terms in the index. The `IdFt` of a rare term is high, whereas the [IdFt] of a frequent term is likely to be low. 
 * `JSON` is an acronym for `"Java Script Object Notation"`, a common format for persisting data.
 * `postings` - a separate index that records which `documents` the `vocabulary` occurs in. In this implementation we also record the positions of each `term` in the `text` to create a positional inverted `index`.
 * `postings list` - a record of the positions of a `term` in a `document`. A position of a `term` refers to the index of the `term` in an array that contains all the `terms` in the `text`.
 * `term` - a word or phrase that is indexed from the `corpus`. The `term` may differ from the actual word used in the corpus depending on the `tokenizer` used.
-* `term frequency (Ft)` is the frequency of a [term] in an index or indexed object.
+* `term frequency (Ft)` is the frequency of a `term` in an index or indexed object.
 * `term position` is the zero-based index of a `term` in an ordered array of `terms` tokenized from the `corpus`.
 * `text` - the indexable content of a `document`.
 * `token` - representation of a `term` in a text source returned by a `tokenizer`. The token may include information about the `term` such as its position(s) (`term position`) in the text or frequency of occurrence (`term frequency`).

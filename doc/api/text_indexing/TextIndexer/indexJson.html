@@ -54,8 +54,7 @@
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_indexing/Postings.html">Postings</a></span>&gt;</span></span>
 <span class="name ">indexJson</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="indexJson-param-docId"><span class="type-annotation"><a href="../../text_indexing/DocId.html">DocId</a></span> <span class="parameter-name">docId</span>, </span></li>
-<li><span class="parameter" id="indexJson-param-json"><span class="type-annotation"><a href="../../text_indexing/JSON.html">JSON</a></span> <span class="parameter-name">json</span>, </span></li>
-<li><span class="parameter" id="indexJson-param-fields"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.6.5/text_analysis/FieldName.html">FieldName</a></span>&gt;</span></span> <span class="parameter-name">fields</span></span></li>
+<li><span class="parameter" id="indexJson-param-json"><span class="type-annotation"><a href="../../text_indexing/JSON.html">JSON</a></span> <span class="parameter-name">json</span></span></li>
 </ol>)
 
       
@@ -63,8 +62,8 @@
     </section>
     
 <section class="desc markdown">
-  <p>Indexes the <code>fields</code> in a <code>json</code> document, returning a list of
-<a href="../../text_indexing/DocumentPostingsEntry.html">DocumentPostingsEntry</a>.</p>
+  <p>Indexes the <a href="../../text_indexing/InvertedIndex/zones.html">InvertedIndex.zones</a> in a <code>json</code> document, returning a list
+of <a href="../../text_indexing/DocumentPostingsEntry.html">DocumentPostingsEntry</a>.</p>
 <p>Adds <code>Postings</code> for <code>json</code> to the <a href="../../text_indexing/TextIndexer/postingsStream.html">postingsStream</a>.</p>
 </section>
 
@@ -72,7 +71,7 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Future&lt;Postings&gt; indexJson(DocId docId, JSON json, List&lt;FieldName&gt; fields);</code></pre>
+  <pre class="language-dart"><code class="language-dart">Future&lt;Postings&gt; indexJson(DocId docId, JSON json);</code></pre>
 </section>
 
 
@@ -99,8 +98,8 @@
         <li class="section-title"><a href="../../text_indexing/TextIndexer-class.html#constructors">Constructors</a></li>
           <li><a href="../../text_indexing/TextIndexer/TextIndexer.html">TextIndexer</a></li>
           <li><a href="../../text_indexing/TextIndexer/TextIndexer.async.html">async</a></li>
+          <li><a href="../../text_indexing/TextIndexer/TextIndexer.index.html">index</a></li>
           <li><a href="../../text_indexing/TextIndexer/TextIndexer.inMemory.html">inMemory</a></li>
-          <li><a href="../../text_indexing/TextIndexer/TextIndexer.instance.html">instance</a></li>
 
 
     <li class="section-title">
@@ -125,8 +124,6 @@
 
 
 
-        <li class="section-title"><a href="../../text_indexing/TextIndexer-class.html#constants">Constants</a></li>
-          <li><a href="../../text_indexing/TextIndexer/kTermPairsZone-constant.html">kTermPairsZone</a></li>
 </ol>
 
   </div><!--/.sidebar-offcanvas-->
@@ -139,7 +136,7 @@
 <footer>
   <span class="no-break">
     text_indexing
-      0.8.0
+      0.9.0
   </span>
 
   

@@ -50,11 +50,12 @@
 </h1></div>
 
     <section class="multi-line-signature">
-      <span class="name ">TextIndexer.async</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="async-param-termsLoader">{<span>required</span> <span class="type-annotation"><a href="../../text_indexing/DictionaryLoader.html">DictionaryLoader</a></span> <span class="parameter-name">termsLoader</span>, </span></li>
+      <span class="name ">TextIndexer.async</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="async-param-dictionaryLoader">{<span>required</span> <span class="type-annotation"><a href="../../text_indexing/DictionaryLoader.html">DictionaryLoader</a></span> <span class="parameter-name">dictionaryLoader</span>, </span></li>
+<li><span class="parameter" id="async-param-dictionaryLengthLoader"><span>required</span> <span class="type-annotation"><a href="../../text_indexing/DictionaryLengthLoader.html">DictionaryLengthLoader</a></span> <span class="parameter-name">dictionaryLengthLoader</span>, </span></li>
 <li><span class="parameter" id="async-param-dictionaryUpdater"><span>required</span> <span class="type-annotation"><a href="../../text_indexing/DictionaryUpdater.html">DictionaryUpdater</a></span> <span class="parameter-name">dictionaryUpdater</span>, </span></li>
 <li><span class="parameter" id="async-param-postingsLoader"><span>required</span> <span class="type-annotation"><a href="../../text_indexing/PostingsLoader.html">PostingsLoader</a></span> <span class="parameter-name">postingsLoader</span>, </span></li>
 <li><span class="parameter" id="async-param-postingsUpdater"><span>required</span> <span class="type-annotation"><a href="../../text_indexing/PostingsUpdater.html">PostingsUpdater</a></span> <span class="parameter-name">postingsUpdater</span>, </span></li>
-<li><span class="parameter" id="async-param-analyzer"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.6.5/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></span> <span class="parameter-name">analyzer</span> = <span class="default-value">const TextAnalyzer()</span>}</span></li>
+<li><span class="parameter" id="async-param-analyzer"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></span> <span class="parameter-name">analyzer</span> = <span class="default-value">const TextAnalyzer()</span>}</span></li>
 </ol>)
     </section>
 
@@ -65,8 +66,10 @@ asynchronous callback functions to access <a href="../../text_indexing/Dictionar
 repositories:</p>
 <ul>
 <li>pass a <code>analyzer</code> text analyser that extracts tokens from text;</li>
-<li><code>termsLoader</code> synchronously retrieves a <a href="../../text_indexing/Dictionary.html">Dictionary</a> for a vocabulary
+<li><code>dictionaryLoader</code> synchronously retrieves a <a href="../../text_indexing/Dictionary.html">Dictionary</a> for a vocabulary
 from a data source;</li>
+<li><code>dictionaryLengthLoader</code> asynchronously retrieves the number of terms in
+the vocabulary (N);</li>
 <li><code>dictionaryUpdater</code> is callback that passes a <a href="../../text_indexing/Dictionary.html">Dictionary</a> subset
  for persisting to a datastore;</li>
 <li><code>postingsLoader</code> asynchronously retrieves a <a href="../../text_indexing/Postings.html">Postings</a> for a vocabulary
@@ -81,17 +84,19 @@ datastore.</li>
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">factory TextIndexer.async(
-        {required DictionaryLoader termsLoader,
+        {required DictionaryLoader dictionaryLoader,
+        required DictionaryLengthLoader dictionaryLengthLoader,
         required DictionaryUpdater dictionaryUpdater,
         required PostingsLoader postingsLoader,
         required PostingsUpdater postingsUpdater,
         ITextAnalyzer analyzer = const TextAnalyzer()}) =&gt;
-    AsyncIndexer(
-        termsLoader: termsLoader,
+    _TextIndexerImpl(AsyncCallbackIndex(
+        dictionaryLoader: dictionaryLoader,
+        dictionaryLengthLoader: dictionaryLengthLoader,
         dictionaryUpdater: dictionaryUpdater,
         postingsLoader: postingsLoader,
         postingsUpdater: postingsUpdater,
-        analyzer: analyzer);</code></pre>
+        analyzer: analyzer));</code></pre>
 </section>
 
 
@@ -118,8 +123,8 @@ datastore.</li>
         <li class="section-title"><a href="../../text_indexing/TextIndexer-class.html#constructors">Constructors</a></li>
           <li><a href="../../text_indexing/TextIndexer/TextIndexer.html">TextIndexer</a></li>
           <li><a href="../../text_indexing/TextIndexer/TextIndexer.async.html">async</a></li>
+          <li><a href="../../text_indexing/TextIndexer/TextIndexer.index.html">index</a></li>
           <li><a href="../../text_indexing/TextIndexer/TextIndexer.inMemory.html">inMemory</a></li>
-          <li><a href="../../text_indexing/TextIndexer/TextIndexer.instance.html">instance</a></li>
 
 
     <li class="section-title">
@@ -144,8 +149,6 @@ datastore.</li>
 
 
 
-        <li class="section-title"><a href="../../text_indexing/TextIndexer-class.html#constants">Constants</a></li>
-          <li><a href="../../text_indexing/TextIndexer/kTermPairsZone-constant.html">kTermPairsZone</a></li>
 </ol>
 
   </div><!--/.sidebar-offcanvas-left-->
@@ -158,7 +161,7 @@ datastore.</li>
 <footer>
   <span class="no-break">
     text_indexing
-      0.8.0
+      0.9.0
   </span>
 
   

@@ -53,10 +53,10 @@
       
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>
-<span class="name ">addTermPosition</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="addTermPosition-param-term">{<span>required</span> <span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.6.5/text_analysis/Term.html">Term</a></span> <span class="parameter-name">term</span>, </span></li>
+<span class="name ">addTermPosition</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="addTermPosition-param-term">{<span>required</span> <span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/Term.html">Term</a></span> <span class="parameter-name">term</span>, </span></li>
 <li><span class="parameter" id="addTermPosition-param-docId"><span>required</span> <span class="type-annotation"><a href="../../text_indexing/DocId.html">DocId</a></span> <span class="parameter-name">docId</span>, </span></li>
 <li><span class="parameter" id="addTermPosition-param-position"><span>required</span> <span class="type-annotation"><a href="../../text_indexing/Pt.html">Pt</a></span> <span class="parameter-name">position</span>, </span></li>
-<li><span class="parameter" id="addTermPosition-param-field"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.6.5/text_analysis/FieldName.html">FieldName</a>?</span> <span class="parameter-name">field</span>}</span></li>
+<li><span class="parameter" id="addTermPosition-param-zone"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/Zone.html">Zone</a>?</span> <span class="parameter-name">zone</span>}</span></li>
 </ol>)
 
       
@@ -88,15 +88,15 @@ in the list.</p>
     {required Term term,
     required DocId docId,
     required Pt position,
-    FieldName? field}) {
+    Zone? zone}) {
   &#47;&#47;
-  field = field ?? &#39;null&#39;;
+  zone = zone ?? &#39;null&#39;;
   &#47;&#47; get the entry for the term or initialize a new one if it does not exist
   final entry = this[term] ?? {};
-  &#47;&#47; get the existing field postings for [docId] if it exists
+  &#47;&#47; get the existing zone postings for [docId] if it exists
   final docPostings = entry[docId] ?? {};
-  &#47;&#47; get the existing psitions in the field for [field] if it exists
-  final docFieldPostings = docPostings[field];
+  &#47;&#47; get the existing psitions in the zone for [zone] if it exists
+  final docFieldPostings = docPostings[zone];
   &#47;&#47; initializes positions set from docFieldPostings or an empty list
   final set = (docFieldPostings ?? []).toSet();
   &#47;&#47; add position to the set
@@ -106,8 +106,8 @@ in the list.</p>
   &#47;&#47; order the list of positions in ascending order
   positions.sort(((a, b) =&gt; a.compareTo(b)));
   &#47;&#47; set the positions for docId
-  docPostings[field] = positions;
-  &#47;&#47; overwrite the field postings for docId
+  docPostings[zone] = positions;
+  &#47;&#47; overwrite the zone postings for docId
   entry[docId] = docPostings;
 
   &#47;&#47; set the entry for term with the new positions for docId
@@ -147,8 +147,8 @@ in the list.</p>
     <li><a href="../../text_indexing/PostingsExtension/terms.html">terms</a></li>
 
     <li class="section-title"><a href="../../text_indexing/PostingsExtension.html#instance-methods">Methods</a></li>
-    <li><a href="../../text_indexing/PostingsExtension/addFieldPostings.html">addFieldPostings</a></li>
     <li><a href="../../text_indexing/PostingsExtension/addTermPosition.html">addTermPosition</a></li>
+    <li><a href="../../text_indexing/PostingsExtension/addZonePostings.html">addZonePostings</a></li>
     <li><a href="../../text_indexing/PostingsExtension/containsAll.html">containsAll</a></li>
     <li><a href="../../text_indexing/PostingsExtension/containsAny.html">containsAny</a></li>
     <li><a href="../../text_indexing/PostingsExtension/documentPostings.html">documentPostings</a></li>
@@ -174,7 +174,7 @@ in the list.</p>
 <footer>
   <span class="no-break">
     text_indexing
-      0.8.0
+      0.9.0
   </span>
 
   

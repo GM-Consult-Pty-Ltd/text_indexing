@@ -108,14 +108,14 @@ abstract class TextIndexer {
   /// Adds [Postings] for [docText] to the [postingsStream].
   Future<Postings> indexText(DocId docId, SourceText docText);
 
-  /// Indexes the [fields] in a [json] document, returning a list of
-  /// [DocumentPostingsEntry].
+  /// Indexes the [InvertedIndex.zones] in a [json] document, returning a list
+  /// of [DocumentPostingsEntry].
   ///
   /// Adds [Postings] for [json] to the [postingsStream].
   Future<Postings> indexJson(DocId docId, JSON json);
 
-  /// Indexes the [fields] of all the documents in [collection], adding
-  /// [Postings] to the [postingsStream] for each document.
+  /// Indexes the [InvertedIndex.zones] of all the documents in [collection],
+  /// adding [Postings] to the [postingsStream] for each document.
   Future<void> indexCollection(JsonCollection collection);
 
   /// The [InvertedIndex] that provides access to the
