@@ -112,11 +112,11 @@ abstract class TextIndexer {
   /// [DocumentPostingsEntry].
   ///
   /// Adds [Postings] for [json] to the [postingsStream].
-  Future<Postings> indexJson(DocId docId, JSON json, List<Zone> fields);
+  Future<Postings> indexJson(DocId docId, JSON json);
 
   /// Indexes the [fields] of all the documents in [collection], adding
   /// [Postings] to the [postingsStream] for each document.
-  Future<void> indexCollection(JsonCollection collection, List<Zone> fields);
+  Future<void> indexCollection(JsonCollection collection);
 
   /// The [InvertedIndex] that provides access to the
   /// index [Dictionary] and [Postings] and a [ITextAnalyzer].
@@ -165,9 +165,10 @@ abstract class TextIndexerBase implements TextIndexer {
   /// - calls [emit], passing the [Postings] for [docId]; and
   /// - returns the [Postings] for [docId].
   @override
-  Future<Postings> indexJson(DocId docId, JSON json, List<Zone> fields) async {
+  Future<Postings> indexJson(DocId docId, JSON json) async {
     // get the terms using tokenizer
-    final tokens = (await index.analyzer.tokenizeJson(json, fields)).tokens;
+    final tokens =
+        (await index.analyzer.tokenizeJson(json, index.zones.keys)).tokens;
     // map the tokens to postings
     final Postings postings = _tokensToPostings(docId, tokens);
     // map postings to a list of DocumentPostingsEntry for docId.
@@ -181,12 +182,11 @@ abstract class TextIndexerBase implements TextIndexer {
   /// document in [collection] to [Token]s and maps the tokens to a [Postings]
   /// that is passed to [emit].
   @override
-  Future<void> indexCollection(
-      JsonCollection collection, List<Zone> fields) async {
+  Future<void> indexCollection(JsonCollection collection) async {
     await Future.forEach(collection.entries, (MapEntry<DocId, JSON> e) async {
       final docId = e.key;
       final json = e.value;
-      await indexJson(docId, json, fields);
+      await indexJson(docId, json);
     });
   }
 

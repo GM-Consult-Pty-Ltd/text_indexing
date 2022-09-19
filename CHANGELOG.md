@@ -22,9 +22,12 @@ All rights reserved.
 - Type definition `IdFtIndex`.
 - Type definition `IdFt`.
 - Type definition `ZoneWeightMap`.
-- Property `Future<int> InvertedIndex.vocabularyLength`.
-- Property `Future<int> Function() AsynCallbackIndex.dictionaryLengthLoader`;
-- Property `int InvertedIndex.phraseLength`.
+- Field getter `Future<int> InvertedIndex.vocabularyLength`.
+- Field getter `Future<int> Function() AsynCallbackIndex.dictionaryLengthLoader`;
+- Field getter `int InvertedIndex.phraseLength`.
+- Field getter `ZoneWeightMap InvertedIndex.zones`.
+- Optional named parameter `ZoneWeightMap zones` added to `TextIndexer.async` factory.
+- Optional named parameter `ZoneWeightMap zones` added to `TextIndexer.inMemory` factory.
 - Method `Future<FtdPostings> InvertedIndex.getFtdPostings(Iterable<Term>, int)`.
 - Method `Future<IdFtIndex> InvertedIndex.getIdFtIndex(Iterable<Term>)`.
 

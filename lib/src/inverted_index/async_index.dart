@@ -66,6 +66,7 @@ class AsyncCallbackIndex with InvertedIndexMixin implements InvertedIndex {
 
   /// Instantiates a [AsyncCallbackIndex] instance:
   /// - [analyzer] is the [ITextAnalyzer] used to tokenize text for the index;
+  /// - [zones] is a hashmap of zone names to their relative weight in the index;
   /// - [dictionaryLoader] synchronously retrieves a [Dictionary] for a vocabulary
   ///   from a data source;
   /// - [dictionaryUpdater] is callback that passes a [Dictionary] subset
@@ -81,6 +82,7 @@ class AsyncCallbackIndex with InvertedIndexMixin implements InvertedIndex {
       required this.postingsLoader,
       required this.postingsUpdater,
       required this.analyzer,
+      this.zones = const <String, double>{},
       this.phraseLength = 1})
       : assert(phraseLength > 0, 'The phrase length must be 1 or greater');
 
@@ -98,6 +100,9 @@ class AsyncCallbackIndex with InvertedIndexMixin implements InvertedIndex {
 
   @override
   final ITextAnalyzer analyzer;
+
+  @override
+  final ZoneWeightMap zones;
 
   @override
   Future<Ft> get vocabularyLength => dictionaryLengthLoader();

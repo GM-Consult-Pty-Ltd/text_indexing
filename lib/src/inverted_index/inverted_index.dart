@@ -40,6 +40,7 @@ typedef FtdPostings = Map<Term, Map<DocId, Ft>>;
 ///   factor of [phraseLength];
 /// - [analyzer] is the [ITextAnalyzer] used to index the corpus terms;
 /// - [vocabularyLength] is the number of unique terms in the corpus;
+/// - [zones] is a hashmap of zone names to their relative weight in the index;
 /// - [getDictionary] Asynchronously retrieves a [Dictionary] for a collection
 ///   of [Term]s from a [Dictionary] repository;
 /// - [upsertDictionary ] inserts entries into a [Dictionary] repository,
@@ -54,6 +55,9 @@ typedef FtdPostings = Map<Term, Map<DocId, Ft>>;
 /// the [Dictionary].
 abstract class InvertedIndex {
   //
+
+  /// Maps zone names to their relative weight in the index.
+  ZoneWeightMap get zones;
 
   /// The text analyser that extracts tokens from text for the index.
   ITextAnalyzer get analyzer;

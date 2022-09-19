@@ -116,11 +116,9 @@ void main() {
         }
       });
 
-      // - define the FieldNames to be indexed
-      final fields = ['name', 'description', 'hashTags', 'publicationDate'];
 
       // - iterate through the sample data
-      await indexer.indexCollection(sampleNewsSubset, fields);
+      await indexer.indexCollection(sampleNewsSubset);
 
       // wait for stream elements to complete printing
       await Future.delayed(const Duration(milliseconds: 250));

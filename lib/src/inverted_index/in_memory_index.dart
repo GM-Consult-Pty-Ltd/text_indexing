@@ -13,6 +13,7 @@ import 'package:text_indexing/text_indexing.dart';
 ///   factor of [phraseLength];
 /// - [analyzer] is the [ITextAnalyzer] used to index the corpus terms;
 /// - [vocabularyLength] is the number of unique terms in the corpus;
+/// - [zones] is a hashmap of zone names to their relative weight in the index;
 /// - [getDictionary] Asynchronously retrieves a [Dictionary] for a collection
 ///   of [Term]s from a [Dictionary] repository;
 /// - [upsertDictionary ] inserts entries into a [Dictionary] repository,
@@ -44,6 +45,7 @@ class InMemoryIndex with InvertedIndexMixin implements InvertedIndex {
 
   /// Instantiates a [InMemoryIndex] instance:
   /// - [analyzer] is the [ITextAnalyzer] used to tokenize text for the index;
+  /// - [zones] is a hashmap of zone names to their relative weight in the index;
   /// - [dictionary] is the in-memory term dictionary for the indexer. Pass a
   ///   [dictionary] instance at instantiation, otherwise an empty [Dictionary]
   ///   will be initialized;
@@ -55,6 +57,7 @@ class InMemoryIndex with InvertedIndexMixin implements InvertedIndex {
       {required this.dictionary,
       required this.postings,
       required this.analyzer,
+      this.zones = const <String, double>{},
       this.phraseLength = 1})
       : assert(phraseLength > 0, 'The phrase length must be 1 or greater');
 
@@ -73,6 +76,9 @@ class InMemoryIndex with InvertedIndexMixin implements InvertedIndex {
 
   @override
   final ITextAnalyzer analyzer;
+
+  @override
+  final ZoneWeightMap zones;
 
   @override
   Future<Postings> getPostings(Iterable<Term> terms) async {

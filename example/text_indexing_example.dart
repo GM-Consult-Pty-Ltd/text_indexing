@@ -113,7 +113,7 @@ Future<void> _persistedIndexerExample(Map<String, JSON> documents) async {
   final fields = ['name', 'description', 'hashTags', 'publicationDate'];
 
   // - iterate through the sample data
-  await indexer.indexCollection(jsonData, fields);
+  await indexer.indexCollection(jsonData);
 
   // wait for stream elements to complete printing
   await Future.delayed(const Duration(milliseconds: 250));
@@ -425,4 +425,12 @@ class _TestIndex with InvertedIndexMixin implements InvertedIndex {
 
   @override
   int get phraseLength => 3;
+
+  @override
+  final zones = {
+    'name': 1.0,
+    'description': 0.5,
+    'hashTags': 2.0,
+    'publicationDate': 0.1
+  };
 }

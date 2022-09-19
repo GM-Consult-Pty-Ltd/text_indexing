@@ -90,4 +90,12 @@ class _TestIndex with InvertedIndexMixin implements InvertedIndex {
 
   @override
   int get phraseLength => 3;
+
+  @override
+  final zones = {
+    'name': 1.0,
+    'description': 0.5,
+    'hashTags': 2.0,
+    'publicationDate': 0.1
+  };
 }
