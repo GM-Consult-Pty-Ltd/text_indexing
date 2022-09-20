@@ -120,7 +120,13 @@ Copyright (c) 2022, GM Consult Pty Ltd#class-persistedindexerAll rights reserved
 </ul>
 <h3 id="invertedindex-interface">InvertedIndex Interface</h3>
 <p>The <code>InvertedIndex</code> is an interface for an inverted, positional zoned index on a collection of documents.</p>
-<p>The <code>InvertedIndex</code> exposes the <code>analyzer</code> field, a text analyser that extracts tokens from text.</p>
+<p>The <code>InvertedIndex</code> exposes the following fields:</p>
+<ul>
+<li><code>ITextAnalyzer analyzer</code> is the text analyser that extracts tokens from text;</li>
+<li><code>ZoneWeightMap zones</code> maps collection zone/field names to their relative weight in the index;</li>
+<li><code>int phraseLength</code> is the maximum length of phrases in the index vocabulary. <code>phraseLength</code> must be greater than 0 and increases the size of the index by a factor equal to <code>phraseLength</code>, so its value must be kept as small as is consistent with efficient and accurate retrieval; and</li>
+<li><code>Future&lt;int&gt; vocabularyLength</code> asynchronoulsy returns the number of entries in the index <a href="text_indexing/Dictionary.html">Dictionary</a>.</li>
+</ul>
 <p>The <code>InvertedIndex</code> exposes the following methods:</p>
 <ul>
 <li><code>getDictionary</code> Asynchronously retrieves a <code>Dictionary</code> for a collection of <code>Term</code>s from a <code>Dictionary</code> repository;</li>
@@ -196,8 +202,6 @@ repositories:</p>
 <p>Subclasses of <code>TextIndexerBase</code> must implement:</p>
 <ul>
 <li><code>TextIndexer.index</code>; and</li>
-</ul>
-<ul>
 <li><code>TextIndexerBase.controller</code>, a <code>BehaviorSubject&lt;Postings&gt;</code> that controls the <code>TextIndex.postingsStream</code>.</li>
 </ul>
 <h3 id="inmemoryindex-class">InMemoryIndex Class</h3>
@@ -206,6 +210,14 @@ repositories:</p>
 <li><code>InMemoryIndex.analyzer</code> is the <code>ITextAnalyzer</code> used to tokenize text for the <code>InMemoryIndex</code>;</li>
 <li><code>InMemoryIndex.dictionary</code> is the in-memory term dictionary for the indexer. Pass a <code>dictionary</code> instance at instantiation, otherwise an empty <code>Dictionary</code> will be initialized; and</li>
 <li><code>InMemoryIndex.postings</code> is the in-memory postings hashmap for the indexer. Pass a <code>postings</code> instance at instantiation, otherwise an empty <code>Postings</code> will be initialized.</li>
+</ul>
+<p>The <code>InMemoryIndex</code> mixes in <code>InMemoryIndexMixin</code> that can be used in custom indexer classes that use in-memory hashmaps for <code>Postings</code> and <code>Dictionary</code>. <code>InMemoryIndexMixin</code> implements:</p>
+<ul>
+<li><code>vocabularyLength</code> returns the number of entries in <code>dictionary</code>.</li>
+<li><code>getDictionary</code> retrieves a <code>Dictionary</code> for a collection of <code>Term</code>s from the in-memory <code>dictionary</code> hashmap;</li>
+<li><code>upsertDictionary</code> inserts entries into the in-memory <code>dictionary</code> hashmap, overwriting any existing entries;</li>
+<li><code>getPostings</code> retrieves <code>Postings</code> for a collection of <code>Term</code>s from the in-memory <code>postings</code> hashmap;</li>
+<li><code>upsertPostings</code> inserts entries into the in-memory <code>postings</code> hashmap, overwriting any existing entries;</li>
 </ul>
 <h2 id="asynccallbackindex-class">AsyncCallbackIndex Class</h2>
 <p>The <code>AsyncCallbackIndex</code> is a <code>InvertedIndex</code> implementation class 
@@ -216,6 +228,22 @@ that uses asynchronous callbacks to perform read and write operations on <code>D
 <li><code>AsyncCallbackIndex.dictionaryUpdater</code> is callback that passes a <code>Dictionary</code> subset for persisting to <code>Dictionary</code> repository;</li>
 <li><code>AsyncCallbackIndex.postingsLoader</code> asynchronously retrieves a <code>Postings</code> for a vocabulary from a data source; and</li>
 <li><code>AsyncCallbackIndex.postingsUpdater</code> passes a <code>Postings</code> subset for persisting to a <code>Postings</code> repository.</li>
+</ul>
+<p>The <code>AsyncCallbackIndex</code> mixes in <code>AsyncCallbackIndexMixin</code> that can be used in custom indexer classes that use asynchronous repositiories for <code>Postings</code> and <code>Dictionary</code>. The <code>AsyncCallbackIndexMixin</code> exposes five callback function fields that must be overriden:</p>
+<ul>
+<li><code>dictionaryLengthLoader</code> asynchronously retrieves the number of terms in the vocabulary (N);</li>
+<li><code>dictionaryLoader</code> asynchronously retrieves a <code>Dictionary</code> for a vocabulary from a data source;</li>
+<li><code>dictionaryUpdater</code> is callback that passes a <code>Dictionary</code> subset for persisting to a datastore;</li>
+<li><code>postingsLoader</code> asynchronously retrieves a <code>Postings</code> for a vocabulary from a data source; and</li>
+<li><code>postingsUpdater</code> passes a <code>Postings</code> subset for persisting to a datastore.</li>
+</ul>
+<p>The <code>AsyncCallbackIndexMixin</code> implements the following methods for operations on asynchronous <code>Dictionary</code> and <code>Postings</code> repositories:</p>
+<ul>
+<li><code>vocabularyLength</code> calls <code>dictionaryLengthLoader</code>;</li>
+<li><code>getDictionary</code> calls <code>dictionaryLoader</code>;</li>
+<li><code>upsertDictionary</code> calls <code>dictionaryUpdater</code>;</li>
+<li><code>getPostings</code> calls <code>postingsLoader</code>; and</li>
+<li><code>upsertPostings</code> calls <code>postingsUpdater</code>.</li>
 </ul>
 <h2 id="definitions">Definitions</h2>
 <p>The following definitions are used throughout the <a href="https://pub.dev/documentation/text_indexing/latest/">documentation</a>:</p>
@@ -299,7 +327,7 @@ that uses asynchronous callbacks to perform read and write operations on <code>D
 <footer>
   <span class="no-break">
     text_indexing
-      0.10.0
+      0.11.0
   </span>
 
   

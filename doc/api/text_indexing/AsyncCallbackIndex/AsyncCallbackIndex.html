@@ -67,7 +67,9 @@
 <ul>
 <li><a href="../../text_indexing/AsyncCallbackIndex/analyzer.html">analyzer</a> is the <a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a> used to tokenize text for the index;</li>
 <li><a href="../../text_indexing/AsyncCallbackIndex/zones.html">zones</a> is a hashmap of zone names to their relative weight in the index;</li>
-<li><a href="../../text_indexing/AsyncCallbackIndex/dictionaryLoader.html">dictionaryLoader</a> synchronously retrieves a <a href="../../text_indexing/Dictionary.html">Dictionary</a> for a vocabulary
+<li><a href="../../text_indexing/AsyncCallbackIndex/dictionaryLengthLoader.html">dictionaryLengthLoader</a> asynchronously retrieves the number of terms
+in the vocabulary (N);</li>
+<li><a href="../../text_indexing/AsyncCallbackIndex/dictionaryLoader.html">dictionaryLoader</a> asynchronously retrieves a <a href="../../text_indexing/Dictionary.html">Dictionary</a> for a vocabulary
 from a data source;</li>
 <li><a href="../../text_indexing/AsyncCallbackIndex/dictionaryUpdater.html">dictionaryUpdater</a> is callback that passes a <a href="../../text_indexing/Dictionary.html">Dictionary</a> subset
  for persisting to a datastore;</li>
@@ -134,16 +136,16 @@ datastore.</li>
     <li><a href="../../text_indexing/AsyncCallbackIndex/vocabularyLength.html">vocabularyLength</a></li>
     <li><a href="../../text_indexing/AsyncCallbackIndex/zones.html">zones</a></li>
 
-    <li class="section-title"><a href="../../text_indexing/AsyncCallbackIndex-class.html#instance-methods">Methods</a></li>
-    <li><a href="../../text_indexing/AsyncCallbackIndex/getDictionary.html">getDictionary</a></li>
+    <li class="section-title inherited"><a href="../../text_indexing/AsyncCallbackIndex-class.html#instance-methods">Methods</a></li>
+    <li class="inherited"><a href="../../text_indexing/AsyncCallbackIndexMixin/getDictionary.html">getDictionary</a></li>
     <li class="inherited"><a href="../../text_indexing/InvertedIndexMixin/getFtdPostings.html">getFtdPostings</a></li>
     <li class="inherited"><a href="../../text_indexing/InvertedIndexMixin/getIdFtIndex.html">getIdFtIndex</a></li>
-    <li><a href="../../text_indexing/AsyncCallbackIndex/getPostings.html">getPostings</a></li>
+    <li class="inherited"><a href="../../text_indexing/AsyncCallbackIndexMixin/getPostings.html">getPostings</a></li>
     <li class="inherited"><a href="../../text_indexing/InvertedIndexMixin/getTfIndex.html">getTfIndex</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
-    <li><a href="../../text_indexing/AsyncCallbackIndex/upsertDictionary.html">upsertDictionary</a></li>
-    <li><a href="../../text_indexing/AsyncCallbackIndex/upsertPostings.html">upsertPostings</a></li>
+    <li class="inherited"><a href="../../text_indexing/AsyncCallbackIndexMixin/upsertDictionary.html">upsertDictionary</a></li>
+    <li class="inherited"><a href="../../text_indexing/AsyncCallbackIndexMixin/upsertPostings.html">upsertPostings</a></li>
 
     <li class="section-title inherited"><a href="../../text_indexing/AsyncCallbackIndex-class.html#operators">Operators</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/operator_equals.html">operator ==</a></li>
@@ -163,7 +165,7 @@ datastore.</li>
 <footer>
   <span class="no-break">
     text_indexing
-      0.10.0
+      0.11.0
   </span>
 
   

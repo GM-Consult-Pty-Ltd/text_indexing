@@ -97,7 +97,11 @@ To maximise performance of the indexers the API manipulates nested hashmaps of D
 
 The `InvertedIndex` is an interface for an inverted, positional zoned index on a collection of documents. 
 
-The `InvertedIndex` exposes the `analyzer` field, a text analyser that extracts tokens from text. 
+The `InvertedIndex` exposes the following fields:
+* `ITextAnalyzer analyzer` is the text analyser that extracts tokens from text; 
+* `ZoneWeightMap zones` maps collection zone/field names to their relative weight in the index;
+* `int phraseLength` is the maximum length of phrases in the index vocabulary. `phraseLength` must be greater than 0 and increases the size of the index by a factor equal to `phraseLength`, so its value must be kept as small as is consistent with efficient and accurate retrieval; and
+* `Future<int> vocabularyLength` asynchronoulsy returns the number of entries in the index [Dictionary].
 
 The `InvertedIndex` exposes the following methods:
 * `getDictionary` Asynchronously retrieves a `Dictionary` for a collection of `Term`s from a `Dictionary` repository;
@@ -183,24 +187,45 @@ The `TextIndexerBase.index` is updated whenever `TextIndexerBase.emit` is called
 
 Subclasses of `TextIndexerBase` must implement:
 * `TextIndexer.index`; and
-- `TextIndexerBase.controller`, a `BehaviorSubject<Postings>` that controls the `TextIndex.postingsStream`.
+* `TextIndexerBase.controller`, a `BehaviorSubject<Postings>` that controls the `TextIndex.postingsStream`.
 
 ### InMemoryIndex Class
 
 The `InMemoryIndex` is a `InvertedIndex` interface implementation with in-memory `Dictionary` and `Postings` hashmaps:
-- `InMemoryIndex.analyzer` is the `ITextAnalyzer` used to tokenize text for the `InMemoryIndex`;
-- `InMemoryIndex.dictionary` is the in-memory term dictionary for the indexer. Pass a `dictionary` instance at instantiation, otherwise an empty `Dictionary` will be initialized; and
-- `InMemoryIndex.postings` is the in-memory postings hashmap for the indexer. Pass a `postings` instance at instantiation, otherwise an empty `Postings` will be initialized.
+* `InMemoryIndex.analyzer` is the `ITextAnalyzer` used to tokenize text for the `InMemoryIndex`;
+* `InMemoryIndex.dictionary` is the in-memory term dictionary for the indexer. Pass a `dictionary` instance at instantiation, otherwise an empty `Dictionary` will be initialized; and
+* `InMemoryIndex.postings` is the in-memory postings hashmap for the indexer. Pass a `postings` instance at instantiation, otherwise an empty `Postings` will be initialized.
+
+The `InMemoryIndex` mixes in `InMemoryIndexMixin` that can be used in custom indexer classes that use in-memory hashmaps for `Postings` and `Dictionary`. `InMemoryIndexMixin` implements:
+* `vocabularyLength` returns the number of entries in `dictionary`.
+* `getDictionary` retrieves a `Dictionary` for a collection of `Term`s from the in-memory `dictionary` hashmap;
+* `upsertDictionary ` inserts entries into the in-memory `dictionary` hashmap, overwriting any existing entries;
+* `getPostings` retrieves `Postings` for a collection of `Term`s from the in-memory `postings` hashmap;
+* `upsertPostings` inserts entries into the in-memory `postings` hashmap, overwriting any existing entries;
 
 ## AsyncCallbackIndex Class
 
 The `AsyncCallbackIndex` is a `InvertedIndex` implementation class 
 that uses asynchronous callbacks to perform read and write operations on `Dictionary` and `Postings` repositories:
-- `AsyncCallbackIndex.analyzer` is the `ITextAnalyzer` used to tokenize text for the `AsyncCallbackIndex`;
-- `AsyncCallbackIndex.dictionaryLoader` synchronously retrieves a `Dictionary` for a vocabulary from a data source;
-- `AsyncCallbackIndex.dictionaryUpdater` is callback that passes a `Dictionary` subset for persisting to `Dictionary` repository;
-- `AsyncCallbackIndex.postingsLoader` asynchronously retrieves a `Postings` for a vocabulary from a data source; and
-- `AsyncCallbackIndex.postingsUpdater` passes a `Postings` subset for persisting to a `Postings` repository.
+* `AsyncCallbackIndex.analyzer` is the `ITextAnalyzer` used to tokenize text for the `AsyncCallbackIndex`;
+* `AsyncCallbackIndex.dictionaryLoader` synchronously retrieves a `Dictionary` for a vocabulary from a data source;
+* `AsyncCallbackIndex.dictionaryUpdater` is callback that passes a `Dictionary` subset for persisting to `Dictionary` repository;
+* `AsyncCallbackIndex.postingsLoader` asynchronously retrieves a `Postings` for a vocabulary from a data source; and
+* `AsyncCallbackIndex.postingsUpdater` passes a `Postings` subset for persisting to a `Postings` repository.
+
+The `AsyncCallbackIndex` mixes in `AsyncCallbackIndexMixin` that can be used in custom indexer classes that use asynchronous repositiories for `Postings` and `Dictionary`. The `AsyncCallbackIndexMixin` exposes five callback function fields that must be overriden:
+* `dictionaryLengthLoader` asynchronously retrieves the number of terms in the vocabulary (N);
+* `dictionaryLoader` asynchronously retrieves a `Dictionary` for a vocabulary from a data source;
+* `dictionaryUpdater` is callback that passes a `Dictionary` subset for persisting to a datastore;
+* `postingsLoader` asynchronously retrieves a `Postings` for a vocabulary from a data source; and
+* `postingsUpdater` passes a `Postings` subset for persisting to a datastore.
+
+The `AsyncCallbackIndexMixin` implements the following methods for operations on asynchronous `Dictionary` and `Postings` repositories:
+* `vocabularyLength` calls `dictionaryLengthLoader`;
+* `getDictionary` calls `dictionaryLoader`;
+* `upsertDictionary ` calls `dictionaryUpdater`;
+* `getPostings` calls `postingsLoader`; and
+* `upsertPostings` calls `postingsUpdater`.
 
 ## Definitions
 

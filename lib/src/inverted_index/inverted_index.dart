@@ -121,7 +121,7 @@ abstract class InvertedIndex {
 
 /// A mixin that implements the [InvertedIndex.getTfIndex],
 /// [InvertedIndex.getFtdPostings] and [InvertedIndex.getIdFtIndex] methods.
-mixin InvertedIndexMixin implements InvertedIndex {
+abstract class InvertedIndexMixin implements InvertedIndex {
 //
 
   /// Implements [InvertedIndex.getFtdPostings] method:

@@ -51,8 +51,7 @@
 
     
 <section class="desc markdown">
-  <p>An implementation the <a href="../text_indexing/InvertedIndex-class.html">InvertedIndex</a> interface, implements
-<a href="../text_indexing/InvertedIndex-class.html">InvertedIndex</a> interface:</p>
+  <p>An implementation of the <a href="../text_indexing/InvertedIndex-class.html">InvertedIndex</a> interface:</p>
 <ul>
 <li><a href="../text_indexing/InMemoryIndex/phraseLength.html">phraseLength</a> is the maximum length of phrases in the index vocabulary.
 The minimum phrase length is 1. If phrase length is greater than 1, the
@@ -60,15 +59,15 @@ index vocabulary also contains phrases up to <a href="../text_indexing/InMemoryI
 concatenated from consecutive terms. The index size is increased by a
 factor of <a href="../text_indexing/InMemoryIndex/phraseLength.html">phraseLength</a>;</li>
 <li><a href="../text_indexing/InMemoryIndex/analyzer.html">analyzer</a> is the <a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a> used to index the corpus terms;</li>
-<li><a href="../text_indexing/InMemoryIndex/vocabularyLength.html">vocabularyLength</a> is the number of unique terms in the corpus;</li>
+<li><a href="../text_indexing/InMemoryIndexMixin/vocabularyLength.html">vocabularyLength</a> is the number of unique terms in the corpus;</li>
 <li><a href="../text_indexing/InMemoryIndex/zones.html">zones</a> is a hashmap of zone names to their relative weight in the index;</li>
-<li><a href="../text_indexing/InMemoryIndex/getDictionary.html">getDictionary</a> Asynchronously retrieves a <a href="../text_indexing/Dictionary.html">Dictionary</a> for a collection
-of <a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/Term.html">Term</a>s from a <a href="../text_indexing/Dictionary.html">Dictionary</a> repository;</li>
-<li><a href="../text_indexing/InMemoryIndex/upsertDictionary.html">upsertDictionary </a> inserts entries into a <a href="../text_indexing/Dictionary.html">Dictionary</a> repository,
+<li><a href="../text_indexing/InMemoryIndexMixin/getDictionary.html">getDictionary</a> retrieves a <a href="../text_indexing/Dictionary.html">Dictionary</a> for a collection of <a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/Term.html">Term</a>s from
+the in-memory <a href="../text_indexing/InMemoryIndex/dictionary.html">dictionary</a> hashmap;</li>
+<li><a href="../text_indexing/InMemoryIndexMixin/upsertDictionary.html">upsertDictionary </a> inserts entries into the in-memory <a href="../text_indexing/InMemoryIndex/dictionary.html">dictionary</a> hashmap,
 overwriting any existing entries;</li>
-<li><a href="../text_indexing/InMemoryIndex/getPostings.html">getPostings</a> asynchronously retrieves <a href="../text_indexing/Postings.html">Postings</a> for a collection
-of <a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/Term.html">Term</a>s from a <a href="../text_indexing/Postings.html">Postings</a> repository;</li>
-<li><a href="../text_indexing/InMemoryIndex/upsertPostings.html">upsertPostings</a> inserts entries into a <a href="../text_indexing/Postings.html">Postings</a> repository,
+<li><a href="../text_indexing/InMemoryIndexMixin/getPostings.html">getPostings</a> retrieves <a href="../text_indexing/Postings.html">Postings</a> for a collection of <a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/Term.html">Term</a>s from the
+in-memory <a href="../text_indexing/InMemoryIndex/postings.html">postings</a> hashmap;</li>
+<li><a href="../text_indexing/InMemoryIndexMixin/upsertPostings.html">upsertPostings</a> inserts entries into the in-memory <a href="../text_indexing/InMemoryIndex/postings.html">postings</a> hashmap,
 overwriting any existing entries;</li>
 <li><a href="../text_indexing/InvertedIndexMixin/getFtdPostings.html">getFtdPostings</a> return a <a href="../text_indexing/FtdPostings.html">FtdPostings</a> for a collection of <a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/Term.html">Term</a>s from
 the <a href="../text_indexing/Postings.html">Postings</a>, optionally filtered by minimum term frequency; and</li>
@@ -99,7 +98,8 @@ will be initialized.</li>
   <dt>Mixed in types</dt>
   <dd>
     <ul class="comma-separated clazz-relationships">
-        <li><a href="../text_indexing/InvertedIndexMixin-mixin.html">InvertedIndexMixin</a></li>
+        <li><a href="../text_indexing/InMemoryIndexMixin-class.html">InMemoryIndexMixin</a></li>
+        <li><a href="../text_indexing/InvertedIndexMixin-class.html">InvertedIndexMixin</a></li>
     </ul>
   </dd>
 
@@ -194,14 +194,14 @@ will be initialized.</li>
 
 </dd>
 
-        <dt id="vocabularyLength" class="property">
-  <span class="name"><a href="../text_indexing/InMemoryIndex/vocabularyLength.html">vocabularyLength</a></span>
+        <dt id="vocabularyLength" class="property inherited">
+  <span class="name"><a href="../text_indexing/InMemoryIndexMixin/vocabularyLength.html">vocabularyLength</a></span>
   <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Ft.html">Ft</a></span>&gt;</span></span> 
 
 </dt>
-<dd>
+<dd class="inherited">
   Returns the number of terms in the vocabulary (N).
-  <div class="features">read-only, override</div>
+  <div class="features">read-only, inherited</div>
 
 </dd>
 
@@ -221,21 +221,21 @@ will be initialized.</li>
 
     
   <section
-      class="summary offset-anchor"
+      class="summary offset-anchor inherited"
       id="instance-methods">
     <h2>Methods</h2>
     <dl class="callables">
-        <dt id="getDictionary" class="callable">
-  <span class="name"><a href="../text_indexing/InMemoryIndex/getDictionary.html">getDictionary</a></span><span class="signature">(<wbr><span class="parameter" id="getDictionary-param-terms">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/Term.html">Term</a></span>&gt;</span>?</span> <span class="parameter-name">terms</span>]</span>)
+        <dt id="getDictionary" class="callable inherited">
+  <span class="name"><a href="../text_indexing/InMemoryIndexMixin/getDictionary.html">getDictionary</a></span><span class="signature">(<wbr><span class="parameter" id="getDictionary-param-terms">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/Term.html">Term</a></span>&gt;</span>?</span> <span class="parameter-name">terms</span>]</span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Dictionary.html">Dictionary</a></span>&gt;</span></span>
   </span>
   
 
 </dt>
-<dd>
+<dd class="inherited">
   Asynchronously retrieves a <code>Dictionary</code> for the <code>terms</code> from a
 <code>Dictionary</code> repository.
-  <div class="features">override</div>
+  <div class="features">inherited</div>
 
 </dd>
 
@@ -265,17 +265,17 @@ will be initialized.</li>
 
 </dd>
 
-        <dt id="getPostings" class="callable">
-  <span class="name"><a href="../text_indexing/InMemoryIndex/getPostings.html">getPostings</a></span><span class="signature">(<wbr><span class="parameter" id="getPostings-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
+        <dt id="getPostings" class="callable inherited">
+  <span class="name"><a href="../text_indexing/InMemoryIndexMixin/getPostings.html">getPostings</a></span><span class="signature">(<wbr><span class="parameter" id="getPostings-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Postings.html">Postings</a></span>&gt;</span></span>
   </span>
   
 
 </dt>
-<dd>
+<dd class="inherited">
   Asynchronously retrieves <a href="../text_indexing/PostingsEntry.html">PostingsEntry</a> entities for the <code>terms</code> from a
 <code>Postings</code> repository.
-  <div class="features">override</div>
+  <div class="features">inherited</div>
 
 </dd>
 
@@ -318,31 +318,31 @@ will be initialized.</li>
 
 </dd>
 
-        <dt id="upsertDictionary" class="callable">
-  <span class="name"><a href="../text_indexing/InMemoryIndex/upsertDictionary.html">upsertDictionary</a></span><span class="signature">(<wbr><span class="parameter" id="upsertDictionary-param-values"><span class="type-annotation"><a href="../text_indexing/Dictionary.html">Dictionary</a></span> <span class="parameter-name">values</span></span>)
+        <dt id="upsertDictionary" class="callable inherited">
+  <span class="name"><a href="../text_indexing/InMemoryIndexMixin/upsertDictionary.html">upsertDictionary</a></span><span class="signature">(<wbr><span class="parameter" id="upsertDictionary-param-values"><span class="type-annotation"><a href="../text_indexing/Dictionary.html">Dictionary</a></span> <span class="parameter-name">values</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
   </span>
   
 
 </dt>
-<dd>
+<dd class="inherited">
   Inserts <code>values</code> into a <a href="../text_indexing/Dictionary.html">Dictionary</a> repository, overwriting them if they
 already exist.
-  <div class="features">override</div>
+  <div class="features">inherited</div>
 
 </dd>
 
-        <dt id="upsertPostings" class="callable">
-  <span class="name"><a href="../text_indexing/InMemoryIndex/upsertPostings.html">upsertPostings</a></span><span class="signature">(<wbr><span class="parameter" id="upsertPostings-param-values"><span class="type-annotation"><a href="../text_indexing/Postings.html">Postings</a></span> <span class="parameter-name">values</span></span>)
+        <dt id="upsertPostings" class="callable inherited">
+  <span class="name"><a href="../text_indexing/InMemoryIndexMixin/upsertPostings.html">upsertPostings</a></span><span class="signature">(<wbr><span class="parameter" id="upsertPostings-param-values"><span class="type-annotation"><a href="../text_indexing/Postings.html">Postings</a></span> <span class="parameter-name">values</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
   </span>
   
 
 </dt>
-<dd>
+<dd class="inherited">
   Inserts <code>values</code> into a <a href="../text_indexing/Postings.html">Postings</a> repository, overwriting them if they
 already exist.
-  <div class="features">override</div>
+  <div class="features">inherited</div>
 
 </dd>
 
@@ -394,9 +394,12 @@ already exist.
     <ol>
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#classes">Classes</a></li>
   <li><a href="../text_indexing/AsyncCallbackIndex-class.html">AsyncCallbackIndex</a></li>
+  <li><a href="../text_indexing/AsyncCallbackIndexMixin-class.html">AsyncCallbackIndexMixin</a></li>
   <li><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/English-class.html">English</a></li>
   <li><a href="../text_indexing/InMemoryIndex-class.html">InMemoryIndex</a></li>
+  <li><a href="../text_indexing/InMemoryIndexMixin-class.html">InMemoryIndexMixin</a></li>
   <li><a href="../text_indexing/InvertedIndex-class.html">InvertedIndex</a></li>
+  <li><a href="../text_indexing/InvertedIndexMixin-class.html">InvertedIndexMixin</a></li>
   <li><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></li>
   <li><a href="https://pub.dev/documentation/porter_2_stemmer/1.0.0+5/porter_2_stemmer/Porter2Stemmer-class.html">Porter2Stemmer</a></li>
   <li><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/Sentence-class.html">Sentence</a></li>
@@ -421,8 +424,6 @@ already exist.
   <li><a href="../text_indexing/PostingsExtension.html">PostingsExtension</a></li>
   <li><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/TokenCollectionExtension.html">TokenCollectionExtension</a></li>
 
-  <li class="section-title"><a href="../text_indexing/text_indexing-library.html#mixins">Mixins</a></li>
-  <li><a href="../text_indexing/InvertedIndexMixin-mixin.html">InvertedIndexMixin</a></li>
 
 
 
@@ -487,19 +488,19 @@ already exist.
     <li><a href="../text_indexing/InMemoryIndex/phraseLength.html">phraseLength</a></li>
     <li><a href="../text_indexing/InMemoryIndex/postings.html">postings</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
-    <li><a href="../text_indexing/InMemoryIndex/vocabularyLength.html">vocabularyLength</a></li>
+    <li class="inherited"><a href="../text_indexing/InMemoryIndexMixin/vocabularyLength.html">vocabularyLength</a></li>
     <li><a href="../text_indexing/InMemoryIndex/zones.html">zones</a></li>
 
-    <li class="section-title"><a href="../text_indexing/InMemoryIndex-class.html#instance-methods">Methods</a></li>
-    <li><a href="../text_indexing/InMemoryIndex/getDictionary.html">getDictionary</a></li>
+    <li class="section-title inherited"><a href="../text_indexing/InMemoryIndex-class.html#instance-methods">Methods</a></li>
+    <li class="inherited"><a href="../text_indexing/InMemoryIndexMixin/getDictionary.html">getDictionary</a></li>
     <li class="inherited"><a href="../text_indexing/InvertedIndexMixin/getFtdPostings.html">getFtdPostings</a></li>
     <li class="inherited"><a href="../text_indexing/InvertedIndexMixin/getIdFtIndex.html">getIdFtIndex</a></li>
-    <li><a href="../text_indexing/InMemoryIndex/getPostings.html">getPostings</a></li>
+    <li class="inherited"><a href="../text_indexing/InMemoryIndexMixin/getPostings.html">getPostings</a></li>
     <li class="inherited"><a href="../text_indexing/InvertedIndexMixin/getTfIndex.html">getTfIndex</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
-    <li><a href="../text_indexing/InMemoryIndex/upsertDictionary.html">upsertDictionary</a></li>
-    <li><a href="../text_indexing/InMemoryIndex/upsertPostings.html">upsertPostings</a></li>
+    <li class="inherited"><a href="../text_indexing/InMemoryIndexMixin/upsertDictionary.html">upsertDictionary</a></li>
+    <li class="inherited"><a href="../text_indexing/InMemoryIndexMixin/upsertPostings.html">upsertPostings</a></li>
 
     <li class="section-title inherited"><a href="../text_indexing/InMemoryIndex-class.html#operators">Operators</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/operator_equals.html">operator ==</a></li>
@@ -516,7 +517,7 @@ already exist.
 <footer>
   <span class="no-break">
     text_indexing
-      0.10.0
+      0.11.0
   </span>
 
   

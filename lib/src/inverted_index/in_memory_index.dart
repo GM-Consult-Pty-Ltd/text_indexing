@@ -4,8 +4,7 @@
 
 import 'package:text_indexing/text_indexing.dart';
 
-/// An implementation the [InvertedIndex] interface, implements
-/// [InvertedIndex] interface:
+/// An implementation of the [InvertedIndex] interface:
 /// - [phraseLength] is the maximum length of phrases in the index vocabulary.
 ///   The minimum phrase length is 1. If phrase length is greater than 1, the
 ///   index vocabulary also contains phrases up to [phraseLength] long,
@@ -14,13 +13,13 @@ import 'package:text_indexing/text_indexing.dart';
 /// - [analyzer] is the [ITextAnalyzer] used to index the corpus terms;
 /// - [vocabularyLength] is the number of unique terms in the corpus;
 /// - [zones] is a hashmap of zone names to their relative weight in the index;
-/// - [getDictionary] Asynchronously retrieves a [Dictionary] for a collection
-///   of [Term]s from a [Dictionary] repository;
-/// - [upsertDictionary ] inserts entries into a [Dictionary] repository,
+/// - [getDictionary] retrieves a [Dictionary] for a collection of [Term]s from
+///   the in-memory [dictionary] hashmap;
+/// - [upsertDictionary ] inserts entries into the in-memory [dictionary] hashmap,
 ///   overwriting any existing entries;
-/// - [getPostings] asynchronously retrieves [Postings] for a collection
-///   of [Term]s from a [Postings] repository;
-/// - [upsertPostings] inserts entries into a [Postings] repository,
+/// - [getPostings] retrieves [Postings] for a collection of [Term]s from the
+///   in-memory [postings] hashmap;
+/// - [upsertPostings] inserts entries into the in-memory [postings] hashmap,
 ///   overwriting any existing entries;
 /// - [getFtdPostings] return a [FtdPostings] for a collection of [Term]s from
 /// the [Postings], optionally filtered by minimum term frequency; and
@@ -32,16 +31,17 @@ import 'package:text_indexing/text_indexing.dart';
 /// - [postings] is the in-memory postings hashmap for the indexer. Pass a
 ///   [postings] instance at instantiation, otherwise an empty [Postings]
 ///   will be initialized.
-class InMemoryIndex with InvertedIndexMixin implements InvertedIndex {
+class InMemoryIndex
+    with InMemoryIndexMixin, InvertedIndexMixin
+    implements InvertedIndex {
   //
   /// The in-memory term dictionary for the indexer.
+  @override
   final Dictionary dictionary;
 
   /// The in-memory postings hashmap for the indexer.
-  final Postings postings;
-
   @override
-  Future<Ft> get vocabularyLength async => dictionary.length;
+  final Postings postings;
 
   /// Instantiates a [InMemoryIndex] instance:
   /// - [analyzer] is the [ITextAnalyzer] used to tokenize text for the index;
@@ -62,23 +62,39 @@ class InMemoryIndex with InvertedIndexMixin implements InvertedIndex {
       : assert(phraseLength > 0, 'The phrase length must be 1 or greater');
 
   @override
-  Future<Dictionary> getDictionary([Iterable<Term>? terms]) async {
-    if (terms == null) return dictionary;
-    final Dictionary retVal = {};
-    for (final term in terms) {
-      final entry = dictionary[term];
-      if (entry != null) {
-        retVal[term] = entry;
-      }
-    }
-    return retVal;
-  }
-
-  @override
   final ITextAnalyzer analyzer;
 
   @override
   final ZoneWeightMap zones;
+
+  @override
+  final int phraseLength;
+}
+
+/// A mixin class that implements [InvertedIndex]. The mixin exposes in-memory
+/// [dictionary] and [postings] fields that must be overriden. Provides
+/// implementation of the following methods for operations on the in-memory
+/// [postings] and [dictionary] maps:
+/// - [vocabularyLength] returns the number of entries in [dictionary].
+/// - [getDictionary] retrieves a [Dictionary] for a collection of [Term]s from
+///   the in-memory [dictionary] hashmap;
+/// - [upsertDictionary ] inserts entries into the in-memory [dictionary] hashmap,
+///   overwriting any existing entries;
+/// - [getPostings] retrieves [Postings] for a collection of [Term]s from the
+///   in-memory [postings] hashmap;
+/// - [upsertPostings] inserts entries into the in-memory [postings] hashmap,
+///   overwriting any existing entries;
+abstract class InMemoryIndexMixin implements InvertedIndex {
+  //
+
+  /// The in-memory term dictionary for the indexer.
+  Dictionary get dictionary;
+
+  /// The in-memory postings hashmap for the indexer.
+  Postings get postings;
+
+  @override
+  Future<Ft> get vocabularyLength async => dictionary.length;
 
   @override
   Future<Postings> getPostings(Iterable<Term> terms) async {
@@ -93,12 +109,22 @@ class InMemoryIndex with InvertedIndexMixin implements InvertedIndex {
   }
 
   @override
+  Future<Dictionary> getDictionary([Iterable<Term>? terms]) async {
+    if (terms == null) return dictionary;
+    final Dictionary retVal = {};
+    for (final term in terms) {
+      final entry = dictionary[term];
+      if (entry != null) {
+        retVal[term] = entry;
+      }
+    }
+    return retVal;
+  }
+
+  @override
   Future<void> upsertDictionary(Dictionary values) async =>
       dictionary.addAll(values);
 
   @override
   Future<void> upsertPostings(Postings values) async => postings.addAll(values);
-
-  @override
-  final int phraseLength;
 }

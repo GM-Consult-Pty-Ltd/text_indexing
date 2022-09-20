@@ -3,7 +3,13 @@ BSD 3-Clause License
 Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
+### 0.11.0 (PRE-RELEASE)
 
+#### New:
+- Mixin class `AsyncCallbackIndexMixin`. 
+- Mixin class `InMemoryIndexMixin`. 
+
+Updated dependencies, tests, examples and documentation.
 
 ### 0.10.0 (PRE-RELEASE)
 

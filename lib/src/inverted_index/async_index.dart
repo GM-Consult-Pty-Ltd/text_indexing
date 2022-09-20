@@ -38,36 +38,45 @@ import 'package:text_indexing/text_indexing.dart';
 ///   from a data source; and
 /// - [postingsUpdater] passes a [Postings] subset for persisting to a
 ///   datastore.
-class AsyncCallbackIndex with InvertedIndexMixin implements InvertedIndex {
+class AsyncCallbackIndex
+    with InvertedIndexMixin, AsyncCallbackIndexMixin
+    implements InvertedIndex {
   //
 
   @override
   final int phraseLength;
 
   /// Asynchronously retrieves the number of terms in the vocabulary (N).
+  @override
   final DictionaryLengthLoader dictionaryLengthLoader;
 
   /// Asynchronously retrieves a [Dictionary] subset for a vocabulary from a
   /// [Dictionary] data source, usually persisted storage.
+  @override
   final DictionaryLoader dictionaryLoader;
 
   /// A callback that passes a subset of a [Dictionary] containing new or
   /// changed [DictionaryEntry] instances for persisting to the [Dictionary]
   /// datastore.
+  @override
   final DictionaryUpdater dictionaryUpdater;
 
   /// Asynchronously retrieves a [Postings] subset for a vocabulary from a
   /// [Postings] data source, usually persisted storage.
+  @override
   final PostingsLoader postingsLoader;
 
   /// A callback that passes a subset of a [Postings] containing new or changed
   /// [PostingsEntry] instances to the [Postings] datastore.
+  @override
   final PostingsUpdater postingsUpdater;
 
   /// Instantiates a [AsyncCallbackIndex] instance:
   /// - [analyzer] is the [ITextAnalyzer] used to tokenize text for the index;
   /// - [zones] is a hashmap of zone names to their relative weight in the index;
-  /// - [dictionaryLoader] synchronously retrieves a [Dictionary] for a vocabulary
+  /// - [dictionaryLengthLoader] asynchronously retrieves the number of terms
+  ///   in the vocabulary (N);
+  /// - [dictionaryLoader] asynchronously retrieves a [Dictionary] for a vocabulary
   ///   from a data source;
   /// - [dictionaryUpdater] is callback that passes a [Dictionary] subset
   ///    for persisting to a datastore;
@@ -87,8 +96,62 @@ class AsyncCallbackIndex with InvertedIndexMixin implements InvertedIndex {
       : assert(phraseLength > 0, 'The phrase length must be 1 or greater');
 
   @override
+  final ITextAnalyzer analyzer;
+
+  @override
+  final ZoneWeightMap zones;
+
+  @override
+  Future<Ft> get vocabularyLength => dictionaryLengthLoader();
+}
+
+/// A mixin class that implements [InvertedIndex]. The mixin exposes five
+/// callback function fields that must be overriden:
+/// - [dictionaryLengthLoader] asynchronously retrieves the number of terms
+///   in the vocabulary (N);
+/// - [dictionaryLoader] asynchronously retrieves a [Dictionary] for a vocabulary
+///   from a data source;
+/// - [dictionaryUpdater] is callback that passes a [Dictionary] subset
+///    for persisting to a datastore;
+/// - [postingsLoader] asynchronously retrieves a [Postings] for a vocabulary
+///   from a data source; and
+/// - [postingsUpdater] passes a [Postings] subset for persisting to a
+///   datastore.
+///
+/// Provides implementation of the following methods for operations on
+/// asynchronous [Dictionary] and [Postings] repositories:
+/// - [vocabularyLength] calls [dictionaryLengthLoader].
+/// - [getDictionary] calls [dictionaryLoader];
+/// - [upsertDictionary ] calls [dictionaryUpdater];
+/// - [getPostings] calls [postingsLoader]; and
+/// - [upsertPostings] calls [postingsUpdater].
+abstract class AsyncCallbackIndexMixin implements InvertedIndex {
+  //
+
+  /// Asynchronously retrieves the number of terms in the vocabulary (N).
+  DictionaryLengthLoader get dictionaryLengthLoader;
+
+  /// Asynchronously retrieves a [Dictionary] subset for a vocabulary from a
+  /// [Dictionary] data source, usually persisted storage.
+  DictionaryLoader get dictionaryLoader;
+
+  /// A callback that passes a subset of a [Dictionary] containing new or
+  /// changed [DictionaryEntry] instances for persisting to the [Dictionary]
+  /// datastore.
+  DictionaryUpdater get dictionaryUpdater;
+
+  /// Asynchronously retrieves a [Postings] subset for a vocabulary from a
+  /// [Postings] data source, usually persisted storage.
+  PostingsLoader get postingsLoader;
+
+  /// A callback that passes a subset of a [Postings] containing new or changed
+  /// [PostingsEntry] instances to the [Postings] datastore.
+  PostingsUpdater get postingsUpdater;
+
+  @override
   Future<Dictionary> getDictionary([Iterable<Term>? terms]) =>
       dictionaryLoader(terms);
+
   @override
   Future<Postings> getPostings(Iterable<Term> terms) => postingsLoader(terms);
 
@@ -97,13 +160,4 @@ class AsyncCallbackIndex with InvertedIndexMixin implements InvertedIndex {
 
   @override
   Future<void> upsertPostings(Postings values) => postingsUpdater(values);
-
-  @override
-  final ITextAnalyzer analyzer;
-
-  @override
-  final ZoneWeightMap zones;
-
-  @override
-  Future<Ft> get vocabularyLength => dictionaryLengthLoader();
 }
