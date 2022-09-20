@@ -18,16 +18,28 @@ typedef JsonCollection = Map<DocId, JSON>;
 /// Interface for classes that construct and maintain a inverted, positional,
 /// zoned index [InvertedIndex].
 ///
+/// Text or documents can be indexed by calling the following methods:
+/// - [TextIndexer.indexJson] indexes the fields in a `JSON` document;
+/// - [TextIndexer.indexText] indexes text from a text document.
+///
+/// Alternatively, pass a [documentStream] or [collectionStream] for indexing
+/// whenever either of these streams emit (a) document(s).
+///
 /// Implementing classes override the following fields:
 /// - [index] is the [InvertedIndex] that provides access to the
 ///   index [Dictionary] and [Postings] and a [ITextAnalyzer];
+/// - [documentStream] is an input stream of 'JSON' documents. The documents
+///   emitted by[documentStream] are passed to [indexJson] for indexing;
+/// - [collectionStream] is an input stream of a collection of 'JSON' documents.
+///   The documents emitted by [collectionStream] are passed to
+///   [indexCollection] for indexing; and
 /// - [postingsStream] emits a [Postings] whenever a
 ///   document is indexed.
 ///
 /// Implementing classes override the following asynchronous methods:
 /// - [indexText] indexes a text document;
 /// - [indexJson] indexes the fields in a JSON document;
-/// - [indexCollection] indexes the fields of all the documents in JSON
+/// - [indexCollection] indexes the fields of all the documents in a JSON
 ///   document collection; and
 /// - [emit] adds an event to the [postingsStream] after updating the [index];
 abstract class TextIndexer {
@@ -40,17 +52,27 @@ abstract class TextIndexer {
   /// [Dictionary] and [Postings] maps:
   /// - pass a [analyzer] text analyser that extracts tokens from text;
   /// - pass an in-memory [dictionary] instance, otherwise an empty
-  ///   [Dictionary] will be initialized.
+  ///   [Dictionary] will be initialized;
   /// - pass an in-memory [postings] instance, otherwise an empty [Postings]
-  ///   will be initialized.
+  ///   will be initialized;
+  /// - [documentStream] is an input stream of 'JSON' documents. The documents
+  ///   emitted by[documentStream] are passed to [indexJson] for indexing; and
+  /// - [collectionStream] is an input stream of a collection of 'JSON'
+  ///   documents. The documents emitted by [collectionStream] are passed to
+  ///   [indexCollection] for indexing.
   factory TextIndexer.inMemory(
           {Dictionary? dictionary,
           Postings? postings,
-          ITextAnalyzer analyzer = const TextAnalyzer()}) =>
-      _TextIndexerImpl(InMemoryIndex(
-          dictionary: dictionary ?? {},
-          postings: postings ?? {},
-          analyzer: analyzer));
+          ITextAnalyzer analyzer = const TextAnalyzer(),
+          Stream<MapEntry<DocId, JSON>>? documentStream,
+          Stream<Map<DocId, JSON>>? collectionStream}) =>
+      _TextIndexerImpl(
+          InMemoryIndex(
+              dictionary: dictionary ?? {},
+              postings: postings ?? {},
+              analyzer: analyzer),
+          collectionStream,
+          documentStream);
 
   /// Factory constructor returns a [TextIndexer] instance that uses
   /// asynchronous callback functions to access [Dictionary] and [Postings]
@@ -63,32 +85,60 @@ abstract class TextIndexer {
   /// - [dictionaryUpdater] is callback that passes a [Dictionary] subset
   ///    for persisting to a datastore;
   /// - [postingsLoader] asynchronously retrieves a [Postings] for a vocabulary
-  ///   from a data source; and
+  ///   from a data source;
   /// - [postingsUpdater] passes a [Postings] subset for persisting to a
-  ///   datastore.
+  ///   datastore;
+  /// - [documentStream] is an input stream of 'JSON' documents. The documents
+  ///   emitted by[documentStream] are passed to [indexJson] for indexing; and
+  /// - [collectionStream] is an input stream of a collection of 'JSON'
+  ///   documents. The documents emitted by [collectionStream] are passed to
+  ///   [indexCollection] for indexing.
   factory TextIndexer.async(
           {required DictionaryLoader dictionaryLoader,
           required DictionaryLengthLoader dictionaryLengthLoader,
           required DictionaryUpdater dictionaryUpdater,
           required PostingsLoader postingsLoader,
           required PostingsUpdater postingsUpdater,
+          Stream<MapEntry<DocId, JSON>>? documentStream,
+          Stream<Map<DocId, JSON>>? collectionStream,
           ITextAnalyzer analyzer = const TextAnalyzer()}) =>
-      _TextIndexerImpl(AsyncCallbackIndex(
-          dictionaryLoader: dictionaryLoader,
-          dictionaryLengthLoader: dictionaryLengthLoader,
-          dictionaryUpdater: dictionaryUpdater,
-          postingsLoader: postingsLoader,
-          postingsUpdater: postingsUpdater,
-          analyzer: analyzer));
+      _TextIndexerImpl(
+          AsyncCallbackIndex(
+              dictionaryLoader: dictionaryLoader,
+              dictionaryLengthLoader: dictionaryLengthLoader,
+              dictionaryUpdater: dictionaryUpdater,
+              postingsLoader: postingsLoader,
+              postingsUpdater: postingsUpdater,
+              analyzer: analyzer),
+          collectionStream,
+          documentStream);
 
   /// Factory constructor initializes a [TextIndexer] instance, passing in a
-  /// [index] instance.
-  factory TextIndexer.index({
-    required InvertedIndex index,
-    // Tokenizer tokenizer = TextIndexer.kDefaultTokenizer,
-    // JsonTokenizer jsonTokenizer = TextIndexer.kDefaultJsonTokenizer
-  }) =>
-      _TextIndexerImpl(index);
+  /// [index] instance:
+  /// - [documentStream] is an input stream of 'JSON' documents. The documents
+  ///   emitted by[documentStream] are passed to [indexJson] for indexing; and
+  /// - [collectionStream] is an input stream of a collection of 'JSON'
+  ///   documents. The documents emitted by [collectionStream] are passed to
+  ///   [indexCollection] for indexing.
+  factory TextIndexer.index(
+          {required InvertedIndex index,
+          Stream<MapEntry<DocId, JSON>>? documentStream,
+          Stream<Map<DocId, JSON>>? collectionStream}) =>
+      _TextIndexerImpl(index, collectionStream, documentStream);
+
+  /// An input stream of 'JSON' documents. The documents emitted by
+  /// [documentStream] are passed to [indexJson] for indexing.
+  ///
+  /// The key of the MapEntry<DocId, JSON> is the primary key reference of the
+  /// JSON document.
+  Stream<MapEntry<DocId, JSON>>? get documentStream;
+
+  /// An input stream of a collection of 'JSON' documents. The documents emitted
+  /// by [documentStream] are passed to [indexCollection] for indexing.
+  ///
+  /// The key of the MapEntry<DocId, JSON> is the primary key reference of the
+  /// JSON document.
+  Stream<Map<DocId, JSON>>? get collectionStream;
 
   /// Emits [Postings] hashmap for an indexed document when it is indexed.
   ///
@@ -129,12 +179,20 @@ abstract class TextIndexer {
 ///
 /// Uses a [BehaviorSubject] as stream [controller] for [postingsStream].
 ///
+/// Initializes listeners to [documentStream] and [collectionStream] at
+/// instantiation.
+///
 /// Sub-classes must implement the [index] and [controller] fields
 abstract class TextIndexerBase implements TextIndexer {
   //
 
-  /// A const default constructor for classes that extend [TextIndexerBase].
-  const TextIndexerBase();
+  /// Default generative constructor.
+  ///
+  /// Initializes listeners to [documentStream] and [collectionStream].
+  TextIndexerBase() {
+    documentStream?.listen((event) => indexJson(event.key, event.value));
+    collectionStream?.listen((event) => indexCollection(event));
+  }
 
   /// The private stream controller for the [postingsStream].
   BehaviorSubject<Postings> get controller;
@@ -289,5 +347,11 @@ class _TextIndexerImpl extends TextIndexerBase {
   @override
   final controller = BehaviorSubject<Postings>();
 
-  _TextIndexerImpl(this.index);
+  _TextIndexerImpl(this.index, this.collectionStream, this.documentStream);
+
+  @override
+  final Stream<Map<DocId, JSON>>? collectionStream;
+
+  @override
+  final Stream<MapEntry<DocId, JSON>>? documentStream;
 }

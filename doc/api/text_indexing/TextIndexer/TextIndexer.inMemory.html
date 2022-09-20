@@ -52,7 +52,9 @@
     <section class="multi-line-signature">
       <span class="name ">TextIndexer.inMemory</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="inMemory-param-dictionary">{<span class="type-annotation"><a href="../../text_indexing/Dictionary.html">Dictionary</a>?</span> <span class="parameter-name">dictionary</span>, </span></li>
 <li><span class="parameter" id="inMemory-param-postings"><span class="type-annotation"><a href="../../text_indexing/Postings.html">Postings</a>?</span> <span class="parameter-name">postings</span>, </span></li>
-<li><span class="parameter" id="inMemory-param-analyzer"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></span> <span class="parameter-name">analyzer</span> = <span class="default-value">const TextAnalyzer()</span>}</span></li>
+<li><span class="parameter" id="inMemory-param-analyzer"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></span> <span class="parameter-name">analyzer</span> = <span class="default-value">const TextAnalyzer()</span>, </span></li>
+<li><span class="parameter" id="inMemory-param-documentStream"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/MapEntry-class.html">MapEntry</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_indexing/DocId.html">DocId</a></span>, <span class="type-parameter"><a href="../../text_indexing/JSON.html">JSON</a></span>&gt;</span></span>&gt;</span>?</span> <span class="parameter-name">documentStream</span>, </span></li>
+<li><span class="parameter" id="inMemory-param-collectionStream"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_indexing/DocId.html">DocId</a></span>, <span class="type-parameter"><a href="../../text_indexing/JSON.html">JSON</a></span>&gt;</span></span>&gt;</span>?</span> <span class="parameter-name">collectionStream</span>}</span></li>
 </ol>)
     </section>
 
@@ -63,9 +65,14 @@
 <ul>
 <li>pass a <code>analyzer</code> text analyser that extracts tokens from text;</li>
 <li>pass an in-memory <code>dictionary</code> instance, otherwise an empty
-<a href="../../text_indexing/Dictionary.html">Dictionary</a> will be initialized.</li>
+<a href="../../text_indexing/Dictionary.html">Dictionary</a> will be initialized;</li>
 <li>pass an in-memory <code>postings</code> instance, otherwise an empty <a href="../../text_indexing/Postings.html">Postings</a>
-will be initialized.</li>
+will be initialized;</li>
+<li><code>documentStream</code> is an input stream of 'JSON' documents. The documents
+emitted by<code>documentStream</code> are passed to <a href="../../text_indexing/TextIndexer/indexJson.html">indexJson</a> for indexing; and</li>
+<li><code>collectionStream</code> is an input stream of a collection of 'JSON'
+documents. The documents emitted by <code>collectionStream</code> are passed to
+<a href="../../text_indexing/TextIndexer/indexCollection.html">indexCollection</a> for indexing.</li>
 </ul>
 </section>
 
@@ -76,11 +83,16 @@ will be initialized.</li>
   <pre class="language-dart"><code class="language-dart">factory TextIndexer.inMemory(
         {Dictionary? dictionary,
         Postings? postings,
-        ITextAnalyzer analyzer = const TextAnalyzer()}) =&gt;
-    _TextIndexerImpl(InMemoryIndex(
-        dictionary: dictionary ?? {},
-        postings: postings ?? {},
-        analyzer: analyzer));</code></pre>
+        ITextAnalyzer analyzer = const TextAnalyzer(),
+        Stream&lt;MapEntry&lt;DocId, JSON&gt;&gt;? documentStream,
+        Stream&lt;Map&lt;DocId, JSON&gt;&gt;? collectionStream}) =&gt;
+    _TextIndexerImpl(
+        InMemoryIndex(
+            dictionary: dictionary ?? {},
+            postings: postings ?? {},
+            analyzer: analyzer),
+        collectionStream,
+        documentStream);</code></pre>
 </section>
 
 
@@ -114,6 +126,8 @@ will be initialized.</li>
     <li class="section-title">
       <a href="../../text_indexing/TextIndexer-class.html#instance-properties">Properties</a>
     </li>
+    <li><a href="../../text_indexing/TextIndexer/collectionStream.html">collectionStream</a></li>
+    <li><a href="../../text_indexing/TextIndexer/documentStream.html">documentStream</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
     <li><a href="../../text_indexing/TextIndexer/index.html">index</a></li>
     <li><a href="../../text_indexing/TextIndexer/postingsStream.html">postingsStream</a></li>
@@ -145,7 +159,7 @@ will be initialized.</li>
 <footer>
   <span class="no-break">
     text_indexing
-      0.9.0
+      0.10.0
   </span>
 
   

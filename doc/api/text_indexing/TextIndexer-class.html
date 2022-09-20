@@ -53,10 +53,22 @@
 <section class="desc markdown">
   <p>Interface for classes that construct and maintain a inverted, positional,
 zoned index <a href="../text_indexing/InvertedIndex-class.html">InvertedIndex</a>.</p>
+<p>Text or documents can be indexed by calling the following methods:</p>
+<ul>
+<li><a href="../text_indexing/TextIndexer/indexJson.html">TextIndexer.indexJson</a> indexes the fields in a <code>JSON</code> document;</li>
+<li><a href="../text_indexing/TextIndexer/indexText.html">TextIndexer.indexText</a> indexes text from a text document.</li>
+</ul>
+<p>Alternatively, pass a <a href="../text_indexing/TextIndexer/documentStream.html">documentStream</a> or <a href="../text_indexing/TextIndexer/collectionStream.html">collectionStream</a> for indexing
+whenever either of these streams emit (a) document(s).</p>
 <p>Implementing classes override the following fields:</p>
 <ul>
 <li><a href="../text_indexing/TextIndexer/index.html">index</a> is the <a href="../text_indexing/InvertedIndex-class.html">InvertedIndex</a> that provides access to the
 index <a href="../text_indexing/Dictionary.html">Dictionary</a> and <a href="../text_indexing/Postings.html">Postings</a> and a <a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a>;</li>
+<li><a href="../text_indexing/TextIndexer/documentStream.html">documentStream</a> is an input stream of 'JSON' documents. The documents
+emitted by<a href="../text_indexing/TextIndexer/documentStream.html">documentStream</a> are passed to <a href="../text_indexing/TextIndexer/indexJson.html">indexJson</a> for indexing;</li>
+<li><a href="../text_indexing/TextIndexer/collectionStream.html">collectionStream</a> is an input stream of a collection of 'JSON' documents.
+The documents emitted by <a href="../text_indexing/TextIndexer/collectionStream.html">collectionStream</a> are passed to
+<a href="../text_indexing/TextIndexer/indexCollection.html">indexCollection</a> for indexing; and</li>
 <li><a href="../text_indexing/TextIndexer/postingsStream.html">postingsStream</a> emits a <a href="../text_indexing/Postings.html">Postings</a> whenever a
 document is indexed.</li>
 </ul>
@@ -64,7 +76,7 @@ document is indexed.</li>
 <ul>
 <li><a href="../text_indexing/TextIndexer/indexText.html">indexText</a> indexes a text document;</li>
 <li><a href="../text_indexing/TextIndexer/indexJson.html">indexJson</a> indexes the fields in a JSON document;</li>
-<li><a href="../text_indexing/TextIndexer/indexCollection.html">indexCollection</a> indexes the fields of all the documents in JSON
+<li><a href="../text_indexing/TextIndexer/indexCollection.html">indexCollection</a> indexes the fields of all the documents in a JSON
 document collection; and</li>
 <li><a href="../text_indexing/TextIndexer/emit.html">emit</a> adds an event to the <a href="../text_indexing/TextIndexer/postingsStream.html">postingsStream</a> after updating the <a href="../text_indexing/TextIndexer/index.html">index</a>;</li>
 </ul>
@@ -101,7 +113,7 @@ document collection; and</li>
             <div class="constructor-modifier features">const</div>
         </dd>
         <dt id="TextIndexer.async" class="callable">
-          <span class="name"><a href="../text_indexing/TextIndexer/TextIndexer.async.html">TextIndexer.async</a></span><span class="signature">(<span class="parameter" id="async-param-dictionaryLoader">{<span>required</span> <span class="type-annotation"><a href="../text_indexing/DictionaryLoader.html">DictionaryLoader</a></span> <span class="parameter-name">dictionaryLoader</span>, </span><span class="parameter" id="async-param-dictionaryLengthLoader"><span>required</span> <span class="type-annotation"><a href="../text_indexing/DictionaryLengthLoader.html">DictionaryLengthLoader</a></span> <span class="parameter-name">dictionaryLengthLoader</span>, </span><span class="parameter" id="async-param-dictionaryUpdater"><span>required</span> <span class="type-annotation"><a href="../text_indexing/DictionaryUpdater.html">DictionaryUpdater</a></span> <span class="parameter-name">dictionaryUpdater</span>, </span><span class="parameter" id="async-param-postingsLoader"><span>required</span> <span class="type-annotation"><a href="../text_indexing/PostingsLoader.html">PostingsLoader</a></span> <span class="parameter-name">postingsLoader</span>, </span><span class="parameter" id="async-param-postingsUpdater"><span>required</span> <span class="type-annotation"><a href="../text_indexing/PostingsUpdater.html">PostingsUpdater</a></span> <span class="parameter-name">postingsUpdater</span>, </span><span class="parameter" id="async-param-analyzer"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></span> <span class="parameter-name">analyzer</span> = <span class="default-value">const TextAnalyzer()</span>}</span>)</span>
+          <span class="name"><a href="../text_indexing/TextIndexer/TextIndexer.async.html">TextIndexer.async</a></span><span class="signature">(<span class="parameter" id="async-param-dictionaryLoader">{<span>required</span> <span class="type-annotation"><a href="../text_indexing/DictionaryLoader.html">DictionaryLoader</a></span> <span class="parameter-name">dictionaryLoader</span>, </span><span class="parameter" id="async-param-dictionaryLengthLoader"><span>required</span> <span class="type-annotation"><a href="../text_indexing/DictionaryLengthLoader.html">DictionaryLengthLoader</a></span> <span class="parameter-name">dictionaryLengthLoader</span>, </span><span class="parameter" id="async-param-dictionaryUpdater"><span>required</span> <span class="type-annotation"><a href="../text_indexing/DictionaryUpdater.html">DictionaryUpdater</a></span> <span class="parameter-name">dictionaryUpdater</span>, </span><span class="parameter" id="async-param-postingsLoader"><span>required</span> <span class="type-annotation"><a href="../text_indexing/PostingsLoader.html">PostingsLoader</a></span> <span class="parameter-name">postingsLoader</span>, </span><span class="parameter" id="async-param-postingsUpdater"><span>required</span> <span class="type-annotation"><a href="../text_indexing/PostingsUpdater.html">PostingsUpdater</a></span> <span class="parameter-name">postingsUpdater</span>, </span><span class="parameter" id="async-param-documentStream"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/MapEntry-class.html">MapEntry</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/DocId.html">DocId</a></span>, <span class="type-parameter"><a href="../text_indexing/JSON.html">JSON</a></span>&gt;</span></span>&gt;</span>?</span> <span class="parameter-name">documentStream</span>, </span><span class="parameter" id="async-param-collectionStream"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/DocId.html">DocId</a></span>, <span class="type-parameter"><a href="../text_indexing/JSON.html">JSON</a></span>&gt;</span></span>&gt;</span>?</span> <span class="parameter-name">collectionStream</span>, </span><span class="parameter" id="async-param-analyzer"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></span> <span class="parameter-name">analyzer</span> = <span class="default-value">const TextAnalyzer()</span>}</span>)</span>
         </dt>
         <dd>
           Factory constructor returns a <a href="../text_indexing/TextIndexer-class.html">TextIndexer</a> instance that uses
@@ -110,15 +122,15 @@ repositories:
             <div class="constructor-modifier features">factory</div>
         </dd>
         <dt id="TextIndexer.index" class="callable">
-          <span class="name"><a href="../text_indexing/TextIndexer/TextIndexer.index.html">TextIndexer.index</a></span><span class="signature">(<span class="parameter" id="index-param-index">{<span>required</span> <span class="type-annotation"><a href="../text_indexing/InvertedIndex-class.html">InvertedIndex</a></span> <span class="parameter-name">index</span>}</span>)</span>
+          <span class="name"><a href="../text_indexing/TextIndexer/TextIndexer.index.html">TextIndexer.index</a></span><span class="signature">(<span class="parameter" id="index-param-index">{<span>required</span> <span class="type-annotation"><a href="../text_indexing/InvertedIndex-class.html">InvertedIndex</a></span> <span class="parameter-name">index</span>, </span><span class="parameter" id="index-param-documentStream"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/MapEntry-class.html">MapEntry</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/DocId.html">DocId</a></span>, <span class="type-parameter"><a href="../text_indexing/JSON.html">JSON</a></span>&gt;</span></span>&gt;</span>?</span> <span class="parameter-name">documentStream</span>, </span><span class="parameter" id="index-param-collectionStream"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/DocId.html">DocId</a></span>, <span class="type-parameter"><a href="../text_indexing/JSON.html">JSON</a></span>&gt;</span></span>&gt;</span>?</span> <span class="parameter-name">collectionStream</span>}</span>)</span>
         </dt>
         <dd>
           Factory constructor initializes a <a href="../text_indexing/TextIndexer-class.html">TextIndexer</a> instance, passing in a
-<code>index</code> instance.
+<code>index</code> instance:
             <div class="constructor-modifier features">factory</div>
         </dd>
         <dt id="TextIndexer.inMemory" class="callable">
-          <span class="name"><a href="../text_indexing/TextIndexer/TextIndexer.inMemory.html">TextIndexer.inMemory</a></span><span class="signature">(<span class="parameter" id="inMemory-param-dictionary">{<span class="type-annotation"><a href="../text_indexing/Dictionary.html">Dictionary</a>?</span> <span class="parameter-name">dictionary</span>, </span><span class="parameter" id="inMemory-param-postings"><span class="type-annotation"><a href="../text_indexing/Postings.html">Postings</a>?</span> <span class="parameter-name">postings</span>, </span><span class="parameter" id="inMemory-param-analyzer"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></span> <span class="parameter-name">analyzer</span> = <span class="default-value">const TextAnalyzer()</span>}</span>)</span>
+          <span class="name"><a href="../text_indexing/TextIndexer/TextIndexer.inMemory.html">TextIndexer.inMemory</a></span><span class="signature">(<span class="parameter" id="inMemory-param-dictionary">{<span class="type-annotation"><a href="../text_indexing/Dictionary.html">Dictionary</a>?</span> <span class="parameter-name">dictionary</span>, </span><span class="parameter" id="inMemory-param-postings"><span class="type-annotation"><a href="../text_indexing/Postings.html">Postings</a>?</span> <span class="parameter-name">postings</span>, </span><span class="parameter" id="inMemory-param-analyzer"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></span> <span class="parameter-name">analyzer</span> = <span class="default-value">const TextAnalyzer()</span>, </span><span class="parameter" id="inMemory-param-documentStream"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/MapEntry-class.html">MapEntry</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/DocId.html">DocId</a></span>, <span class="type-parameter"><a href="../text_indexing/JSON.html">JSON</a></span>&gt;</span></span>&gt;</span>?</span> <span class="parameter-name">documentStream</span>, </span><span class="parameter" id="inMemory-param-collectionStream"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/DocId.html">DocId</a></span>, <span class="type-parameter"><a href="../text_indexing/JSON.html">JSON</a></span>&gt;</span></span>&gt;</span>?</span> <span class="parameter-name">collectionStream</span>}</span>)</span>
         </dt>
         <dd>
           Factory constructor returns a <a href="../text_indexing/TextIndexer-class.html">TextIndexer</a> instance with in-memory
@@ -132,6 +144,30 @@ repositories:
       <h2>Properties</h2>
 
       <dl class="properties">
+        <dt id="collectionStream" class="property">
+  <span class="name"><a href="../text_indexing/TextIndexer/collectionStream.html">collectionStream</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/DocId.html">DocId</a></span>, <span class="type-parameter"><a href="../text_indexing/JSON.html">JSON</a></span>&gt;</span></span>&gt;</span>?</span> 
+
+</dt>
+<dd>
+  An input stream of a collection of 'JSON' documents. The documents emitted
+by <a href="../text_indexing/TextIndexer/documentStream.html">documentStream</a> are passed to <a href="../text_indexing/TextIndexer/indexCollection.html">indexCollection</a> for indexing.
+  <div class="features">read-only</div>
+
+</dd>
+
+        <dt id="documentStream" class="property">
+  <span class="name"><a href="../text_indexing/TextIndexer/documentStream.html">documentStream</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/MapEntry-class.html">MapEntry</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/DocId.html">DocId</a></span>, <span class="type-parameter"><a href="../text_indexing/JSON.html">JSON</a></span>&gt;</span></span>&gt;</span>?</span> 
+
+</dt>
+<dd>
+  An input stream of 'JSON' documents. The documents emitted by
+<a href="../text_indexing/TextIndexer/documentStream.html">documentStream</a> are passed to <a href="../text_indexing/TextIndexer/indexJson.html">indexJson</a> for indexing.
+  <div class="features">read-only</div>
+
+</dd>
+
         <dt id="hashCode" class="property inherited">
   <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></span>
   <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> 
@@ -405,6 +441,8 @@ of <a href="../text_indexing/DocumentPostingsEntry.html">DocumentPostingsEntry</
     <li class="section-title">
       <a href="../text_indexing/TextIndexer-class.html#instance-properties">Properties</a>
     </li>
+    <li><a href="../text_indexing/TextIndexer/collectionStream.html">collectionStream</a></li>
+    <li><a href="../text_indexing/TextIndexer/documentStream.html">documentStream</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
     <li><a href="../text_indexing/TextIndexer/index.html">index</a></li>
     <li><a href="../text_indexing/TextIndexer/postingsStream.html">postingsStream</a></li>
@@ -433,7 +471,7 @@ of <a href="../text_indexing/DocumentPostingsEntry.html">DocumentPostingsEntry</
 <footer>
   <span class="no-break">
     text_indexing
-      0.9.0
+      0.10.0
   </span>
 
   

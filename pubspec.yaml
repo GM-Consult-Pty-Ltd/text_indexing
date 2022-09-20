@@ -4,7 +4,7 @@
 
 name: text_indexing
 description: Dart library for creating an inverted index on a collection of text documents.
-version: 0.9.0
+version: 0.10.0
 repository: https://github.com/GM-Consult-Pty-Ltd/text_indexing
 homepage: https://github.com/GM-Consult-Pty-Ltd
 issue_tracker: https://github.com/GM-Consult-Pty-Ltd/text_indexing/issues

@@ -91,7 +91,7 @@ To maximise performance of the indexers the API manipulates nested hashmaps of D
 * `JsonCollection` is an alias for `Map<String, Map<String, dynamic>>`, a hashmap of `DocId` to `JSON` documents.
 * `Pt` is an alias for `int`, used to denote the position of a `Term` in `SourceText` indexed object (the term position). 
 * `TermPositions` is an alias for `List<Pt>`, an ordered `Set` of unique zero-based `Term` positions in `SourceText`, sorted in ascending order.
-* `ZoneWeightMap` is 
+* `ZoneWeightMap` is a map of the zone names to their relative weighting in search results, used by scoring and ranking algorithms in information retrieval systems.
 
 ### InvertedIndex Interface
 
@@ -119,25 +119,30 @@ The text indexing classes (indexers) in this library implement `TextIndexer`, an
 The dictionary and postings can be asynchronous data sources or in-memory hashmaps.  The `TextIndexer` reads and writes to/from these artifacts using the `TextIndexer.index`.
 
 Text or documents can be indexed by calling the following methods:
-* `TextIndexer.indexJson` indexes the fields in a `JSON` document; 
-* `TextIndexer.indexText` indexes text from a text document.
-* The `TextIndexer.indexCollection` method indexes text from a collection of `JSON `documents, emitting the `Postings` for each document in the `TextIndexer.postingsStream`.
+* `TextIndexer.indexText` indexes text from a text document; 
+* `TextIndexer.indexJson` indexes the fields in a `JSON` document; and
+* `TextIndexer.indexCollection` indexes the fields of all the documents in s JSON document collection.
+
+Alternatively, pass a stream of documents `TextIndexer.documentStream` or `TextIndexer.collectionStream` for indexing whenever either of these streams emit (a) document(s).
+
+The `TextIndexer.indexCollection` method indexes text from a collection of `JSON `documents, emitting the `Postings` for each document in the `TextIndexer.postingsStream`.
 
 The `TextIndexer.emit` method adds an event to the `postingsStream`.
 
 Listen to `TextIndexer.postingsStream` to handle the postings list emitted whenever a document is indexed.
 
-Implementing classes override the following fields:
-- `TextIndexer.index` is the `InvertedIndex` that provides access to the index `Dictionary` and `Postings` and a `ITextAnalyzer`;
-- `TextIndexer.postingsStream` emits a `Postings` whenever a document is indexed.
-
-Implementing classes override the following asynchronous methods:
+Implementing classes override the following asynchronous methods for interacting with the `TextIndexer.index`:
 - `TextIndexer.indexText` indexes a text document;
 - `TextIndexer.indexJson` indexes the fields in a JSON document;
-- `TextIndexer.indexCollection` indexes the fields of all the documents in JSON document collection; and
+- `TextIndexer.indexCollection` indexes the fields of all the documents in a JSON document collection; and
 - `TextIndexer.emit` adds an event to the `TextIndexer.postingsStream` after updating the `TextIndexer.index`;
 
 Use one of three factory constructors to instantiate a `TextIndexer`:
+* [`TextIndexer.index`](#textindexerindex); 
+* [`TextIndexer.inMemory`](#textindexerinmemory); or
+* [`TextIndexer.async`](#textindexerasync).
+
+Alternatively, roll your own custom `TextIndexer` by extending [`TextIndexerBase`](#textindexerbase-class).
 
 #### TextIndexer.index
 
@@ -145,8 +150,7 @@ The `TextIndexer.index` factory constructor returns a `TextIndexer` instance, us
 
 #### TextIndexer.inMemory
 
-The `TextIndexer.async` factory constructor returns a `TextIndexer` instance with in-memory
-`Dictionary` and `Postings` maps:
+The `TextIndexer.inMemory` factory constructor returns a `TextIndexer` instance with [in-memory](#inmemoryindex-class) `Dictionary` and `Postings` maps:
 - pass a `analyzer` text analyser that extracts tokens from text;
 - pass an in-memory `dictionary` instance, otherwise an empty `Dictionary` will be initialized; and
 - pass an in-memory `postings` instance, otherwise an empty `Postings` will be initialized.
@@ -158,7 +162,7 @@ An example of the use of the `TextIndexer.inMemory` factory is included in the [
 #### TextIndexer.async
 
 The `TextIndexer.async` factory constructor returns a `TextIndexer` instance that uses
-asynchronous callback functions to access `Dictionary` and `Postings`
+[asynchronous callback](#asynccallbackindex-class) functions to access `Dictionary` and `Postings`
 repositories:
 - pass a `analyzer` text analyser that extracts tokens from text;
 - `dictionaryLoader` synchronously retrieves a `Dictionary` for a vocabulary from a data source;
@@ -173,7 +177,7 @@ An example of the use of the `TextIndexer.async` factory is included in the [exa
 
 ### TextIndexerBase Class
 
-The `TextIndexerBase` is an abstract base class that implements the `TextIndexer.indexText`, `TextIndexer.indexJson`, `TextIndexer.indexCollection` and `TextIndexer.emit` methods and the `TextIndexer.postingsStream` field.
+The `TextIndexerBase` is an abstract base class that implements the `TextIndexer.indexText`, `TextIndexer.indexJson`, `TextIndexer.indexCollection` and `TextIndexer.emit` methods and the `TextIndexer.postingsStream` field. `TextIndexerBase` also initializes listeners to `TextIndexer.documentStream` and `TextIndexer.collectionStream` at instantiation.
 
 The `TextIndexerBase.index` is updated whenever `TextIndexerBase.emit` is called. 
 
@@ -198,7 +202,6 @@ that uses asynchronous callbacks to perform read and write operations on `Dictio
 - `AsyncCallbackIndex.postingsLoader` asynchronously retrieves a `Postings` for a vocabulary from a data source; and
 - `AsyncCallbackIndex.postingsUpdater` passes a `Postings` subset for persisting to a `Postings` repository.
 
-
 ## Definitions
 
 The following definitions are used throughout the [documentation](https://pub.dev/documentation/text_indexing/latest/):
@@ -211,9 +214,13 @@ The following definitions are used throughout the [documentation](https://pub.de
 * `index-elimination` - selecting a subset of the entries in an index where the `term` is in the collection of `terms` in a search phrase.
 * `inverse document frequency` or `iDft` is equal to log (N / `dft`), where N is the total number of terms in the index. The `IdFt` of a rare term is high, whereas the [IdFt] of a frequent term is likely to be low. 
 * `JSON` is an acronym for `"Java Script Object Notation"`, a common format for persisting data.
+* `lemmatizer` - lemmatisation (or lemmatization) in linguistics is the process of grouping together the inflected forms of a word so they can be analysed as a single item, identified by the word's lemma, or dictionary form (from [Wikipedia](https://en.wikipedia.org/wiki/Lemmatisation)).
 * `postings` - a separate index that records which `documents` the `vocabulary` occurs in. In this implementation we also record the positions of each `term` in the `text` to create a positional inverted `index`.
 * `postings list` - a record of the positions of a `term` in a `document`. A position of a `term` refers to the index of the `term` in an array that contains all the `terms` in the `text`.
 * `term` - a word or phrase that is indexed from the `corpus`. The `term` may differ from the actual word used in the corpus depending on the `tokenizer` used.
+* `term filter` - filters unwanted terms from a collection of terms (e.g. stopwords), breaks compound terms into separate terms and / or manipulates terms by invoking a `stemmer` and / or `lemmatizer`.
+* `stemmer` -  stemming is the process of reducing inflected (or sometimes derived) words to their word stem, base or root form—generally a written word form (from [Wikipedia](https://en.wikipedia.org/wiki/Stemming)).
+* `stopwords` - common words in a language that are excluded from indexing.
 * `term frequency (Ft)` is the frequency of a `term` in an index or indexed object.
 * `term position` is the zero-based index of a `term` in an ordered array of `terms` tokenized from the `corpus`.
 * `text` - the indexable content of a `document`.

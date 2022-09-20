@@ -32,7 +32,7 @@
     <li><a href="../../index.html">text_indexing</a></li>
     <li><a href="../../text_indexing/text_indexing-library.html">text_indexing</a></li>
     <li><a href="../../text_indexing/TextIndexerBase-class.html">TextIndexerBase</a></li>
-    <li class="self-crumb">TextIndexerBase const constructor</li>
+    <li class="self-crumb">TextIndexerBase constructor</li>
   </ol>
   <div class="self-name">TextIndexerBase</div>
   <form class="search navbar-right" role="search">
@@ -49,20 +49,24 @@
     <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
 </h1></div>
 
-    <section class="multi-line-signature">const
+    <section class="multi-line-signature">
       <span class="name ">TextIndexerBase</span>(<wbr>)
     </section>
 
     
 <section class="desc markdown">
-  <p>A const default constructor for classes that extend <a href="../../text_indexing/TextIndexerBase-class.html">TextIndexerBase</a>.</p>
+  <p>Default generative constructor.</p>
+<p>Initializes listeners to <a href="../../text_indexing/TextIndexer/documentStream.html">documentStream</a> and <a href="../../text_indexing/TextIndexer/collectionStream.html">collectionStream</a>.</p>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">const TextIndexerBase();</code></pre>
+  <pre class="language-dart"><code class="language-dart">TextIndexerBase() {
+  documentStream?.listen((event) =&gt; indexJson(event.key, event.value));
+  collectionStream?.listen((event) =&gt; indexCollection(event));
+}</code></pre>
 </section>
 
 
@@ -79,7 +83,7 @@
   <li><a href="../../index.html">text_indexing</a></li>
   <li><a href="../../text_indexing/text_indexing-library.html">text_indexing</a></li>
   <li><a href="../../text_indexing/TextIndexerBase-class.html">TextIndexerBase</a></li>
-  <li class="self-crumb">TextIndexerBase const constructor</li>
+  <li class="self-crumb">TextIndexerBase constructor</li>
 </ol>
 
 
@@ -93,7 +97,9 @@
     <li class="section-title">
       <a href="../../text_indexing/TextIndexerBase-class.html#instance-properties">Properties</a>
     </li>
+    <li class="inherited"><a href="../../text_indexing/TextIndexer/collectionStream.html">collectionStream</a></li>
     <li><a href="../../text_indexing/TextIndexerBase/controller.html">controller</a></li>
+    <li class="inherited"><a href="../../text_indexing/TextIndexer/documentStream.html">documentStream</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
     <li class="inherited"><a href="../../text_indexing/TextIndexer/index.html">index</a></li>
     <li><a href="../../text_indexing/TextIndexerBase/postingsStream.html">postingsStream</a></li>
@@ -125,7 +131,7 @@
 <footer>
   <span class="no-break">
     text_indexing
-      0.9.0
+      0.10.0
   </span>
 
   

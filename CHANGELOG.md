@@ -4,6 +4,17 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+
+### 0.10.0 (PRE-RELEASE)
+
+#### Breaking changes:
+
+- `TextIndexerBase` default generative constructor is no longer marked `const` as it has a method body that initializes listeners to `TextIndexer.documentStream` and `TextIndexer.collectionStream`.
+
+#### New:
+- Input stream fields `TextIndexer.documentStream` and `TextIndexer.collectionStream` added to `TextIndexer` interface.- 
+- Optional named parameter `Stream<Map<String, Map<String, dynamic>>>? collectionStream` added to added to `TextIndexer.async`, `TextIndexer.inMemory` and `TextIndexer.index` factory contructors.
+
 ### 0.9.0 (PRE-RELEASE)
 
 #### Breaking changes:

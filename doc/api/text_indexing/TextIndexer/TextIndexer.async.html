@@ -55,6 +55,8 @@
 <li><span class="parameter" id="async-param-dictionaryUpdater"><span>required</span> <span class="type-annotation"><a href="../../text_indexing/DictionaryUpdater.html">DictionaryUpdater</a></span> <span class="parameter-name">dictionaryUpdater</span>, </span></li>
 <li><span class="parameter" id="async-param-postingsLoader"><span>required</span> <span class="type-annotation"><a href="../../text_indexing/PostingsLoader.html">PostingsLoader</a></span> <span class="parameter-name">postingsLoader</span>, </span></li>
 <li><span class="parameter" id="async-param-postingsUpdater"><span>required</span> <span class="type-annotation"><a href="../../text_indexing/PostingsUpdater.html">PostingsUpdater</a></span> <span class="parameter-name">postingsUpdater</span>, </span></li>
+<li><span class="parameter" id="async-param-documentStream"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/MapEntry-class.html">MapEntry</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_indexing/DocId.html">DocId</a></span>, <span class="type-parameter"><a href="../../text_indexing/JSON.html">JSON</a></span>&gt;</span></span>&gt;</span>?</span> <span class="parameter-name">documentStream</span>, </span></li>
+<li><span class="parameter" id="async-param-collectionStream"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_indexing/DocId.html">DocId</a></span>, <span class="type-parameter"><a href="../../text_indexing/JSON.html">JSON</a></span>&gt;</span></span>&gt;</span>?</span> <span class="parameter-name">collectionStream</span>, </span></li>
 <li><span class="parameter" id="async-param-analyzer"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></span> <span class="parameter-name">analyzer</span> = <span class="default-value">const TextAnalyzer()</span>}</span></li>
 </ol>)
     </section>
@@ -73,9 +75,14 @@ the vocabulary (N);</li>
 <li><code>dictionaryUpdater</code> is callback that passes a <a href="../../text_indexing/Dictionary.html">Dictionary</a> subset
  for persisting to a datastore;</li>
 <li><code>postingsLoader</code> asynchronously retrieves a <a href="../../text_indexing/Postings.html">Postings</a> for a vocabulary
-from a data source; and</li>
+from a data source;</li>
 <li><code>postingsUpdater</code> passes a <a href="../../text_indexing/Postings.html">Postings</a> subset for persisting to a
-datastore.</li>
+datastore;</li>
+<li><code>documentStream</code> is an input stream of 'JSON' documents. The documents
+emitted by<code>documentStream</code> are passed to <a href="../../text_indexing/TextIndexer/indexJson.html">indexJson</a> for indexing; and</li>
+<li><code>collectionStream</code> is an input stream of a collection of 'JSON'
+documents. The documents emitted by <code>collectionStream</code> are passed to
+<a href="../../text_indexing/TextIndexer/indexCollection.html">indexCollection</a> for indexing.</li>
 </ul>
 </section>
 
@@ -89,14 +96,19 @@ datastore.</li>
         required DictionaryUpdater dictionaryUpdater,
         required PostingsLoader postingsLoader,
         required PostingsUpdater postingsUpdater,
+        Stream&lt;MapEntry&lt;DocId, JSON&gt;&gt;? documentStream,
+        Stream&lt;Map&lt;DocId, JSON&gt;&gt;? collectionStream,
         ITextAnalyzer analyzer = const TextAnalyzer()}) =&gt;
-    _TextIndexerImpl(AsyncCallbackIndex(
-        dictionaryLoader: dictionaryLoader,
-        dictionaryLengthLoader: dictionaryLengthLoader,
-        dictionaryUpdater: dictionaryUpdater,
-        postingsLoader: postingsLoader,
-        postingsUpdater: postingsUpdater,
-        analyzer: analyzer));</code></pre>
+    _TextIndexerImpl(
+        AsyncCallbackIndex(
+            dictionaryLoader: dictionaryLoader,
+            dictionaryLengthLoader: dictionaryLengthLoader,
+            dictionaryUpdater: dictionaryUpdater,
+            postingsLoader: postingsLoader,
+            postingsUpdater: postingsUpdater,
+            analyzer: analyzer),
+        collectionStream,
+        documentStream);</code></pre>
 </section>
 
 
@@ -130,6 +142,8 @@ datastore.</li>
     <li class="section-title">
       <a href="../../text_indexing/TextIndexer-class.html#instance-properties">Properties</a>
     </li>
+    <li><a href="../../text_indexing/TextIndexer/collectionStream.html">collectionStream</a></li>
+    <li><a href="../../text_indexing/TextIndexer/documentStream.html">documentStream</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
     <li><a href="../../text_indexing/TextIndexer/index.html">index</a></li>
     <li><a href="../../text_indexing/TextIndexer/postingsStream.html">postingsStream</a></li>
@@ -161,7 +175,7 @@ datastore.</li>
 <footer>
   <span class="no-break">
     text_indexing
-      0.9.0
+      0.10.0
   </span>
 
   

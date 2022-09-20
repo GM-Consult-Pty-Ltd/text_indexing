@@ -53,6 +53,8 @@
 <section class="desc markdown">
   <p>Base class implementation of the <a href="../text_indexing/TextIndexer-class.html">TextIndexer</a> interface.</p>
 <p>Uses a <a href="https://pub.dev/documentation/rxdart/0.27.5/rx/BehaviorSubject-class.html">BehaviorSubject</a> as stream <a href="../text_indexing/TextIndexerBase/controller.html">controller</a> for <a href="../text_indexing/TextIndexerBase/postingsStream.html">postingsStream</a>.</p>
+<p>Initializes listeners to <a href="../text_indexing/TextIndexer/documentStream.html">documentStream</a> and <a href="../text_indexing/TextIndexer/collectionStream.html">collectionStream</a> at
+instantiation.</p>
 <p>Sub-classes must implement the <a href="../text_indexing/TextIndexer/index.html">index</a> and <a href="../text_indexing/TextIndexerBase/controller.html">controller</a> fields</p>
 </section>
 
@@ -85,8 +87,7 @@
           <span class="name"><a href="../text_indexing/TextIndexerBase/TextIndexerBase.html">TextIndexerBase</a></span><span class="signature">()</span>
         </dt>
         <dd>
-          A const default constructor for classes that extend <a href="../text_indexing/TextIndexerBase-class.html">TextIndexerBase</a>.
-            <div class="constructor-modifier features">const</div>
+          Default generative constructor.
         </dd>
     </dl>
   </section>
@@ -95,6 +96,18 @@
       <h2>Properties</h2>
 
       <dl class="properties">
+        <dt id="collectionStream" class="property inherited">
+  <span class="name"><a href="../text_indexing/TextIndexer/collectionStream.html">collectionStream</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/DocId.html">DocId</a></span>, <span class="type-parameter"><a href="../text_indexing/JSON.html">JSON</a></span>&gt;</span></span>&gt;</span>?</span> 
+
+</dt>
+<dd class="inherited">
+  An input stream of a collection of 'JSON' documents. The documents emitted
+by <a href="../text_indexing/TextIndexer/documentStream.html">documentStream</a> are passed to <a href="../text_indexing/TextIndexerBase/indexCollection.html">indexCollection</a> for indexing.
+  <div class="features">read-only, inherited</div>
+
+</dd>
+
         <dt id="controller" class="property">
   <span class="name"><a href="../text_indexing/TextIndexerBase/controller.html">controller</a></span>
   <span class="signature">&#8594; <a href="https://pub.dev/documentation/rxdart/0.27.5/rx/BehaviorSubject-class.html">BehaviorSubject</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Postings.html">Postings</a></span>&gt;</span></span> 
@@ -103,6 +116,18 @@
 <dd>
   The private stream controller for the <a href="../text_indexing/TextIndexerBase/postingsStream.html">postingsStream</a>.
   <div class="features">read-only</div>
+
+</dd>
+
+        <dt id="documentStream" class="property inherited">
+  <span class="name"><a href="../text_indexing/TextIndexer/documentStream.html">documentStream</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/MapEntry-class.html">MapEntry</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/DocId.html">DocId</a></span>, <span class="type-parameter"><a href="../text_indexing/JSON.html">JSON</a></span>&gt;</span></span>&gt;</span>?</span> 
+
+</dt>
+<dd class="inherited">
+  An input stream of 'JSON' documents. The documents emitted by
+<a href="../text_indexing/TextIndexer/documentStream.html">documentStream</a> are passed to <a href="../text_indexing/TextIndexerBase/indexJson.html">indexJson</a> for indexing.
+  <div class="features">read-only, inherited</div>
 
 </dd>
 
@@ -375,7 +400,9 @@ that is passed to <a href="../text_indexing/TextIndexerBase/emit.html">emit</a>.
     <li class="section-title">
       <a href="../text_indexing/TextIndexerBase-class.html#instance-properties">Properties</a>
     </li>
+    <li class="inherited"><a href="../text_indexing/TextIndexer/collectionStream.html">collectionStream</a></li>
     <li><a href="../text_indexing/TextIndexerBase/controller.html">controller</a></li>
+    <li class="inherited"><a href="../text_indexing/TextIndexer/documentStream.html">documentStream</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
     <li class="inherited"><a href="../text_indexing/TextIndexer/index.html">index</a></li>
     <li><a href="../text_indexing/TextIndexerBase/postingsStream.html">postingsStream</a></li>
@@ -404,7 +431,7 @@ that is passed to <a href="../text_indexing/TextIndexerBase/emit.html">emit</a>.
 <footer>
   <span class="no-break">
     text_indexing
-      0.9.0
+      0.10.0
   </span>
 
   

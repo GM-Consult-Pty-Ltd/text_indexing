@@ -116,7 +116,7 @@ Copyright (c) 2022, GM Consult Pty Ltd#class-persistedindexerAll rights reserved
 <li><code>JsonCollection</code> is an alias for <code>Map&lt;String, Map&lt;String, dynamic&gt;&gt;</code>, a hashmap of <code>DocId</code> to <code>JSON</code> documents.</li>
 <li><code>Pt</code> is an alias for <code>int</code>, used to denote the position of a <code>Term</code> in <code>SourceText</code> indexed object (the term position).</li>
 <li><code>TermPositions</code> is an alias for <code>List&lt;Pt&gt;</code>, an ordered <code>Set</code> of unique zero-based <code>Term</code> positions in <code>SourceText</code>, sorted in ascending order.</li>
-<li><code>ZoneWeightMap</code> is</li>
+<li><code>ZoneWeightMap</code> is a map of the zone names to their relative weighting in search results, used by scoring and ranking algorithms in information retrieval systems.</li>
 </ul>
 <h3 id="invertedindex-interface">InvertedIndex Interface</h3>
 <p>The <code>InvertedIndex</code> is an interface for an inverted, positional zoned index on a collection of documents.</p>
@@ -143,30 +143,32 @@ Copyright (c) 2022, GM Consult Pty Ltd#class-persistedindexerAll rights reserved
 <p>The dictionary and postings can be asynchronous data sources or in-memory hashmaps.  The <code>TextIndexer</code> reads and writes to/from these artifacts using the <code>TextIndexer.index</code>.</p>
 <p>Text or documents can be indexed by calling the following methods:</p>
 <ul>
-<li><code>TextIndexer.indexJson</code> indexes the fields in a <code>JSON</code> document;</li>
-<li><code>TextIndexer.indexText</code> indexes text from a text document.</li>
-<li>The <code>TextIndexer.indexCollection</code> method indexes text from a collection of <code>JSON</code>documents, emitting the <code>Postings</code> for each document in the <code>TextIndexer.postingsStream</code>.</li>
+<li><code>TextIndexer.indexText</code> indexes text from a text document;</li>
+<li><code>TextIndexer.indexJson</code> indexes the fields in a <code>JSON</code> document; and</li>
+<li><code>TextIndexer.indexCollection</code> indexes the fields of all the documents in s JSON document collection.</li>
 </ul>
+<p>Alternatively, pass a stream of documents <code>TextIndexer.documentStream</code> or <code>TextIndexer.collectionStream</code> for indexing whenever either of these streams emit (a) document(s).</p>
+<p>The <code>TextIndexer.indexCollection</code> method indexes text from a collection of <code>JSON</code>documents, emitting the <code>Postings</code> for each document in the <code>TextIndexer.postingsStream</code>.</p>
 <p>The <code>TextIndexer.emit</code> method adds an event to the <code>postingsStream</code>.</p>
 <p>Listen to <code>TextIndexer.postingsStream</code> to handle the postings list emitted whenever a document is indexed.</p>
-<p>Implementing classes override the following fields:</p>
-<ul>
-<li><code>TextIndexer.index</code> is the <code>InvertedIndex</code> that provides access to the index <code>Dictionary</code> and <code>Postings</code> and a <code>ITextAnalyzer</code>;</li>
-<li><code>TextIndexer.postingsStream</code> emits a <code>Postings</code> whenever a document is indexed.</li>
-</ul>
-<p>Implementing classes override the following asynchronous methods:</p>
+<p>Implementing classes override the following asynchronous methods for interacting with the <code>TextIndexer.index</code>:</p>
 <ul>
 <li><code>TextIndexer.indexText</code> indexes a text document;</li>
 <li><code>TextIndexer.indexJson</code> indexes the fields in a JSON document;</li>
-<li><code>TextIndexer.indexCollection</code> indexes the fields of all the documents in JSON document collection; and</li>
+<li><code>TextIndexer.indexCollection</code> indexes the fields of all the documents in a JSON document collection; and</li>
 <li><code>TextIndexer.emit</code> adds an event to the <code>TextIndexer.postingsStream</code> after updating the <code>TextIndexer.index</code>;</li>
 </ul>
 <p>Use one of three factory constructors to instantiate a <code>TextIndexer</code>:</p>
+<ul>
+<li><a href="#textindexerindex"><code>TextIndexer.index</code></a>;</li>
+<li><a href="#textindexerinmemory"><code>TextIndexer.inMemory</code></a>; or</li>
+<li><a href="#textindexerasync"><code>TextIndexer.async</code></a>.</li>
+</ul>
+<p>Alternatively, roll your own custom <code>TextIndexer</code> by extending <a href="#textindexerbase-class"><code>TextIndexerBase</code></a>.</p>
 <h4 id="textindexerindex">TextIndexer.index</h4>
 <p>The <code>TextIndexer.index</code> factory constructor returns a <code>TextIndexer</code> instance, using a <code>InvertedIndex</code> instance passed in as a parameter at instantiation.</p>
 <h4 id="textindexerinmemory">TextIndexer.inMemory</h4>
-<p>The <code>TextIndexer.async</code> factory constructor returns a <code>TextIndexer</code> instance with in-memory
-<code>Dictionary</code> and <code>Postings</code> maps:</p>
+<p>The <code>TextIndexer.inMemory</code> factory constructor returns a <code>TextIndexer</code> instance with <a href="#inmemoryindex-class">in-memory</a> <code>Dictionary</code> and <code>Postings</code> maps:</p>
 <ul>
 <li>pass a <code>analyzer</code> text analyser that extracts tokens from text;</li>
 <li>pass an in-memory <code>dictionary</code> instance, otherwise an empty <code>Dictionary</code> will be initialized; and</li>
@@ -176,7 +178,7 @@ Copyright (c) 2022, GM Consult Pty Ltd#class-persistedindexerAll rights reserved
 <p>An example of the use of the <code>TextIndexer.inMemory</code> factory is included in the <a href="https://pub.dev/packages/text_indexing/example">examples</a>.</p>
 <h4 id="textindexerasync">TextIndexer.async</h4>
 <p>The <code>TextIndexer.async</code> factory constructor returns a <code>TextIndexer</code> instance that uses
-asynchronous callback functions to access <code>Dictionary</code> and <code>Postings</code>
+<a href="#asynccallbackindex-class">asynchronous callback</a> functions to access <code>Dictionary</code> and <code>Postings</code>
 repositories:</p>
 <ul>
 <li>pass a <code>analyzer</code> text analyser that extracts tokens from text;</li>
@@ -189,7 +191,7 @@ repositories:</p>
 <p>The <code>AsyncIndexer</code> is suitable for indexing a large corpus but may have latency and processing overhead. Consider running <code>AsyncIndexer</code> in an isolate to avoid slowing down the main thread.</p>
 <p>An example of the use of the <code>TextIndexer.async</code> factory is included in the <a href="https://pub.dev/packages/text_indexing/example">examples</a>.</p>
 <h3 id="textindexerbase-class">TextIndexerBase Class</h3>
-<p>The <code>TextIndexerBase</code> is an abstract base class that implements the <code>TextIndexer.indexText</code>, <code>TextIndexer.indexJson</code>, <code>TextIndexer.indexCollection</code> and <code>TextIndexer.emit</code> methods and the <code>TextIndexer.postingsStream</code> field.</p>
+<p>The <code>TextIndexerBase</code> is an abstract base class that implements the <code>TextIndexer.indexText</code>, <code>TextIndexer.indexJson</code>, <code>TextIndexer.indexCollection</code> and <code>TextIndexer.emit</code> methods and the <code>TextIndexer.postingsStream</code> field. <code>TextIndexerBase</code> also initializes listeners to <code>TextIndexer.documentStream</code> and <code>TextIndexer.collectionStream</code> at instantiation.</p>
 <p>The <code>TextIndexerBase.index</code> is updated whenever <code>TextIndexerBase.emit</code> is called.</p>
 <p>Subclasses of <code>TextIndexerBase</code> must implement:</p>
 <ul>
@@ -226,9 +228,13 @@ that uses asynchronous callbacks to perform read and write operations on <code>D
 <li><code>index-elimination</code> - selecting a subset of the entries in an index where the <code>term</code> is in the collection of <code>terms</code> in a search phrase.</li>
 <li><code>inverse document frequency</code> or <code>iDft</code> is equal to log (N / <code>dft</code>), where N is the total number of terms in the index. The <code>IdFt</code> of a rare term is high, whereas the <a href="text_indexing/IdFt.html">IdFt</a> of a frequent term is likely to be low.</li>
 <li><code>JSON</code> is an acronym for <code>"Java Script Object Notation"</code>, a common format for persisting data.</li>
+<li><code>lemmatizer</code> - lemmatisation (or lemmatization) in linguistics is the process of grouping together the inflected forms of a word so they can be analysed as a single item, identified by the word's lemma, or dictionary form (from <a href="https://en.wikipedia.org/wiki/Lemmatisation">Wikipedia</a>).</li>
 <li><code>postings</code> - a separate index that records which <code>documents</code> the <code>vocabulary</code> occurs in. In this implementation we also record the positions of each <code>term</code> in the <code>text</code> to create a positional inverted <code>index</code>.</li>
 <li><code>postings list</code> - a record of the positions of a <code>term</code> in a <code>document</code>. A position of a <code>term</code> refers to the index of the <code>term</code> in an array that contains all the <code>terms</code> in the <code>text</code>.</li>
 <li><code>term</code> - a word or phrase that is indexed from the <code>corpus</code>. The <code>term</code> may differ from the actual word used in the corpus depending on the <code>tokenizer</code> used.</li>
+<li><code>term filter</code> - filters unwanted terms from a collection of terms (e.g. stopwords), breaks compound terms into separate terms and / or manipulates terms by invoking a <code>stemmer</code> and / or <code>lemmatizer</code>.</li>
+<li><code>stemmer</code> -  stemming is the process of reducing inflected (or sometimes derived) words to their word stem, base or root form—generally a written word form (from <a href="https://en.wikipedia.org/wiki/Stemming">Wikipedia</a>).</li>
+<li><code>stopwords</code> - common words in a language that are excluded from indexing.</li>
 <li><code>term frequency (Ft)</code> is the frequency of a <code>term</code> in an index or indexed object.</li>
 <li><code>term position</code> is the zero-based index of a <code>term</code> in an ordered array of <code>terms</code> tokenized from the <code>corpus</code>.</li>
 <li><code>text</code> - the indexable content of a <code>document</code>.</li>
@@ -293,7 +299,7 @@ that uses asynchronous callbacks to perform read and write operations on <code>D
 <footer>
   <span class="no-break">
     text_indexing
-      0.9.0
+      0.10.0
   </span>
 
   

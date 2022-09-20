@@ -50,26 +50,34 @@
 </h1></div>
 
     <section class="multi-line-signature">
-      <span class="name ">TextIndexer.index</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="index-param-index">{<span>required</span> <span class="type-annotation"><a href="../../text_indexing/InvertedIndex-class.html">InvertedIndex</a></span> <span class="parameter-name">index</span>}</span></li>
+      <span class="name ">TextIndexer.index</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="index-param-index">{<span>required</span> <span class="type-annotation"><a href="../../text_indexing/InvertedIndex-class.html">InvertedIndex</a></span> <span class="parameter-name">index</span>, </span></li>
+<li><span class="parameter" id="index-param-documentStream"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/MapEntry-class.html">MapEntry</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_indexing/DocId.html">DocId</a></span>, <span class="type-parameter"><a href="../../text_indexing/JSON.html">JSON</a></span>&gt;</span></span>&gt;</span>?</span> <span class="parameter-name">documentStream</span>, </span></li>
+<li><span class="parameter" id="index-param-collectionStream"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_indexing/DocId.html">DocId</a></span>, <span class="type-parameter"><a href="../../text_indexing/JSON.html">JSON</a></span>&gt;</span></span>&gt;</span>?</span> <span class="parameter-name">collectionStream</span>}</span></li>
 </ol>)
     </section>
 
     
 <section class="desc markdown">
   <p>Factory constructor initializes a <a href="../../text_indexing/TextIndexer-class.html">TextIndexer</a> instance, passing in a
-<code>index</code> instance.</p>
+<code>index</code> instance:</p>
+<ul>
+<li><code>documentStream</code> is an input stream of 'JSON' documents. The documents
+emitted by<code>documentStream</code> are passed to <a href="../../text_indexing/TextIndexer/indexJson.html">indexJson</a> for indexing; and</li>
+<li><code>collectionStream</code> is an input stream of a collection of 'JSON'
+documents. The documents emitted by <code>collectionStream</code> are passed to
+<a href="../../text_indexing/TextIndexer/indexCollection.html">indexCollection</a> for indexing.</li>
+</ul>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">factory TextIndexer.index({
-  required InvertedIndex index,
-  &#47;&#47; Tokenizer tokenizer = TextIndexer.kDefaultTokenizer,
-  &#47;&#47; JsonTokenizer jsonTokenizer = TextIndexer.kDefaultJsonTokenizer
-}) =&gt;
-    _TextIndexerImpl(index);</code></pre>
+  <pre class="language-dart"><code class="language-dart">factory TextIndexer.index(
+        {required InvertedIndex index,
+        Stream&lt;MapEntry&lt;DocId, JSON&gt;&gt;? documentStream,
+        Stream&lt;Map&lt;DocId, JSON&gt;&gt;? collectionStream}) =&gt;
+    _TextIndexerImpl(index, collectionStream, documentStream);</code></pre>
 </section>
 
 
@@ -103,6 +111,8 @@
     <li class="section-title">
       <a href="../../text_indexing/TextIndexer-class.html#instance-properties">Properties</a>
     </li>
+    <li><a href="../../text_indexing/TextIndexer/collectionStream.html">collectionStream</a></li>
+    <li><a href="../../text_indexing/TextIndexer/documentStream.html">documentStream</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
     <li><a href="../../text_indexing/TextIndexer/index.html">index</a></li>
     <li><a href="../../text_indexing/TextIndexer/postingsStream.html">postingsStream</a></li>
@@ -134,7 +144,7 @@
 <footer>
   <span class="no-break">
     text_indexing
-      0.9.0
+      0.10.0
   </span>
 
   
