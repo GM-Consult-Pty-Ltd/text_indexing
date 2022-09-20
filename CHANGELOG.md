@@ -15,6 +15,8 @@ All rights reserved.
 - Input stream fields `TextIndexer.documentStream` and `TextIndexer.collectionStream` added to `TextIndexer` interface.- 
 - Optional named parameter `Stream<Map<String, Map<String, dynamic>>>? collectionStream` added to added to `TextIndexer.async`, `TextIndexer.inMemory` and `TextIndexer.index` factory contructors.
 
+Updated dependencies, tests, examples and documentation.
+
 ### 0.9.0 (PRE-RELEASE)
 
 #### Breaking changes:
