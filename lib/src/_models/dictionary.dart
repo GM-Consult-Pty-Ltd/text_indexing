@@ -22,6 +22,8 @@ enum TermSortStrategy {
 /// key and the document frequency as the values.
 ///
 /// A [Dictionary] can be an asynchronous data source or an in-memory hashmap.
+///
+/// Alias for Map<String, int>.
 typedef Dictionary = Map<Term, Ft>;
 
 /// A [DictionaryEntry] is an entry in a [Dictionary].

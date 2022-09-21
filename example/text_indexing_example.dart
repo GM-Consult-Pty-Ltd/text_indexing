@@ -37,12 +37,6 @@ Future<void> _inMemoryIndexerExample(
     Map<String, String> documents, String searchPhrase) async {
   //
 
-// initialize a Set for the vocabulary state
-  final termsSet = <String>{};
-
-  // initialize a Set for the document ids state
-  final docsSet = <String>{};
-
   // - initialize the [Dictionary]
   final dictionary = <String, int>{};
 
@@ -56,16 +50,6 @@ Future<void> _inMemoryIndexerExample(
   /// - tokenize a phrase into searh terms
   final searchTerms =
       (await indexer.index.analyzer.tokenize(searchPhrase)).tokens.terms;
-
-  // listen to the indexer.postingsStream and print the postings count for each term.
-  // listen to the indexer.postingsStream and print the postings count for each term.
-  indexer.postingsStream.listen((event) {
-    for (final termPosting in event.entries) {
-      termsSet.add(termPosting.key);
-      docsSet.add(termPosting.value.entries.first.key);
-    }
-    print('Indexed ${termsSet.length} terms from ${docsSet.length} documents.');
-  });
 
   // - iterate through the sample data
   await Future.forEach(documents.entries, (MapEntry<String, String> doc) async {
@@ -112,13 +96,13 @@ Future<void> _persistedIndexerExample(
   final indexer = TextIndexer.index(index: index);
 
   // listen to the indexer.postingsStream and print the postings count for each term.
-  indexer.postingsStream.listen((event) {
-    for (final termPosting in event.entries) {
-      termsSet.add(termPosting.key);
-      docsSet.add(termPosting.value.entries.first.key);
-    }
-    print('Indexed ${termsSet.length} terms from ${docsSet.length} documents.');
-  });
+  // indexer.postingsStream.listen((event) {
+  //   for (final termPosting in event.entries) {
+  //     termsSet.add(termPosting.key);
+  //     docsSet.add(termPosting.value.entries.first.key);
+  //   }
+  //   print('Indexed ${termsSet.length} terms from ${docsSet.length} documents.');
+  // });
 
   print('Indexed ${termsSet.length} terms from ${docsSet.length} documents.');
 
@@ -374,6 +358,9 @@ final jsonData = {
 class _TestIndex with InvertedIndexMixin implements InvertedIndex {
   //
 
+  @override
+  final int k = 3;
+
   /// The [Dictionary] instance that is the data-store for the index's term
   /// dictionary
   final Dictionary dictionary = {};
@@ -381,6 +368,8 @@ class _TestIndex with InvertedIndexMixin implements InvertedIndex {
   /// The [Dictionary] instance that is the data-store for the index's term
   /// dictionary
   final Postings postings = {};
+
+  final KGramIndex kGramIndex = {};
 
   /// Implementation of [PostingsLoader].
   ///
@@ -411,7 +400,7 @@ class _TestIndex with InvertedIndexMixin implements InvertedIndex {
     dictionary.addAll(values);
   }
 
-  /// Implementation of [PostingsUpdater].
+  /// Implementation of [upsertPostings].
   ///
   /// Adds/overwrites the [values] to [postings].
   ///
@@ -423,7 +412,7 @@ class _TestIndex with InvertedIndexMixin implements InvertedIndex {
     postings.addAll(values);
   }
 
-  /// Implementation of [DictionaryLoader].
+  /// Implementation of [getDictionary].
   ///
   /// Returns a subset of [dictionary] corresponding to [terms].
   ///
@@ -438,7 +427,37 @@ class _TestIndex with InvertedIndexMixin implements InvertedIndex {
         retVal[term] = entry;
       }
     }
+    await Future.delayed(const Duration(milliseconds: 50));
     return retVal;
+  }
+
+  /// Implementation of [getKGramIndex].
+  ///
+  /// Returns a subset of [kGramIndex] corresponding to [kGrams].
+  ///
+  /// Simulates latency of 50 milliseconds.
+  @override
+  Future<KGramIndex> getKGramIndex(Iterable<KGram> kGrams) async {
+    final KGramIndex retVal = {};
+    for (final kGram in kGrams) {
+      final entry = kGramIndex[kGram];
+      if (entry != null) {
+        retVal[kGram] = entry;
+      }
+    }
+    await Future.delayed(const Duration(milliseconds: 50));
+    return retVal;
+  }
+
+  /// Implementation of [upsertKGramIndex].
+  ///
+  /// Adds/overwrites the [values] to [kGramIndex].
+  ///
+  /// Simulates latency of 50 milliseconds.
+  @override
+  Future<void> upsertKGramIndex(KGramIndex values) async {
+    await Future.delayed(const Duration(milliseconds: 50));
+    kGramIndex.addAll(values);
   }
 
   @override

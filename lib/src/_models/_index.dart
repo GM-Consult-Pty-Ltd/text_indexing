@@ -6,3 +6,4 @@
 // export 'document.dart';
 export 'postings.dart';
 export 'dictionary.dart';
+export 'k_gram_index.dart';

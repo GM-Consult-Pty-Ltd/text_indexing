@@ -69,10 +69,10 @@
 <section class="desc markdown">
   <p>Implementation of <a href="../../text_indexing/TextIndexer/indexJson.html">TextIndexer.indexJson</a> that:</p>
 <ul>
-<li>parses <code>json</code> to a collection of <a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/Token-class.html">Token</a>s;</li>
+<li>parses <code>json</code> to a collection of <a href="https://pub.dev/documentation/text_analysis/0.8.0/text_analysis/Token-class.html">Token</a>s;</li>
 <li>maps the tokens to postings for <code>docId</code>;</li>
 <li>maps the postings for <code>docId</code> to a <code>Postings</code>;</li>
-<li>calls <a href="../../text_indexing/TextIndexerBase/emit.html">emit</a>, passing the <code>Postings</code> for <code>docId</code>; and</li>
+<li>calls <a href="../../text_indexing/TextIndexerBase/updateIndexes.html">updateIndexes</a>, passing the <code>Postings</code> for <code>docId</code>; and</li>
 <li>returns the <code>Postings</code> for <code>docId</code>.</li>
 </ul>
 </section>
@@ -90,8 +90,8 @@ Future&lt;Postings&gt; indexJson(DocId docId, JSON json) async {
   final Postings postings = _tokensToPostings(docId, tokens);
   &#47;&#47; map postings to a list of DocumentPostingsEntry for docId.
   &#47;&#47; final event = _postingsToTermPositions(docId, postings);
-  &#47;&#47; emit the postings list for docId
-  await emit(postings);
+  &#47;&#47; update the indexes with the postings list for docId
+  await updateIndexes(postings, tokens);
   return postings;
 }</code></pre>
 </section>
@@ -121,24 +121,22 @@ Future&lt;Postings&gt; indexJson(DocId docId, JSON json) async {
           <li><a href="../../text_indexing/TextIndexerBase/TextIndexerBase.html">TextIndexerBase</a></li>
 
 
-    <li class="section-title">
+    <li class="section-title inherited">
       <a href="../../text_indexing/TextIndexerBase-class.html#instance-properties">Properties</a>
     </li>
     <li class="inherited"><a href="../../text_indexing/TextIndexer/collectionStream.html">collectionStream</a></li>
-    <li><a href="../../text_indexing/TextIndexerBase/controller.html">controller</a></li>
     <li class="inherited"><a href="../../text_indexing/TextIndexer/documentStream.html">documentStream</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
     <li class="inherited"><a href="../../text_indexing/TextIndexer/index.html">index</a></li>
-    <li><a href="../../text_indexing/TextIndexerBase/postingsStream.html">postingsStream</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
 
     <li class="section-title"><a href="../../text_indexing/TextIndexerBase-class.html#instance-methods">Methods</a></li>
-    <li><a href="../../text_indexing/TextIndexerBase/emit.html">emit</a></li>
     <li><a href="../../text_indexing/TextIndexerBase/indexCollection.html">indexCollection</a></li>
     <li><a href="../../text_indexing/TextIndexerBase/indexJson.html">indexJson</a></li>
     <li><a href="../../text_indexing/TextIndexerBase/indexText.html">indexText</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
+    <li><a href="../../text_indexing/TextIndexerBase/updateIndexes.html">updateIndexes</a></li>
 
     <li class="section-title inherited"><a href="../../text_indexing/TextIndexerBase-class.html#operators">Operators</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/operator_equals.html">operator ==</a></li>
@@ -158,7 +156,7 @@ Future&lt;Postings&gt; indexJson(DocId docId, JSON json) async {
 <footer>
   <span class="no-break">
     text_indexing
-      0.11.0
+      0.12.0
   </span>
 
   

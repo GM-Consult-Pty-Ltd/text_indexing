@@ -85,6 +85,9 @@ To maximise performance of the indexers the API manipulates nested hashmaps of D
 * `FieldPostingsEntry` is an alias for `MapEntry<Zone, TermPositions>`, an entry in a `ZonePostings` hashmap.
 * `Ft` is an lias for `int` and denotes the frequency of a `Term` in an index or indexed object (the term frequency).
 * `FtdPostings` is an alias for for `Map<String, Map<String, int>>`, a hashmap of vocabulary to hashmaps of document id to term frequency in the document.
+* `KGramIndex` is an alias for for for `Map<String, Set<String>>`;
+* `KGramIndexLoader` is a callback function that aynchronously retrieves a [KGramIndex] subset for a collection of terms from a [KGramIndex] data source, usually persisted storag;
+* `KGramIndexUpdater` is a callback function that aynchronously updates a `KGramIndex` repository;
 * `IdFt` is an alias for `double`, where it represents the inverse document frequency of a term, defined as idft = log (N / dft), where N is the total number of terms in the index and dft is the document frequency of the term (number of documents that contain the term). 
 * `IdFtIndex` is an alias for `Map<String, double>`, a hashmap of the vocabulary to the inverse document frequency (`Idft`)  of the term.
 * `JSON` is an alias for `Map<String, dynamic>`, a hashmap known as `"Java Script Object Notation" (JSON)`, a common format for persisting data.
@@ -100,12 +103,15 @@ The `InvertedIndex` is an interface for an inverted, positional zoned index on a
 The `InvertedIndex` exposes the following fields:
 * `ITextAnalyzer analyzer` is the text analyser that extracts tokens from text; 
 * `ZoneWeightMap zones` maps collection zone/field names to their relative weight in the index;
-* `int phraseLength` is the maximum length of phrases in the index vocabulary. `phraseLength` must be greater than 0 and increases the size of the index by a factor equal to `phraseLength`, so its value must be kept as small as is consistent with efficient and accurate retrieval; and
+* `int phraseLength` is the maximum length of phrases in the index vocabulary. `phraseLength` must be greater than 0 and increases the size of the index by a factor equal to `phraseLength`, so its value must be kept as small as is consistent with efficient and accurate retrieval;
+* `int k` is the length of k-gram entries in the k-gram index; and
 * `Future<int> vocabularyLength` asynchronoulsy returns the number of entries in the index [Dictionary].
 
 The `InvertedIndex` exposes the following methods:
 * `getDictionary` Asynchronously retrieves a `Dictionary` for a collection of `Term`s from a `Dictionary` repository;
 * `upsertDictionary ` inserts entries into a `Dictionary` repository, overwriting any existing entries;
+* `getKGramIndex` Asynchronously retrieves a `KGramIndex` for a collection of `KGram`s from a `KGramIndex` repository;
+* `upsertKGramIndex ` inserts entries into a `KGramIndex` repository, overwriting any existing entries;
 * `getPostings` asynchronously retrieves `Postings` for a collection of `Term`s from a `Postings` repository; 
 * `upsertPostings` inserts entries into a `Postings` repository,  overwriting any existing entries;
 - `getTfIndex` returns hashmap of `Term` to `Ft` for a collection of `Term`s, where `Ft` is the number of times each of the terms occurs in the `corpus`;
@@ -129,17 +135,11 @@ Text or documents can be indexed by calling the following methods:
 
 Alternatively, pass a stream of documents `TextIndexer.documentStream` or `TextIndexer.collectionStream` for indexing whenever either of these streams emit (a) document(s).
 
-The `TextIndexer.indexCollection` method indexes text from a collection of `JSON `documents, emitting the `Postings` for each document in the `TextIndexer.postingsStream`.
-
-The `TextIndexer.emit` method adds an event to the `postingsStream`.
-
-Listen to `TextIndexer.postingsStream` to handle the postings list emitted whenever a document is indexed.
-
 Implementing classes override the following asynchronous methods for interacting with the `TextIndexer.index`:
-- `TextIndexer.indexText` indexes a text document;
-- `TextIndexer.indexJson` indexes the fields in a JSON document;
-- `TextIndexer.indexCollection` indexes the fields of all the documents in a JSON document collection; and
-- `TextIndexer.emit` adds an event to the `TextIndexer.postingsStream` after updating the `TextIndexer.index`;
+* `TextIndexer.indexText` indexes a text document;
+* `TextIndexer.indexJson` indexes the fields in a JSON document;
+* `TextIndexer.indexCollection` indexes the fields of all the documents in a JSON document collection; and
+*  `TextIndexer.updateIndexes` method updates the `TextIndexer.index` with new postings and k-gram entries.
 
 Use one of three factory constructors to instantiate a `TextIndexer`:
 * [`TextIndexer.index`](#textindexerindex); 
@@ -156,7 +156,7 @@ The `TextIndexer.index` factory constructor returns a `TextIndexer` instance, us
 
 The `TextIndexer.inMemory` factory constructor returns a `TextIndexer` instance with [in-memory](#inmemoryindex-class) `Dictionary` and `Postings` maps:
 - pass a `analyzer` text analyser that extracts tokens from text;
-- pass an in-memory `dictionary` instance, otherwise an empty `Dictionary` will be initialized; and
+- pass an in-memory `dictionary` instance, otherwise an empty `Dictionary` will be initialized; - pass an in-memory `kGramIndex` instance, otherwise an empty `KGramIndex` will be initialized;and
 - pass an in-memory `postings` instance, otherwise an empty `Postings` will be initialized.
 
 The `InMemoryIndexer` is suitable for indexing a smaller corpus. The `InMemoryIndexer` may have latency and processing overhead for large indexes or queries with more than a few terms. Consider running `InMemoryIndexer` in an isolate to avoid slowing down the main thread.
@@ -168,12 +168,14 @@ An example of the use of the `TextIndexer.inMemory` factory is included in the [
 The `TextIndexer.async` factory constructor returns a `TextIndexer` instance that uses
 [asynchronous callback](#asynccallbackindex-class) functions to access `Dictionary` and `Postings`
 repositories:
-- pass a `analyzer` text analyser that extracts tokens from text;
-- `dictionaryLoader` synchronously retrieves a `Dictionary` for a vocabulary from a data source;
-- `dictionaryLengthLoader` asynchronously retrieves the number of terms in the vocabulary (N);
-- `dictionaryUpdater` is callback that passes a `Dictionary` subset for persisting to a datastore;
-- `postingsLoader` asynchronously retrieves a `Postings` for a vocabulary from a data source; and
-- `postingsUpdater` passes a `Postings` subset for persisting to a datastore. 
+* pass a `analyzer` text analyser that extracts tokens from text;
+* `dictionaryLoader` synchronously retrieves a `Dictionary` for a vocabulary from a data source;
+* `dictionaryLengthLoader` asynchronously retrieves the number of terms in the vocabulary (N);
+* `dictionaryUpdater` is callback that passes a `Dictionary` subset for persisting to a datastore;
+* `kGramIndexLoader` asynchronously retrieves a `KGramIndex` for a vocabulary from a data source;
+* `kGramIndexUpdater` is callback that passes a `KGramIndex` subset for persisting to a datastore;
+* `postingsLoader` asynchronously retrieves a `Postings` for a vocabulary from a data source; and
+* `postingsUpdater` passes a `Postings` subset for persisting to a datastore. 
 
 The `AsyncIndexer` is suitable for indexing a large corpus but may have latency and processing overhead. Consider running `AsyncIndexer` in an isolate to avoid slowing down the main thread.
 
@@ -183,7 +185,7 @@ An example of the use of the `TextIndexer.async` factory is included in the [exa
 
 The `TextIndexerBase` is an abstract base class that implements the `TextIndexer.indexText`, `TextIndexer.indexJson`, `TextIndexer.indexCollection` and `TextIndexer.emit` methods and the `TextIndexer.postingsStream` field. `TextIndexerBase` also initializes listeners to `TextIndexer.documentStream` and `TextIndexer.collectionStream` at instantiation.
 
-The `TextIndexerBase.index` is updated whenever `TextIndexerBase.emit` is called. 
+The `TextIndexerBase.index` is updated whenever `TextIndexerBase.updateIndexes` is called. 
 
 Subclasses of `TextIndexerBase` must implement:
 * `TextIndexer.index`; and

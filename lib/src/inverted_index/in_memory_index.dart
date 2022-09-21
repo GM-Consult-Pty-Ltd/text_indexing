@@ -10,12 +10,17 @@ import 'package:text_indexing/text_indexing.dart';
 ///   index vocabulary also contains phrases up to [phraseLength] long,
 ///   concatenated from consecutive terms. The index size is increased by a
 ///   factor of [phraseLength];
-/// - [analyzer] is the [ITextAnalyzer] used to index the corpus terms;
+/// - [analyzer] is the [ITextAnalyzer] used to tokenize text for the index;
 /// - [vocabularyLength] is the number of unique terms in the corpus;
 /// - [zones] is a hashmap of zone names to their relative weight in the index;
+/// - [k] is the length of k-gram entries in the k-gram index;
 /// - [getDictionary] retrieves a [Dictionary] for a collection of [Term]s from
 ///   the in-memory [dictionary] hashmap;
 /// - [upsertDictionary ] inserts entries into the in-memory [dictionary] hashmap,
+///   overwriting any existing entries;
+/// - [getKGramIndex] Asynchronously retrieves a [KGramIndex] for a collection
+///   of [KGram]s from a [KGramIndex] repository;
+/// - [upsertKGramIndex ] inserts entries into a [KGramIndex] repository,
 ///   overwriting any existing entries;
 /// - [getPostings] retrieves [Postings] for a collection of [Term]s from the
 ///   in-memory [postings] hashmap;
@@ -35,11 +40,16 @@ class InMemoryIndex
     with InMemoryIndexMixin, InvertedIndexMixin
     implements InvertedIndex {
   //
-  /// The in-memory term dictionary for the indexer.
+
+  @override
+  final int k;
+
   @override
   final Dictionary dictionary;
 
-  /// The in-memory postings hashmap for the indexer.
+  @override
+  final KGramIndex kGramIndex;
+
   @override
   final Postings postings;
 
@@ -56,7 +66,9 @@ class InMemoryIndex
   const InMemoryIndex(
       {required this.dictionary,
       required this.postings,
+      required this.kGramIndex,
       required this.analyzer,
+      this.k = 3,
       this.zones = const <String, double>{},
       this.phraseLength = 1})
       : assert(phraseLength > 0, 'The phrase length must be 1 or greater');
@@ -87,11 +99,14 @@ class InMemoryIndex
 abstract class InMemoryIndexMixin implements InvertedIndex {
   //
 
-  /// The in-memory term dictionary for the indexer.
+  /// The in-memory term dictionary for the index.
   Dictionary get dictionary;
 
-  /// The in-memory postings hashmap for the indexer.
+  /// The in-memory postings hashmap for the index.
   Postings get postings;
+
+  /// The in-memory [KGramIndex] for the index.
+  KGramIndex get kGramIndex;
 
   @override
   Future<Ft> get vocabularyLength async => dictionary.length;
@@ -127,4 +142,20 @@ abstract class InMemoryIndexMixin implements InvertedIndex {
 
   @override
   Future<void> upsertPostings(Postings values) async => postings.addAll(values);
+
+  @override
+  Future<KGramIndex> getKGramIndex(Iterable<KGram> kGrams) async {
+    final KGramIndex retVal = {};
+    for (final kGram in kGrams) {
+      final entry = kGramIndex[kGram];
+      if (entry != null) {
+        retVal[kGram] = entry;
+      }
+    }
+    return retVal;
+  }
+
+  @override
+  Future<void> upsertKGramIndex(KGramIndex values) async =>
+      kGramIndex.addAll(values);
 }

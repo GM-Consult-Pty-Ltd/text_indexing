@@ -58,7 +58,7 @@
 </div>
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_indexing/Postings.html">Postings</a></span>&gt;</span></span>
-<span class="name ">getPostings</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="getPostings-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span></li>
+<span class="name ">getPostings</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="getPostings-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.8.0/text_analysis/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span></li>
 </ol>)
 
       <div class="features">override</div>
@@ -69,7 +69,7 @@
   <p>Asynchronously retrieves <a href="../../text_indexing/PostingsEntry.html">PostingsEntry</a> entities for the <code>terms</code> from a
 <code>Postings</code> repository.</p>
 <p>Used in <code>index-elimination</code>, to return a subset of the <code>Postings</code>
-where the key (<a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/Term.html">Term</a>) is in <code>terms</code>.</p>
+where the key (<a href="https://pub.dev/documentation/text_analysis/0.8.0/text_analysis/Term.html">Term</a>) is in <code>terms</code>.</p>
 </section>
 
 
@@ -113,6 +113,9 @@ Future&lt;Postings&gt; getPostings(Iterable&lt;Term&gt; terms) =&gt; postingsLoa
     <li><a href="../../text_indexing/AsyncCallbackIndexMixin/dictionaryLoader.html">dictionaryLoader</a></li>
     <li><a href="../../text_indexing/AsyncCallbackIndexMixin/dictionaryUpdater.html">dictionaryUpdater</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
+    <li class="inherited"><a href="../../text_indexing/InvertedIndex/k.html">k</a></li>
+    <li><a href="../../text_indexing/AsyncCallbackIndexMixin/kGramIndexLoader.html">kGramIndexLoader</a></li>
+    <li><a href="../../text_indexing/AsyncCallbackIndexMixin/kGramIndexUpdater.html">kGramIndexUpdater</a></li>
     <li class="inherited"><a href="../../text_indexing/InvertedIndex/phraseLength.html">phraseLength</a></li>
     <li><a href="../../text_indexing/AsyncCallbackIndexMixin/postingsLoader.html">postingsLoader</a></li>
     <li><a href="../../text_indexing/AsyncCallbackIndexMixin/postingsUpdater.html">postingsUpdater</a></li>
@@ -124,11 +127,13 @@ Future&lt;Postings&gt; getPostings(Iterable&lt;Term&gt; terms) =&gt; postingsLoa
     <li><a href="../../text_indexing/AsyncCallbackIndexMixin/getDictionary.html">getDictionary</a></li>
     <li class="inherited"><a href="../../text_indexing/InvertedIndex/getFtdPostings.html">getFtdPostings</a></li>
     <li class="inherited"><a href="../../text_indexing/InvertedIndex/getIdFtIndex.html">getIdFtIndex</a></li>
+    <li><a href="../../text_indexing/AsyncCallbackIndexMixin/getKGramIndex.html">getKGramIndex</a></li>
     <li><a href="../../text_indexing/AsyncCallbackIndexMixin/getPostings.html">getPostings</a></li>
     <li class="inherited"><a href="../../text_indexing/InvertedIndex/getTfIndex.html">getTfIndex</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
     <li><a href="../../text_indexing/AsyncCallbackIndexMixin/upsertDictionary.html">upsertDictionary</a></li>
+    <li><a href="../../text_indexing/AsyncCallbackIndexMixin/upsertKGramIndex.html">upsertKGramIndex</a></li>
     <li><a href="../../text_indexing/AsyncCallbackIndexMixin/upsertPostings.html">upsertPostings</a></li>
 
     <li class="section-title inherited"><a href="../../text_indexing/AsyncCallbackIndexMixin-class.html#operators">Operators</a></li>
@@ -149,7 +154,7 @@ Future&lt;Postings&gt; getPostings(Iterable&lt;Term&gt; terms) =&gt; postingsLoa
 <footer>
   <span class="no-break">
     text_indexing
-      0.11.0
+      0.12.0
   </span>
 
   

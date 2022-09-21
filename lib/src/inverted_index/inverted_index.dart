@@ -41,9 +41,14 @@ typedef FtdPostings = Map<Term, Map<DocId, Ft>>;
 /// - [analyzer] is the [ITextAnalyzer] used to index the corpus terms;
 /// - [vocabularyLength] is the number of unique terms in the corpus;
 /// - [zones] is a hashmap of zone names to their relative weight in the index;
+/// - [k] is the length of k-gram entries in the k-gram index;
 /// - [getDictionary] Asynchronously retrieves a [Dictionary] for a collection
 ///   of [Term]s from a [Dictionary] repository;
 /// - [upsertDictionary ] inserts entries into a [Dictionary] repository,
+///   overwriting any existing entries;
+/// - [getKGramIndex] Asynchronously retrieves a [KGramIndex] for a collection
+///   of [KGram]s from a [KGramIndex] repository;
+/// - [upsertKGramIndex ] inserts entries into a [KGramIndex] repository,
 ///   overwriting any existing entries;
 /// - [getPostings] asynchronously retrieves [Postings] for a collection
 ///   of [Term]s from a [Postings] repository;
@@ -58,6 +63,9 @@ typedef FtdPostings = Map<Term, Map<DocId, Ft>>;
 ///   the [Dictionary].
 abstract class InvertedIndex {
   //
+
+  /// The length of k-gram entries in the k-gram index.
+  int get k;
 
   /// Maps zone names to their relative weight in the index.
   ZoneWeightMap get zones;
@@ -99,13 +107,26 @@ abstract class InvertedIndex {
   ///
   /// Loads the entire [Dictionary] if [terms] is null.
   ///
-  /// Used in `index-elimination`, to return of the [Dictionary]
-  /// where the key ([Term]) is in [terms].
+  /// Used in `index-elimination`, to return a subset of [Dictionary] where the
+  /// key ([Term]) is in [terms].
   Future<Dictionary> getDictionary([Iterable<Term>? terms]);
 
   /// Inserts [values] into a [Dictionary] repository, overwriting them if they
   /// already exist.
   Future<void> upsertDictionary(Dictionary values);
+
+  /// Asynchronously retrieves a [KGramIndex] for the [terms] from a
+  /// [KGramIndex] repository.
+  ///
+  /// Loads the entire [KGramIndex] if [terms] is null.
+  ///
+  /// Used in `index-elimination`, to return a subset of the [KGramIndex]
+  /// where the key ([KGram]) is in [kGrams].
+  Future<KGramIndex> getKGramIndex(Iterable<KGram> kGrams);
+
+  /// Inserts [values] into a [KGramIndex] repository, overwriting any existing
+  /// entries.
+  Future<void> upsertKGramIndex(KGramIndex values);
 
   /// Asynchronously retrieves [PostingsEntry] entities for the [terms] from a
   /// [Postings] repository.

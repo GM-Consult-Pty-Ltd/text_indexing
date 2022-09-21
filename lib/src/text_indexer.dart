@@ -23,25 +23,24 @@ typedef JsonCollection = Map<DocId, JSON>;
 /// - [TextIndexer.indexText] indexes text from a text document.
 ///
 /// Alternatively, pass a [documentStream] or [collectionStream] for indexing
-/// whenever either of these streams emit (a) document(s).
+/// whenever either of these streams updateIndexes (a) document(s).
 ///
 /// Implementing classes override the following fields:
 /// - [index] is the [InvertedIndex] that provides access to the
 ///   index [Dictionary] and [Postings] and a [ITextAnalyzer];
 /// - [documentStream] is an input stream of 'JSON' documents. The documents
-///   emitted by[documentStream] are passed to [indexJson] for indexing;
+///   updateIndexested by[documentStream] are passed to [indexJson] for indexing; and
 /// - [collectionStream] is an input stream of a collection of 'JSON' documents.
-///   The documents emitted by [collectionStream] are passed to
-///   [indexCollection] for indexing; and
-/// - [postingsStream] emits a [Postings] whenever a
-///   document is indexed.
+///   The documents updateIndexested by [collectionStream] are passed to
+///   [indexCollection] for indexing..
 ///
 /// Implementing classes override the following asynchronous methods:
 /// - [indexText] indexes a text document;
 /// - [indexJson] indexes the fields in a JSON document;
 /// - [indexCollection] indexes the fields of all the documents in a JSON
 ///   document collection; and
-/// - [emit] adds an event to the [postingsStream] after updating the [index];
+/// - [updateIndexes] updates the [Dictionary], [Postings] and [KGramIndex]
+/// for this indexer.
 abstract class TextIndexer {
   //
 
@@ -56,13 +55,14 @@ abstract class TextIndexer {
   /// - pass an in-memory [postings] instance, otherwise an empty [Postings]
   ///   will be initialized;
   /// - [documentStream] is an input stream of 'JSON' documents. The documents
-  ///   emitted by[documentStream] are passed to [indexJson] for indexing; and
+  ///   updateIndexested by[documentStream] are passed to [indexJson] for indexing; and
   /// - [collectionStream] is an input stream of a collection of 'JSON'
-  ///   documents. The documents emitted by [collectionStream] are passed to
+  ///   documents. The documents updateIndexested by [collectionStream] are passed to
   ///   [indexCollection] for indexing.
   factory TextIndexer.inMemory(
           {Dictionary? dictionary,
           Postings? postings,
+          KGramIndex? kGramIndex,
           ITextAnalyzer analyzer = const TextAnalyzer(),
           Stream<MapEntry<DocId, JSON>>? documentStream,
           Stream<Map<DocId, JSON>>? collectionStream}) =>
@@ -70,7 +70,8 @@ abstract class TextIndexer {
           InMemoryIndex(
               dictionary: dictionary ?? {},
               postings: postings ?? {},
-              analyzer: analyzer),
+              analyzer: analyzer,
+              kGramIndex: kGramIndex ?? {}),
           collectionStream,
           documentStream);
 
@@ -89,14 +90,16 @@ abstract class TextIndexer {
   /// - [postingsUpdater] passes a [Postings] subset for persisting to a
   ///   datastore;
   /// - [documentStream] is an input stream of 'JSON' documents. The documents
-  ///   emitted by[documentStream] are passed to [indexJson] for indexing; and
+  ///   updateIndexested by[documentStream] are passed to [indexJson] for indexing; and
   /// - [collectionStream] is an input stream of a collection of 'JSON'
-  ///   documents. The documents emitted by [collectionStream] are passed to
+  ///   documents. The documents updateIndexested by [collectionStream] are passed to
   ///   [indexCollection] for indexing.
   factory TextIndexer.async(
           {required DictionaryLoader dictionaryLoader,
-          required DictionaryLengthLoader dictionaryLengthLoader,
           required DictionaryUpdater dictionaryUpdater,
+          required DictionaryLengthLoader dictionaryLengthLoader,
+          required KGramIndexLoader kGramIndexLoader,
+          required KGramIndexUpdater kGramIndexUpdater,
           required PostingsLoader postingsLoader,
           required PostingsUpdater postingsUpdater,
           Stream<MapEntry<DocId, JSON>>? documentStream,
@@ -105,8 +108,10 @@ abstract class TextIndexer {
       _TextIndexerImpl(
           AsyncCallbackIndex(
               dictionaryLoader: dictionaryLoader,
-              dictionaryLengthLoader: dictionaryLengthLoader,
               dictionaryUpdater: dictionaryUpdater,
+              dictionaryLengthLoader: dictionaryLengthLoader,
+              kGramIndexLoader: kGramIndexLoader,
+              kGramIndexUpdater: kGramIndexUpdater,
               postingsLoader: postingsLoader,
               postingsUpdater: postingsUpdater,
               analyzer: analyzer),
@@ -116,9 +121,9 @@ abstract class TextIndexer {
   /// Factory constructor initializes a [TextIndexer] instance, passing in a
   /// [index] instance:
   /// - [documentStream] is an input stream of 'JSON' documents. The documents
-  ///   emitted by[documentStream] are passed to [indexJson] for indexing; and
+  ///   updateIndexested by[documentStream] are passed to [indexJson] for indexing; and
   /// - [collectionStream] is an input stream of a collection of 'JSON'
-  ///   documents. The documents emitted by [collectionStream] are passed to
+  ///   documents. The documents updateIndexested by [collectionStream] are passed to
   ///   [indexCollection] for indexing.
   factory TextIndexer.index(
           {required InvertedIndex index,
@@ -126,46 +131,35 @@ abstract class TextIndexer {
           Stream<Map<DocId, JSON>>? collectionStream}) =>
       _TextIndexerImpl(index, collectionStream, documentStream);
 
-  /// An input stream of 'JSON' documents. The documents emitted by
+  /// An input stream of 'JSON' documents. The documents updateIndexested by
   /// [documentStream] are passed to [indexJson] for indexing.
   ///
   /// The key of the MapEntry<DocId, JSON> is the primary key reference of the
   /// JSON document.
   Stream<MapEntry<DocId, JSON>>? get documentStream;
 
-  /// An input stream of a collection of 'JSON' documents. The documents emitted
+  /// An input stream of a collection of 'JSON' documents. The documents updateIndexested
   /// by [documentStream] are passed to [indexCollection] for indexing.
   ///
   /// The key of the MapEntry<DocId, JSON> is the primary key reference of the
   /// JSON document.
   Stream<Map<DocId, JSON>>? get collectionStream;
 
-  /// Emits [Postings] hashmap for an indexed document when it is indexed.
+  /// The [updateIndexes] method is called by [index] and updates the
+  /// [Dictionary], [Postings] and [KGramIndex] for this indexer.
   ///
-  /// Listen to [postingsStream] to update your term dictionary and postings
-  /// map.
-  Stream<Postings> get postingsStream;
-
-  /// The [emit] method is called by [index] and adds the [event] to the
-  /// [postingsStream].
-  ///
-  /// Sub-classes override [emit] to perform additional actions whenever a
+  /// Sub-classes override [updateIndexes] to perform additional actions whenever a
   /// document is indexed.
-  Future<void> emit(Postings event);
+  Future<void> updateIndexes(Postings event, Iterable<Token> tokens);
 
   /// Indexes a text document, returning a [Postings].
-  ///
-  /// Adds [Postings] for [docText] to the [postingsStream].
   Future<Postings> indexText(DocId docId, SourceText docText);
 
   /// Indexes the [InvertedIndex.zones] in a [json] document, returning a list
   /// of [DocumentPostingsEntry].
-  ///
-  /// Adds [Postings] for [json] to the [postingsStream].
   Future<Postings> indexJson(DocId docId, JSON json);
 
-  /// Indexes the [InvertedIndex.zones] of all the documents in [collection],
-  /// adding [Postings] to the [postingsStream] for each document.
+  /// Indexes the [InvertedIndex.zones] of all the documents in [collection].
   Future<void> indexCollection(JsonCollection collection);
 
   /// The [InvertedIndex] that provides access to the
@@ -177,12 +171,10 @@ abstract class TextIndexer {
 
 /// Base class implementation of the [TextIndexer] interface.
 ///
-/// Uses a [BehaviorSubject] as stream [controller] for [postingsStream].
-///
 /// Initializes listeners to [documentStream] and [collectionStream] at
 /// instantiation.
 ///
-/// Sub-classes must implement the [index] and [controller] fields
+/// Sub-classes must implement the [index] field.
 abstract class TextIndexerBase implements TextIndexer {
   //
 
@@ -194,14 +186,11 @@ abstract class TextIndexerBase implements TextIndexer {
     collectionStream?.listen((event) => indexCollection(event));
   }
 
-  /// The private stream controller for the [postingsStream].
-  BehaviorSubject<Postings> get controller;
-
   /// Implementation of [TextIndexer.indexText] that:
   /// - parses [docText] to a collection of [Token]s;
   /// - maps the tokens to postings for [docId];
   /// - maps the postings for [docId] to a [Postings];
-  /// - calls [emit], passing the [Postings] for [docId]; and
+  /// - calls [updateIndexes], passing the [Postings] for [docId]; and
   /// - returns the [Postings] for [docId].
   @override
   Future<Postings> indexText(DocId docId, SourceText docText) async {
@@ -211,8 +200,8 @@ abstract class TextIndexerBase implements TextIndexer {
     final Postings postings = _tokensToPostings(docId, tokens);
     // map postings to a list of DocumentPostingsEntry for docId.
     // final event = _postingsToTermPositions(docId, postings);
-    // emit the postings list for docId
-    await emit(postings);
+    // updateIndexes the postings list for docId
+    await updateIndexes(postings, tokens);
     return postings;
   }
 
@@ -220,7 +209,7 @@ abstract class TextIndexerBase implements TextIndexer {
   /// - parses [json] to a collection of [Token]s;
   /// - maps the tokens to postings for [docId];
   /// - maps the postings for [docId] to a [Postings];
-  /// - calls [emit], passing the [Postings] for [docId]; and
+  /// - calls [updateIndexes], passing the [Postings] for [docId]; and
   /// - returns the [Postings] for [docId].
   @override
   Future<Postings> indexJson(DocId docId, JSON json) async {
@@ -231,14 +220,14 @@ abstract class TextIndexerBase implements TextIndexer {
     final Postings postings = _tokensToPostings(docId, tokens);
     // map postings to a list of DocumentPostingsEntry for docId.
     // final event = _postingsToTermPositions(docId, postings);
-    // emit the postings list for docId
-    await emit(postings);
+    // update the indexes with the postings list for docId
+    await updateIndexes(postings, tokens);
     return postings;
   }
 
   /// Implementation of [TextIndexer.indexCollection] that parses each JSON
   /// document in [collection] to [Token]s and maps the tokens to a [Postings]
-  /// that is passed to [emit].
+  /// that is passed to [updateIndexes].
   @override
   Future<void> indexCollection(JsonCollection collection) async {
     await Future.forEach(collection.entries, (MapEntry<DocId, JSON> e) async {
@@ -284,7 +273,19 @@ abstract class TextIndexerBase implements TextIndexer {
     return postings;
   }
 
-  /// Implementation of [TextIndexer.emit] that:
+  Future<void> _upsertKgrams(Iterable<Token> tokens) async {
+    // - get the new kGrams for the tokens;
+    final newkGrams = tokens.kGrams(index.k);
+    final persistedKgrams = await index.getKGramIndex(newkGrams.keys);
+    newkGrams.forEach((key, value) {
+      final kGramEntry = persistedKgrams[key] ?? {};
+      kGramEntry.addAll(value);
+      persistedKgrams[key] = kGramEntry;
+    });
+    await index.upsertKGramIndex(persistedKgrams);
+  }
+
+  /// Implementation of [TextIndexer.updateIndexes] that:
   /// - maps [event] to a set of unique terms;
   /// - loads the existing [PostingsEntry]s for the terms from the [index]
   ///   [Postings];
@@ -292,17 +293,18 @@ abstract class TextIndexerBase implements TextIndexer {
   /// - iterates through the [event] entries and:
   /// - inserts or updates each [DocumentPostingsEntry] instance to the index
   ///   [Postings];
-  /// - if a [DocumentPostingsEntry] instance did not exist previously, increments
-  ///   the document frequency of the associated term;
+  /// - if a [DocumentPostingsEntry] instance did not exist previously,
+  ///   increments the document frequency of the associated term;
   /// - then:
-  /// - asynchronously updates the index [Dictionary];
-  /// - asynchronously updates the index [Postings]; and
-  /// - adds the [event] to the [controller] sink.
+  /// - asynchronously updates the index [Dictionary]; and
+  /// - asynchronously updates the index [Postings].
   @override
   @mustCallSuper
-  Future<void> emit(Postings event) async {
+  Future<void> updateIndexes(Postings event, Iterable<Token> tokens) async {
     // - maps [event] to a set of unique terms;
     final terms = Set<Term>.from(event.keys);
+    await _upsertKgrams(tokens);
+
     // - loads the existing [PostingsEntry]s for the terms from a [Postings] by calling [getPostings];
     final postingsToUpdate = await index.getPostings(terms);
 // - loads the existing [DictionaryEntry]s for the terms from a [Dictionary] by calling [getDictionary];
@@ -327,15 +329,7 @@ abstract class TextIndexerBase implements TextIndexer {
     await index.upsertDictionary(termsToUpdate);
     // - asynchronously updates the [Postings] by calling [upsertPostings]; and
     await index.upsertPostings(postingsToUpdate);
-    // - adds the [event] to the [controller] sink.
-    controller.sink.add(event);
   }
-
-  /// Implements [TextIndexer.postingsStream].
-  ///
-  /// Returns [controller].stream.
-  @override
-  Stream<Postings> get postingsStream => controller.stream;
 }
 
 class _TextIndexerImpl extends TextIndexerBase {
@@ -343,9 +337,6 @@ class _TextIndexerImpl extends TextIndexerBase {
 
   @override
   final InvertedIndex index;
-
-  @override
-  final controller = BehaviorSubject<Postings>();
 
   _TextIndexerImpl(this.index, this.collectionStream, this.documentStream);
 

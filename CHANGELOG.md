@@ -3,6 +3,28 @@ BSD 3-Clause License
 Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
+
+
+### 0.12.0 (PRE-RELEASE, BREAKING CHANGES)
+
+#### Breaking changes:
+- Added method `InvertedIndex.getKGramIndex` to `InvertedIndex` interface.
+- Added method `InvertedIndex.upsertKGramIndex` to `InvertedIndex` interface.
+- Added field `InvertedIndex.k` to `InvertedIndex` interface.
+- Removed field `TextIndexer.postingsStream`.
+- Renamed method `TextIndexer.emit` to `TextIndexer.updateIndexes`.
+- Added `AsyncIndex.k`, `AsyncIndex.kGramIndexLoader` and `AsyncIndex.kGramIndexUpdater` final fields and parameters to `AsyncIndex` class.
+- Added `InMemoryIndex.k`, and `InMemoryIndex.kGramIndex` final fields and parameters to `InMemoryIndex` class.
+
+#### New:
+- Type alias `KGramIndex`.
+- Type alias `KGramIndexLoader`.
+- Type alias `KGramIndexUpdater`.
+- Extension method `void KGramIndex.addTermKGrams(Term term, Iterable<KGram> kGrams)`.
+
+Updated dependencies, tests, examples and documentation.
+
+
 ### 0.11.0 (PRE-RELEASE)
 
 #### New:

@@ -52,7 +52,9 @@
     <section class="multi-line-signature">const
       <span class="name ">InMemoryIndex</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="-param-dictionary">{<span>required</span> <span class="type-annotation"><a href="../../text_indexing/Dictionary.html">Dictionary</a></span> <span class="parameter-name">dictionary</span>, </span></li>
 <li><span class="parameter" id="-param-postings"><span>required</span> <span class="type-annotation"><a href="../../text_indexing/Postings.html">Postings</a></span> <span class="parameter-name">postings</span>, </span></li>
-<li><span class="parameter" id="-param-analyzer"><span>required</span> <span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></span> <span class="parameter-name">analyzer</span>, </span></li>
+<li><span class="parameter" id="-param-kGramIndex"><span>required</span> <span class="type-annotation"><a href="../../text_indexing/KGramIndex.html">KGramIndex</a></span> <span class="parameter-name">kGramIndex</span>, </span></li>
+<li><span class="parameter" id="-param-analyzer"><span>required</span> <span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.8.0/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></span> <span class="parameter-name">analyzer</span>, </span></li>
+<li><span class="parameter" id="-param-k"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">3</span>, </span></li>
 <li><span class="parameter" id="-param-zones"><span class="type-annotation"><a href="../../text_indexing/ZoneWeightMap.html">ZoneWeightMap</a></span> <span class="parameter-name">zones</span> = <span class="default-value">const &lt;String, double&gt;{}</span>, </span></li>
 <li><span class="parameter" id="-param-phraseLength"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">phraseLength</span> = <span class="default-value">1</span>}</span></li>
 </ol>)
@@ -62,7 +64,7 @@
 <section class="desc markdown">
   <p>Instantiates a <a href="../../text_indexing/InMemoryIndex-class.html">InMemoryIndex</a> instance:</p>
 <ul>
-<li><a href="../../text_indexing/InMemoryIndex/analyzer.html">analyzer</a> is the <a href="https://pub.dev/documentation/text_analysis/0.7.0/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a> used to tokenize text for the index;</li>
+<li><a href="../../text_indexing/InMemoryIndex/analyzer.html">analyzer</a> is the <a href="https://pub.dev/documentation/text_analysis/0.8.0/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a> used to tokenize text for the index;</li>
 <li><a href="../../text_indexing/InMemoryIndex/zones.html">zones</a> is a hashmap of zone names to their relative weight in the index;</li>
 <li><a href="../../text_indexing/InMemoryIndex/dictionary.html">dictionary</a> is the in-memory term dictionary for the indexer. Pass a
 <a href="../../text_indexing/InMemoryIndex/dictionary.html">dictionary</a> instance at instantiation, otherwise an empty <a href="../../text_indexing/Dictionary.html">Dictionary</a>
@@ -81,7 +83,9 @@ will be initialized; and</li>
   <pre class="language-dart"><code class="language-dart">const InMemoryIndex(
     {required this.dictionary,
     required this.postings,
+    required this.kGramIndex,
     required this.analyzer,
+    this.k = 3,
     this.zones = const &lt;String, double&gt;{},
     this.phraseLength = 1})
     : assert(phraseLength &gt; 0, &#39;The phrase length must be 1 or greater&#39;);</code></pre>
@@ -118,6 +122,8 @@ will be initialized; and</li>
     <li><a href="../../text_indexing/InMemoryIndex/analyzer.html">analyzer</a></li>
     <li><a href="../../text_indexing/InMemoryIndex/dictionary.html">dictionary</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
+    <li><a href="../../text_indexing/InMemoryIndex/k.html">k</a></li>
+    <li><a href="../../text_indexing/InMemoryIndex/kGramIndex.html">kGramIndex</a></li>
     <li><a href="../../text_indexing/InMemoryIndex/phraseLength.html">phraseLength</a></li>
     <li><a href="../../text_indexing/InMemoryIndex/postings.html">postings</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
@@ -128,11 +134,13 @@ will be initialized; and</li>
     <li class="inherited"><a href="../../text_indexing/InMemoryIndexMixin/getDictionary.html">getDictionary</a></li>
     <li class="inherited"><a href="../../text_indexing/InvertedIndexMixin/getFtdPostings.html">getFtdPostings</a></li>
     <li class="inherited"><a href="../../text_indexing/InvertedIndexMixin/getIdFtIndex.html">getIdFtIndex</a></li>
+    <li class="inherited"><a href="../../text_indexing/InMemoryIndexMixin/getKGramIndex.html">getKGramIndex</a></li>
     <li class="inherited"><a href="../../text_indexing/InMemoryIndexMixin/getPostings.html">getPostings</a></li>
     <li class="inherited"><a href="../../text_indexing/InvertedIndexMixin/getTfIndex.html">getTfIndex</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
     <li class="inherited"><a href="../../text_indexing/InMemoryIndexMixin/upsertDictionary.html">upsertDictionary</a></li>
+    <li class="inherited"><a href="../../text_indexing/InMemoryIndexMixin/upsertKGramIndex.html">upsertKGramIndex</a></li>
     <li class="inherited"><a href="../../text_indexing/InMemoryIndexMixin/upsertPostings.html">upsertPostings</a></li>
 
     <li class="section-title inherited"><a href="../../text_indexing/InMemoryIndex-class.html#operators">Operators</a></li>
@@ -153,7 +161,7 @@ will be initialized; and</li>
 <footer>
   <span class="no-break">
     text_indexing
-      0.11.0
+      0.12.0
   </span>
 
   

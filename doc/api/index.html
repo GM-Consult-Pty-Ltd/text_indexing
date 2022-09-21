@@ -110,6 +110,9 @@ Copyright (c) 2022, GM Consult Pty Ltd#class-persistedindexerAll rights reserved
 <li><code>FieldPostingsEntry</code> is an alias for <code>MapEntry&lt;Zone, TermPositions&gt;</code>, an entry in a <code>ZonePostings</code> hashmap.</li>
 <li><code>Ft</code> is an lias for <code>int</code> and denotes the frequency of a <code>Term</code> in an index or indexed object (the term frequency).</li>
 <li><code>FtdPostings</code> is an alias for for <code>Map&lt;String, Map&lt;String, int&gt;&gt;</code>, a hashmap of vocabulary to hashmaps of document id to term frequency in the document.</li>
+<li><code>KGramIndex</code> is an alias for for for <code>Map&lt;String, Set&lt;String&gt;&gt;</code>;</li>
+<li><code>KGramIndexLoader</code> is a callback function that aynchronously retrieves a <a href="text_indexing/KGramIndex.html">KGramIndex</a> subset for a collection of terms from a <a href="text_indexing/KGramIndex.html">KGramIndex</a> data source, usually persisted storag;</li>
+<li><code>KGramIndexUpdater</code> is a callback function that aynchronously updates a <code>KGramIndex</code> repository;</li>
 <li><code>IdFt</code> is an alias for <code>double</code>, where it represents the inverse document frequency of a term, defined as idft = log (N / dft), where N is the total number of terms in the index and dft is the document frequency of the term (number of documents that contain the term).</li>
 <li><code>IdFtIndex</code> is an alias for <code>Map&lt;String, double&gt;</code>, a hashmap of the vocabulary to the inverse document frequency (<code>Idft</code>)  of the term.</li>
 <li><code>JSON</code> is an alias for <code>Map&lt;String, dynamic&gt;</code>, a hashmap known as <code>"Java Script Object Notation" (JSON)</code>, a common format for persisting data.</li>
@@ -124,13 +127,16 @@ Copyright (c) 2022, GM Consult Pty Ltd#class-persistedindexerAll rights reserved
 <ul>
 <li><code>ITextAnalyzer analyzer</code> is the text analyser that extracts tokens from text;</li>
 <li><code>ZoneWeightMap zones</code> maps collection zone/field names to their relative weight in the index;</li>
-<li><code>int phraseLength</code> is the maximum length of phrases in the index vocabulary. <code>phraseLength</code> must be greater than 0 and increases the size of the index by a factor equal to <code>phraseLength</code>, so its value must be kept as small as is consistent with efficient and accurate retrieval; and</li>
+<li><code>int phraseLength</code> is the maximum length of phrases in the index vocabulary. <code>phraseLength</code> must be greater than 0 and increases the size of the index by a factor equal to <code>phraseLength</code>, so its value must be kept as small as is consistent with efficient and accurate retrieval;</li>
+<li><code>int k</code> is the length of k-gram entries in the k-gram index; and</li>
 <li><code>Future&lt;int&gt; vocabularyLength</code> asynchronoulsy returns the number of entries in the index <a href="text_indexing/Dictionary.html">Dictionary</a>.</li>
 </ul>
 <p>The <code>InvertedIndex</code> exposes the following methods:</p>
 <ul>
 <li><code>getDictionary</code> Asynchronously retrieves a <code>Dictionary</code> for a collection of <code>Term</code>s from a <code>Dictionary</code> repository;</li>
 <li><code>upsertDictionary</code> inserts entries into a <code>Dictionary</code> repository, overwriting any existing entries;</li>
+<li><code>getKGramIndex</code> Asynchronously retrieves a <code>KGramIndex</code> for a collection of <code>KGram</code>s from a <code>KGramIndex</code> repository;</li>
+<li><code>upsertKGramIndex</code> inserts entries into a <code>KGramIndex</code> repository, overwriting any existing entries;</li>
 <li><code>getPostings</code> asynchronously retrieves <code>Postings</code> for a collection of <code>Term</code>s from a <code>Postings</code> repository;</li>
 <li><code>upsertPostings</code> inserts entries into a <code>Postings</code> repository,  overwriting any existing entries;</li>
 </ul>
@@ -154,15 +160,12 @@ Copyright (c) 2022, GM Consult Pty Ltd#class-persistedindexerAll rights reserved
 <li><code>TextIndexer.indexCollection</code> indexes the fields of all the documents in s JSON document collection.</li>
 </ul>
 <p>Alternatively, pass a stream of documents <code>TextIndexer.documentStream</code> or <code>TextIndexer.collectionStream</code> for indexing whenever either of these streams emit (a) document(s).</p>
-<p>The <code>TextIndexer.indexCollection</code> method indexes text from a collection of <code>JSON</code>documents, emitting the <code>Postings</code> for each document in the <code>TextIndexer.postingsStream</code>.</p>
-<p>The <code>TextIndexer.emit</code> method adds an event to the <code>postingsStream</code>.</p>
-<p>Listen to <code>TextIndexer.postingsStream</code> to handle the postings list emitted whenever a document is indexed.</p>
 <p>Implementing classes override the following asynchronous methods for interacting with the <code>TextIndexer.index</code>:</p>
 <ul>
 <li><code>TextIndexer.indexText</code> indexes a text document;</li>
 <li><code>TextIndexer.indexJson</code> indexes the fields in a JSON document;</li>
 <li><code>TextIndexer.indexCollection</code> indexes the fields of all the documents in a JSON document collection; and</li>
-<li><code>TextIndexer.emit</code> adds an event to the <code>TextIndexer.postingsStream</code> after updating the <code>TextIndexer.index</code>;</li>
+<li><code>TextIndexer.updateIndexes</code> method updates the <code>TextIndexer.index</code> with new postings and k-gram entries.</li>
 </ul>
 <p>Use one of three factory constructors to instantiate a <code>TextIndexer</code>:</p>
 <ul>
@@ -177,7 +180,7 @@ Copyright (c) 2022, GM Consult Pty Ltd#class-persistedindexerAll rights reserved
 <p>The <code>TextIndexer.inMemory</code> factory constructor returns a <code>TextIndexer</code> instance with <a href="#inmemoryindex-class">in-memory</a> <code>Dictionary</code> and <code>Postings</code> maps:</p>
 <ul>
 <li>pass a <code>analyzer</code> text analyser that extracts tokens from text;</li>
-<li>pass an in-memory <code>dictionary</code> instance, otherwise an empty <code>Dictionary</code> will be initialized; and</li>
+<li>pass an in-memory <code>dictionary</code> instance, otherwise an empty <code>Dictionary</code> will be initialized; - pass an in-memory <code>kGramIndex</code> instance, otherwise an empty <code>KGramIndex</code> will be initialized;and</li>
 <li>pass an in-memory <code>postings</code> instance, otherwise an empty <code>Postings</code> will be initialized.</li>
 </ul>
 <p>The <code>InMemoryIndexer</code> is suitable for indexing a smaller corpus. The <code>InMemoryIndexer</code> may have latency and processing overhead for large indexes or queries with more than a few terms. Consider running <code>InMemoryIndexer</code> in an isolate to avoid slowing down the main thread.</p>
@@ -191,6 +194,8 @@ repositories:</p>
 <li><code>dictionaryLoader</code> synchronously retrieves a <code>Dictionary</code> for a vocabulary from a data source;</li>
 <li><code>dictionaryLengthLoader</code> asynchronously retrieves the number of terms in the vocabulary (N);</li>
 <li><code>dictionaryUpdater</code> is callback that passes a <code>Dictionary</code> subset for persisting to a datastore;</li>
+<li><code>kGramIndexLoader</code> asynchronously retrieves a <code>KGramIndex</code> for a vocabulary from a data source;</li>
+<li><code>kGramIndexUpdater</code> is callback that passes a <code>KGramIndex</code> subset for persisting to a datastore;</li>
 <li><code>postingsLoader</code> asynchronously retrieves a <code>Postings</code> for a vocabulary from a data source; and</li>
 <li><code>postingsUpdater</code> passes a <code>Postings</code> subset for persisting to a datastore.</li>
 </ul>
@@ -198,7 +203,7 @@ repositories:</p>
 <p>An example of the use of the <code>TextIndexer.async</code> factory is included in the <a href="https://pub.dev/packages/text_indexing/example">examples</a>.</p>
 <h3 id="textindexerbase-class">TextIndexerBase Class</h3>
 <p>The <code>TextIndexerBase</code> is an abstract base class that implements the <code>TextIndexer.indexText</code>, <code>TextIndexer.indexJson</code>, <code>TextIndexer.indexCollection</code> and <code>TextIndexer.emit</code> methods and the <code>TextIndexer.postingsStream</code> field. <code>TextIndexerBase</code> also initializes listeners to <code>TextIndexer.documentStream</code> and <code>TextIndexer.collectionStream</code> at instantiation.</p>
-<p>The <code>TextIndexerBase.index</code> is updated whenever <code>TextIndexerBase.emit</code> is called.</p>
+<p>The <code>TextIndexerBase.index</code> is updated whenever <code>TextIndexerBase.updateIndexes</code> is called.</p>
 <p>Subclasses of <code>TextIndexerBase</code> must implement:</p>
 <ul>
 <li><code>TextIndexer.index</code>; and</li>
@@ -327,7 +332,7 @@ that uses asynchronous callbacks to perform read and write operations on <code>D
 <footer>
   <span class="no-break">
     text_indexing
-      0.11.0
+      0.12.0
   </span>
 
   

@@ -54,24 +54,24 @@ void main() {
           .tokens
           .terms;
 
-      indexer.postingsStream.listen((event) {
-        if (event.isNotEmpty) {
-          final PostingsEntry posting = event.entries.first;
-          if (posting.value.isNotEmpty) {
-            final DocumentPostingsEntry docPostings =
-                posting.value.entries.first;
-            final docId = docPostings.docId;
-            final terms = event.terms;
-            print('$docId: $terms');
-          }
-        }
-        for (final termPosting in event.entries) {
-          termsSet.add(termPosting.key);
-          docsSet.add(termPosting.value.entries.first.key);
-        }
-        print(
-            'Indexed ${termsSet.length} terms from ${docsSet.length} documents.');
-      });
+      // indexer.postingsStream.listen((event) {
+      //   if (event.isNotEmpty) {
+      //     final PostingsEntry posting = event.entries.first;
+      //     if (posting.value.isNotEmpty) {
+      //       final DocumentPostingsEntry docPostings =
+      //           posting.value.entries.first;
+      //       final docId = docPostings.docId;
+      //       final terms = event.terms;
+      //       print('$docId: $terms');
+      //     }
+      //   }
+      //   for (final termPosting in event.entries) {
+      //     termsSet.add(termPosting.key);
+      //     docsSet.add(termPosting.value.entries.first.key);
+      //   }
+      //   print(
+      //       'Indexed ${termsSet.length} terms from ${docsSet.length} documents.');
+      // });
 
       // - iterate through the sample data
       await Future.forEach(textData.entries,
@@ -109,8 +109,6 @@ void main() {
     /// - print the top 5 most popular [_TestIndex.dictionary.terms].
     test('AsyncIndexer.index', () async {
       //
-      final termsSet = <String>{};
-      final docsSet = <String>{};
 
       // - initialize a [_TestIndex()]
       final index = _TestIndex();
@@ -123,15 +121,6 @@ void main() {
       // - initialize a [AsyncIndexer]
       final indexer = TextIndexer.index(index: index);
 
-      // listen to the indexer.postingsStream and print the postings count for each term.
-      indexer.postingsStream.listen((event) {
-        for (final termPosting in event.entries) {
-          termsSet.add(termPosting.key);
-          docsSet.add(termPosting.value.entries.first.key);
-        }
-        print('Indexed ${termsSet.length} in ${docsSet.length} documents.');
-      });
-
       // - iterate through the sample data
       await indexer.indexCollection(sampleNews);
 
@@ -143,9 +132,6 @@ void main() {
 
       // print the statistics for each term in [searchTerms].
       await _printTermStats(index, searchTerms);
-
-      expect(await index.vocabularyLength, termsSet.length);
-      expect(sampleNews.length, docsSet.length);
     });
   });
 }

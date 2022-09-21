@@ -11,6 +11,9 @@ part of 'text_indexing_test.dart';
 class _TestIndex with InvertedIndexMixin implements InvertedIndex {
   //
 
+  @override
+  final int k = 3;
+
   /// The [Dictionary] instance that is the data-store for the index's term
   /// dictionary
   final Dictionary dictionary = {};
@@ -18,6 +21,8 @@ class _TestIndex with InvertedIndexMixin implements InvertedIndex {
   /// The [Dictionary] instance that is the data-store for the index's term
   /// dictionary
   final Postings postings = {};
+
+  final KGramIndex kGramIndex = {};
 
   /// Implementation of [PostingsLoader].
   ///
@@ -77,6 +82,28 @@ class _TestIndex with InvertedIndexMixin implements InvertedIndex {
     }
     return retVal;
   }
+
+  /// Implementation of [getKGramIndex].
+  ///
+  /// Returns a subset of [kGramIndex] corresponding to [kGrams].
+  ///
+  /// Simulates latency of 50 milliseconds.
+  @override
+  Future<KGramIndex> getKGramIndex(Iterable<KGram> kGrams) async {
+    final KGramIndex retVal = {};
+    for (final kGram in kGrams) {
+      final entry = kGramIndex[kGram];
+      if (entry != null) {
+        retVal[kGram] = entry;
+      }
+    }
+    await Future.delayed(const Duration(milliseconds: 50));
+    return retVal;
+  }
+
+  @override
+  Future<void> upsertKGramIndex(KGramIndex values) async =>
+      kGramIndex.addAll(values);
 
   @override
   final ITextAnalyzer analyzer = TextAnalyzer();
