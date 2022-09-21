@@ -4,6 +4,9 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+### 0.12.0+1 (PRE-RELEASE)
+
+Updated dependencies and documentation.
 
 ### 0.12.0 (PRE-RELEASE, BREAKING CHANGES)
 

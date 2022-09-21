@@ -23,11 +23,12 @@ This library provides an interface and implementation classes that build and mai
 
 ![Index construction flowchart](https://github.com/GM-Consult-Pty-Ltd/text_indexing/raw/main/assets/images/indexing.png?raw=true?raw=true "Index construction overview")
 
-The [TextIndexer](#textindexer-interface) constructs two artifacts:
-* a `dictionary` that holds the `vocabulary` of `terms` and the frequency of occurrence for each `term` in the `corpus`; and
-* a `postings` map that holds a list of references to the `documents` for each `term` (the `postings list`). 
+The [TextIndexer](#textindexer-interface) constructs three artifacts:
+* the `dictionary` that holds the `vocabulary` of `terms` and the frequency of occurrence for each `term` in the `corpus`; 
+* the `k-gram index` that maps `k-grams` to terms in the `dictionary`; and
+* the `postings` index that holds a list of references to the `documents` for each `term` (the `postings list`). 
 
-In this implementation, our `postings list` is a hashmap of the document id (`docId`) to maps that point to positions of the term in the document's zones. This allows query algorithms to score and rank search results based on the position(s) of a term in document fields, applying different weights to the zones.
+In this implementation, a `postings list` is a hashmap of the document id (`docId`) to maps that point to positions of the term in the document's `zones` (fields). This allows query algorithms to score and rank search results based on the position(s) of a term in document fields, applying different weights to the zones.
 
 ![Index artifacts](https://github.com/GM-Consult-Pty-Ltd/text_indexing/raw/main/assets/images/index_artifacts.png?raw=true?raw=true "Components of inverted positional index")
 
@@ -122,24 +123,25 @@ The `InvertedIndexMixin` implements the `InvertedIndex.getTfIndex`, `InvertedInd
 
 ### TextIndexer Interface
 
-The text indexing classes (indexers) in this library implement `TextIndexer`, an interface intended for information retrieval software applications. The design of the `TextIndexer` interface is consistent with [information retrieval theory](https://nlp.stanford.edu/IR-book/pdf/irbookonlinereading.pdf) and is intended to construct and/or maintain two artifacts:
-* a hashmap with the vocabulary as key and the document frequency as the values (the `dictionary`); and
+The text indexing classes (indexers) in this library implement the `TextIndexer` interface. The  `TextIndexer` is used to construct and/or maintain three artifacts:
+* a hashmap with the vocabulary as key and the document frequency as the values (the `dictionary`)
+* a hashmap with `k-grams` as key and a set of `terms` as the values (the `k-gram index`); and
 * another hashmap with the vocabulary as key and the postings lists for the linked `documents` as values (the `postings`).
 
-The dictionary and postings can be asynchronous data sources or in-memory hashmaps.  The `TextIndexer` reads and writes to/from these artifacts using the `TextIndexer.index`.
+The dictionary, postings and k-gram index can be read and updated via asynchronous methods exposed by the [`TextIndexer.index`](#invertedindex-interface).
 
 Text or documents can be indexed by calling the following methods:
 * `TextIndexer.indexText` indexes text from a text document; 
 * `TextIndexer.indexJson` indexes the fields in a `JSON` document; and
 * `TextIndexer.indexCollection` indexes the fields of all the documents in s JSON document collection.
 
-Alternatively, pass a stream of documents `TextIndexer.documentStream` or `TextIndexer.collectionStream` for indexing whenever either of these streams emit (a) document(s).
+Alternatively, pass a `TextIndexer.documentStream` or `TextIndexer.collectionStream` for indexing of the stream elements.
 
-Implementing classes override the following asynchronous methods for interacting with the `TextIndexer.index`:
+Implementing classes (e.g. [`TextIndexerBase`](#textindexerbase-class)) override the following asynchronous methods for interacting with the `TextIndexer.index`:
 * `TextIndexer.indexText` indexes a text document;
 * `TextIndexer.indexJson` indexes the fields in a JSON document;
 * `TextIndexer.indexCollection` indexes the fields of all the documents in a JSON document collection; and
-*  `TextIndexer.updateIndexes` method updates the `TextIndexer.index` with new postings and k-gram entries.
+* `TextIndexer.updateIndexes` method updates the `TextIndexer.index` with new/changed dictionary, postings and k-gram entries.
 
 Use one of three factory constructors to instantiate a `TextIndexer`:
 * [`TextIndexer.index`](#textindexerindex); 
@@ -207,8 +209,7 @@ The `InMemoryIndex` mixes in `InMemoryIndexMixin` that can be used in custom ind
 
 ## AsyncCallbackIndex Class
 
-The `AsyncCallbackIndex` is a `InvertedIndex` implementation class 
-that uses asynchronous callbacks to perform read and write operations on `Dictionary` and `Postings` repositories:
+The `AsyncCallbackIndex` is a `InvertedIndex` implementation class that uses asynchronous callbacks to perform read and write operations on `Dictionary` and `Postings` repositories:
 * `AsyncCallbackIndex.analyzer` is the `ITextAnalyzer` used to tokenize text for the `AsyncCallbackIndex`;
 * `AsyncCallbackIndex.dictionaryLoader` synchronously retrieves a `Dictionary` for a vocabulary from a data source;
 * `AsyncCallbackIndex.dictionaryUpdater` is callback that passes a `Dictionary` subset for persisting to `Dictionary` repository;
@@ -234,13 +235,15 @@ The `AsyncCallbackIndexMixin` implements the following methods for operations on
 The following definitions are used throughout the [documentation](https://pub.dev/documentation/text_indexing/latest/):
 
 * `corpus`- the collection of `documents` for which an `index` is maintained.
+* `character filter` - filters characters from text in preparation of tokenization.  
 * `dictionary` - is a hash of `terms` (`vocabulary`) to the frequency of occurence in the `corpus` documents.
 * `document` - a record in the `corpus`, that has a unique identifier (`docId`) in the `corpus`'s primary key and that contains one or more text fields that are indexed.
-* `index` - an [inverted index](https://en.wikipedia.org/wiki/Inverted_index) used to look up `document` references from the `corpus` against a `vocabulary` of `terms`. The implementation in this package builds and maintains a positional inverted index, that also includes the positions of the indexed `term` in each `document`'s zones.
+* `index` - an [inverted index](https://en.wikipedia.org/wiki/Inverted_index) used to look up `document` references from the `corpus` against a `vocabulary` of `terms`. 
 * `document frequency (dFt)` is number of documents in the `corpus` that contain a term.
 * `index-elimination` - selecting a subset of the entries in an index where the `term` is in the collection of `terms` in a search phrase.
 * `inverse document frequency` or `iDft` is equal to log (N / `dft`), where N is the total number of terms in the index. The `IdFt` of a rare term is high, whereas the [IdFt] of a frequent term is likely to be low. 
 * `JSON` is an acronym for `"Java Script Object Notation"`, a common format for persisting data.
+`k-gram` - a sequence of (any) k consecutive characters from a `term`. A k-gram can start with "$", dentoting the start of the [Term], and end with "$", denoting the end of the [Term]. The 3-grams for "castle" are { $ca, cas, ast, stl, tle, le$ }.
 * `lemmatizer` - lemmatisation (or lemmatization) in linguistics is the process of grouping together the inflected forms of a word so they can be analysed as a single item, identified by the word's lemma, or dictionary form (from [Wikipedia](https://en.wikipedia.org/wiki/Lemmatisation)).
 * `postings` - a separate index that records which `documents` the `vocabulary` occurs in. In this implementation we also record the positions of each `term` in the `text` to create a positional inverted `index`.
 * `postings list` - a record of the positions of a `term` in a `document`. A position of a `term` refers to the index of the `term` in an array that contains all the `terms` in the `text`.
@@ -252,6 +255,7 @@ The following definitions are used throughout the [documentation](https://pub.de
 * `term position` is the zero-based index of a `term` in an ordered array of `terms` tokenized from the `corpus`.
 * `text` - the indexable content of a `document`.
 * `token` - representation of a `term` in a text source returned by a `tokenizer`. The token may include information about the `term` such as its position(s) (`term position`) in the text or frequency of occurrence (`term frequency`).
+* `token filter` - returns a subset of `tokens` from the tokenizer output.
 * `tokenizer` - a function that returns a collection of `token`s from `text`, after applying a character filter, `term` filter, [stemmer](https://en.wikipedia.org/wiki/Stemming) and / or [lemmatizer](https://en.wikipedia.org/wiki/Lemmatisation).
 * `vocabulary` - the collection of `terms` indexed from the `corpus`.
 
