@@ -237,6 +237,8 @@ extension PostingsExtension on Postings {
   /// If no entry for [term] exists in the [Postings], creates a new entry
   /// for term.
   ///
+  /// If [zone] is null, the posting position zone name is "null".
+  ///
   /// If no positions list exists for [docId], creates a new position list
   /// for [docId].
   ///

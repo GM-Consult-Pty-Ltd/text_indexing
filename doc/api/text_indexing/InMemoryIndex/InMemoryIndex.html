@@ -32,7 +32,7 @@
     <li><a href="../../index.html">text_indexing</a></li>
     <li><a href="../../text_indexing/text_indexing-library.html">text_indexing</a></li>
     <li><a href="../../text_indexing/InMemoryIndex-class.html">InMemoryIndex</a></li>
-    <li class="self-crumb">InMemoryIndex const constructor</li>
+    <li class="self-crumb">InMemoryIndex constructor</li>
   </ol>
   <div class="self-name">InMemoryIndex</div>
   <form class="search navbar-right" role="search">
@@ -49,11 +49,11 @@
     <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
 </h1></div>
 
-    <section class="multi-line-signature">const
-      <span class="name ">InMemoryIndex</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="-param-dictionary">{<span>required</span> <span class="type-annotation"><a href="../../text_indexing/Dictionary.html">Dictionary</a></span> <span class="parameter-name">dictionary</span>, </span></li>
-<li><span class="parameter" id="-param-postings"><span>required</span> <span class="type-annotation"><a href="../../text_indexing/Postings.html">Postings</a></span> <span class="parameter-name">postings</span>, </span></li>
-<li><span class="parameter" id="-param-kGramIndex"><span>required</span> <span class="type-annotation"><a href="../../text_indexing/KGramIndex.html">KGramIndex</a></span> <span class="parameter-name">kGramIndex</span>, </span></li>
-<li><span class="parameter" id="-param-analyzer"><span>required</span> <span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.8.0/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></span> <span class="parameter-name">analyzer</span>, </span></li>
+    <section class="multi-line-signature">
+      <span class="name ">InMemoryIndex</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="-param-dictionary">{<span class="type-annotation"><a href="../../text_indexing/Dictionary.html">Dictionary</a>?</span> <span class="parameter-name">dictionary</span>, </span></li>
+<li><span class="parameter" id="-param-postings"><span class="type-annotation"><a href="../../text_indexing/Postings.html">Postings</a>?</span> <span class="parameter-name">postings</span>, </span></li>
+<li><span class="parameter" id="-param-kGramIndex"><span class="type-annotation"><a href="../../text_indexing/KGramIndex.html">KGramIndex</a>?</span> <span class="parameter-name">kGramIndex</span>, </span></li>
+<li><span class="parameter" id="-param-analyzer"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.9.0/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></span> <span class="parameter-name">analyzer</span> = <span class="default-value">const TextAnalyzer()</span>, </span></li>
 <li><span class="parameter" id="-param-k"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">3</span>, </span></li>
 <li><span class="parameter" id="-param-zones"><span class="type-annotation"><a href="../../text_indexing/ZoneWeightMap.html">ZoneWeightMap</a></span> <span class="parameter-name">zones</span> = <span class="default-value">const &lt;String, double&gt;{}</span>, </span></li>
 <li><span class="parameter" id="-param-phraseLength"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">phraseLength</span> = <span class="default-value">1</span>}</span></li>
@@ -64,15 +64,21 @@
 <section class="desc markdown">
   <p>Instantiates a <a href="../../text_indexing/InMemoryIndex-class.html">InMemoryIndex</a> instance:</p>
 <ul>
-<li><a href="../../text_indexing/InMemoryIndex/analyzer.html">analyzer</a> is the <a href="https://pub.dev/documentation/text_analysis/0.8.0/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a> used to tokenize text for the index;</li>
-<li><a href="../../text_indexing/InMemoryIndex/zones.html">zones</a> is a hashmap of zone names to their relative weight in the index;</li>
-<li><a href="../../text_indexing/InMemoryIndex/dictionary.html">dictionary</a> is the in-memory term dictionary for the indexer. Pass a
-<a href="../../text_indexing/InMemoryIndex/dictionary.html">dictionary</a> instance at instantiation, otherwise an empty <a href="../../text_indexing/Dictionary.html">Dictionary</a>
+<li><a href="../../text_indexing/InMemoryIndex/analyzer.html">analyzer</a> is the <a href="https://pub.dev/documentation/text_analysis/0.9.0/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a> used to tokenize text for the index;</li>
+<li><a href="../../text_indexing/InMemoryIndex/k.html">k</a> is the length of k-gram entries in the k-gram index;</li>
+<li><a href="../../text_indexing/InMemoryIndex/zones.html">zones</a> is a hashmap of zone names to their relative weight in the
+index;</li>
+<li><a href="../../text_indexing/InMemoryIndex/phraseLength.html">phraseLength</a> is the maximum length of phrases in the index vocabulary
+and must be greater than 0.</li>
+<li><code>dictionary</code> is the in-memory term dictionary for the indexer. Pass a
+<a href="../../text_indexing/Dictionary.html">Dictionary</a> instance at instantiation, otherwise an empty <a href="../../text_indexing/Dictionary.html">Dictionary</a>
 will be initialized;</li>
-<li><a href="../../text_indexing/InMemoryIndex/postings.html">postings</a> is the in-memory postings hashmap for the indexer. Pass a
-<a href="../../text_indexing/InMemoryIndex/postings.html">postings</a> instance at instantiation, otherwise an empty <a href="../../text_indexing/Postings.html">Postings</a>
+<li><code>kGramIndex</code> is the in-memory <a href="../../text_indexing/KGramIndex.html">KGramIndex</a> for the index. Pass a
+<a href="../../text_indexing/KGramIndex.html">KGramIndex</a> instance at instantiation, otherwise an empty <a href="../../text_indexing/KGramIndex.html">KGramIndex</a>
 will be initialized; and</li>
-<li><a href="../../text_indexing/InMemoryIndex/phraseLength.html">phraseLength</a> is the maximum length of phrases in the index vocabulary.</li>
+<li><code>postings</code> is the in-memory postings hashmap for the indexer. Pass a
+<a href="../../text_indexing/Postings.html">Postings</a> instance at instantiation, otherwise an empty <a href="../../text_indexing/Postings.html">Postings</a>
+will be initialized.</li>
 </ul>
 </section>
 
@@ -80,15 +86,19 @@ will be initialized; and</li>
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">const InMemoryIndex(
-    {required this.dictionary,
-    required this.postings,
-    required this.kGramIndex,
-    required this.analyzer,
+  <pre class="language-dart"><code class="language-dart">InMemoryIndex(
+    {Dictionary? dictionary,
+    Postings? postings,
+    KGramIndex? kGramIndex,
+    this.analyzer = const TextAnalyzer(),
     this.k = 3,
     this.zones = const &lt;String, double&gt;{},
     this.phraseLength = 1})
-    : assert(phraseLength &gt; 0, &#39;The phrase length must be 1 or greater&#39;);</code></pre>
+    : assert(phraseLength &gt; 0, &#39;The phrase length must be 1 or greater&#39;) {
+  dictionary = dictionary ?? {};
+  postings = postings ?? {};
+  kGramIndex = kGramIndex ?? {};
+}</code></pre>
 </section>
 
 
@@ -105,7 +115,7 @@ will be initialized; and</li>
   <li><a href="../../index.html">text_indexing</a></li>
   <li><a href="../../text_indexing/text_indexing-library.html">text_indexing</a></li>
   <li><a href="../../text_indexing/InMemoryIndex-class.html">InMemoryIndex</a></li>
-  <li class="self-crumb">InMemoryIndex const constructor</li>
+  <li class="self-crumb">InMemoryIndex constructor</li>
 </ol>
 
 
@@ -161,7 +171,7 @@ will be initialized; and</li>
 <footer>
   <span class="no-break">
     text_indexing
-      0.12.0+1
+      0.13.0
   </span>
 
   

@@ -69,7 +69,8 @@
 <section class="desc markdown">
   <p>Implementation of <a href="../../text_indexing/TextIndexer/indexJson.html">TextIndexer.indexJson</a> that:</p>
 <ul>
-<li>parses <code>json</code> to a collection of <a href="https://pub.dev/documentation/text_analysis/0.8.0/text_analysis/Token-class.html">Token</a>s;</li>
+<li>parses <code>json</code> to a collection of <a href="https://pub.dev/documentation/text_analysis/0.9.0/text_analysis/Token-class.html">Token</a>s in <a href="../../text_indexing/TextIndexer/index.html">index</a>.zones. If
+<a href="../../text_indexing/TextIndexer/index.html">index</a>.zones is empty, tokenize all the fields in <code>json</code>;</li>
 <li>maps the tokens to postings for <code>docId</code>;</li>
 <li>maps the postings for <code>docId</code> to a <code>Postings</code>;</li>
 <li>calls <a href="../../text_indexing/TextIndexerBase/updateIndexes.html">updateIndexes</a>, passing the <code>Postings</code> for <code>docId</code>; and</li>
@@ -84,12 +85,10 @@
   <pre class="language-dart"><code class="language-dart">@override
 Future&lt;Postings&gt; indexJson(DocId docId, JSON json) async {
   &#47;&#47; get the terms using tokenizer
-  final tokens =
-      (await index.analyzer.tokenizeJson(json, index.zones.keys)).tokens;
+  final tokens = (await index.analyzer.tokenizeJson(
+      json, index.zones.isEmpty ? json.keys : index.zones.keys));
   &#47;&#47; map the tokens to postings
   final Postings postings = _tokensToPostings(docId, tokens);
-  &#47;&#47; map postings to a list of DocumentPostingsEntry for docId.
-  &#47;&#47; final event = _postingsToTermPositions(docId, postings);
   &#47;&#47; update the indexes with the postings list for docId
   await updateIndexes(postings, tokens);
   return postings;
@@ -156,7 +155,7 @@ Future&lt;Postings&gt; indexJson(DocId docId, JSON json) async {
 <footer>
   <span class="no-break">
     text_indexing
-      0.12.0+1
+      0.13.0
   </span>
 
   

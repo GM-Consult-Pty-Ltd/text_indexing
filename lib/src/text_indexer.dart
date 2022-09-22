@@ -14,12 +14,15 @@ typedef JSON = Map<Zone, dynamic>;
 /// documents.
 typedef JsonCollection = Map<DocId, JSON>;
 
-/// Interface for classes that construct and maintain a inverted, positional,
-/// zoned index [InvertedIndex].
+/// Interface for classes that construct and maintain an inverted, positional,
+/// zoned index ([InvertedIndex]) and k-gram index ([KGramIndex]) for a
+/// collection of documents (`corpus`).
 ///
 /// Text or documents can be indexed by calling the following methods:
 /// - [TextIndexer.indexJson] indexes the fields in a `JSON` document;
-/// - [TextIndexer.indexText] indexes text from a text document.
+/// - [TextIndexer.indexText] indexes text from a text document; and
+/// - [indexCollection] indexes the fields of all the documents in a JSON
+///   document collection.
 ///
 /// Alternatively, pass a [documentStream] or [collectionStream] for indexing
 /// whenever either of these streams updateIndexes (a) document(s).
@@ -43,87 +46,6 @@ typedef JsonCollection = Map<DocId, JSON>;
 abstract class TextIndexer {
   //
 
-  /// A const constructor for sub classes
-  const TextIndexer();
-
-  /// Factory constructor returns a [TextIndexer] instance with in-memory
-  /// [Dictionary] and [Postings] maps:
-  /// - pass a [analyzer] text analyser that extracts tokens from text;
-  /// - pass an in-memory [dictionary] instance, otherwise an empty
-  ///   [Dictionary] will be initialized;
-  /// - pass an in-memory [postings] instance, otherwise an empty [Postings]
-  ///   will be initialized;
-  /// - [documentStream] is an input stream of 'JSON' documents. The documents
-  ///   updateIndexested by[documentStream] are passed to [indexJson] for indexing; and
-  /// - [collectionStream] is an input stream of a collection of 'JSON'
-  ///   documents. The documents updateIndexested by [collectionStream] are passed to
-  ///   [indexCollection] for indexing.
-  factory TextIndexer.inMemory(
-          {Dictionary? dictionary,
-          Postings? postings,
-          KGramIndex? kGramIndex,
-          ZoneWeightMap? zones,
-          int k = 3,
-          int phraseLength = 1,
-          ITextAnalyzer analyzer = const TextAnalyzer(),
-          Stream<MapEntry<DocId, JSON>>? documentStream,
-          Stream<Map<DocId, JSON>>? collectionStream}) =>
-      _TextIndexerImpl(
-          InMemoryIndex(
-            dictionary: dictionary ?? {},
-            postings: postings ?? {},
-            analyzer: analyzer,
-            zones: zones ?? {},
-            kGramIndex: kGramIndex ?? {},
-            phraseLength: phraseLength,
-            k: k,
-          ),
-          collectionStream,
-          documentStream);
-
-  /// Factory constructor returns a [TextIndexer] instance that uses
-  /// asynchronous callback functions to access [Dictionary] and [Postings]
-  /// repositories:
-  /// - pass a [analyzer] text analyser that extracts tokens from text;
-  /// - [dictionaryLoader] synchronously retrieves a [Dictionary] for a vocabulary
-  ///   from a data source;
-  /// - [dictionaryLengthLoader] asynchronously retrieves the number of terms in
-  ///   the vocabulary (N);
-  /// - [dictionaryUpdater] is callback that passes a [Dictionary] subset
-  ///    for persisting to a datastore;
-  /// - [postingsLoader] asynchronously retrieves a [Postings] for a vocabulary
-  ///   from a data source;
-  /// - [postingsUpdater] passes a [Postings] subset for persisting to a
-  ///   datastore;
-  /// - [documentStream] is an input stream of 'JSON' documents. The documents
-  ///   updateIndexested by[documentStream] are passed to [indexJson] for indexing; and
-  /// - [collectionStream] is an input stream of a collection of 'JSON'
-  ///   documents. The documents updateIndexested by [collectionStream] are passed to
-  ///   [indexCollection] for indexing.
-  factory TextIndexer.async(
-          {required DictionaryLoader dictionaryLoader,
-          required DictionaryUpdater dictionaryUpdater,
-          required DictionaryLengthLoader dictionaryLengthLoader,
-          required KGramIndexLoader kGramIndexLoader,
-          required KGramIndexUpdater kGramIndexUpdater,
-          required PostingsLoader postingsLoader,
-          required PostingsUpdater postingsUpdater,
-          Stream<MapEntry<DocId, JSON>>? documentStream,
-          Stream<Map<DocId, JSON>>? collectionStream,
-          ITextAnalyzer analyzer = const TextAnalyzer()}) =>
-      _TextIndexerImpl(
-          AsyncCallbackIndex(
-              dictionaryLoader: dictionaryLoader,
-              dictionaryUpdater: dictionaryUpdater,
-              dictionaryLengthLoader: dictionaryLengthLoader,
-              kGramIndexLoader: kGramIndexLoader,
-              kGramIndexUpdater: kGramIndexUpdater,
-              postingsLoader: postingsLoader,
-              postingsUpdater: postingsUpdater,
-              analyzer: analyzer),
-          collectionStream,
-          documentStream);
-
   /// Factory constructor initializes a [TextIndexer] instance, passing in a
   /// [index] instance:
   /// - [documentStream] is an input stream of 'JSON' documents. The documents
@@ -131,7 +53,7 @@ abstract class TextIndexer {
   /// - [collectionStream] is an input stream of a collection of 'JSON'
   ///   documents. The documents updateIndexested by [collectionStream] are passed to
   ///   [indexCollection] for indexing.
-  factory TextIndexer.index(
+  factory TextIndexer(
           {required InvertedIndex index,
           Stream<MapEntry<DocId, JSON>>? documentStream,
           Stream<Map<DocId, JSON>>? collectionStream}) =>
@@ -212,7 +134,8 @@ abstract class TextIndexerBase implements TextIndexer {
   }
 
   /// Implementation of [TextIndexer.indexJson] that:
-  /// - parses [json] to a collection of [Token]s;
+  /// - parses [json] to a collection of [Token]s in [index].zones. If
+  ///   [index].zones is empty, tokenize all the fields in [json];
   /// - maps the tokens to postings for [docId];
   /// - maps the postings for [docId] to a [Postings];
   /// - calls [updateIndexes], passing the [Postings] for [docId]; and
@@ -220,14 +143,10 @@ abstract class TextIndexerBase implements TextIndexer {
   @override
   Future<Postings> indexJson(DocId docId, JSON json) async {
     // get the terms using tokenizer
-    final tokens = (await index.analyzer.tokenizeJson(json, index.zones.keys));
+    final tokens = (await index.analyzer.tokenizeJson(
+        json, index.zones.isEmpty ? json.keys : index.zones.keys));
     // map the tokens to postings
-    if (tokens.terms.contains('alphabet')) {
-      print(tokens.terms);
-    }
     final Postings postings = _tokensToPostings(docId, tokens);
-    // map postings to a list of DocumentPostingsEntry for docId.
-    // final event = _postingsToTermPositions(docId, postings);
     // update the indexes with the postings list for docId
     await updateIndexes(postings, tokens);
     return postings;
@@ -340,12 +259,15 @@ abstract class TextIndexerBase implements TextIndexer {
   }
 }
 
+/// Private implementation class returned by [TextIndexer]'s unnamed factory
+/// constructor.
 class _TextIndexerImpl extends TextIndexerBase {
   //
 
   @override
   final InvertedIndex index;
 
+  /// Default constructor
   _TextIndexerImpl(this.index, this.collectionStream, this.documentStream);
 
   @override

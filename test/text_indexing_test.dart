@@ -7,7 +7,7 @@
 import 'package:text_indexing/text_indexing.dart';
 import 'package:test/test.dart';
 // import 'data/text.dart';
-import 'data/sample_news.dart';
+// import 'data/sample_news.dart';
 import 'data/sample_stocks.dart';
 
 part 'test_index.dart';
@@ -16,12 +16,12 @@ void main() {
   group('Inverted Index', () {
     //
 
-    const zones = {
-      'name': 1.0,
-      'description': 0.5,
-      'hashTag': 2.0,
-      'publicationDate': 0.1
-    };
+    // const zones = {
+    //   'name': 1.0,
+    //   'description': 0.5,
+    //   'hashTag': 2.0,
+    //   'publicationDate': 0.1
+    // };
 
     const stockZones = {
       'name': 1.0,
@@ -52,11 +52,25 @@ void main() {
     test('InMemoryIndexer.index', () async {
       //
 
-      // - initialize a [InMemoryIndexer]
-      final indexer =
-          TextIndexer.inMemory(zones: stockZones, k: 3, phraseLength: 2);
+      // - initialize the [Dictionary]
+      final Dictionary dictionary = {};
 
-      final index = indexer.index as InMemoryIndex;
+      // - initialize the [Postings]
+      final Postings postings = {};
+
+      // - initialize the [KGramIndex]
+      final KGramIndex kGramIndex = {};
+
+      final index = InMemoryIndex(
+          dictionary: dictionary,
+          postings: postings,
+          kGramIndex: kGramIndex,
+          zones: stockZones,
+          phraseLength: 2,
+          k: 3);
+
+      // - initialize a [InMemoryIndexer] with the default analyzer
+      final indexer = TextIndexer(index: index);
 
       final searchTerms =
           (await indexer.index.analyzer.tokenize(searchPrase)).terms;
@@ -113,7 +127,7 @@ void main() {
       final searchTerms = (await index.analyzer.tokenize(searchPrase)).terms;
 
       // - initialize a [AsyncIndexer]
-      final indexer = TextIndexer.index(index: index);
+      final indexer = TextIndexer(index: index);
 
       // get the start time in milliseconds
       final start = DateTime.now().millisecondsSinceEpoch;
@@ -178,7 +192,7 @@ void main() {
       final searchTerms = (await index.analyzer.tokenize(searchPrase)).terms;
 
       // - initialize a [AsyncIndexer]
-      final indexer = TextIndexer.index(index: index);
+      final indexer = TextIndexer(index: index);
 
       // get the start time in milliseconds
       final start = DateTime.now().millisecondsSinceEpoch;

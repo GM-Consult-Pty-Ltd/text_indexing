@@ -68,6 +68,8 @@ abstract class InvertedIndex {
   int get k;
 
   /// Maps zone names to their relative weight in the index.
+  ///
+  /// If [zones] is empty, all the `JSON` fields will be indexed.
   ZoneWeightMap get zones;
 
   /// The text analyser that extracts tokens from text for the index.

@@ -16,11 +16,18 @@ void main() async {
 
   const searchPhrase = 'stock market tesla EV battery';
 
+  const zones = {
+    'name': 1.0,
+    'description': 0.5,
+    'hashTag': 2.0,
+    'publicationDate': 0.1
+  };
+
   // Run a simple example of the [InMemoryIndexer] on the [textData] dataset.
-  await _inMemoryIndexerExample(textData, searchPhrase);
+  await _inMemoryIndexerExample(textData, searchPhrase, zones);
 
   //  Run a simple example of the [AsyncIndexer] on the [textData] dataset.
-  await _persistedIndexerExample(jsonData, searchPhrase);
+  await _persistedIndexerExample(jsonData, searchPhrase, zones);
 
   //
 }
@@ -29,23 +36,31 @@ void main() async {
 /// - initialize the [Dictionary];
 /// - initialize the [Postings];
 /// - initialize a [TextIndexer];
-/// - listen to the [TextIndexer.postingsStream], printing the
-///   emitted postings for each indexed document;
 /// - iterate through the sample data, indexing each document in turn; and
 /// - print the top 5 most popular [Dictionary.terms].
-Future<void> _inMemoryIndexerExample(
-    Map<String, String> documents, String searchPhrase) async {
+Future<void> _inMemoryIndexerExample(Map<String, String> documents,
+    String searchPhrase, Map<String, double> zones) async {
   //
 
   // - initialize the [Dictionary]
-  final dictionary = <String, int>{};
+  final Dictionary dictionary = {};
 
   // - initialize the [Postings]
-  final postings = <String, Map<String, Map<String, List<int>>>>{};
+  final Postings postings = {};
+
+  // - initialize the [KGramIndex]
+  final KGramIndex kGramIndex = {};
+
+  final index = InMemoryIndex(
+      dictionary: dictionary,
+      postings: postings,
+      kGramIndex: kGramIndex,
+      zones: zones,
+      phraseLength: 2,
+      k: 3);
 
   // - initialize a [InMemoryIndexer] with the default analyzer
-  final indexer =
-      TextIndexer.inMemory(dictionary: dictionary, postings: postings);
+  final indexer = TextIndexer(index: index);
 
   /// - tokenize a phrase into searh terms
   final searchTerms =
@@ -70,13 +85,12 @@ Future<void> _inMemoryIndexerExample(
 /// A simple test of the [TextIndexer.async] on a small JSON dataset using a
 /// simulated persisted index repository with 50 millisecond latency on
 /// read/write operations to [Dictionary] and [Postings] hashmaps:
-/// - initialize the [_TestIndex];
+/// - initialize the [_TestIndexRepository];
 /// - initialize a [TextIndexer];
-/// - listen to the [TextIndexer.postingsStream];
 /// - iterate through the JSON documents and index each document; and
 /// - print the statistics on 5 search terms.
-Future<void> _persistedIndexerExample(
-    Map<String, JSON> documents, String searchPhrase) async {
+Future<void> _persistedIndexerExample(Map<String, JSON> documents,
+    String searchPhrase, Map<String, double> zones) async {
   //
 
 // initialize a Set for the vocabulary state
@@ -85,23 +99,27 @@ Future<void> _persistedIndexerExample(
   // initialize a Set for the document ids state
   final docsSet = <String>{};
 
-  // - initialize a [_TestIndex()]
-  final index = _TestIndex();
+  // - initialize a [_TestIndexRepository()]
+  final repository = _TestIndexRepository();
+
+  final index = AsyncCallbackIndex(
+      dictionaryLoader: repository.getDictionary,
+      dictionaryUpdater: repository.upsertDictionary,
+      dictionaryLengthLoader: () => repository.vocabularyLength,
+      kGramIndexLoader: repository.getKGramIndex,
+      kGramIndexUpdater: repository.upsertKGramIndex,
+      postingsLoader: repository.getPostings,
+      postingsUpdater: repository.upsertPostings,
+      zones: zones,
+      k: 3,
+      phraseLength: 2,
+      analyzer: TextAnalyzer());
 
   /// - tokenize a phrase into searh terms
   final searchTerms = (await index.analyzer.tokenize(searchPhrase)).terms;
 
   // - initialize a [AsyncIndexer]
-  final indexer = TextIndexer.index(index: index);
-
-  // listen to the indexer.postingsStream and print the postings count for each term.
-  // indexer.postingsStream.listen((event) {
-  //   for (final termPosting in event.entries) {
-  //     termsSet.add(termPosting.key);
-  //     docsSet.add(termPosting.value.entries.first.key);
-  //   }
-  //   print('Indexed ${termsSet.length} terms from ${docsSet.length} documents.');
-  // });
+  final indexer = TextIndexer(index: index);
 
   print('Indexed ${termsSet.length} terms from ${docsSet.length} documents.');
 
@@ -350,15 +368,12 @@ final jsonData = {
   }
 };
 
-/// A dummy asynchronous term dictionary repository with 50 millisecond latency on
+/// A dummy asynchronous term dictionary repository with simulated latency on
 /// read/write operations to the [dictionary] and [postings].
 ///
 /// Use for testing and examples.
-class _TestIndex with InvertedIndexMixin implements InvertedIndex {
+class _TestIndexRepository {
   //
-
-  @override
-  final int k = 3;
 
   /// The [Dictionary] instance that is the data-store for the index's term
   /// dictionary
@@ -370,12 +385,9 @@ class _TestIndex with InvertedIndexMixin implements InvertedIndex {
 
   final KGramIndex kGramIndex = {};
 
-  /// Implementation of [PostingsLoader].
-  ///
   /// Returns a subset of [postings] corresponding to [terms].
   ///
-  /// Simulates latency of 50 milliseconds.
-  @override
+  /// Simulates latency of 100 uS per term in [terms].
   Future<Postings> getPostings(Iterable<String> terms) async {
     final Postings retVal = {};
     for (final term in terms) {
@@ -384,41 +396,33 @@ class _TestIndex with InvertedIndexMixin implements InvertedIndex {
         retVal[term] = entry;
       }
     }
+    await Future.delayed(Duration(milliseconds: (terms.length / 10).floor()));
     return retVal;
   }
 
-  /// Implementation of [DictionaryUpdater].
-  ///
   /// Adds/overwrites the [values] to [dictionary].
   ///
-  /// Simulates latency of 50 milliseconds.
-  @override
+  /// Simulates latency of 100 uS  per entry.
   Future<void> upsertDictionary(Dictionary values) async {
-    /// Simulate write latency of 50milliseconds.
-    await Future.delayed(const Duration(milliseconds: 50));
+    /// Simulate latency of 100 uS  per entry.
+    await Future.delayed(Duration(milliseconds: (values.length / 10).floor()));
     dictionary.addAll(values);
   }
 
-  /// Implementation of [upsertPostings].
-  ///
   /// Adds/overwrites the [values] to [postings].
   ///
-  /// Simulates latency of 50 milliseconds.
-  @override
+  /// Simulates latency of 100 uS  per entry.
   Future<void> upsertPostings(Postings values) async {
-    /// Simulate write latency of 50milliseconds.
-    await Future.delayed(const Duration(milliseconds: 50));
+    /// Simulate write latency of 100 uS  per entry.
+    await Future.delayed(Duration(milliseconds: (values.length / 10).floor()));
     postings.addAll(values);
   }
 
-  /// Implementation of [getDictionary].
-  ///
   /// Returns a subset of [dictionary] corresponding to [terms].
   ///
-  /// Simulates latency of 50 milliseconds.
-  @override
+  /// Simulates latency of 100 uS  per term in [terms].
   Future<Dictionary> getDictionary([Iterable<String>? terms]) async {
-    if (terms == null) return dictionary;
+    terms = terms ?? kGramIndex.keys;
     final Dictionary retVal = {};
     for (final term in terms) {
       final entry = dictionary[term];
@@ -426,17 +430,15 @@ class _TestIndex with InvertedIndexMixin implements InvertedIndex {
         retVal[term] = entry;
       }
     }
-    await Future.delayed(const Duration(milliseconds: 50));
+    await Future.delayed(Duration(milliseconds: ((terms.length / 10).floor())));
     return retVal;
   }
 
-  /// Implementation of [getKGramIndex].
-  ///
   /// Returns a subset of [kGramIndex] corresponding to [kGrams].
   ///
-  /// Simulates latency of 50 milliseconds.
-  @override
-  Future<KGramIndex> getKGramIndex(Iterable<KGram> kGrams) async {
+  /// Simulates latency of 100 uS  per entry.
+  Future<KGramIndex> getKGramIndex([Iterable<KGram>? kGrams]) async {
+    kGrams = kGrams ?? kGramIndex.keys;
     final KGramIndex retVal = {};
     for (final kGram in kGrams) {
       final entry = kGramIndex[kGram];
@@ -444,39 +446,20 @@ class _TestIndex with InvertedIndexMixin implements InvertedIndex {
         retVal[kGram] = entry;
       }
     }
-    await Future.delayed(const Duration(milliseconds: 50));
+    await Future.delayed(
+        Duration(milliseconds: ((kGrams.length / 10).floor())));
     return retVal;
   }
 
-  /// Implementation of [upsertKGramIndex].
-  ///
-  /// Adds/overwrites the [values] to [kGramIndex].
-  ///
-  /// Simulates latency of 50 milliseconds.
-  @override
-  Future<void> upsertKGramIndex(KGramIndex values) async {
-    await Future.delayed(const Duration(milliseconds: 50));
-    kGramIndex.addAll(values);
-  }
+  Future<void> upsertKGramIndex(KGramIndex values) async =>
+      kGramIndex.addAll(values);
 
-  @override
-  final ITextAnalyzer analyzer = TextAnalyzer();
-
-  @override
+  /// Returns the length of the [dictionary].
+  ///
+  /// Simulate a read latency of 5 milliseconds.
   Future<Ft> get vocabularyLength async {
-    /// Simulate write latency of 50milliseconds.
-    await Future.delayed(const Duration(milliseconds: 50));
+    /// Simulate a read latency of 5 milliseconds.
+    await Future.delayed(const Duration(milliseconds: 5));
     return dictionary.length;
   }
-
-  @override
-  int get phraseLength => 3;
-
-  @override
-  final zones = {
-    'name': 1.0,
-    'description': 0.5,
-    'hashTags': 2.0,
-    'publicationDate': 0.1
-  };
 }

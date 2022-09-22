@@ -4,38 +4,11 @@
 
 import 'package:text_indexing/text_indexing.dart';
 
-/// An implementation of the [InvertedIndex] interface:
-/// - [phraseLength] is the maximum length of phrases in the index vocabulary.
-///   The minimum phrase length is 1. If phrase length is greater than 1, the
-///   index vocabulary also contains phrases up to [phraseLength] long,
-///   concatenated from consecutive terms. The index size is increased by a
-///   factor of [phraseLength];
-/// - [analyzer] is the [ITextAnalyzer] used to tokenize text for the index;
-/// - [vocabularyLength] is the number of unique terms in the corpus;
-/// - [zones] is a hashmap of zone names to their relative weight in the index;
-/// - [k] is the length of k-gram entries in the k-gram index;
-/// - [getDictionary] retrieves a [Dictionary] for a collection of [Term]s from
-///   the in-memory [dictionary] hashmap;
-/// - [upsertDictionary ] inserts entries into the in-memory [dictionary] hashmap,
-///   overwriting any existing entries;
-/// - [getKGramIndex] Asynchronously retrieves a [KGramIndex] for a collection
-///   of [KGram]s from a [KGramIndex] repository;
-/// - [upsertKGramIndex ] inserts entries into a [KGramIndex] repository,
-///   overwriting any existing entries;
-/// - [getPostings] retrieves [Postings] for a collection of [Term]s from the
-///   in-memory [postings] hashmap;
-/// - [upsertPostings] inserts entries into the in-memory [postings] hashmap,
-///   overwriting any existing entries;
-/// - [getFtdPostings] return a [FtdPostings] for a collection of [Term]s from
-/// the [Postings], optionally filtered by minimum term frequency; and
-/// - [getIdFtIndex] returns a [IdFtIndex] for a collection of [Term]s from
-/// the [Dictionary].
-/// - [dictionary] is the in-memory term dictionary for the indexer. Pass a
-///   [dictionary] instance at instantiation, otherwise an empty [Dictionary]
-///   will be initialized; and
-/// - [postings] is the in-memory postings hashmap for the indexer. Pass a
-///   [postings] instance at instantiation, otherwise an empty [Postings]
-///   will be initialized.
+/// The InMemoryIndex is an implementation of the [InvertedIndex] interface
+/// that mixes in [InvertedIndexMixin] and [InMemoryIndexMixin].
+///
+/// The InMemoryIndex is intended for fast indexing of a smaller corpus using
+/// in-memory dictionary, k-gram and postings hashmaps.
 class InMemoryIndex
     with InMemoryIndexMixin, InvertedIndexMixin
     implements InvertedIndex {
@@ -45,33 +18,43 @@ class InMemoryIndex
   final int k;
 
   @override
-  final Dictionary dictionary;
+  late Dictionary dictionary;
 
   @override
-  final KGramIndex kGramIndex;
+  late KGramIndex kGramIndex;
 
   @override
-  final Postings postings;
+  late Postings postings;
 
   /// Instantiates a [InMemoryIndex] instance:
   /// - [analyzer] is the [ITextAnalyzer] used to tokenize text for the index;
-  /// - [zones] is a hashmap of zone names to their relative weight in the index;
+  /// - [k] is the length of k-gram entries in the k-gram index;
+  /// - [zones] is a hashmap of zone names to their relative weight in the
+  ///   index;
+  /// - [phraseLength] is the maximum length of phrases in the index vocabulary
+  ///   and must be greater than 0.
   /// - [dictionary] is the in-memory term dictionary for the indexer. Pass a
-  ///   [dictionary] instance at instantiation, otherwise an empty [Dictionary]
+  ///   [Dictionary] instance at instantiation, otherwise an empty [Dictionary]
   ///   will be initialized;
-  /// - [postings] is the in-memory postings hashmap for the indexer. Pass a
-  ///   [postings] instance at instantiation, otherwise an empty [Postings]
+  /// - [kGramIndex] is the in-memory [KGramIndex] for the index. Pass a
+  ///   [KGramIndex] instance at instantiation, otherwise an empty [KGramIndex]
   ///   will be initialized; and
-  /// - [phraseLength] is the maximum length of phrases in the index vocabulary.
-  const InMemoryIndex(
-      {required this.dictionary,
-      required this.postings,
-      required this.kGramIndex,
-      required this.analyzer,
+  /// - [postings] is the in-memory postings hashmap for the indexer. Pass a
+  ///   [Postings] instance at instantiation, otherwise an empty [Postings]
+  ///   will be initialized.
+  InMemoryIndex(
+      {Dictionary? dictionary,
+      Postings? postings,
+      KGramIndex? kGramIndex,
+      this.analyzer = const TextAnalyzer(),
       this.k = 3,
       this.zones = const <String, double>{},
       this.phraseLength = 1})
-      : assert(phraseLength > 0, 'The phrase length must be 1 or greater');
+      : assert(phraseLength > 0, 'The phrase length must be 1 or greater') {
+    dictionary = dictionary ?? {};
+    postings = postings ?? {};
+    kGramIndex = kGramIndex ?? {};
+  }
 
   @override
   final ITextAnalyzer analyzer;
@@ -87,7 +70,8 @@ class InMemoryIndex
 /// [dictionary] and [postings] fields that must be overriden. Provides
 /// implementation of the following methods for operations on the in-memory
 /// [postings] and [dictionary] maps:
-/// - [vocabularyLength] returns the number of entries in [dictionary].
+/// - [vocabularyLength] returns the number of entries in the in-memory
+///   [dictionary].
 /// - [getDictionary] retrieves a [Dictionary] for a collection of [Term]s from
 ///   the in-memory [dictionary] hashmap;
 /// - [upsertDictionary ] inserts entries into the in-memory [dictionary] hashmap,
@@ -96,6 +80,10 @@ class InMemoryIndex
 ///   in-memory [postings] hashmap;
 /// - [upsertPostings] inserts entries into the in-memory [postings] hashmap,
 ///   overwriting any existing entries;
+/// - [getKGramIndex] retrieves entries for a collection of [Term]s from the
+///   in-memory [kGramIndex] hashmap; and
+/// - [upsertKGramIndex] inserts entries into the in-memory [kGramIndex] hashmap,
+///   overwriting any existing entries.
 abstract class InMemoryIndexMixin implements InvertedIndex {
   //
 

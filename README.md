@@ -19,16 +19,16 @@ Skip to section:
 
 ## Overview
 
-This library provides an interface and implementation classes that build and maintain an (inverted, positional, zoned) [index](#invertedpositionalzoneindex-interface) for a collection of documents or `corpus` (see [definitions](#definitions)).
+This library provides an interface and implementation classes that build and maintain an (inverted, positional, zoned) [index]https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex-class.html) for a collection of documents or `corpus` (see [definitions](#definitions)).
 
 ![Index construction flowchart](https://github.com/GM-Consult-Pty-Ltd/text_indexing/raw/main/assets/images/indexing.png?raw=true?raw=true "Index construction overview")
 
-The [TextIndexer](#textindexer-interface) constructs three artifacts:
+The [indexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html) constructs three inverted `index` artifacts:
 * the `dictionary` that holds the `vocabulary` of `terms` and the frequency of occurrence for each `term` in the `corpus`; 
-* the `k-gram index` that maps `k-grams` to terms in the `dictionary`; and
+* the `k-gram index` that maps `k-grams` to `terms` in the `dictionary`; and
 * the `postings` index that holds a list of references to the `documents` for each `term` (the `postings list`). 
 
-In this implementation, a `postings list` is a hashmap of the document id (`docId`) to maps that point to positions of the term in the document's `zones` (fields). This allows query algorithms to score and rank search results based on the position(s) of a term in document fields, applying different weights to the zones.
+In this implementation, a `postings list` is a hashmap of the document id (`docId`) to maps that point to positions of the `term` in the document's `zones` (fields). This allows query algorithms to score and rank search results based on the position(s) of a term in document fields, applying different weights to the zones.
 
 ![Index artifacts](https://github.com/GM-Consult-Pty-Ltd/text_indexing/raw/main/assets/images/index_artifacts.png?raw=true?raw=true "Components of inverted positional index")
 
@@ -66,169 +66,27 @@ The [examples](https://pub.dev/packages/text_indexing/example) demonstrate the u
 
 ## API
 
-The [API](https://pub.dev/documentation/text_indexing/latest/) exposes the [TextIndexer](#textindexer-interface) interface that builds and maintain an index for a collection of documents.
+The [API](https://pub.dev/documentation/text_indexing/latest/) exposes the [TextIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html) interface that builds and maintain an [InvertedIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex-class.html) for a collection of documents.
 
-Three implementations of the [TextIndexer](#textindexer-interface) interface are provided:
-* the [TextIndexerBase](#textindexerbase-class) abstract base class implements the `TextIndexer.index`, `TextIndexer.indexJson` and `TextIndexer.emit` methods;
-* the [InMemoryIndexer](#inmemoryindexer-class) class is for fast indexing of a smaller corpus using in-memory dictionary and postings hashmaps; and
-* the [AsyncIndexer](#persistedindexer-class) class, aimed at working with a larger corpus and asynchronous dictionaries and postings.
+To maximise performance of the indexers the API manipulates nested hashmaps of DART core types `int` and `String` rather than defining strongly typed object models. To improve code legibility the API makes use of type aliases throughout.
 
-To maximise performance of the indexers the API manipulates nested hashmaps of DART core types `int` and `String` rather than defining strongly typed object models. To improve code legibility and maintainability the API makes use of [type aliases](#type-aliases) throughout.
+### InvertedIndex
 
-### Type Aliases
+A [mixin class](https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndexMixin-class.html) implements the  implements the [InvertedIndex.getTfIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex/getTfIndex.html), [getFtdPostings](https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex/getFtdPostings.html) and [getIdFtIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex/getIdFtIndex.html) methods, while three implementation classes are provided: 
+ * the [InMemoryIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html) class is intended for fast indexing of a smaller corpus using in-memory dictionary, k-gram and postings hashmaps;
+ * the [AsyncCallbackIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/AsyncCallbackIndex-class.html) is intended for working with a larger corpus and an asynchronous index repository in persisted storage.  It uses asynchronous callbacks to perform read and write operations on `dictionary`, `k-gram` and `postings` repositories; and
+ * the [CachedIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/CachedIndex-class.html) is intended for working with a larger corpus with an asynchronous index repository in persisted storage.  It uses asynchronous callbacks to perform read and write operations on [Dictionary], [KGramIndex] and [Postings] repositories, but keeps a cache of the most popular terms and k-grams in memory for faster indexing and searching. 
 
-* `Dictionary` is an alias for `Map<Term, Ft>`,  a hashmap of `Term` to `Ft`.
-* `DictionaryEntry` is an alias for `MapEntry<Term, Ft>`, an entry in a `Dictionary`.
-* `DocId` is an alias for `String`, used whenever a document id is referenced.
-* `DocumentPostings` is an alias for `Map<DocId, ZonePostings>`, a hashmap of document ids to `ZonePostings`.
-* `DocumentPostingsEntry` is an alias for `MapEntry<DocId, ZonePostings>`, an entry in a `DocumentPostings` hashmap.
-* `ZonePostings` is an alias for `Map<Zone, TermPositions>`, a hashmap of `Zone`s to `TermPositions` in the `Zone`.
-* `FieldPostingsEntry` is an alias for `MapEntry<Zone, TermPositions>`, an entry in a `ZonePostings` hashmap.
-* `Ft` is an lias for `int` and denotes the frequency of a `Term` in an index or indexed object (the term frequency).
-* `FtdPostings` is an alias for for `Map<String, Map<String, int>>`, a hashmap of vocabulary to hashmaps of document id to term frequency in the document.
-* `KGramIndex` is an alias for for for `Map<String, Set<String>>`;
-* `KGramIndexLoader` is a callback function that aynchronously retrieves a [KGramIndex] subset for a collection of terms from a [KGramIndex] data source, usually persisted storag;
-* `KGramIndexUpdater` is a callback function that aynchronously updates a `KGramIndex` repository;
-* `IdFt` is an alias for `double`, where it represents the inverse document frequency of a term, defined as idft = log (N / dft), where N is the total number of terms in the index and dft is the document frequency of the term (number of documents that contain the term). 
-* `IdFtIndex` is an alias for `Map<String, double>`, a hashmap of the vocabulary to the inverse document frequency (`Idft`)  of the term.
-* `JSON` is an alias for `Map<String, dynamic>`, a hashmap known as `"Java Script Object Notation" (JSON)`, a common format for persisting data.
-* `JsonCollection` is an alias for `Map<String, Map<String, dynamic>>`, a hashmap of `DocId` to `JSON` documents.
-* `Pt` is an alias for `int`, used to denote the position of a `Term` in `SourceText` indexed object (the term position). 
-* `TermPositions` is an alias for `List<Pt>`, an ordered `Set` of unique zero-based `Term` positions in `SourceText`, sorted in ascending order.
-* `ZoneWeightMap` is a map of the zone names to their relative weighting in search results, used by scoring and ranking algorithms in information retrieval systems.
+### TextIndexer
 
-### InvertedIndex Interface
-
-The `InvertedIndex` is an interface for an inverted, positional zoned index on a collection of documents. 
-
-The `InvertedIndex` exposes the following fields:
-* `ITextAnalyzer analyzer` is the text analyser that extracts tokens from text; 
-* `ZoneWeightMap zones` maps collection zone/field names to their relative weight in the index;
-* `int phraseLength` is the maximum length of phrases in the index vocabulary. `phraseLength` must be greater than 0 and increases the size of the index by a factor equal to `phraseLength`, so its value must be kept as small as is consistent with efficient and accurate retrieval;
-* `int k` is the length of k-gram entries in the k-gram index; and
-* `Future<int> vocabularyLength` asynchronoulsy returns the number of entries in the index [Dictionary].
-
-The `InvertedIndex` exposes the following methods:
-* `getDictionary` Asynchronously retrieves a `Dictionary` for a collection of `Term`s from a `Dictionary` repository;
-* `upsertDictionary ` inserts entries into a `Dictionary` repository, overwriting any existing entries;
-* `getKGramIndex` Asynchronously retrieves a `KGramIndex` for a collection of `KGram`s from a `KGramIndex` repository;
-* `upsertKGramIndex ` inserts entries into a `KGramIndex` repository, overwriting any existing entries;
-* `getPostings` asynchronously retrieves `Postings` for a collection of `Term`s from a `Postings` repository; 
-* `upsertPostings` inserts entries into a `Postings` repository,  overwriting any existing entries;
-- `getTfIndex` returns hashmap of `Term` to `Ft` for a collection of `Term`s, where `Ft` is the number of times each of the terms occurs in the `corpus`;
-- `getFtdPostings` return a `FtdPostings` for a collection of `Term`s from the `Postings`, optionally filtered by minimum term frequency; and
-- `getIdFtIndex` returns a `IdFtIndex` for a collection of `Term`s from the `Dictionary`.
-
-The `InvertedIndexMixin` implements the `InvertedIndex.getTfIndex`, `InvertedIndex.getFtdPostings` and `InvertedIndex.getIdFtIndex` methods.
-
-### TextIndexer Interface
-
-The text indexing classes (indexers) in this library implement the `TextIndexer` interface. The  `TextIndexer` is used to construct and/or maintain three artifacts:
-* a hashmap with the vocabulary as key and the document frequency as the values (the `dictionary`)
-* a hashmap with `k-grams` as key and a set of `terms` as the values (the `k-gram index`); and
-* another hashmap with the vocabulary as key and the postings lists for the linked `documents` as values (the `postings`).
-
-The dictionary, postings and k-gram index can be read and updated via asynchronous methods exposed by the [`TextIndexer.index`](#invertedindex-interface).
+The [TextIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html) is an nterface for classes that construct and maintain a dictionary, inverted, positional, zoned index and k-gram index  for a `corpus`. 
 
 Text or documents can be indexed by calling the following methods:
-* `TextIndexer.indexText` indexes text from a text document; 
-* `TextIndexer.indexJson` indexes the fields in a `JSON` document; and
-* `TextIndexer.indexCollection` indexes the fields of all the documents in s JSON document collection.
+* [indexText](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer/indexText.html) indexes text from a text document;
+* [indexJson](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer/indexJson.html) indexes the fields in a `JSON` document; and 
+* [indexCollection](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer/indexCollection.html) indexes the fields of all the documents in a JSON document collection.
 
-Alternatively, pass a `TextIndexer.documentStream` or `TextIndexer.collectionStream` for indexing of the stream elements.
-
-Implementing classes (e.g. [`TextIndexerBase`](#textindexerbase-class)) override the following asynchronous methods for interacting with the `TextIndexer.index`:
-* `TextIndexer.indexText` indexes a text document;
-* `TextIndexer.indexJson` indexes the fields in a JSON document;
-* `TextIndexer.indexCollection` indexes the fields of all the documents in a JSON document collection; and
-* `TextIndexer.updateIndexes` method updates the `TextIndexer.index` with new/changed dictionary, postings and k-gram entries.
-
-Use one of three factory constructors to instantiate a `TextIndexer`:
-* [`TextIndexer.index`](#textindexerindex); 
-* [`TextIndexer.inMemory`](#textindexerinmemory); or
-* [`TextIndexer.async`](#textindexerasync).
-
-Alternatively, roll your own custom `TextIndexer` by extending [`TextIndexerBase`](#textindexerbase-class).
-
-#### TextIndexer.index
-
-The `TextIndexer.index` factory constructor returns a `TextIndexer` instance, using a `InvertedIndex` instance passed in as a parameter at instantiation.
-
-#### TextIndexer.inMemory
-
-The `TextIndexer.inMemory` factory constructor returns a `TextIndexer` instance with [in-memory](#inmemoryindex-class) `Dictionary` and `Postings` maps:
-- pass a `analyzer` text analyser that extracts tokens from text;
-- pass an in-memory `dictionary` instance, otherwise an empty `Dictionary` will be initialized; - pass an in-memory `kGramIndex` instance, otherwise an empty `KGramIndex` will be initialized;and
-- pass an in-memory `postings` instance, otherwise an empty `Postings` will be initialized.
-
-The `InMemoryIndexer` is suitable for indexing a smaller corpus. The `InMemoryIndexer` may have latency and processing overhead for large indexes or queries with more than a few terms. Consider running `InMemoryIndexer` in an isolate to avoid slowing down the main thread.
-
-An example of the use of the `TextIndexer.inMemory` factory is included in the [examples](https://pub.dev/packages/text_indexing/example).
-
-#### TextIndexer.async
-
-The `TextIndexer.async` factory constructor returns a `TextIndexer` instance that uses
-[asynchronous callback](#asynccallbackindex-class) functions to access `Dictionary` and `Postings`
-repositories:
-* pass in the `analyzer`, to extract tokens from text;
-* `dictionaryLoader` synchronously retrieves a `Dictionary` for a vocabulary from a data source;
-* `dictionaryLengthLoader` asynchronously retrieves the number of terms in the vocabulary (N);
-* `dictionaryUpdater` is callback that passes a `Dictionary` subset for persisting to a datastore;
-* `kGramIndexLoader` asynchronously retrieves a `KGramIndex` for a vocabulary from a data source;
-* `kGramIndexUpdater` is callback that passes a `KGramIndex` subset for persisting to a datastore;
-* `postingsLoader` asynchronously retrieves a `Postings` for a vocabulary from a data source; and
-* `postingsUpdater` passes a `Postings` subset for persisting to a datastore. 
-
-The `AsyncIndexer` is suitable for indexing a large corpus but may have latency and processing overhead. Consider running `AsyncIndexer` in an isolate to avoid slowing down the main thread.
-
-An example of the use of the `TextIndexer.async` factory is included in the [examples](https://pub.dev/packages/text_indexing/example).
-
-### TextIndexerBase Class
-
-The `TextIndexerBase` is an abstract base class that implements the `TextIndexer.indexText`, `TextIndexer.indexJson`, `TextIndexer.indexCollection` and `TextIndexer.emit` methods and the `TextIndexer.postingsStream` field. `TextIndexerBase` also initializes listeners to `TextIndexer.documentStream` and `TextIndexer.collectionStream` at instantiation.
-
-The `TextIndexerBase.index` is updated whenever `TextIndexerBase.updateIndexes` is called. 
-
-Subclasses of `TextIndexerBase` must implement:
-* `TextIndexer.index`; and
-* `TextIndexerBase.controller`, a `BehaviorSubject<Postings>` that controls the `TextIndex.postingsStream`.
-
-### InMemoryIndex Class
-
-The `InMemoryIndex` is a `InvertedIndex` interface implementation with in-memory `Dictionary` and `Postings` hashmaps:
-* `InMemoryIndex.analyzer` is the `ITextAnalyzer` used to tokenize text for the `InMemoryIndex`;
-* `InMemoryIndex.dictionary` is the in-memory term dictionary for the indexer. Pass a `dictionary` instance at instantiation, otherwise an empty `Dictionary` will be initialized; and
-* `InMemoryIndex.postings` is the in-memory postings hashmap for the indexer. Pass a `postings` instance at instantiation, otherwise an empty `Postings` will be initialized.
-
-The `InMemoryIndex` mixes in `InMemoryIndexMixin` that can be used in custom indexer classes that use in-memory hashmaps for `Postings` and `Dictionary`. `InMemoryIndexMixin` implements:
-* `vocabularyLength` returns the number of entries in `dictionary`.
-* `getDictionary` retrieves a `Dictionary` for a collection of `Term`s from the in-memory `dictionary` hashmap;
-* `upsertDictionary ` inserts entries into the in-memory `dictionary` hashmap, overwriting any existing entries;
-* `getPostings` retrieves `Postings` for a collection of `Term`s from the in-memory `postings` hashmap;
-* `upsertPostings` inserts entries into the in-memory `postings` hashmap, overwriting any existing entries;
-
-## AsyncCallbackIndex Class
-
-The `AsyncCallbackIndex` is a `InvertedIndex` implementation class that uses asynchronous callbacks to perform read and write operations on `Dictionary` and `Postings` repositories:
-* `AsyncCallbackIndex.analyzer` is the `ITextAnalyzer` used to tokenize text for the `AsyncCallbackIndex`;
-* `AsyncCallbackIndex.dictionaryLoader` synchronously retrieves a `Dictionary` for a vocabulary from a data source;
-* `AsyncCallbackIndex.dictionaryUpdater` is callback that passes a `Dictionary` subset for persisting to `Dictionary` repository;
-* `AsyncCallbackIndex.postingsLoader` asynchronously retrieves a `Postings` for a vocabulary from a data source; and
-* `AsyncCallbackIndex.postingsUpdater` passes a `Postings` subset for persisting to a `Postings` repository.
-
-The `AsyncCallbackIndex` mixes in `AsyncCallbackIndexMixin` that can be used in custom indexer classes that use asynchronous repositiories for `Postings` and `Dictionary`. The `AsyncCallbackIndexMixin` exposes five callback function fields that must be overriden:
-* `dictionaryLengthLoader` asynchronously retrieves the number of terms in the vocabulary (N);
-* `dictionaryLoader` asynchronously retrieves a `Dictionary` for a vocabulary from a data source;
-* `dictionaryUpdater` is callback that passes a `Dictionary` subset for persisting to a datastore;
-* `postingsLoader` asynchronously retrieves a `Postings` for a vocabulary from a data source; and
-* `postingsUpdater` passes a `Postings` subset for persisting to a datastore.
-
-The `AsyncCallbackIndexMixin` implements the following methods for operations on asynchronous `Dictionary` and `Postings` repositories:
-* `vocabularyLength` calls `dictionaryLengthLoader`;
-* `getDictionary` calls `dictionaryLoader`;
-* `upsertDictionary ` calls `dictionaryUpdater`;
-* `getPostings` calls `postingsLoader`; and
-* `upsertPostings` calls `postingsUpdater`.
+Use the factory constructor to instantiate a [TextIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html) with the index of your choice or extend [TextIndexerBase](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexerBase-class.html).
 
 ## Definitions
 
