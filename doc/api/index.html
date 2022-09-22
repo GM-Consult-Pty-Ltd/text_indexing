@@ -84,10 +84,10 @@ Copyright (c) 2022, GM Consult Pty Ltd#class-persistedindexerAll rights reserved
 <pre class="language-dart"><code class="language-dart">  // initialize an in=memory index for a JSON collection with two indexed fields
    final myIndex = InMemoryIndex(zones: {'name': 1.0, 'description': 0.5}, phraseLength: 2);
 
-  // - initialize a in-memory [TextIndexer], passing in the index
+  // - initialize a in-memory `TextIndexer`, passing in the index
   final indexer =TextIndexer(index: myIndex);
 
-  // - iterate through the json collection "documents"
+  // - iterate through the json collection `documents`
   await Future.forEach(documents.entries, (MapEntry&lt;String, String&gt; doc) async {
     // - index each document
     await indexer.index(doc.key, doc.value);
@@ -96,7 +96,7 @@ Copyright (c) 2022, GM Consult Pty Ltd#class-persistedindexerAll rights reserved
 <p>The <a href="https://pub.dev/packages/text_indexing/example">examples</a> demonstrate the use of the <code>TextIndexer.inMemory</code> and  <code>TextIndexer.async</code> factories.</p>
 <h2 id="api">API</h2>
 <p>The <a href="https://pub.dev/documentation/text_indexing/latest/">API</a> exposes the <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html">TextIndexer</a> interface that builds and maintain an <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex-class.html">InvertedIndex</a> for a collection of documents.</p>
-<p>To maximise performance of the indexers the API manipulates nested hashmaps of DART core types <code>int</code> and <code>String</code> rather than defining strongly typed object models. To improve code legibility the API makes use of type aliases throughout.</p>
+<p>To maximise performance of the indexers the API performs lookups in nested hashmaps of DART core types. To improve code legibility the API makes use of <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/text_indexing-library.html#typedefs">type aliases</a> throughout.</p>
 <h3 id="invertedindex">InvertedIndex</h3>
 <p>A <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndexMixin-class.html">mixin class</a>  implements the <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex/getTfIndex.html">getTfIndex</a>, <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex/getFtdPostings.html">getFtdPostings</a> and <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex/getIdFtIndex.html">getIdFtIndex</a> methods.</p>
 <p>Three implementation classes are provided:</p>
@@ -199,7 +199,7 @@ Copyright (c) 2022, GM Consult Pty Ltd#class-persistedindexerAll rights reserved
 <footer>
   <span class="no-break">
     text_indexing
-      0.13.0+1
+      0.13.0+2
   </span>
 
   

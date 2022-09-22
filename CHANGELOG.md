@@ -4,11 +4,18 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
-### 0.13.0+1 (PRE-RELEASE)
+*THIS PACKAGE IS **PRE-RELEASE**, IN ACTIVE DEVELOPMENT AND SUBJECT TO DAILY BREAKING CHANGES.*
+
+### 0.13.0+2
 
 Updated documentation.
 
-### 0.13.0 (PRE-RELEASE, BREAKING CHANGES)
+### 0.13.0+1
+
+Updated documentation.
+
+### 0.13.0 
+**PRE-RELEASE, BREAKING CHANGES**
 
 #### Breaking changes:
 - Removed `TextIndexer.async`, `TextIndexer.index`  and `TextIndexer.inMemory` factory constructors.
@@ -17,11 +24,13 @@ Updated documentation.
 - Re-structured codebase.
 - Updated dependencies, tests, examples and documentation.
 
-### 0.12.0+1 (PRE-RELEASE)
+### 0.12.0+1
+**PRE-RELEASE**
 
 Updated dependencies and documentation.
 
-### 0.12.0 (PRE-RELEASE, BREAKING CHANGES)
+### 0.12.0
+**PRE-RELEASE, BREAKING CHANGES**
 
 #### Breaking changes:
 - Added method `InvertedIndex.getKGramIndex` to `InvertedIndex` interface.
@@ -41,7 +50,8 @@ Updated dependencies and documentation.
 Updated dependencies, tests, examples and documentation.
 
 
-### 0.11.0 (PRE-RELEASE)
+### 0.11.0
+**PRE-RELEASE**
 
 #### New:
 - Mixin class `AsyncCallbackIndexMixin`. 
@@ -49,7 +59,8 @@ Updated dependencies, tests, examples and documentation.
 
 Updated dependencies, tests, examples and documentation.
 
-### 0.10.0 (PRE-RELEASE)
+### 0.10.0
+**PRE-RELEASE**
 
 #### Breaking changes:
 
@@ -61,7 +72,8 @@ Updated dependencies, tests, examples and documentation.
 
 Updated dependencies, tests, examples and documentation.
 
-### 0.9.0 (PRE-RELEASE)
+### 0.9.0
+**PRE-RELEASE**
 
 #### Breaking changes:
 
@@ -91,11 +103,13 @@ Updated dependencies, tests, examples and documentation.
 
 Updated dependencies, tests, examples and documentation.
 
-### 0.8.0+1 (PRE-RELEASE)
+### 0.8.0+1
+**PRE-RELEASE**
 
 Updated dependencies
 
-### 0.8.0 (PRE-RELEASE, BREAKING CHANGES)
+### 0.8.0
+**PRE-RELEASE, BREAKING CHANGES**
 
 #### Breaking changes:
 
@@ -103,19 +117,23 @@ Updated dependencies
 
 Updated dependencies, tests, examples and documentation.
 
-### 0.7.2+1 (PRE-RELEASE)
+### 0.7.2+1
+**PRE-RELEASE**
 
 Updated dependencies
 
-### 0.7.2 (PRE-RELEASE)
+### 0.7.2
+**PRE-RELEASE**
 
 Updated dependencies
 
-### 0.7.1 (PRE-RELEASE)
+### 0.7.1
+**PRE-RELEASE**
 
 Updated dependencies
 
-### 0.7.0 (PRE-RELEASE, BREAKING CHANGES)
+### 0.7.0
+**PRE-RELEASE, BREAKING CHANGES**
 
 #### Breaking changes:
 - Renamed `Postings.documents` extension method to `Postings.docIds`.
@@ -126,7 +144,8 @@ Updated dependencies
 
 Updated dependencies, tests, examples and documentation.
 
-### 0.6.0 (PRE-RELEASE, BREAKING CHANGES)
+### 0.6.0
+**PRE-RELEASE, BREAKING CHANGES**
 
 #### Breaking changes:
 
@@ -143,7 +162,8 @@ Updated dependencies, tests, examples and documentation.
 
 Updated dependencies, tests, examples and documentation.
 
-### 0.6.0-2 (PRE-RELEASE, BREAKING CHANGES)
+### 0.6.0-2
+**PRE-RELEASE, BREAKING CHANGES**
 
 #### Breaking changes:
 
@@ -151,11 +171,13 @@ Updated dependencies, tests, examples and documentation.
 
 Updated dependencies, tests, examples and documentation.
 
-### 0.6.0-1 (PRE-RELEASE, BREAKING CHANGES)
+### 0.6.0-1
+**PRE-RELEASE, BREAKING CHANGES**
 
 Updated dependencies, tests, examples and documentation.
 
-### 0.5.0 (PRE-RELEASE, BREAKING CHANGES)
+### 0.5.0
+**PRE-RELEASE, BREAKING CHANGES**
 
 #### Deprecated:
 
@@ -164,7 +186,8 @@ Updated dependencies, tests, examples and documentation.
 
 Updated dependencies, tests, examples and documentation.
 
-### 0.4.0 (PRE-RELEASE, BREAKING CHANGES)
+### 0.4.0
+**PRE-RELEASE, BREAKING CHANGES**
 
 #### Breaking changes:
 
@@ -190,7 +213,8 @@ Updated dependencies, tests, examples and documentation.
 
 Updated dependencies, tests, examples and documentation.
 
-### 0.3.2 (PRE-RELEASE)
+### 0.3.2
+**PRE-RELEASE**
 
 #### New:
 
@@ -200,7 +224,8 @@ Updated dependencies, tests, examples and documentation.
 
 Updated dependencies, tests, examples and documentation.
 
-### 0.3.1 (PRE-RELEASE)
+### 0.3.1
+**PRE-RELEASE**
 
 #### New:
 
@@ -209,12 +234,14 @@ Updated dependencies, tests, examples and documentation.
 
 Updated dependencies, tests, examples and documentation.
 
-### 0.3.0 (PRE-RELEASE, BREAKING CHANGES)
+### 0.3.0
+**PRE-RELEASE, BREAKING CHANGES**
 
 #### Breaking changes:
 - Removed interface `Document`.
 
-### 0.2.0 (PRE-RELEASE, BREAKING CHANGES)
+### 0.2.0
+**PRE-RELEASE, BREAKING CHANGES**
 
 #### New:
 
@@ -232,7 +259,8 @@ Restructured and simplified the codebase.
 
 Updated dependencies, tests, examples and documentation.
 
-### 0.1.0 (PRE-RELEASE)
+### 0.1.0
+**PRE-RELEASE**
 
 #### New:
 
@@ -240,11 +268,13 @@ Updated dependencies, tests, examples and documentation.
 
 Updated dependencies, tests, examples and documentation.
 
-### 0.0.2+1 (PRE-RELEASE)
+### 0.0.2+1
+**PRE-RELEASE**
 
 Updated dependencies, tests, examples and documentation.
 
-### 0.0.2 (PRE-RELEASE)
+### 0.0.2
+**PRE-RELEASE**
 
 #### New:
 
@@ -252,49 +282,60 @@ Updated dependencies, tests, examples and documentation.
 
 Updated dependencies, tests, examples and documentation.
 
-### 0.0.1+10 (PRE-RELEASE)
+### 0.0.1+10
+**PRE-RELEASE**
 
 Updated dependencies, tests, examples and documentation.
 
-### 0.0.1+9 (PRE-RELEASE)
+### 0.0.1+9
+**PRE-RELEASE**
 
 Updated dependencies, tests, examples and documentation.
 
-### 0.0.1+8 (PRE-RELEASE)
+### 0.0.1+8
+**PRE-RELEASE**
 
 Updated dependencies, tests, examples and documentation.
 
-### 0.0.1+7 (PRE-RELEASE)
+### 0.0.1+7
+**PRE-RELEASE**
 
 Updated dependencies, tests, examples and documentation.
 
-### 0.0.1+6 (PRE-RELEASE)
+### 0.0.1+6
+**PRE-RELEASE**
 
 Re-worked private methods to suit changes in text_analysis package.
 
 Updated dependencies, tests, examples and documentation.
 
-### 0.0.1+5 (PRE-RELEASE)
+### 0.0.1+5
+**PRE-RELEASE**
 
 - Updated dependencies.
 
-### 0.0.1+4 (PRE-RELEASE)
+### 0.0.1+4
+**PRE-RELEASE**
 
 Updated dependencies, tests, examples and documentation.
 
-### 0.0.1+3 (PRE-RELEASE)
+### 0.0.1+3
+**PRE-RELEASE**
 
 Updated dependencies, tests, examples and documentation.
 
-### 0.0.1+2 (PRE-RELEASE)
+### 0.0.1+2
+**PRE-RELEASE**
 
 Updated documentation.
 
-### 0.0.1+1 (PRE-RELEASE)
+### 0.0.1+1
+**PRE-RELEASE**
 
 Updated dependencies, tests, examples and documentation.
 
-### 0.0.1 (PRE-RELEASE, BREAKING CHANGES)
+### 0.0.1
+**PRE-RELEASE, BREAKING CHANGES**
 
 Interfaces finalized (see [breaking changes](#breaking-changes))
 
@@ -311,11 +352,13 @@ Interfaces finalized (see [breaking changes](#breaking-changes))
 
 Updated dependencies, tests, examples and documentation.
 
-### 0.0.1-beta.4 (PRE-RELEASE)
+### 0.0.1-beta.4
+**PRE-RELEASE**
 
 Updated dependencies, tests, examples and documentation.
 
-### 0.0.1-beta.3 (PRE-RELEASE, BREAKING CHANGES)
+### 0.0.1-beta.3
+**PRE-RELEASE, BREAKING CHANGES**
 
 #### New:
 
@@ -328,7 +371,8 @@ Updated dependencies, tests, examples and documentation.
 
 Updated dependencies, tests, examples and documentation.
 
-### 0.0.1-beta.2 (PRE-RELEASE)
+### 0.0.1-beta.2
+**PRE-RELEASE**
 
 #### New:
 
@@ -337,6 +381,7 @@ Updated dependencies, tests, examples and documentation.
 
 Updated dependencies, tests, examples and documentation.
 
-### 0.0.1-beta.1 (PRE-RELEASE)
+### 0.0.1-beta.1
+**PRE-RELEASE**
 
 Initial version.

@@ -55,10 +55,10 @@ For small collections, instantiate a `TextIndexer.inMemory`, (optionally passing
   // initialize an in=memory index for a JSON collection with two indexed fields
    final myIndex = InMemoryIndex(zones: {'name': 1.0, 'description': 0.5}, phraseLength: 2);
 
-  // - initialize a in-memory [TextIndexer], passing in the index
+  // - initialize a in-memory `TextIndexer`, passing in the index
   final indexer =TextIndexer(index: myIndex);
 
-  // - iterate through the json collection "documents"
+  // - iterate through the json collection `documents`
   await Future.forEach(documents.entries, (MapEntry<String, String> doc) async {
     // - index each document
     await indexer.index(doc.key, doc.value);
@@ -71,7 +71,7 @@ The [examples](https://pub.dev/packages/text_indexing/example) demonstrate the u
 
 The [API](https://pub.dev/documentation/text_indexing/latest/) exposes the [TextIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html) interface that builds and maintain an [InvertedIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex-class.html) for a collection of documents.
 
-To maximise performance of the indexers the API manipulates nested hashmaps of DART core types `int` and `String` rather than defining strongly typed object models. To improve code legibility the API makes use of type aliases throughout.
+To maximise performance of the indexers the API performs lookups in nested hashmaps of DART core types. To improve code legibility the API makes use of [type aliases](https://pub.dev/documentation/text_indexing/latest/text_indexing/text_indexing-library.html#typedefs) throughout.
 
 ### InvertedIndex
 
