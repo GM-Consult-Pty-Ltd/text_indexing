@@ -8,9 +8,10 @@ All rights reserved.
 
 #### Breaking changes:
 - Removed `TextIndexer.async`, `TextIndexer.index`  and `TextIndexer.inMemory` factory constructors.
-- Added a new unnamed factory constructor for [TextIndexer].
+- Added a new unnamed factory constructor for `TextIndexer`.
 
-Updated dependencies, tests, examples and documentation.
+- Re-structured codebase.
+- Updated dependencies, tests, examples and documentation.
 
 ### 0.12.0+1 (PRE-RELEASE)
 

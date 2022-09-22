@@ -19,7 +19,7 @@ Skip to section:
 
 ## Overview
 
-This library provides an interface and implementation classes that build and maintain an (inverted, positional, zoned) [index]https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex-class.html) for a collection of documents or `corpus` (see [definitions](#definitions)).
+This library provides an interface and implementation classes that build and maintain an (inverted, positional, zoned) [index](https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex-class.html) for a collection of documents or `corpus` (see [definitions](#definitions)).
 
 ![Index construction flowchart](https://github.com/GM-Consult-Pty-Ltd/text_indexing/raw/main/assets/images/indexing.png?raw=true?raw=true "Index construction overview")
 

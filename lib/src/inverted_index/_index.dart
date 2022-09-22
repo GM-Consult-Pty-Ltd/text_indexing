@@ -8,3 +8,6 @@ export 'async_index.dart';
 export 'cached_index.dart';
 export 'inverted_index.dart';
 export 'in_memory_index.dart';
+export 'postings.dart';
+export 'dictionary.dart';
+export 'k_gram_index.dart';

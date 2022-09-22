@@ -3,7 +3,5 @@
 // All rights reserved
 
 // List all exports below in alphabetical order.
-// export 'document.dart';
-export 'postings.dart';
-export 'dictionary.dart';
-export 'k_gram_index.dart';
+export 'inverted_index/_index.dart';
+export 'text_indexer/_index.dart';
