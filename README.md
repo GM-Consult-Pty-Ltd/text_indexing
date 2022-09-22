@@ -19,11 +19,11 @@ Skip to section:
 
 ## Overview
 
-This library provides an interface and implementation classes that build and maintain an (inverted, positional, zoned) [index](https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex-class.html) for a collection of documents or `corpus` (see [definitions](#definitions)).
+This library provides an interface and implementation classes that build and maintain an (inverted, positional, zoned) [index](#invertedindex) for a collection of documents or `corpus` (see [definitions](#definitions)).
 
 ![Index construction flowchart](https://github.com/GM-Consult-Pty-Ltd/text_indexing/raw/main/assets/images/indexing.png?raw=true?raw=true "Index construction overview")
 
-The [indexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html) constructs three inverted `index` artifacts:
+The [indexer](#textindexer) constructs three inverted `index` artifacts:
 * the `dictionary` that holds the `vocabulary` of `terms` and the frequency of occurrence for each `term` in the `corpus`; 
 * the `k-gram index` that maps `k-grams` to `terms` in the `dictionary`; and
 * the `postings` index that holds a list of references to the `documents` for each `term` (the `postings list`). 
@@ -66,27 +66,27 @@ The [examples](https://pub.dev/packages/text_indexing/example) demonstrate the u
 
 ## API
 
-The [API](https://pub.dev/documentation/text_indexing/latest/) exposes the [TextIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html) interface that builds and maintain an [InvertedIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex-class.html) for a collection of documents.
+The [API](https://pub.dev/documentation/text_indexing/latest/) exposes the [TextIndexer] interface that builds and maintains an [InvertedIndex] for a collection of documents.
 
-To maximise performance of the indexers the API manipulates nested hashmaps of DART core types `int` and `String` rather than defining strongly typed object models. To improve code legibility the API makes use of type aliases throughout.
+To maximise performance of the indexers the API performs lookups on nested hashmaps of DART core types rather than defining strongly typed object models. To improve code legibility the API makes use of type aliases throughout.
 
 ### InvertedIndex
 
-A [mixin class](https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndexMixin-class.html) implements the  implements the [InvertedIndex.getTfIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex/getTfIndex.html), [getFtdPostings](https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex/getFtdPostings.html) and [getIdFtIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex/getIdFtIndex.html) methods, while three implementation classes are provided: 
- * the [InMemoryIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html) class is intended for fast indexing of a smaller corpus using in-memory dictionary, k-gram and postings hashmaps;
- * the [AsyncCallbackIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/AsyncCallbackIndex-class.html) is intended for working with a larger corpus and an asynchronous index repository in persisted storage.  It uses asynchronous callbacks to perform read and write operations on `dictionary`, `k-gram` and `postings` repositories; and
- * the [CachedIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/CachedIndex-class.html) is intended for working with a larger corpus with an asynchronous index repository in persisted storage.  It uses asynchronous callbacks to perform read and write operations on [Dictionary], [KGramIndex] and [Postings] repositories, but keeps a cache of the most popular terms and k-grams in memory for faster indexing and searching. 
+The [InvertedIndexMixin] implements the  implements the [InvertedIndex.getTfIndex], [InvertedIndex.getFtdPostings] and [InvertedIndex.getIdFtIndex] methods, while three implementation classes are provided: 
+* the [InMemoryIndex] class is intended for fast indexing of a smaller corpus using in-memory dictionary, k-gram and postings hashmaps;
+* the [AsyncCallbackIndex] is intended for working with a larger corpus and an asynchronous index repository in persisted storage.  It uses asynchronous callbacks to perform read and write operations on `dictionary`, `k-gram` and `postings` repositories; and
+* the [CachedIndex] is intended for working with a larger corpus with an asynchronous index repository in persisted storage.  It uses asynchronous callbacks to perform read and write operations on [Dictionary], [KGramIndex] and [Postings] repositories, but keeps a cache of the most popular terms and k-grams in memory for faster indexing and searching. 
 
 ### TextIndexer
 
-The [TextIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html) is an nterface for classes that construct and maintain a dictionary, inverted, positional, zoned index and k-gram index  for a `corpus`. 
+The [TextIndexer] is an nterface for classes that construct and maintain a dictionary, inverted, positional, zoned index and k-gram index  for a `corpus`. 
 
 Text or documents can be indexed by calling the following methods:
-* [indexText](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer/indexText.html) indexes text from a text document;
-* [indexJson](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer/indexJson.html) indexes the fields in a `JSON` document; and 
-* [indexCollection](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer/indexCollection.html) indexes the fields of all the documents in a JSON document collection.
+* [TextIndexer.indexText] indexes text from a text document;
+* [TextIndexer.indexJson] indexes the fields in a `JSON` document; and 
+* [TextIndexer.indexCollection] indexes the fields of all the documents in a JSON document collection.
 
-Use the factory constructor to instantiate a [TextIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html) with the index of your choice or extend [TextIndexerBase](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexerBase-class.html).
+Use the factory constructor to instantiate a [TextIndexer] with the index of your choice or extend [TextIndexerBase].
 
 ## Definitions
 
