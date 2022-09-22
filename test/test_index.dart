@@ -8,11 +8,8 @@ part of 'text_indexing_test.dart';
 /// read/write operations to the [dictionary] and [postings].
 ///
 /// Use for testing and examples.
-class _TestIndex with InvertedIndexMixin implements InvertedIndex {
+class _TestIndexRepository {
   //
-
-  @override
-  final int k = 3;
 
   /// The [Dictionary] instance that is the data-store for the index's term
   /// dictionary
@@ -24,12 +21,9 @@ class _TestIndex with InvertedIndexMixin implements InvertedIndex {
 
   final KGramIndex kGramIndex = {};
 
-  /// Implementation of [PostingsLoader].
-  ///
   /// Returns a subset of [postings] corresponding to [terms].
   ///
-  /// Simulates latency of 50 milliseconds.
-  @override
+  /// Simulates latency of 100 uS per term in [terms].
   Future<Postings> getPostings(Iterable<String> terms) async {
     final Postings retVal = {};
     for (final term in terms) {
@@ -38,41 +32,34 @@ class _TestIndex with InvertedIndexMixin implements InvertedIndex {
         retVal[term] = entry;
       }
     }
+    // await Future.delayed(
+    //     Duration(milliseconds: (((terms.length / 10).floor() / 10).floor())));
     return retVal;
   }
 
-  /// Implementation of [DictionaryUpdater].
-  ///
   /// Adds/overwrites the [values] to [dictionary].
   ///
-  /// Simulates latency of 50 milliseconds.
-  @override
+  /// Simulates latency of 100 uS  per entry.
   Future<void> upsertDictionary(Dictionary values) async {
-    /// Simulate write latency of 50milliseconds.
-    await Future.delayed(const Duration(milliseconds: 50));
+    /// Simulate latency of 100 uS  per entry.
+    // await Future.delayed(Duration(milliseconds: (values.length / 10).floor()));
     dictionary.addAll(values);
   }
 
-  /// Implementation of [PostingsUpdater].
-  ///
   /// Adds/overwrites the [values] to [postings].
   ///
-  /// Simulates latency of 50 milliseconds.
-  @override
+  /// Simulates latency of 100 uS  per entry.
   Future<void> upsertPostings(Postings values) async {
-    /// Simulate write latency of 50milliseconds.
-    await Future.delayed(const Duration(milliseconds: 50));
+    /// Simulate write latency of 100 uS  per entry.
+    // await Future.delayed(Duration(milliseconds: (values.length / 10).floor()));
     postings.addAll(values);
   }
 
-  /// Implementation of [DictionaryLoader].
-  ///
   /// Returns a subset of [dictionary] corresponding to [terms].
   ///
-  /// Simulates latency of 50 milliseconds.
-  @override
+  /// Simulates latency of 100 uS  per term in [terms].
   Future<Dictionary> getDictionary([Iterable<String>? terms]) async {
-    if (terms == null) return dictionary;
+    terms = terms ?? kGramIndex.keys;
     final Dictionary retVal = {};
     for (final term in terms) {
       final entry = dictionary[term];
@@ -80,16 +67,15 @@ class _TestIndex with InvertedIndexMixin implements InvertedIndex {
         retVal[term] = entry;
       }
     }
+    // await Future.delayed(Duration(milliseconds: ((terms.length / 10).floor())));
     return retVal;
   }
 
-  /// Implementation of [getKGramIndex].
-  ///
   /// Returns a subset of [kGramIndex] corresponding to [kGrams].
   ///
-  /// Simulates latency of 50 milliseconds.
-  @override
-  Future<KGramIndex> getKGramIndex(Iterable<KGram> kGrams) async {
+  /// Simulates latency of 100 uS  per entry.
+  Future<KGramIndex> getKGramIndex([Iterable<KGram>? kGrams]) async {
+    kGrams = kGrams ?? kGramIndex.keys;
     final KGramIndex retVal = {};
     for (final kGram in kGrams) {
       final entry = kGramIndex[kGram];
@@ -97,32 +83,20 @@ class _TestIndex with InvertedIndexMixin implements InvertedIndex {
         retVal[kGram] = entry;
       }
     }
-    await Future.delayed(const Duration(milliseconds: 50));
+    // await Future.delayed(
+    //     Duration(milliseconds: ((kGrams.length / 10).floor())));
     return retVal;
   }
 
-  @override
   Future<void> upsertKGramIndex(KGramIndex values) async =>
       kGramIndex.addAll(values);
 
-  @override
-  final ITextAnalyzer analyzer = TextAnalyzer();
-
-  @override
+  /// Returns the length of the [dictionary].
+  ///
+  /// Simulate a read latency of 5 milliseconds.
   Future<Ft> get vocabularyLength async {
-    /// Simulate write latency of 50milliseconds.
-    await Future.delayed(const Duration(milliseconds: 50));
+    /// Simulate a read latency of 5 milliseconds.
+    // await Future.delayed(const Duration(milliseconds: 5));
     return dictionary.length;
   }
-
-  @override
-  int get phraseLength => 3;
-
-  @override
-  final zones = {
-    'name': 1.0,
-    'description': 0.5,
-    'hashTags': 2.0,
-    'publicationDate': 0.1
-  };
 }

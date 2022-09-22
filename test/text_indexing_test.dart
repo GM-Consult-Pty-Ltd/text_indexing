@@ -1,19 +1,38 @@
 // Copyright ©2022, GM Consult (Pty) Ltd
 // BSD 3-Clause License
-// All rights reserved
+// All rights reserve
 
-// ignore_for_file: unused_local_variable
+@Timeout(Duration(seconds: 840))
 
 import 'package:text_indexing/text_indexing.dart';
 import 'package:test/test.dart';
-import 'data/text.dart';
+// import 'data/text.dart';
 import 'data/sample_news.dart';
+import 'data/sample_stocks.dart';
 
 part 'test_index.dart';
 
 void main() {
   group('Inverted Index', () {
     //
+
+    const zones = {
+      'name': 1.0,
+      'description': 0.5,
+      'hashTag': 2.0,
+      'publicationDate': 0.1
+    };
+
+    const stockZones = {
+      'name': 1.0,
+      'symbol': 5.0,
+      'ticker': 5.0,
+      'description': 0.5,
+      'hashTag': 2.0,
+    };
+
+    const searchPrase =
+        'AAPL google Google GOOG tesla apple, alphabet 3m intel semiconductor';
 
     setUp(() {
       // Additional setup goes here.
@@ -33,52 +52,26 @@ void main() {
     test('InMemoryIndexer.index', () async {
       //
 
-// initialize a Set for the vocabulary state
-      final termsSet = <String>{};
-
-      // initialize a Set for the document ids state
-      final docsSet = <String>{};
-
-      // - initialize the [Dictionary]
-      final dictionary = <String, int>{};
-
-      // - initialize the [Postings]
-      final postings = <String, Map<String, Map<String, List<int>>>>{};
-
       // - initialize a [InMemoryIndexer]
-      final indexer = TextIndexer.inMemory(
-          dictionary: dictionary, postings: postings, analyzer: TextAnalyzer());
+      final indexer =
+          TextIndexer.inMemory(zones: stockZones, k: 3, phraseLength: 2);
 
-      final searchTerms = (await indexer.index.analyzer
-              .tokenize('stock market tesla EV battery'))
-          .tokens
-          .terms;
+      final index = indexer.index as InMemoryIndex;
 
-      // indexer.postingsStream.listen((event) {
-      //   if (event.isNotEmpty) {
-      //     final PostingsEntry posting = event.entries.first;
-      //     if (posting.value.isNotEmpty) {
-      //       final DocumentPostingsEntry docPostings =
-      //           posting.value.entries.first;
-      //       final docId = docPostings.docId;
-      //       final terms = event.terms;
-      //       print('$docId: $terms');
-      //     }
-      //   }
-      //   for (final termPosting in event.entries) {
-      //     termsSet.add(termPosting.key);
-      //     docsSet.add(termPosting.value.entries.first.key);
-      //   }
-      //   print(
-      //       'Indexed ${termsSet.length} terms from ${docsSet.length} documents.');
-      // });
+      final searchTerms =
+          (await indexer.index.analyzer.tokenize(searchPrase)).terms;
+
+      // get the start time in milliseconds
+      final start = DateTime.now().millisecondsSinceEpoch;
 
       // - iterate through the sample data
-      await Future.forEach(textData.entries,
-          (MapEntry<String, String> doc) async {
-        // - index each document
-        await indexer.indexText(doc.key, doc.value);
-      });
+      await indexer.indexCollection(sampleStocks);
+
+      // get the end time in milliseconds
+      final end = DateTime.now().millisecondsSinceEpoch;
+
+      // calculate the time taken to index the corpus in milliseconds
+      final dT = ((end - start) / 1000).toStringAsFixed(3);
 
       // wait for stream elements to complete printing
       await Future.delayed(const Duration(milliseconds: 250));
@@ -89,40 +82,50 @@ void main() {
       // print the statistics for each term in [searchTerms].
       await _printTermStats(indexer.index, searchTerms);
 
-      expect(await indexer.index.vocabularyLength, termsSet.length);
-      expect(textData.length, docsSet.length);
+      print('[InMemoryIndex] indexed ${sampleStocks.length} documents to '
+          '${index.dictionary.length} postings and '
+          '${index.kGramIndex.length} k-grams in $dT seconds!');
+
+      expect(await index.vocabularyLength > 0, true);
 
       //
     });
 
-    /// A simple test of the [AsyncIndexer] on a small dataset using a
-    /// simulated persisted index repository with 50 millisecond latency on
-    /// read/write operations to the [Dictionary] and [Postings]:
-    /// - initialize the [_TestIndex()];
-    /// - initialize a [AsyncIndexer];
-    /// - listen to the [AsyncIndexer.postingsStream], printing the
-    ///   emitted postings for each indexed document;
-    /// - get the sample data;
-    /// - iterate through the sample data;
-    /// - index each document, adding/updating terms in the [_TestIndex.dictionary]
-    ///   and postings in the [_TestIndex.postings] ; and
-    /// - print the top 5 most popular [_TestIndex.dictionary.terms].
-    test('AsyncIndexer.index', () async {
-      //
+    test('CachedIndex', () async {
+      // - initialize a [_TestIndexRepository()]
+      final repository = _TestIndexRepository();
 
-      // - initialize a [_TestIndex()]
-      final index = _TestIndex();
+      // initialize a CachedIndex
+      final index = CachedIndex(
+          cacheLimit: 10000,
+          dictionaryLoader: repository.getDictionary,
+          dictionaryUpdater: repository.upsertDictionary,
+          dictionaryLengthLoader: () => repository.vocabularyLength,
+          kGramIndexLoader: repository.getKGramIndex,
+          kGramIndexUpdater: repository.upsertKGramIndex,
+          postingsLoader: repository.getPostings,
+          postingsUpdater: repository.upsertPostings,
+          zones: stockZones,
+          k: 3,
+          phraseLength: 2,
+          analyzer: TextAnalyzer());
 
-      final searchTerms =
-          (await index.analyzer.tokenize('stock market tesla EV battery'))
-              .tokens
-              .terms;
+      final searchTerms = (await index.analyzer.tokenize(searchPrase)).terms;
 
       // - initialize a [AsyncIndexer]
       final indexer = TextIndexer.index(index: index);
 
+      // get the start time in milliseconds
+      final start = DateTime.now().millisecondsSinceEpoch;
+
       // - iterate through the sample data
-      await indexer.indexCollection(sampleNews);
+      await indexer.indexCollection(sampleStocks);
+
+      // get the end time in milliseconds
+      final end = DateTime.now().millisecondsSinceEpoch;
+
+      // calculate the time taken to index the corpus in milliseconds
+      final dT = ((end - start) / 1000).toStringAsFixed(3);
 
       // wait for stream elements to complete printing
       await Future.delayed(const Duration(milliseconds: 250));
@@ -132,6 +135,80 @@ void main() {
 
       // print the statistics for each term in [searchTerms].
       await _printTermStats(index, searchTerms);
+
+      print('[CachedIndex] indexed ${sampleStocks.length} documents to '
+          '${repository.dictionary.length} postings and '
+          '${repository.kGramIndex.length} k-grams in $dT seconds!');
+
+      print(' ');
+
+      expect(await indexer.index.vocabularyLength > 0, true);
+    });
+
+    /// A test of the [AsyncIndex] on a small dataset using an index repository
+    /// simulator with latency on read/write:
+    /// - initialize the [_TestIndexRepository()];
+    /// - initialize index as an [AsyncCallbackIndex] that calls the methods
+    ///   exposed by _TestIndexRepository;
+    /// - initialize a [TextIndexer];
+    /// - get the sample data;
+    /// - iterate through the sample data;
+    /// - index each document, adding/updating terms, postings and k-grams
+    ///   in the index; and
+    /// - print the index statistics.
+    test('AsyncCallbackIndex', () async {
+      //
+
+      // - initialize a [_TestIndexRepository()]
+      final repository = _TestIndexRepository();
+
+      final index = AsyncCallbackIndex(
+          dictionaryLoader: repository.getDictionary,
+          dictionaryUpdater: repository.upsertDictionary,
+          dictionaryLengthLoader: () => repository.vocabularyLength,
+          kGramIndexLoader: repository.getKGramIndex,
+          kGramIndexUpdater: repository.upsertKGramIndex,
+          postingsLoader: repository.getPostings,
+          postingsUpdater: repository.upsertPostings,
+          zones: stockZones,
+          k: 3,
+          phraseLength: 2,
+          analyzer: TextAnalyzer());
+
+      final searchTerms = (await index.analyzer.tokenize(searchPrase)).terms;
+
+      // - initialize a [AsyncIndexer]
+      final indexer = TextIndexer.index(index: index);
+
+      // get the start time in milliseconds
+      final start = DateTime.now().millisecondsSinceEpoch;
+
+      // - iterate through the sample data
+      await indexer.indexCollection(sampleStocks);
+
+      // get the end time in milliseconds
+      final end = DateTime.now().millisecondsSinceEpoch;
+
+      // calculate the time taken to index the corpus in milliseconds
+      final dT = ((end - start) / 1000).toStringAsFixed(3);
+
+      // wait for stream elements to complete printing
+      await Future.delayed(const Duration(milliseconds: 250));
+
+      // print the document term frequencies for each term in searchTerms
+      await _printTermFrequencyPostings(index, searchTerms);
+
+      // print the statistics for each term in [searchTerms].
+      await _printTermStats(index, searchTerms);
+
+      print(
+          'Indexed ${sampleStocks.length} documents to ${repository.dictionary.length} '
+          'postings and ${repository.kGramIndex.length} k-grams in '
+          '$dT seconds!');
+
+      print(' ');
+
+      expect(await indexer.index.vocabularyLength > 0, true);
     });
   });
 }
@@ -140,10 +217,10 @@ void main() {
 Future<void> _printTermFrequencyPostings(
     InvertedIndex index, Iterable<String> searchTerms) async {
   /// get the document term frequency postings for the search terms
-  final tfPostings = await index.getFtdPostings(searchTerms, 2);
+  final tfPostings = await index.getFtdPostings(searchTerms, 1);
 
   print('_______________________________________________________');
-  print('TERM DOCUMENT FREQUENCY (search terms, minimum dFt = 2)');
+  print('TERM DOCUMENT FREQUENCY (search terms, minimum dFt = 1)');
   for (final e in tfPostings.entries) {
     print('Term: ${e.key}');
     for (final posting in e.value.entries) {
@@ -168,7 +245,7 @@ Future<void> _printTermStats(
 
   // print the headings
   print(''.padLeft(80, '_'));
-  print('DICTIONARY STATISTICS (search terms, minimum dFt = 2)');
+  print('DICTIONARY STATISTICS (search terms)');
   print(''.padLeft(80, '-'));
   print('${'Term'.padRight(10)}'
       '${'Term Frequency'.toString().padLeft(20)}'
@@ -186,4 +263,7 @@ Future<void> _printTermStats(
         '${df.toString().padLeft(20)}'
         '${idf.toStringAsFixed(2).padLeft(4, '0').padLeft(30)}');
   }
+
+  // print a closing line
+  print(''.padLeft(80, '-'));
 }

@@ -4,7 +4,6 @@
 
 import 'dart:async';
 import 'package:meta/meta.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:text_indexing/text_indexing.dart';
 
 /// Alias for Map<String, dynamic>, a hashmap known as "Java Script Object
@@ -63,15 +62,22 @@ abstract class TextIndexer {
           {Dictionary? dictionary,
           Postings? postings,
           KGramIndex? kGramIndex,
+          ZoneWeightMap? zones,
+          int k = 3,
+          int phraseLength = 1,
           ITextAnalyzer analyzer = const TextAnalyzer(),
           Stream<MapEntry<DocId, JSON>>? documentStream,
           Stream<Map<DocId, JSON>>? collectionStream}) =>
       _TextIndexerImpl(
           InMemoryIndex(
-              dictionary: dictionary ?? {},
-              postings: postings ?? {},
-              analyzer: analyzer,
-              kGramIndex: kGramIndex ?? {}),
+            dictionary: dictionary ?? {},
+            postings: postings ?? {},
+            analyzer: analyzer,
+            zones: zones ?? {},
+            kGramIndex: kGramIndex ?? {},
+            phraseLength: phraseLength,
+            k: k,
+          ),
           collectionStream,
           documentStream);
 
@@ -195,7 +201,7 @@ abstract class TextIndexerBase implements TextIndexer {
   @override
   Future<Postings> indexText(DocId docId, SourceText docText) async {
     // get the terms using tokenizer
-    final tokens = (await index.analyzer.tokenize(docText)).tokens;
+    final tokens = (await index.analyzer.tokenize(docText));
     // map the tokens to postings
     final Postings postings = _tokensToPostings(docId, tokens);
     // map postings to a list of DocumentPostingsEntry for docId.
@@ -214,9 +220,11 @@ abstract class TextIndexerBase implements TextIndexer {
   @override
   Future<Postings> indexJson(DocId docId, JSON json) async {
     // get the terms using tokenizer
-    final tokens =
-        (await index.analyzer.tokenizeJson(json, index.zones.keys)).tokens;
+    final tokens = (await index.analyzer.tokenizeJson(json, index.zones.keys));
     // map the tokens to postings
+    if (tokens.terms.contains('alphabet')) {
+      print(tokens.terms);
+    }
     final Postings postings = _tokensToPostings(docId, tokens);
     // map postings to a list of DocumentPostingsEntry for docId.
     // final event = _postingsToTermPositions(docId, postings);

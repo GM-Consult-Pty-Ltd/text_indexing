@@ -35,19 +35,19 @@ import 'package:text_indexing/text_indexing.dart';
 /// - [getIdFtIndex] returns a [IdFtIndex] for a collection of [Term]s from
 ///   the [Dictionary];
 /// - [dictionaryLoader] asynchronously retrieves a [Dictionary] for a vocabulary
-///   from a data source;
+///   from a index repository;
 /// - [dictionaryLengthLoader] asynchronously retrieves the number of terms in
 ///   the vocabulary (N);
 /// - [dictionaryUpdater] is callback that passes a [Dictionary] subset
-///    for persisting to a datastore;
+///    for persisting to a index repository;
 /// - [kGramIndexLoader] asynchronously retrieves a [KGramIndex] for a vocabulary
-///   from a data source;
+///   from a index repository;
 /// - [kGramIndexUpdater] is callback that passes a [KGramIndex] subset
-///    for persisting to a datastore;
+///    for persisting to a index repository;
 /// - [postingsLoader] asynchronously retrieves a [Postings] for a vocabulary
-///   from a data source; and
+///   from a index repository; and
 /// - [postingsUpdater] passes a [Postings] subset for persisting to a
-///   datastore.
+///   index repository.
 class AsyncCallbackIndex
     with InvertedIndexMixin, AsyncCallbackIndexMixin
     implements InvertedIndex {
@@ -77,8 +77,6 @@ class AsyncCallbackIndex
   @override
   final PostingsLoader postingsLoader;
 
-  /// A callback that passes a subset of a [Postings] containing new or changed
-  /// [PostingsEntry] instances to the [Postings] datastore.
   @override
   final PostingsUpdater postingsUpdater;
 
@@ -95,17 +93,17 @@ class AsyncCallbackIndex
   /// - [dictionaryLengthLoader] asynchronously retrieves the number of terms
   ///   in the vocabulary (N);
   /// - [dictionaryLoader] asynchronously retrieves a [Dictionary] for a vocabulary
-  ///   from a data source;
+  ///   from a index repository;
   /// - [dictionaryUpdater] is callback that passes a [Dictionary] subset
-  ///    for persisting to a datastore;
+  ///    for persisting to a index repository;
   /// - [kGramIndexLoader] asynchronously retrieves a [KGramIndex] for a vocabulary
-  ///   from a data source;
+  ///   from a index repository;
   /// - [kGramIndexUpdater] is callback that passes a [KGramIndex] subset
-  ///    for persisting to a datastore;
+  ///    for persisting to a index repository;
   /// - [postingsLoader] asynchronously retrieves a [Postings] for a vocabulary
-  ///   from a data source; and
+  ///   from a index repository; and
   /// - [postingsUpdater] passes a [Postings] subset for persisting to a
-  ///   datastore.
+  ///   index repository.
   const AsyncCallbackIndex(
       {required this.dictionaryLoader,
       required this.dictionaryUpdater,
@@ -135,17 +133,17 @@ class AsyncCallbackIndex
 /// - [dictionaryLengthLoader] asynchronously retrieves the number of terms
 ///   in the vocabulary (N);
 /// - [dictionaryLoader] asynchronously retrieves a [Dictionary] for a vocabulary
-///   from a data source;
+///   from a index repository;
 /// - [dictionaryUpdater] is callback that passes a [Dictionary] subset
-///    for persisting to a datastore;
+///    for persisting to a index repository;
 /// - [kGramIndexLoader] asynchronously retrieves a [KGramIndex] for a vocabulary
-///   from a data source;
+///   from a index repository;
 /// - [kGramIndexUpdater] is callback that passes a [KGramIndex] subset
-///    for persisting to a datastore;
+///    for persisting to a index repository;
 /// - [postingsLoader] asynchronously retrieves a [Postings] for a vocabulary
-///   from a data source; and
+///   from a index repository; and
 /// - [postingsUpdater] passes a [Postings] subset for persisting to a
-///   datastore.
+///   index repository.
 ///
 /// Provides implementation of the following methods for operations on
 /// asynchronous [Dictionary] and [Postings] repositories:
@@ -163,16 +161,16 @@ abstract class AsyncCallbackIndexMixin implements InvertedIndex {
   DictionaryLengthLoader get dictionaryLengthLoader;
 
   /// Asynchronously retrieves a [Dictionary] subset for a vocabulary from a
-  /// [Dictionary] data source, usually persisted storage.
+  /// [Dictionary] index repository, usually persisted storage.
   DictionaryLoader get dictionaryLoader;
 
   /// A callback that passes a subset of a [Dictionary] containing new or
   /// changed [DictionaryEntry] instances for persisting to the [Dictionary]
-  /// datastore.
+  /// index repository.
   DictionaryUpdater get dictionaryUpdater;
 
   /// Asynchronously retrieves a [KGramIndex] subset for a vocabulary from a
-  /// [KGramIndex] data source, usually persisted storage.
+  /// [KGramIndex] index repository, usually persisted storage.
   KGramIndexLoader get kGramIndexLoader;
 
   /// A callback that passes a subset of a [KGramIndex] containing new or
@@ -180,11 +178,11 @@ abstract class AsyncCallbackIndexMixin implements InvertedIndex {
   KGramIndexUpdater get kGramIndexUpdater;
 
   /// Asynchronously retrieves a [Postings] subset for a vocabulary from a
-  /// [Postings] data source, usually persisted storage.
+  /// [Postings] index repository, usually persisted storage.
   PostingsLoader get postingsLoader;
 
   /// A callback that passes a subset of a [Postings] containing new or changed
-  /// [PostingsEntry] instances to the [Postings] datastore.
+  /// [PostingsEntry] instances to the [Postings] index repository.
   PostingsUpdater get postingsUpdater;
 
   @override

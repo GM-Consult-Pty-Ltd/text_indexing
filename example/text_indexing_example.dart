@@ -49,7 +49,7 @@ Future<void> _inMemoryIndexerExample(
 
   /// - tokenize a phrase into searh terms
   final searchTerms =
-      (await indexer.index.analyzer.tokenize(searchPhrase)).tokens.terms;
+      (await indexer.index.analyzer.tokenize(searchPhrase)).terms;
 
   // - iterate through the sample data
   await Future.forEach(documents.entries, (MapEntry<String, String> doc) async {
@@ -89,8 +89,7 @@ Future<void> _persistedIndexerExample(
   final index = _TestIndex();
 
   /// - tokenize a phrase into searh terms
-  final searchTerms =
-      (await index.analyzer.tokenize(searchPhrase)).tokens.terms;
+  final searchTerms = (await index.analyzer.tokenize(searchPhrase)).terms;
 
   // - initialize a [AsyncIndexer]
   final indexer = TextIndexer.index(index: index);

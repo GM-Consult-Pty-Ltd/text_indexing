@@ -170,7 +170,7 @@ An example of the use of the `TextIndexer.inMemory` factory is included in the [
 The `TextIndexer.async` factory constructor returns a `TextIndexer` instance that uses
 [asynchronous callback](#asynccallbackindex-class) functions to access `Dictionary` and `Postings`
 repositories:
-* pass a `analyzer` text analyser that extracts tokens from text;
+* pass in the `analyzer`, to extract tokens from text;
 * `dictionaryLoader` synchronously retrieves a `Dictionary` for a vocabulary from a data source;
 * `dictionaryLengthLoader` asynchronously retrieves the number of terms in the vocabulary (N);
 * `dictionaryUpdater` is callback that passes a `Dictionary` subset for persisting to a datastore;
