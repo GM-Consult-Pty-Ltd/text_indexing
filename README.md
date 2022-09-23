@@ -38,7 +38,7 @@ A sample data set consisting of stock data for the U.S. markets was used to benc
 
 For the benchmarking tests we created an implementation [InvertedIndex](#invertedindex) class that uses [Hive](https://pub.dev/packages/hive) as local storage ([HiveIndex](https://github.com/GM-Consult-Pty-Ltd/text_indexing/tree/main/test)), and benchmarked that against [InMemoryIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html). Both indexes were given the same phrase length (2), k-gram length (3) and zones `('name', 'symbol', 'ticker', 'description', 'hashTag')`.
 
-Benchmarking was performed as part of unit tests in the VS Code IDE on a Windows 10 workstation with an Intel(R) Core(TM) i9-7900X CPU running at 3.30GHz and 64GB of DDR3 RAM.
+Benchmarking was performed as part of unit tests in the VS Code IDE on a Windows 10 workstation with an Intel(R) Core(TM) i9-7900X CPU running at 3.30GHz and 64GB of DDR4-2666 RAM.
 
 ### Indexing the corpus
 

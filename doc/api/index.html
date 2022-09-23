@@ -74,7 +74,7 @@ Copyright (c) 2022, GM Consult Pty Ltd, All rights reserved.
 <h2 id="performance">Performance</h2>
 <p>A sample data set consisting of stock data for the U.S. markets was used to benchmark performance of  <a href="#textindexer">TextIndexer</a> and <a href="#invertedindex">InvertedIndex</a> implementations. The data set contains 20,770 JSON documents with basic information on each stock and the JSON data file is 22MB in size.</p>
 <p>For the benchmarking tests we created an implementation <a href="#invertedindex">InvertedIndex</a> class that uses <a href="https://pub.dev/packages/hive">Hive</a> as local storage (<a href="https://github.com/GM-Consult-Pty-Ltd/text_indexing/tree/main/test">HiveIndex</a>), and benchmarked that against <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html">InMemoryIndex</a>. Both indexes were given the same phrase length (2), k-gram length (3) and zones <code>('name', 'symbol', 'ticker', 'description', 'hashTag')</code>.</p>
-<p>Benchmarking was performed as part of unit tests in the VS Code IDE on a Windows 10 workstation with an Intel(R) Core(TM) i9-7900X CPU running at 3.30GHz and 64GB of DDR3 RAM.</p>
+<p>Benchmarking was performed as part of unit tests in the VS Code IDE on a Windows 10 workstation with an Intel(R) Core(TM) i9-7900X CPU running at 3.30GHz and 64GB of DDR4-2666 RAM.</p>
 <h3 id="indexing-the-corpus">Indexing the corpus</h3>
 <p>The typical times taken by <a href="#textindexer">TextIndexer</a> to index our sample dataset to 243,700 terms and 18,276 k-grams using <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html">InMemoryIndex</a> vs <a href="https://github.com/GM-Consult-Pty-Ltd/text_indexing/tree/main/test">HiveIndex</a> is shown below.</p>
 <table><thead><tr><th>InvertedIndex</th><th>Elapsed time</th><th>Per document</th></tr></thead><tbody><tr><td>InMemoryIndex</td><td>~15 seconds</td><td>0.68 mS</td></tr><tr><td>HiveIndex</td><td>~41 minutes</td><td>112 mS</td></tr></tbody></table>
@@ -221,7 +221,7 @@ Copyright (c) 2022, GM Consult Pty Ltd, All rights reserved.
 <footer>
   <span class="no-break">
     text_indexing
-      0.14.0+1
+      0.14.0+2
   </span>
 
   
