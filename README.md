@@ -34,6 +34,43 @@ In this implementation, a `postings list` is a hashmap of the document id (`docI
 
 Refer to the [references](#references) to learn more about information retrieval systems and the theory behind this library.
 
+## Benchmarking
+
+A sample data set consisting of stock data for the U.S. markets was used to benchmark performance of  [TextIndexer](#textindexer) and [InvertedIndex](#invertedindex) implementations. The data set contains 20,770 JSON documents with basic information on each stock and the JSON data file is 22MB in size.
+
+For the benchmarking tests we created an implementation `InvertedIndex` class that uses [Hive](https://pub.dev/packages/hive) as local storage (`HiveIndex`), and benchmarked that against `InMemoryIndex`. Both indexes were given the same phrase length (2), k-gram length (3) and zones `('name', 'symbol', 'ticker', 'description', 'hashTag')`.
+
+Benchmarking was performed as part of unit tests in a VS Code IDE running on a Windows 10 workstation
+with an Intel(R) Core(TM) i9-7900X CPU running at 3.30GHz and 64GB of DDR3 RAM.
+
+The [TextIndexer]
+
+### Indexing the corpus
+
+The typical times taken by [TextIndexer](#textindexer) to index a sample corpus of 20,000 documents to about 250,000 terms and 18,000 k-grams for `InMemoryIndex` vs `HiveIndex` is shown below.
+
+| InvertedIndex                 |   Elapsed time | Per document | 
+|-------------------------------|----------------|--------------|
+| InMemoryIndex                 |    ~15 seconds |      0.68 mS |
+| HiveIndex                     |    ~41 minutes |       112 mS |
+
+
+
+If memory and the size of the corpus allows, performance is greatly enhanced by running the indexer with in-memory hashmaps and persisting the in-memory hashmaps only after indexing of the entire corpus is complete. While this is feasible for a smaller corpus, the memory required for the `postings`, in particular, may not make this feasible for larger document collections. The `AsyncIndexer` class provides the flexibility to access each of the three index hashmaps from a different data source, so implementing applications can, for example, hold the `dictionary` and `k-gram` index in memory, with the `postings` in local storage. 
+
+It should be noted that the `dictionary`, `k-gram index` and `postings` `Hive` boxes are 8MB, 41MB and 362MB in size, respectively, for our sample index of 243,700 terms and 18,276 k-grams.
+
+### Querying the indexes
+
+Having created a persisted index on our collection of 20,000 documents, we run a query on a search phrase of 9 terms we know are present in the sample data. The query requires a few round trips to each of the three indexes to match the terms, calculate the `inverse document term frequencies` etc.
+
+| InvertedIndex                 |   Elapsed time | 
+|-------------------------------|----------------|
+| InMemoryIndex                 |         ~22 mS |
+| HiveIndex                     |        ~205 mS |
+
+As expected, the [InMemoryIndex] is quicker, but the differences are unlikely to be material in a real-world application, even for predictive text or auto-correct applications.
+
 ## Usage
 
 In the `pubspec.yaml` of your flutter project, add the `text_indexing` dependency.
@@ -82,7 +119,8 @@ A [mixin class](https://pub.dev/documentation/text_indexing/latest/text_indexing
 Three implementation classes are provided: 
  * the [InMemoryIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html) class is intended for fast indexing of a smaller corpus using in-memory dictionary, k-gram and postings hashmaps;
  * the [AsyncCallbackIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/AsyncCallbackIndex-class.html) is intended for working with a larger corpus.  It uses asynchronous callbacks to perform read and write operations on `dictionary`, `k-gram` and `postings` repositories; and
- * the [CachedIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/CachedIndex-class.html) is also intended for working with a larger corpus.  It uses asynchronous callbacks to perform read and write operations on [Dictionary], [KGramIndex] and [Postings] repositories, but it keeps a cache of the terms and k-grams in memory for faster indexing and searching. 
+ * the [CachedIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/CachedIndex-class.html) is also intended for working with a larger corpus.  It uses asynchronous callbacks to perform read and write operations on [Dictionary], [KGramIndex] and [Postings] repositories, but it keeps a cache of the terms and k-grams in memory for faster searching; and 
+  * the [HiveIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/HiveIndex-class.html) is also intended for working with a larger corpus.  It uses asynchronous callbacks to perform read and write operations on [Dictionary], [KGramIndex] and [Postings] repositories, but it keeps a cache of the terms and k-grams in memory for faster indexing and searching.  
 
 #### Phrase length
 `InvertedIndex.phraseLength` is the maximum length of phrases in the index vocabulary.
@@ -99,7 +137,7 @@ If `zones` is empty, all the text fields of the collection will be indexed, whic
 
 `InvertedIndex.k` is the length of k-gram entries in the k-gram index.
 
-The preferred k-gram length is `3, or tri-grams`). This results in good compromise between the length of the 
+The preferred k-gram length is `3, or a tri-gram`). This results in a good compromise between the length of the 
 k-gram index and search efficiency.
 
 ### TextIndexer
