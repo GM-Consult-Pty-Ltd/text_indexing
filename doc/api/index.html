@@ -46,7 +46,7 @@
 <section class="desc markdown">
   <!-- 
 BSD 3-Clause License
-Copyright (c) 2022, GM Consult Pty Ltd#class-persistedindexerAll rights reserved. 
+Copyright (c) 2022, GM Consult Pty Ltd, All rights reserved. 
 -->
 <h1 id="text_indexing">text_indexing</h1>
 <p>Dart library for creating an inverted index on a collection of text documents.</p>
@@ -61,17 +61,31 @@ Copyright (c) 2022, GM Consult Pty Ltd#class-persistedindexerAll rights reserved
 <li><a href="#issues">Issues</a></li>
 </ul>
 <h2 id="overview">Overview</h2>
-<p>This library provides an interface and implementation classes that build and maintain an (inverted, positional, zoned) <a href="#invertedindex">index</a> for a collection of documents or <code>corpus</code> (see <a href="#definitions">definitions</a>).</p>
+<p>This library provides interfaces and implementation classes that build and maintain a (positional, zoned) <a href="#invertedindex">inverted index</a> for a collection of documents or <code>corpus</code> (see <a href="#definitions">definitions</a>).</p>
 <p><img src="https://github.com/GM-Consult-Pty-Ltd/text_indexing/raw/main/assets/images/indexing.png?raw=true?raw=true" alt="Index construction flowchart" title="Index construction overview"></p>
-<p>The <a href="#textindexer">indexer</a> constructs three inverted <code>index</code> artifacts:</p>
+<p>The <a href="#textindexer">indexer</a> uses a <code>tokenizer</code> to construct three artifacts:</p>
 <ul>
-<li>the <code>dictionary</code> that holds the <code>vocabulary</code> of <code>terms</code> and the frequency of occurrence for each <code>term</code> in the <code>corpus</code>;</li>
-<li>the <code>k-gram index</code> that maps <code>k-grams</code> to <code>terms</code> in the <code>dictionary</code>; and</li>
-<li>the <code>postings</code> index that holds a list of references to the <code>documents</code> for each <code>term</code> (the <code>postings list</code>).</li>
+<li>the <code>dictionary</code> holds the <code>vocabulary</code> of <code>terms</code> and the frequency of occurrence for each <code>term</code> in the <code>corpus</code>;</li>
+<li>the <code>k-gram index</code> maps <code>k-grams</code> to <code>terms</code> in the <code>dictionary</code>; and</li>
+<li>the <code>postings</code> index holds a list of references to the <code>documents</code> for each <code>term</code> (<code>postings list</code>). The <code>postings list</code> includes the positions of the <code>term</code> in the document's <code>zones</code> (fields), making the <code>postings</code> a <code>positional, zoned inverted index</code>.</li>
 </ul>
-<p>In this implementation, a <code>postings list</code> is a hashmap of the document id (<code>docId</code>) to maps that point to positions of the <code>term</code> in the document's <code>zones</code> (fields). This allows query algorithms to score and rank search results based on the position(s) of a term in document fields, applying different weights to the zones.</p>
 <p><img src="https://github.com/GM-Consult-Pty-Ltd/text_indexing/raw/main/assets/images/index_artifacts.png?raw=true?raw=true" alt="Index artifacts" title="Components of inverted positional index"></p>
 <p>Refer to the <a href="#references">references</a> to learn more about information retrieval systems and the theory behind this library.</p>
+<h2 id="benchmarking">Benchmarking</h2>
+<p>A sample data set consisting of stock data for the U.S. markets was used to benchmark performance of  <a href="#textindexer">TextIndexer</a> and <a href="#invertedindex">InvertedIndex</a> implementations. The data set contains 20,770 JSON documents with basic information on each stock and the JSON data file is 22MB in size.</p>
+<p>For the benchmarking tests we created an implementation <code>InvertedIndex</code> class that uses <a href="https://pub.dev/packages/hive">Hive</a> as local storage (<code>HiveIndex</code>), and benchmarked that against <code>InMemoryIndex</code>. Both indexes were given the same phrase length (2), k-gram length (3) and zones <code>('name', 'symbol', 'ticker', 'description', 'hashTag')</code>.</p>
+<p>Benchmarking was performed as part of unit tests in the VS Code IDE on a Windows 10 workstation with an Intel(R) Core(TM) i9-7900X CPU running at 3.30GHz and 64GB of DDR3 RAM.</p>
+<p>The <a href="text_indexing/TextIndexer-class.html">TextIndexer</a></p>
+<h3 id="indexing-the-corpus">Indexing the corpus</h3>
+<p>The typical times taken by <a href="#textindexer">TextIndexer</a> to index our sample dataset to 243,700 terms and 18,276 k-grams using <code>InMemoryIndex</code> vs <code>HiveIndex</code> is shown below.</p>
+<table><thead><tr><th>InvertedIndex</th><th>Elapsed time</th><th>Per document</th></tr></thead><tbody><tr><td>InMemoryIndex</td><td>~15 seconds</td><td>0.68 mS</td></tr><tr><td>HiveIndex</td><td>~41 minutes</td><td>112 mS</td></tr></tbody></table>
+<p>Building the index while holding all the index artifacts in memory is 165 times faster than placing them in a <code>Hive box</code> (a relatively fast local storage option).</p>
+<p>If memory and the size of the corpus allows, <a href="text_indexing/InMemoryIndex-class.html">InMemoryIndex</a> is a clear winner. The memory required for the <code>postings</code>, in particular, may not make this practical for larger document collections. The <code>AsyncIndexer</code> class provides the flexibility to access each of the three index hashmaps from a different data source, so implementing applications can, for example, hold the <code>dictionary</code> and <code>k-gram</code> index in memory, with the <code>postings</code> in local storage or implement in-memory caching.</p>
+<p>The <code>dictionary</code>, <code>k-gram index</code> and <code>postings</code> are 8MB, 41MB and 362MB in size, respectively, for our sample index of 243,700 terms and 18,276 k-grams.</p>
+<h3 id="querying-the-indexes">Querying the indexes</h3>
+<p>Having created a persisted index on our sample data set, we ran a query on a search phrase of 9 terms we know are present in the sample data. The query requires a few round trips to each of the three indexes to match the terms, calculate the <code>inverse document term frequencies</code> etc. The elapsed time for retrieving the data from the <code>InMemoryIndex</code> vs <code>HiveIndex</code> is shown below.</p>
+<table><thead><tr><th>InvertedIndex</th><th>Elapsed time</th></tr></thead><tbody><tr><td>InMemoryIndex</td><td>~22 mS</td></tr><tr><td>HiveIndex</td><td>~205 mS</td></tr></tbody></table>
+<p>As expected, the <a href="text_indexing/InMemoryIndex-class.html">InMemoryIndex</a> is quicker, but the differences are unlikely to be material in a real-world application, even for predictive text or auto-correct applications.</p>
 <h2 id="usage">Usage</h2>
 <p>In the <code>pubspec.yaml</code> of your flutter project, add the <code>text_indexing</code> dependency.</p>
 <pre class="language-yaml"><code class="language-yaml">dependencies:
@@ -81,39 +95,46 @@ Copyright (c) 2022, GM Consult Pty Ltd#class-persistedindexerAll rights reserved
 <pre class="language-dart"><code class="language-dart">import 'package:text_indexing/text_indexing.dart';
 </code></pre>
 <p>For small collections, instantiate a <code>TextIndexer.inMemory</code>, (optionally passing empty <code>Dictionary</code> and <code>Postings</code> hashmaps), then iterate over a collection of documents to add them to the index.</p>
-<pre class="language-dart"><code class="language-dart">  // initialize an in=memory index for a JSON collection with two indexed fields
-   final myIndex = InMemoryIndex(zones: {'name': 1.0, 'description': 0.5}, phraseLength: 2);
+<pre class="language-dart"><code class="language-dart">    // initialize an in=memory index for a JSON collection with two indexed fields
+    final myIndex = InMemoryIndex(zones: {'name': 1.0, 'description': 0.5}, phraseLength: 2);
 
-  // - initialize a in-memory `TextIndexer`, passing in the index
-  final indexer =TextIndexer(index: myIndex);
+    // - initialize a `TextIndexer`, passing in the index
+    final indexer =TextIndexer(index: myIndex);
 
-  // - iterate through the json collection `documents`
-  await Future.forEach(documents.entries, (MapEntry&lt;String, String&gt; doc) async {
-    // - index each document
-    await indexer.index(doc.key, doc.value);
-  });
+    // - index the json collection `documents`
+    await indexer.indexCollection(documents);
+  
 </code></pre>
 <p>The <a href="https://pub.dev/packages/text_indexing/example">examples</a> demonstrate the use of the <code>TextIndexer.inMemory</code> and  <code>TextIndexer.async</code> factories.</p>
 <h2 id="api">API</h2>
 <p>The <a href="https://pub.dev/documentation/text_indexing/latest/">API</a> exposes the <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html">TextIndexer</a> interface that builds and maintain an <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex-class.html">InvertedIndex</a> for a collection of documents.</p>
 <p>To maximise performance of the indexers the API performs lookups in nested hashmaps of DART core types. To improve code legibility the API makes use of <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/text_indexing-library.html#typedefs">type aliases</a> throughout.</p>
 <h3 id="invertedindex">InvertedIndex</h3>
-<p>A <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndexMixin-class.html">mixin class</a>  implements the <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex/getTfIndex.html">getTfIndex</a>, <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex/getFtdPostings.html">getFtdPostings</a> and <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex/getIdFtIndex.html">getIdFtIndex</a> methods.</p>
-<p>Three implementation classes are provided:</p>
+<p>The <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex-class.html">InvertedIndex</a> interface exposes properties and methods for working with <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/Dictionary.html">Dictionary</a>, <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/KGramIndex.html">KGramIndex</a> and <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/Postings.html">Postings</a> hashmaps.</p>
+<p>A <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndexMixin-class.html">mixin class</a> implements the <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex/getTfIndex.html">getTfIndex</a>, <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex/getFtdPostings.html">getFtdPostings</a> and <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex/getIdFtIndex.html">getIdFtIndex</a> methods.</p>
+<p>Two implementation classes are provided:</p>
 <ul>
-<li>the <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html">InMemoryIndex</a> class is intended for fast indexing of a smaller corpus using in-memory dictionary, k-gram and postings hashmaps;</li>
-<li>the <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/AsyncCallbackIndex-class.html">AsyncCallbackIndex</a> is intended for working with a larger corpus.  It uses asynchronous callbacks to perform read and write operations on <code>dictionary</code>, <code>k-gram</code> and <code>postings</code> repositories; and</li>
-<li>the <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/CachedIndex-class.html">CachedIndex</a> is intended for working with a larger corpus.  It uses asynchronous callbacks to perform read and write operations on <a href="text_indexing/Dictionary.html">Dictionary</a>, <a href="text_indexing/KGramIndex.html">KGramIndex</a> and <a href="text_indexing/Postings.html">Postings</a> repositories, but keeps a cache of the most popular terms and k-grams in memory for faster indexing and searching.</li>
+<li>the <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html">InMemoryIndex</a> class is intended for fast indexing of a smaller corpus using in-memory dictionary, k-gram and postings hashmaps; and</li>
+<li>the <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/AsyncCallbackIndex-class.html">AsyncCallbackIndex</a> is intended for working with a larger corpus.  It uses asynchronous callbacks to perform read and write operations on <code>dictionary</code>, <code>k-gram</code> and <code>postings</code> repositories.</li>
 </ul>
+<h4 id="phrase-length">Phrase length</h4>
+<p><code>InvertedIndex.phraseLength</code> is the maximum length of phrases in the index vocabulary.</p>
+<p>The minimum <code>phraseLength</code> is 1. If phrase length is greater than 1, the index also contains phrases up to <code>phraseLength</code> words long, concatenated from consecutive <code>terms</code>. The index size is increased by a factor of <code>phraseLength</code>. The <code>phraseLength</code> default is 1 for <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html">InMemoryIndex</a> and <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/AsyncCallbackIndex-class.html">AsyncCallbackIndex</a>.</p>
+<h4 id="zones">Zones</h4>
+<p><code>InvertedIndex.zones</code> is a hashmap of zone names to their relative weight in the index.</p>
+<p>If <code>zones</code> is empty, all the text fields of the collection will be indexed, which may increase the size of the index significantly.</p>
+<h4 id="k-gram-length-k">K-gram length (k)</h4>
+<p><code>InvertedIndex.k</code> is the length of k-gram entries in the k-gram index.</p>
+<p>The preferred k-gram length is <code>3, or a tri-gram</code>. This results in a good compromise between the length of the k-gram index and search efficiency.</p>
 <h3 id="textindexer">TextIndexer</h3>
-<p><a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html">TextIndexer</a> is an interface for classes that construct and maintain a dictionary, inverted, positional, zoned index and k-gram index.</p>
+<p><a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html">TextIndexer</a> is an interface for classes that construct and maintain a <a href="#invertedindex">InvertedIndex</a>.</p>
 <p>Text or documents can be indexed by calling the following methods:</p>
 <ul>
-<li><a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer/indexText.html">indexText</a> indexes text from a text document;</li>
+<li><a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer/indexText.html">indexText</a> indexes text;</li>
 <li><a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer/indexJson.html">indexJson</a> indexes the fields in a <code>JSON</code> document; and</li>
 <li><a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer/indexCollection.html">indexCollection</a> indexes the fields of all the documents in a JSON document collection.</li>
 </ul>
-<p>Use the unnamed factory constructor to instantiate a <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html">TextIndexer</a> with the index of your choice or extend <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexerBase-class.html">TextIndexerBase</a>.</p>
+<p>Use the unnamed factory constructor to instantiate a <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html">TextIndexer</a> with the index of your choice, or extend <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexerBase-class.html">TextIndexerBase</a>.</p>
 <h2 id="definitions">Definitions</h2>
 <p>The following definitions are used throughout the <a href="https://pub.dev/documentation/text_indexing/latest/">documentation</a>:</p>
 <ul>
@@ -199,7 +220,7 @@ Copyright (c) 2022, GM Consult Pty Ltd#class-persistedindexerAll rights reserved
 <footer>
   <span class="no-break">
     text_indexing
-      0.13.0+2
+      0.14.0
   </span>
 
   

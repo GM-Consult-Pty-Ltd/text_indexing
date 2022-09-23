@@ -95,9 +95,9 @@ will be initialized.</li>
     this.zones = const &lt;String, double&gt;{},
     this.phraseLength = 1})
     : assert(phraseLength &gt; 0, &#39;The phrase length must be 1 or greater&#39;) {
-  dictionary = dictionary ?? {};
-  postings = postings ?? {};
-  kGramIndex = kGramIndex ?? {};
+  this.dictionary = dictionary ?? {};
+  this.postings = postings ?? {};
+  this.kGramIndex = kGramIndex ?? {};
 }</code></pre>
 </section>
 
@@ -171,7 +171,7 @@ will be initialized.</li>
 <footer>
   <span class="no-break">
     text_indexing
-      0.13.0+2
+      0.14.0
   </span>
 
   

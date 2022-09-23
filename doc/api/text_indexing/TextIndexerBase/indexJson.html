@@ -85,8 +85,7 @@
   <pre class="language-dart"><code class="language-dart">@override
 Future&lt;Postings&gt; indexJson(DocId docId, JSON json) async {
   &#47;&#47; get the terms using tokenizer
-  final tokens = (await index.analyzer.tokenizeJson(
-      json, index.zones.isEmpty ? json.keys : index.zones.keys));
+  final tokens = (await index.analyzer.tokenizeJson(json, _zoneNames(json)));
   &#47;&#47; map the tokens to postings
   final Postings postings = _tokensToPostings(docId, tokens);
   &#47;&#47; update the indexes with the postings list for docId
@@ -155,7 +154,7 @@ Future&lt;Postings&gt; indexJson(DocId docId, JSON json) async {
 <footer>
   <span class="no-break">
     text_indexing
-      0.13.0+2
+      0.14.0
   </span>
 
   

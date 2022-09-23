@@ -4,7 +4,20 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
-*THIS PACKAGE IS , IN ACTIVE DEVELOPMENT AND SUBJECT TO DAILY BREAKING CHANGES.*
+*THIS PACKAGE IS **PRE-RELEASE**, IN ACTIVE DEVELOPMENT AND SUBJECT TO DAILY BREAKING CHANGES.*
+
+### 0.14.0
+
+#### Breaking Changes:
+- Removed class `TextSource`.
+- Removed class `Sentence`.
+- Removed class `TermPair`.
+- Removed `TextAnalyzerConfiguration.sentenceSplitter` from `TextAnalyzerConfiguration` interface.
+- Changed `TextAnalyzer.tokenize` return value to `List<Token>`.
+- Changed `TextAnalyzer.tokenizeJson` return value to `List<Token>`.
+
+- Re-structured codebase.
+- Updated dependencies, tests, examples and documentation.
 
 ### 0.13.0+3
 
@@ -52,9 +65,7 @@ Updated dependencies and documentation.
 
 Updated dependencies, tests, examples and documentation.
 
-
 ### 0.11.0
-
 
 #### New:
 - Mixin class `AsyncCallbackIndexMixin`. 
@@ -63,7 +74,6 @@ Updated dependencies, tests, examples and documentation.
 Updated dependencies, tests, examples and documentation.
 
 ### 0.10.0
-
 
 #### Breaking changes:
 
@@ -76,7 +86,6 @@ Updated dependencies, tests, examples and documentation.
 Updated dependencies, tests, examples and documentation.
 
 ### 0.9.0
-
 
 #### Breaking changes:
 
@@ -107,7 +116,6 @@ Updated dependencies, tests, examples and documentation.
 Updated dependencies, tests, examples and documentation.
 
 ### 0.8.0+1
-
 
 Updated dependencies
 

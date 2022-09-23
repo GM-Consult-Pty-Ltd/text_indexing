@@ -61,7 +61,8 @@ concatenated from consecutive terms. The index size is increased by a
 factor of <a href="../text_indexing/InvertedIndex/phraseLength.html">phraseLength</a>;</li>
 <li><a href="../text_indexing/InvertedIndex/analyzer.html">analyzer</a> is the <a href="https://pub.dev/documentation/text_analysis/0.9.0/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a> used to index the corpus terms;</li>
 <li><a href="../text_indexing/InvertedIndex/vocabularyLength.html">vocabularyLength</a> is the number of unique terms in the corpus;</li>
-<li><a href="../text_indexing/InvertedIndex/zones.html">zones</a> is a hashmap of zone names to their relative weight in the index;</li>
+<li><a href="../text_indexing/InvertedIndex/zones.html">zones</a> is a hashmap of zone names to their relative weight in the index.
+If <a href="../text_indexing/InvertedIndex/zones.html">zones</a> is empty, all the <code>JSON</code> fields will be indexed;</li>
 <li><a href="../text_indexing/InvertedIndex/k.html">k</a> is the length of k-gram entries in the k-gram index;</li>
 <li><a href="../text_indexing/InvertedIndex/getDictionary.html">getDictionary</a> Asynchronously retrieves a <a href="../text_indexing/Dictionary.html">Dictionary</a> for a collection
 of <a href="https://pub.dev/documentation/text_analysis/0.9.0/text_analysis/Term.html">Term</a>s from a <a href="../text_indexing/Dictionary.html">Dictionary</a> repository;</li>
@@ -97,8 +98,6 @@ the <a href="../text_indexing/Dictionary.html">Dictionary</a>.</li>
         <dd><ul class="comma-separated clazz-relationships">
           <li><a href="../text_indexing/AsyncCallbackIndex-class.html">AsyncCallbackIndex</a></li>
           <li><a href="../text_indexing/AsyncCallbackIndexMixin-class.html">AsyncCallbackIndexMixin</a></li>
-          <li><a href="../text_indexing/CachedIndex-class.html">CachedIndex</a></li>
-          <li><a href="../text_indexing/CachedIndexMixin-class.html">CachedIndexMixin</a></li>
           <li><a href="../text_indexing/InMemoryIndex-class.html">InMemoryIndex</a></li>
           <li><a href="../text_indexing/InMemoryIndexMixin-class.html">InMemoryIndexMixin</a></li>
           <li><a href="../text_indexing/InvertedIndexMixin-class.html">InvertedIndexMixin</a></li>
@@ -412,8 +411,6 @@ already exist.
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#classes">Classes</a></li>
   <li><a href="../text_indexing/AsyncCallbackIndex-class.html">AsyncCallbackIndex</a></li>
   <li><a href="../text_indexing/AsyncCallbackIndexMixin-class.html">AsyncCallbackIndexMixin</a></li>
-  <li><a href="../text_indexing/CachedIndex-class.html">CachedIndex</a></li>
-  <li><a href="../text_indexing/CachedIndexMixin-class.html">CachedIndexMixin</a></li>
   <li><a href="https://pub.dev/documentation/text_analysis/0.9.0/text_analysis/English-class.html">English</a></li>
   <li><a href="../text_indexing/InMemoryIndex-class.html">InMemoryIndex</a></li>
   <li><a href="../text_indexing/InMemoryIndexMixin-class.html">InMemoryIndexMixin</a></li>
@@ -540,7 +537,7 @@ already exist.
 <footer>
   <span class="no-break">
     text_indexing
-      0.13.0+2
+      0.14.0
   </span>
 
   

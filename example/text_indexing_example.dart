@@ -9,7 +9,7 @@ import 'package:text_indexing/text_indexing.dart';
 /// Two examples using the indexers in this package are provided:
 /// - [_inMemoryIndexerExample] is a simple example of a [TextIndexer.inMemory]
 ///   indexing the [textData] dataset; and
-/// - [_persistedIndexerExample] is a simple example of a [TextIndexer.async]
+/// - [_asyncIndexerExample] is a simple example of a [TextIndexer.async]
 ///   indexing the [textData] dataset.
 void main() async {
   //
@@ -27,7 +27,7 @@ void main() async {
   await _inMemoryIndexerExample(textData, searchPhrase, zones);
 
   //  Run a simple example of the [AsyncIndexer] on the [textData] dataset.
-  await _persistedIndexerExample(jsonData, searchPhrase, zones);
+  await _asyncIndexerExample(jsonData, searchPhrase, zones);
 
   //
 }
@@ -51,6 +51,7 @@ Future<void> _inMemoryIndexerExample(Map<String, String> documents,
   // - initialize the [KGramIndex]
   final KGramIndex kGramIndex = {};
 
+  // - initialize the index
   final index = InMemoryIndex(
       dictionary: dictionary,
       postings: postings,
@@ -59,24 +60,17 @@ Future<void> _inMemoryIndexerExample(Map<String, String> documents,
       phraseLength: 2,
       k: 3);
 
-  // - initialize a [InMemoryIndexer] with the default analyzer
+  // - initialize a TextIndexer with the index
   final indexer = TextIndexer(index: index);
 
   /// - tokenize a phrase into searh terms
-  final searchTerms =
-      (await indexer.index.analyzer.tokenize(searchPhrase)).terms;
+  final searchTerms = (await indexer.index.analyzer.tokenize(searchPhrase));
 
   // - iterate through the sample data
   await Future.forEach(documents.entries, (MapEntry<String, String> doc) async {
     // - index each document
     await indexer.indexText(doc.key, doc.value);
   });
-
-  // wait for stream elements to complete printing
-  await Future.delayed(const Duration(milliseconds: 250));
-
-  // print the document term frequencies for each term in searchTerms
-  await _printTermFrequencyPostings(indexer.index, searchTerms);
 
   // print the statistics for each term in [searchTerms].
   await _printTermStats(indexer.index, searchTerms);
@@ -89,7 +83,7 @@ Future<void> _inMemoryIndexerExample(Map<String, String> documents,
 /// - initialize a [TextIndexer];
 /// - iterate through the JSON documents and index each document; and
 /// - print the statistics on 5 search terms.
-Future<void> _persistedIndexerExample(Map<String, JSON> documents,
+Future<void> _asyncIndexerExample(Map<String, JSON> documents,
     String searchPhrase, Map<String, double> zones) async {
   //
 
@@ -116,7 +110,7 @@ Future<void> _persistedIndexerExample(Map<String, JSON> documents,
       analyzer: TextAnalyzer());
 
   /// - tokenize a phrase into searh terms
-  final searchTerms = (await index.analyzer.tokenize(searchPhrase)).terms;
+  final searchTerms = (await index.analyzer.tokenize(searchPhrase));
 
   // - initialize a [AsyncIndexer]
   final indexer = TextIndexer(index: index);
@@ -129,33 +123,35 @@ Future<void> _persistedIndexerExample(Map<String, JSON> documents,
   // wait for stream elements to complete printing
   await Future.delayed(const Duration(milliseconds: 250));
 
-  // print the document term frequencies for each term in searchTerms
-  await _printTermFrequencyPostings(index, searchTerms);
-
   // print the statistics for each term in [searchTerms].
   await _printTermStats(index, searchTerms);
 }
 
-/// Print the document term frequencies for each term in [searchTerms].
-Future<void> _printTermFrequencyPostings(
-    InvertedIndex index, Iterable<String> searchTerms) async {
-  /// get the document term frequency postings for the search terms
-  final tfPostings = await index.getFtdPostings(searchTerms, 2);
-
-  print('_______________________________________________________');
-  print('TERM DOCUMENT FREQUENCY (search terms, minimum dFt = 2)');
-  for (final e in tfPostings.entries) {
-    print('Term: ${e.key}');
-    for (final posting in e.value.entries) {
-      print('   DocId: {${posting.key}}:    dFt: [${posting.value}]');
-    }
-  }
-}
-
 /// Print the statistics for each term in [searchTerms].
 Future<void> _printTermStats(
-    InvertedIndex index, Iterable<String> searchTerms) async {
+    InvertedIndex index, Iterable<Token> tokens) async {
   //
+
+  // convert the tokens to terms
+  final searchTerms = tokens.terms.toSet();
+
+  // convert the tokens to k-grams
+  final searchKgrams = tokens.kGrams(3);
+
+  // get the start time in milliseconds
+  final start = DateTime.now().millisecondsSinceEpoch;
+
+  // retrieve the k-gram index for searchKgrams.keys from the index
+  final kGramMap = await index.getKGramIndex(searchKgrams.keys);
+
+  // map all the terms for the k-grams
+  final kGramTerms = <String>{};
+  for (final terms in kGramMap.values) {
+    kGramTerms.addAll(terms);
+  }
+
+  // add the k-gram terms to the searchTerms
+  searchTerms.addAll(kGramTerms);
 
   // get the inverse term frequency index for the searchTerms
   final iDftIndex = await index.getIdFtIndex(searchTerms);
@@ -166,9 +162,15 @@ Future<void> _printTermStats(
   // get the dictionary for searchTerms
   final dictionary = await index.getDictionary(searchTerms);
 
+  // get the end time in milliseconds
+  final end = DateTime.now().millisecondsSinceEpoch;
+
+  // calculate the time taken to query the index in milliseconds
+  final dT = ((end - start)).toStringAsFixed(3);
+
   // print the headings
   print(''.padLeft(80, '_'));
-  print('DICTIONARY STATISTICS (search terms, minimum dFt = 2)');
+  print('DICTIONARY STATISTICS (search terms)');
   print(''.padLeft(80, '-'));
   print('${'Term'.padRight(10)}'
       '${'Term Frequency'.toString().padLeft(20)}'
@@ -186,6 +188,20 @@ Future<void> _printTermStats(
         '${df.toString().padLeft(20)}'
         '${idf.toStringAsFixed(2).padLeft(4, '0').padLeft(30)}');
   }
+  print(''.padLeft(80, '-'));
+
+  // print a closing line
+  print(''.padLeft(80, '-'));
+
+  // print the performance
+  print('Retrieved');
+  print('- dictionary for ${dictionary.length} terms;');
+  print('- term frequencies for ${tFtIndex.length} terms;');
+  print('- inverse document frequencies for ${iDftIndex.length} terms; and');
+  print('- k-gram postings for ${kGramTerms.length} terms.');
+  print('in $dT milliseconds.');
+  print(''.padLeft(80, '-'));
+  print(''.padLeft(80, '-'));
 }
 
 /// Four paragraphs of text used for testing.

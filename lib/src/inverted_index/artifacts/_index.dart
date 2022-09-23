@@ -4,7 +4,6 @@
 
 // List all exports below in alphabetical order.
 // export 'document.dart';
-export 'artifacts/_index.dart';
-export 'async_index.dart';
-export 'in_memory_index.dart';
-export 'inverted_index.dart';
+export 'dictionary.dart';
+export 'k_gram_index.dart';
+export 'postings.dart';
