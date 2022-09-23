@@ -51,9 +51,9 @@ class InMemoryIndex
       this.zones = const <String, double>{},
       this.phraseLength = 1})
       : assert(phraseLength > 0, 'The phrase length must be 1 or greater') {
-    dictionary = dictionary ?? {};
-    postings = postings ?? {};
-    kGramIndex = kGramIndex ?? {};
+    this.dictionary = dictionary ?? {};
+    this.postings = postings ?? {};
+    this.kGramIndex = kGramIndex ?? {};
   }
 
   @override

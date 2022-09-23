@@ -40,7 +40,8 @@ typedef FtdPostings = Map<Term, Map<DocId, Ft>>;
 ///   factor of [phraseLength];
 /// - [analyzer] is the [ITextAnalyzer] used to index the corpus terms;
 /// - [vocabularyLength] is the number of unique terms in the corpus;
-/// - [zones] is a hashmap of zone names to their relative weight in the index;
+/// - [zones] is a hashmap of zone names to their relative weight in the index.
+///   If [zones] is empty, all the `JSON` fields will be indexed;
 /// - [k] is the length of k-gram entries in the k-gram index;
 /// - [getDictionary] Asynchronously retrieves a [Dictionary] for a collection
 ///   of [Term]s from a [Dictionary] repository;

@@ -23,7 +23,7 @@ class _TestIndexRepository {
 
   /// Returns a subset of [postings] corresponding to [terms].
   ///
-  /// Simulates latency of 100 uS per term in [terms].
+  /// Simulates latency of 2µS per term in [terms].
   Future<Postings> getPostings(Iterable<String> terms) async {
     final Postings retVal = {};
     for (final term in terms) {
@@ -32,34 +32,33 @@ class _TestIndexRepository {
         retVal[term] = entry;
       }
     }
-    // await Future.delayed(
-    //     Duration(milliseconds: (((terms.length / 10).floor() / 10).floor())));
+    await Future.delayed(Duration(microseconds: terms.length * 20));
     return retVal;
   }
 
   /// Adds/overwrites the [values] to [dictionary].
   ///
-  /// Simulates latency of 100 uS  per entry.
+  /// Simulates latency of 2µS per entry.
   Future<void> upsertDictionary(Dictionary values) async {
-    /// Simulate latency of 100 uS  per entry.
-    // await Future.delayed(Duration(milliseconds: (values.length / 10).floor()));
+    /// Simulate latency of 1µS per entry.
+    await Future.delayed(Duration(microseconds: values.length * 20));
     dictionary.addAll(values);
   }
 
   /// Adds/overwrites the [values] to [postings].
   ///
-  /// Simulates latency of 100 uS  per entry.
+  /// Simulates latency of 2µS per entry.
   Future<void> upsertPostings(Postings values) async {
-    /// Simulate write latency of 100 uS  per entry.
-    // await Future.delayed(Duration(milliseconds: (values.length / 10).floor()));
+    /// Simulate write latency of 2µS per entry.
+    await Future.delayed(Duration(microseconds: values.length * 20));
     postings.addAll(values);
   }
 
   /// Returns a subset of [dictionary] corresponding to [terms].
   ///
-  /// Simulates latency of 100 uS  per term in [terms].
+  /// Simulates latency of 2µS per term in [terms].
   Future<Dictionary> getDictionary([Iterable<String>? terms]) async {
-    terms = terms ?? kGramIndex.keys;
+    terms = terms ?? dictionary.keys;
     final Dictionary retVal = {};
     for (final term in terms) {
       final entry = dictionary[term];
@@ -67,13 +66,13 @@ class _TestIndexRepository {
         retVal[term] = entry;
       }
     }
-    // await Future.delayed(Duration(milliseconds: ((terms.length / 10).floor())));
+    await Future.delayed(Duration(microseconds: (terms.length * 20)));
     return retVal;
   }
 
   /// Returns a subset of [kGramIndex] corresponding to [kGrams].
   ///
-  /// Simulates latency of 100 uS  per entry.
+  /// Simulates latency of 2µS per entry.
   Future<KGramIndex> getKGramIndex([Iterable<KGram>? kGrams]) async {
     kGrams = kGrams ?? kGramIndex.keys;
     final KGramIndex retVal = {};
@@ -83,8 +82,7 @@ class _TestIndexRepository {
         retVal[kGram] = entry;
       }
     }
-    // await Future.delayed(
-    //     Duration(milliseconds: ((kGrams.length / 10).floor())));
+    await Future.delayed(Duration(microseconds: kGrams.length * 20));
     return retVal;
   }
 
@@ -93,10 +91,10 @@ class _TestIndexRepository {
 
   /// Returns the length of the [dictionary].
   ///
-  /// Simulate a read latency of 5 milliseconds.
+  /// Simulate a read latency of 1ms.
   Future<Ft> get vocabularyLength async {
-    /// Simulate a read latency of 5 milliseconds.
-    // await Future.delayed(const Duration(milliseconds: 5));
+    /// Simulate a read latency of 1ms.
+    await Future.delayed(const Duration(milliseconds: 1));
     return dictionary.length;
   }
 }

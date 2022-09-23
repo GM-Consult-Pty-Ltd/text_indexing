@@ -4,6 +4,8 @@
 
 @Timeout(Duration(seconds: 840))
 
+import 'dart:async';
+
 import 'package:text_indexing/text_indexing.dart';
 import 'package:test/test.dart';
 // import 'data/text.dart';
@@ -111,7 +113,7 @@ void main() {
 
       // initialize a CachedIndex
       final index = CachedIndex(
-          cacheLimit: 10000,
+          cacheLimit: 100000,
           dictionaryLoader: repository.getDictionary,
           dictionaryUpdater: repository.upsertDictionary,
           dictionaryLengthLoader: () => repository.vocabularyLength,
@@ -129,8 +131,24 @@ void main() {
       // - initialize a [AsyncIndexer]
       final indexer = TextIndexer(index: index);
 
+      final startTime = DateTime.now();
       // get the start time in milliseconds
-      final start = DateTime.now().millisecondsSinceEpoch;
+      final start = startTime.millisecondsSinceEpoch;
+      print('Started indexing at ${startTime.hour}:'
+          '${startTime.minute.toString().padLeft(2, '0')}:'
+          '${startTime.second.toString().padLeft(2, '0')}');
+      print('-'.padRight(45, '-'));
+      print('${'Elapsed Time'.padRight(15)}'
+          '${'k-Grams'.padLeft(15)}'
+          '${'Terms'.padLeft(15)}');
+      print('-'.padRight(44, '-'));
+      var elapsedTime = 0;
+      Timer.periodic(const Duration(seconds: 5), (callback) {
+        elapsedTime += 5;
+        print('${elapsedTime.toString().padRight(15)}'
+            '${repository.kGramIndex.length.toString().padLeft(15)}'
+            '${repository.dictionary.length.toString().padLeft(15)}');
+      });
 
       // - iterate through the sample data
       await indexer.indexCollection(sampleStocks);
@@ -194,8 +212,24 @@ void main() {
       // - initialize a [AsyncIndexer]
       final indexer = TextIndexer(index: index);
 
+      final startTime = DateTime.now();
       // get the start time in milliseconds
-      final start = DateTime.now().millisecondsSinceEpoch;
+      final start = startTime.millisecondsSinceEpoch;
+      print('Started indexing at ${startTime.hour}:'
+          '${startTime.minute.toString().padLeft(2, '0')}:'
+          '${startTime.second.toString().padLeft(2, '0')}');
+      print('-'.padRight(45, '-'));
+      print('${'Elapsed Time'.padRight(15)}'
+          '${'k-Grams'.padLeft(15)}'
+          '${'Terms'.padLeft(15)}');
+      print('-'.padRight(44, '-'));
+      var elapsedTime = 0;
+      Timer.periodic(const Duration(seconds: 5), (callback) {
+        elapsedTime += 5;
+        print('${elapsedTime.toString().padRight(15)}'
+            '${repository.kGramIndex.length.toString().padLeft(15)}'
+            '${repository.dictionary.length.toString().padLeft(15)}');
+      });
 
       // - iterate through the sample data
       await indexer.indexCollection(sampleStocks);

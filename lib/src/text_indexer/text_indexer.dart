@@ -143,13 +143,29 @@ abstract class TextIndexerBase implements TextIndexer {
   @override
   Future<Postings> indexJson(DocId docId, JSON json) async {
     // get the terms using tokenizer
-    final tokens = (await index.analyzer.tokenizeJson(
-        json, index.zones.isEmpty ? json.keys : index.zones.keys));
+    final tokens = (await index.analyzer.tokenizeJson(json, _zoneNames(json)));
     // map the tokens to postings
     final Postings postings = _tokensToPostings(docId, tokens);
     // update the indexes with the postings list for docId
     await updateIndexes(postings, tokens);
     return postings;
+  }
+
+  /// Private helper function that returns the zone names for mapping [json] to
+  /// tokens:
+  /// - returns index.zones if it is not empty, otherwise
+  /// - returns the keys of all entries in [json] that have [String] values.
+  Set<String> _zoneNames(JSON json) {
+    if (index.zones.isNotEmpty) {
+      return index.zones.keys.toSet();
+    }
+    final zones = <String>{};
+    for (final entry in json.entries) {
+      if (entry.value is String) {
+        zones.add(entry.key);
+      }
+    }
+    return zones;
   }
 
   /// Implementation of [TextIndexer.indexCollection] that parses each JSON
