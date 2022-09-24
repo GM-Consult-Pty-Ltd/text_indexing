@@ -148,7 +148,7 @@ Copyright (c) 2022, GM Consult Pty Ltd, All rights reserved.
 <li><code>index-elimination</code> - selecting a subset of the entries in an index where the <code>term</code> is in the collection of <code>terms</code> in a search phrase.</li>
 <li><code>inverse document frequency</code> or <code>iDft</code> is equal to log (N / <code>dft</code>), where N is the total number of terms in the index. The <code>IdFt</code> of a rare term is high, whereas the <a href="text_indexing/IdFt.html">IdFt</a> of a frequent term is likely to be low.</li>
 <li><code>JSON</code> is an acronym for <code>"Java Script Object Notation"</code>, a common format for persisting data.
-<code>k-gram</code> - a sequence of (any) k consecutive characters from a <code>term</code>. A k-gram can start with "$", dentoting the start of the <a href="https://pub.dev/documentation/text_analysis/0.9.0/text_analysis/Term.html">Term</a>, and end with "$", denoting the end of the <a href="https://pub.dev/documentation/text_analysis/0.9.0/text_analysis/Term.html">Term</a>. The 3-grams for "castle" are { $ca, cas, ast, stl, tle, le$ }.</li>
+<code>k-gram</code> - a sequence of (any) k consecutive characters from a <code>term</code>. A k-gram can start with "$", dentoting the start of the <a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Term.html">Term</a>, and end with "$", denoting the end of the <a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Term.html">Term</a>. The 3-grams for "castle" are { $ca, cas, ast, stl, tle, le$ }.</li>
 <li><code>lemmatizer</code> - lemmatisation (or lemmatization) in linguistics is the process of grouping together the inflected forms of a word so they can be analysed as a single item, identified by the word's lemma, or dictionary form (from <a href="https://en.wikipedia.org/wiki/Lemmatisation">Wikipedia</a>).</li>
 <li><code>postings</code> - a separate index that records which <code>documents</code> the <code>vocabulary</code> occurs in. In this implementation we also record the positions of each <code>term</code> in the <code>text</code> to create a positional inverted <code>index</code>.</li>
 <li><code>postings list</code> - a record of the positions of a <code>term</code> in a <code>document</code>. A position of a <code>term</code> refers to the index of the <code>term</code> in an array that contains all the <code>terms</code> in the <code>text</code>.</li>
@@ -221,7 +221,7 @@ Copyright (c) 2022, GM Consult Pty Ltd, All rights reserved.
 <footer>
   <span class="no-break">
     text_indexing
-      0.14.1
+      0.14.2
   </span>
 
   

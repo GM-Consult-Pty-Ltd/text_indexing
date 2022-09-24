@@ -6,6 +6,10 @@ All rights reserved.
 
 *THIS PACKAGE IS **PRE-RELEASE**, IN ACTIVE DEVELOPMENT AND SUBJECT TO DAILY BREAKING CHANGES.*
 
+### 0.14.2
+
+Updated dependencies, tests, examples and documentation.
+
 ### 0.14.1+1
 
 Updated documentation.
