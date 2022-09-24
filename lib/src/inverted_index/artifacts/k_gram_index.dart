@@ -26,6 +26,16 @@ typedef KGramIndexUpdater = Future<void> Function(KGramIndex values);
 extension KGramIndexExtension on KGramIndex {
   //
 
+  /// Returns a set of unique terms by iterating over all the [values] in the
+  /// collection and adding the terms to a [Set].
+  Set<Term> get terms {
+    final kGramTerms = <String>{};
+    for (final terms in values) {
+      kGramTerms.addAll(terms);
+    }
+    return kGramTerms;
+  }
+
   /// Iterates through the [kGrams] and:
   /// - gets the current entry if it exists, or initializes a new entry for the
   ///   k-gram key; and

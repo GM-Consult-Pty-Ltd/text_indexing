@@ -6,7 +6,10 @@ All rights reserved.
 
 *THIS PACKAGE IS **PRE-RELEASE**, IN ACTIVE DEVELOPMENT AND SUBJECT TO DAILY BREAKING CHANGES.*
 
-### 0.14.0+2
+### 0.14.1
+
+#### New: 
+- Added extension property `KGramIndex.terms`.
 
 Updated documentation.
 

@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the iDFt property from the IDftDictionaryEntryExtension extension, for the Dart programming language.">
-  <title>iDFt property - IDftDictionaryEntryExtension extension - text_indexing library - Dart API</title>
+  <meta name="description" content="API docs for the terms property from the KGramIndexExtension extension, for the Dart programming language.">
+  <title>terms property - KGramIndexExtension extension - text_indexing library - Dart API</title>
 
 
   
@@ -31,10 +31,10 @@
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../../index.html">text_indexing</a></li>
     <li><a href="../../text_indexing/text_indexing-library.html">text_indexing</a></li>
-    <li><a href="../../text_indexing/IDftDictionaryEntryExtension.html">IDftDictionaryEntryExtension</a></li>
-    <li class="self-crumb">iDFt property</li>
+    <li><a href="../../text_indexing/KGramIndexExtension.html">KGramIndexExtension</a></li>
+    <li class="self-crumb">terms property</li>
   </ol>
-  <div class="self-name">iDFt</div>
+  <div class="self-name">terms</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -45,7 +45,7 @@
 
   <div id="dartdoc-main-content" class="main-content">
       <div>
-<h1><span class="kind-property">iDFt</span> property 
+<h1><span class="kind-property">terms</span> property 
     <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
 </h1></div>
 
@@ -54,21 +54,28 @@
 <section id="getter">
 
 <section class="multi-line-signature">
-  <span class="returntype"><a href="../../text_indexing/IdFt.html">IdFt</a></span>
-  <span class="name ">iDFt</span>
+  <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.9.0/text_analysis/Term.html">Term</a></span>&gt;</span></span>
+  <span class="name ">terms</span>
   
 
 </section>
 
 
 <section class="desc markdown">
-  <p>The inverse document frequency of <a href="../../text_indexing/IDftDictionaryEntryExtension/term.html">term</a> in the <code>corpus</code>.</p>
+  <p>Returns a set of unique terms by iterating over all the <a href="https://api.flutter.dev/flutter/dart-core/Map/values.html">values</a> in the
+collection and adding the terms to a <a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a>.</p>
 </section>
 
 
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">IdFt get iDFt =&gt; value;</code></pre>
+  <pre class="language-dart"><code class="language-dart">Set&lt;Term&gt; get terms {
+  final kGramTerms = &lt;String&gt;{};
+  for (final terms in values) {
+    kGramTerms.addAll(terms);
+  }
+  return kGramTerms;
+}</code></pre>
 </section>
 
 </section>
@@ -86,22 +93,23 @@
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
   <li><a href="../../index.html">text_indexing</a></li>
   <li><a href="../../text_indexing/text_indexing-library.html">text_indexing</a></li>
-  <li><a href="../../text_indexing/IDftDictionaryEntryExtension.html">IDftDictionaryEntryExtension</a></li>
-  <li class="self-crumb">iDFt property</li>
+  <li><a href="../../text_indexing/KGramIndexExtension.html">KGramIndexExtension</a></li>
+  <li class="self-crumb">terms property</li>
 </ol>
 
 
-    <h5>IDftDictionaryEntryExtension extension</h5>
+    <h5>KGramIndexExtension extension</h5>
     <ol>
 
 
 
 
-    <li class="section-title"> <a href="../../text_indexing/IDftDictionaryEntryExtension.html#instance-properties">Properties</a>
+    <li class="section-title"> <a href="../../text_indexing/KGramIndexExtension.html#instance-properties">Properties</a>
     </li>
-    <li><a href="../../text_indexing/IDftDictionaryEntryExtension/iDFt.html">iDFt</a></li>
-    <li><a href="../../text_indexing/IDftDictionaryEntryExtension/term.html">term</a></li>
+    <li><a href="../../text_indexing/KGramIndexExtension/terms.html">terms</a></li>
 
+    <li class="section-title"><a href="../../text_indexing/KGramIndexExtension.html#instance-methods">Methods</a></li>
+    <li><a href="../../text_indexing/KGramIndexExtension/addTermKGrams.html">addTermKGrams</a></li>
 
 
 

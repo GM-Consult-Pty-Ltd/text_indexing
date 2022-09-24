@@ -534,10 +534,7 @@ Future<void> _printTermStats(
 
   final kGramMap = await index.getKGramIndex(searchKgrams.keys);
 
-  final kGramTerms = <String>{};
-  for (final terms in kGramMap.values) {
-    kGramTerms.addAll(terms);
-  }
+  final kGramTerms = kGramMap.terms;
 
   final kGramPostings = await index.getPostings(kGramTerms);
 
