@@ -4,7 +4,7 @@ Copyright (c) 2022, GM Consult Pty Ltd, All rights reserved.
 -->
 
 [![GM Consult Pty Ltd](https://raw.githubusercontent.com/GM-Consult-Pty-Ltd/text_indexing/main/assets/images/text_indexing_header.png?raw=true "GM Consult Pty Ltd")](https://github.com/GM-Consult-Pty-Ltd)
-**Dart library for creating an inverted index on a collection of text documents.**
+## **Dart library for creating an inverted index on a collection of text documents.**
 
 *THIS PACKAGE IS **PRE-RELEASE**, IN ACTIVE DEVELOPMENT AND SUBJECT TO DAILY BREAKING CHANGES.*
 
