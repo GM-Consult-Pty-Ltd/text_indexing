@@ -17,6 +17,7 @@ import 'cached_index.dart';
 import 'data/sample_news_subset.dart';
 import 'data/sample_news.dart';
 import 'data/sample_stocks.dart';
+import 'data/vocabulary.dart';
 import 'hive_index.dart';
 
 part 'test_index.dart';
@@ -45,6 +46,37 @@ void main() {
 
     setUp(() {
       // Additional setup goes here.
+    });
+
+    test('kgrams for vocabulary', () async {
+      // - initialize the [Dictionary]
+      final Dictionary dictionary = {};
+
+      // - initialize the [Postings]
+      final Postings postings = {};
+
+      // - initialize the [KGramIndex]
+      final KGramIndex kGramIndex = {};
+
+      final index = InMemoryIndex(
+          dictionary: dictionary,
+          postings: postings,
+          kGramIndex: kGramIndex,
+          zones: stockZones,
+          phraseLength: 1,
+          k: 2);
+
+      // - initialize a [InMemoryIndexer] with the default analyzer
+      final indexer = TextIndexer(index: index);
+
+      var i = 0;
+      await Future.forEach(vocabulary, (String docText) async {
+        final docId = i.toString().padLeft(6);
+        await indexer.indexText(docId, docText);
+        i++;
+      });
+
+      await saveKgramIndex(kGramIndex);
     });
 
     /// A simple test of the [InMemoryIndexer] on a small dataset:
@@ -111,6 +143,8 @@ void main() {
           '${index.kGramIndex.length} k-grams in $dT seconds!');
 
       expect(await index.vocabularyLength > 0, true);
+
+      await saveKgramIndex(kGramIndex);
 
       //
     });
@@ -576,4 +610,23 @@ Future<void> _printTermStats(
   print('in $dT milliseconds.');
   print(''.padLeft(80, '-'));
   print(''.padLeft(80, '-'));
+}
+
+Future<void> saveKgramIndex(KGramIndex value) async {
+  final out = File('kGramIndex.txt').openWrite();
+  out.writeln('const vocabularykGrams = {');
+  for (final entry in value.entries) {
+    final buffer = StringBuffer();
+    buffer.write('r"${entry.key}": {');
+    var i = 0;
+    for (final term in entry.value) {
+      buffer.write(i > 0 ? ', ' : '');
+      buffer.write('r"$term"');
+      i++;
+    }
+    buffer.write('},');
+    out.writeln(buffer.toString());
+  }
+  out.writeln('};');
+  await out.close();
 }
