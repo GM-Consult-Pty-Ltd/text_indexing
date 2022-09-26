@@ -38,7 +38,7 @@ typedef FtdPostings = Map<Term, Map<DocId, Ft>>;
 ///   index vocabulary also contains phrases up to [phraseLength] long,
 ///   concatenated from consecutive terms. The index size is increased by a
 ///   factor of [phraseLength];
-/// - [analyzer] is the [ITextAnalyzer] used to index the corpus terms;
+/// - [tokenizer] is the [TextTokenizer] used to index the corpus terms;
 /// - [vocabularyLength] is the number of unique terms in the corpus;
 /// - [zones] is a hashmap of zone names to their relative weight in the index.
 ///   If [zones] is empty, all the `JSON` fields will be indexed;
@@ -74,7 +74,7 @@ abstract class InvertedIndex {
   ZoneWeightMap get zones;
 
   /// The text analyser that extracts tokens from text for the index.
-  ITextAnalyzer get analyzer;
+  TextTokenizer get tokenizer;
 
   /// The maximum length of phrases in the index vocabulary.
   ///

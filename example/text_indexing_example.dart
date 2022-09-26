@@ -53,6 +53,7 @@ Future<void> _inMemoryIndexerExample(Map<String, String> documents,
 
   // - initialize the index
   final index = InMemoryIndex(
+      tokenizer: TextTokenizer(),
       dictionary: dictionary,
       postings: postings,
       kGramIndex: kGramIndex,
@@ -64,7 +65,7 @@ Future<void> _inMemoryIndexerExample(Map<String, String> documents,
   final indexer = TextIndexer(index: index);
 
   /// - tokenize a phrase into searh terms
-  final searchTerms = (await indexer.index.analyzer.tokenize(searchPhrase));
+  final searchTerms = (await indexer.index.tokenizer.tokenize(searchPhrase));
 
   // - iterate through the sample data
   await Future.forEach(documents.entries, (MapEntry<String, String> doc) async {
@@ -107,10 +108,10 @@ Future<void> _asyncIndexerExample(Map<String, JSON> documents,
       zones: zones,
       k: 3,
       phraseLength: 2,
-      analyzer: TextAnalyzer());
+      tokenizer: TextTokenizer());
 
   /// - tokenize a phrase into searh terms
-  final searchTerms = (await index.analyzer.tokenize(searchPhrase));
+  final searchTerms = (await index.tokenizer.tokenize(searchPhrase));
 
   // - initialize a [AsyncIndexer]
   final indexer = TextIndexer(index: index);

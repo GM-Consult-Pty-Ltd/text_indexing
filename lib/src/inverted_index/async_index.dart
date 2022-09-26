@@ -46,7 +46,7 @@ class AsyncCallbackIndex
   final PostingsUpdater postingsUpdater;
 
   /// Instantiates a [AsyncCallbackIndex] instance:
-  /// - [analyzer] is the [ITextAnalyzer] used to tokenize text for the index;
+  /// - [tokenizer] is the [TextTokenizer] used to tokenize text for the index;
   /// - [k] is the length of k-gram entries in the k-gram index;
   /// - [zones] is a hashmap of zone names to their relative weight in the
   ///   index;
@@ -74,14 +74,14 @@ class AsyncCallbackIndex
       required this.kGramIndexUpdater,
       required this.postingsLoader,
       required this.postingsUpdater,
-      required this.analyzer,
+      required this.tokenizer,
       this.k = 3,
       this.zones = const <String, double>{},
       this.phraseLength = 1})
       : assert(phraseLength > 0, 'The phrase length must be 1 or greater');
 
   @override
-  final ITextAnalyzer analyzer;
+  final TextTokenizer tokenizer;
 
   @override
   final ZoneWeightMap zones;

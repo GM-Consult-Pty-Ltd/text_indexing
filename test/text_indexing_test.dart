@@ -59,6 +59,7 @@ void main() {
       final KGramIndex kGramIndex = {};
 
       final index = InMemoryIndex(
+          tokenizer: TextTokenizer(),
           dictionary: dictionary,
           postings: postings,
           kGramIndex: kGramIndex,
@@ -66,7 +67,7 @@ void main() {
           phraseLength: 1,
           k: 2);
 
-      // - initialize a [InMemoryIndexer] with the default analyzer
+      // - initialize a [InMemoryIndexer] with the default tokenizer
       final indexer = TextIndexer(index: index);
 
       var i = 0;
@@ -103,6 +104,7 @@ void main() {
       final KGramIndex kGramIndex = {};
 
       final index = InMemoryIndex(
+          tokenizer: TextTokenizer(),
           dictionary: dictionary,
           postings: postings,
           kGramIndex: kGramIndex,
@@ -110,10 +112,10 @@ void main() {
           phraseLength: 2,
           k: 3);
 
-      // - initialize a [InMemoryIndexer] with the default analyzer
+      // - initialize a [InMemoryIndexer] with the default tokenizer
       final indexer = TextIndexer(index: index);
 
-      final searchTokens = (await index.analyzer.tokenize(searchPrase));
+      final searchTokens = (await index.tokenizer.tokenize(searchPrase));
 
       // get the start time in milliseconds
       final start = DateTime.now().millisecondsSinceEpoch;
@@ -179,6 +181,7 @@ void main() {
       await kGramIndexBox.clear();
 
       final index = HiveIndex(
+          tokenizer: TextTokenizer(),
           dictionaryBox: dictionaryBox,
           postingsBox: postingsBox,
           kGramIndexBox: kGramIndexBox,
@@ -186,10 +189,10 @@ void main() {
           phraseLength: 2,
           k: 3);
 
-      // - initialize a [InMemoryIndexer] with the default analyzer
+      // - initialize a [InMemoryIndexer] with the default tokenizer
       final indexer = TextIndexer(index: index);
 
-      final searchTokens = (await index.analyzer.tokenize(searchPrase));
+      final searchTokens = (await index.tokenizer.tokenize(searchPrase));
 
       final startTime = DateTime.now();
       // get the start time in milliseconds
@@ -251,6 +254,7 @@ void main() {
       final Box<String> kGramIndexBox = await Hive.openBox('kGramIndex');
 
       final index = HiveIndex(
+          tokenizer: TextTokenizer(),
           dictionaryBox: dictionaryBox,
           postingsBox: postingsBox,
           kGramIndexBox: kGramIndexBox,
@@ -258,7 +262,7 @@ void main() {
           phraseLength: 2,
           k: 3);
 
-      final searchTokens = (await index.analyzer.tokenize(searchPrase));
+      final searchTokens = (await index.tokenizer.tokenize(searchPrase));
 
       final startTime = DateTime.now();
       // get the start time in milliseconds
@@ -300,9 +304,9 @@ void main() {
           zones: stockZones,
           k: 3,
           phraseLength: 2,
-          analyzer: TextAnalyzer());
+          tokenizer: TextTokenizer());
 
-      final searchTokens = (await index.analyzer.tokenize(searchPrase));
+      final searchTokens = (await index.tokenizer.tokenize(searchPrase));
 
       // - initialize a [AsyncIndexer]
       final indexer = TextIndexer(index: index);
@@ -369,9 +373,9 @@ void main() {
           zones: stockZones,
           k: 3,
           phraseLength: 2,
-          analyzer: TextAnalyzer());
+          tokenizer: TextTokenizer());
 
-      final searchTokens = (await index.analyzer.tokenize(searchPrase));
+      final searchTokens = (await index.tokenizer.tokenize(searchPrase));
 
       // - initialize a [AsyncIndexer]
       final indexer = TextIndexer(index: index);
@@ -438,6 +442,7 @@ void main() {
       final Box<String> kGramIndexBox = await Hive.openBox('kGramIndex');
 
       final hiveIndex = HiveIndex(
+          tokenizer: TextTokenizer(),
           dictionaryBox: dictionaryBox,
           postingsBox: postingsBox,
           kGramIndexBox: kGramIndexBox,
@@ -465,9 +470,9 @@ void main() {
           zones: stockZones,
           k: 3,
           phraseLength: 2,
-          analyzer: TextAnalyzer());
+          tokenizer: TextTokenizer());
 
-      final searchTokens = (await index.analyzer.tokenize(searchPrase));
+      final searchTokens = (await index.tokenizer.tokenize(searchPrase));
 
       final startTime = DateTime.now();
       // get the start time in milliseconds
@@ -506,11 +511,17 @@ void _progressReporter(int Function() termCount, int Function() kGramCount) {
       '${'Terms'.padLeft(15)}');
   print('-'.padRight(48, '-'));
   var elapsedTime = 0;
-  Timer.periodic(const Duration(seconds: 5), (callback) {
-    elapsedTime += 5;
-    print('${elapsedTime.toString().padRight(15)}'
-        '${kGramCount().toString().padLeft(15)}'
-        '${termCount().toString().padLeft(15)}');
+  var termCountState = 0;
+  Timer.periodic(const Duration(seconds: 5), (timer) {
+    if (termCount() > termCountState) {
+      elapsedTime += 5;
+      print('${elapsedTime.toString().padRight(15)}'
+          '${kGramCount().toString().padLeft(15)}'
+          '${termCount().toString().padLeft(15)}');
+    } else {
+      timer.cancel();
+    }
+    termCountState = termCount();
   });
 }
 

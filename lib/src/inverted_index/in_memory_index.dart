@@ -27,7 +27,7 @@ class InMemoryIndex
   late Postings postings;
 
   /// Instantiates a [InMemoryIndex] instance:
-  /// - [analyzer] is the [ITextAnalyzer] used to tokenize text for the index;
+  /// - [tokenizer] is the [TextTokenizer] used to tokenize text for the index;
   /// - [k] is the length of k-gram entries in the k-gram index;
   /// - [zones] is a hashmap of zone names to their relative weight in the
   ///   index;
@@ -43,10 +43,10 @@ class InMemoryIndex
   ///   [Postings] instance at instantiation, otherwise an empty [Postings]
   ///   will be initialized.
   InMemoryIndex(
-      {Dictionary? dictionary,
+      {required this.tokenizer,
+      Dictionary? dictionary,
       Postings? postings,
       KGramIndex? kGramIndex,
-      this.analyzer = const TextAnalyzer(),
       this.k = 3,
       this.zones = const <String, double>{},
       this.phraseLength = 1})
@@ -57,7 +57,7 @@ class InMemoryIndex
   }
 
   @override
-  final ITextAnalyzer analyzer;
+  final TextTokenizer tokenizer;
 
   @override
   final ZoneWeightMap zones;

@@ -6,6 +6,10 @@ All rights reserved.
 
 *THIS PACKAGE IS **PRE-RELEASE**, IN ACTIVE DEVELOPMENT AND SUBJECT TO DAILY BREAKING CHANGES.*
 
+### 0.14.3
+
+Updated dependencies, tests, examples and documentation.
+
 ### 0.14.2
 
 Updated dependencies, tests, examples and documentation.
@@ -32,8 +36,8 @@ Updated documentation.
 - Removed class `Sentence`.
 - Removed class `TermPair`.
 - Removed `TextAnalyzerConfiguration.sentenceSplitter` from `TextAnalyzerConfiguration` interface.
-- Changed `TextAnalyzer.tokenize` return value to `List<Token>`.
-- Changed `TextAnalyzer.tokenizeJson` return value to `List<Token>`.
+- Changed `TextTokenizer.tokenize` return value to `List<Token>`.
+- Changed `TextTokenizer.tokenizeJson` return value to `List<Token>`.
 
 - Re-structured codebase.
 - Updated dependencies, tests, examples and documentation.

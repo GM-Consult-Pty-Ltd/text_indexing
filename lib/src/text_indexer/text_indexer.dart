@@ -29,7 +29,7 @@ typedef JsonCollection = Map<DocId, JSON>;
 ///
 /// Implementing classes override the following fields:
 /// - [index] is the [InvertedIndex] that provides access to the
-///   index [Dictionary] and [Postings] and a [ITextAnalyzer];
+///   index [Dictionary] and [Postings] and a [TextTokenizer];
 /// - [documentStream] is an input stream of 'JSON' documents. The documents
 ///   updateIndexested by[documentStream] are passed to [indexJson] for indexing; and
 /// - [collectionStream] is an input stream of a collection of 'JSON' documents.
@@ -91,7 +91,7 @@ abstract class TextIndexer {
   Future<void> indexCollection(JsonCollection collection);
 
   /// The [InvertedIndex] that provides access to the
-  /// index [Dictionary] and [Postings] and a [ITextAnalyzer].
+  /// index [Dictionary] and [Postings] and a [TextTokenizer].
   InvertedIndex get index;
 
   //
@@ -123,7 +123,7 @@ abstract class TextIndexerBase implements TextIndexer {
   @override
   Future<Postings> indexText(DocId docId, SourceText docText) async {
     // get the terms using tokenizer
-    final tokens = (await index.analyzer.tokenize(docText));
+    final tokens = (await index.tokenizer.tokenize(docText));
     // map the tokens to postings
     final Postings postings = _tokensToPostings(docId, tokens);
     // map postings to a list of DocumentPostingsEntry for docId.
@@ -143,7 +143,7 @@ abstract class TextIndexerBase implements TextIndexer {
   @override
   Future<Postings> indexJson(DocId docId, JSON json) async {
     // get the terms using tokenizer
-    final tokens = (await index.analyzer.tokenizeJson(json, _zoneNames(json)));
+    final tokens = (await index.tokenizer.tokenizeJson(json, _zoneNames(json)));
     // map the tokens to postings
     final Postings postings = _tokensToPostings(docId, tokens);
     // update the indexes with the postings list for docId

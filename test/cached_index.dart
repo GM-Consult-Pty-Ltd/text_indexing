@@ -24,7 +24,7 @@ class CachedIndex
     implements InvertedIndex {
   //
   @override
-  final ITextAnalyzer analyzer;
+  final TextTokenizer tokenizer;
 
   @override
   final ZoneWeightMap zones;
@@ -69,7 +69,7 @@ class CachedIndex
   final PostingsUpdater postingsUpdater;
 
   /// Instantiates a [InMemoryIndex] instance:
-  /// - [analyzer] is the [ITextAnalyzer] used to tokenize text for the index;
+  /// - [tokenizer] is the [TextTokenizer] used to tokenize text for the index;
   /// - [k] is the length of k-gram entries in the k-gram index;
   /// - [zones] is a hashmap of zone names to their relative weight in the
   ///   index;
@@ -101,7 +101,7 @@ class CachedIndex
       required this.kGramIndexUpdater,
       required this.postingsLoader,
       required this.postingsUpdater,
-      required this.analyzer,
+      required this.tokenizer,
       this.cacheLimit = 10000,
       this.k = 3,
       this.zones = const <String, double>{},

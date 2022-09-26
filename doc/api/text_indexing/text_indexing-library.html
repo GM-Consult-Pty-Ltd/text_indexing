@@ -76,15 +76,6 @@ mixes in <a href="../text_indexing/InvertedIndexMixin-class.html">InvertedIndexM
 callback function fields that must be overriden:
 </dd>
 
-        <dt id="English">
-  <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/English-class.html">English</a></span> 
-
-</dt>
-<dd>
-  A basic <a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/TextAnalyzerConfiguration-class.html">TextAnalyzerConfiguration</a> implementation for <a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/English-class.html">English</a> language
-analysis.
-</dd>
-
         <dt id="InMemoryIndex">
   <span class="name "><a href="../text_indexing/InMemoryIndex-class.html">InMemoryIndex</a></span> 
 
@@ -123,17 +114,8 @@ zoned index on a collection of documents:
 <a href="../text_indexing/InvertedIndex/getFtdPostings.html">InvertedIndex.getFtdPostings</a> and <a href="../text_indexing/InvertedIndex/getIdFtIndex.html">InvertedIndex.getIdFtIndex</a> methods.
 </dd>
 
-        <dt id="ITextAnalyzer">
-  <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></span> 
-
-</dt>
-<dd>
-  Interface for a text analyser class that extracts tokens from text for use
-in full-text search queries and indexes:
-</dd>
-
         <dt id="Porter2Stemmer">
-  <span class="name "><a href="https://pub.dev/documentation/porter_2_stemmer/1.0.0+5/porter_2_stemmer/Porter2Stemmer-class.html">Porter2Stemmer</a></span> 
+  <span class="name "><a href="https://pub.dev/documentation/porter_2_stemmer/1.0.0+6/porter_2_stemmer/Porter2Stemmer-class.html">Porter2Stemmer</a></span> 
 
 </dt>
 <dd>
@@ -143,29 +125,40 @@ its word stem, base or root form.
 </dd>
 
         <dt id="TextAnalyzer">
-  <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></span> 
+  <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></span> 
 
 </dt>
 <dd>
-  A <a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a> implementation that extracts tokens from text for use
-in full-text search queries and indexes:
+  An interface exposes language-specific properties and methods used in
+text analysis:
 </dd>
 
-        <dt id="TextAnalyzerBase">
-  <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/TextAnalyzerBase-class.html">TextAnalyzerBase</a></span> 
+        <dt id="TextDocument">
+  <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/TextDocument-class.html">TextDocument</a></span> 
 
 </dt>
 <dd>
-  A <a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a> implementation that extracts tokens from text for use
-in full-text search queries and indexes:
+  The <a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/TextDocument-class.html">TextDocument</a> object model enumerates properties for analysing a text
+document:
 </dd>
 
-        <dt id="TextAnalyzerConfiguration">
-  <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/TextAnalyzerConfiguration-class.html">TextAnalyzerConfiguration</a></span> 
+        <dt id="TextDocumentBase">
+  <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/TextDocumentBase-class.html">TextDocumentBase</a></span> 
 
 </dt>
 <dd>
-  An interface exposing language properties used in text analysis:
+  An abstract implementation of <a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/TextDocument-class.html">TextDocument</a> that uses <a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/TextDocumentMixin-class.html">TextDocumentMixin</a>.
+</dd>
+
+        <dt id="TextDocumentMixin">
+  <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/TextDocumentMixin-class.html">TextDocumentMixin</a></span> 
+
+</dt>
+<dd>
+  The <a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/TextDocumentMixin-class.html">TextDocumentMixin</a> provides implementations of the
+<a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/TextDocument/averageSentenceLength.html">TextDocument.averageSentenceLength</a>, <a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/TextDocument/averageSyllableCount.html">TextDocument.averageSyllableCount</a>,
+<a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/TextDocument/wordCount.html">TextDocument.wordCount</a>, <a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/TextDocument/fleschReadingEaseScore.html">TextDocument.fleschReadingEaseScore</a> and
+<a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/TextDocument/fleschKincaidGradeLevel.html">TextDocument.fleschKincaidGradeLevel</a> methods.
 </dd>
 
         <dt id="TextIndexer">
@@ -186,12 +179,39 @@ collection of documents (<code>corpus</code>).
   Base class implementation of the <a href="../text_indexing/TextIndexer-class.html">TextIndexer</a> interface.
 </dd>
 
-        <dt id="Token">
-  <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Token-class.html">Token</a></span> 
+        <dt id="TextTokenizer">
+  <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/TextTokenizer-class.html">TextTokenizer</a></span> 
 
 </dt>
 <dd>
-  A <a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Token-class.html">Token</a> represents a <a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Token/term.html">term</a> (word) present in a text source:
+  Interface for a text analyser class that extracts tokens from text for use
+in full-text search queries and indexes:
+</dd>
+
+        <dt id="TextTokenizerBase">
+  <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/TextTokenizerBase-class.html">TextTokenizerBase</a></span> 
+
+</dt>
+<dd>
+  A <a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/TextTokenizer-class.html">TextTokenizer</a> implementation that mixes in <a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/TextTokenizerMixin-class.html">TextTokenizerMixin</a>, which
+implements <a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/TextTokenizer/tokenize.html">TextTokenizer.tokenize</a> and <a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/TextTokenizer/tokenizeJson.html">TextTokenizer.tokenizeJson</a>.
+</dd>
+
+        <dt id="TextTokenizerMixin">
+  <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/TextTokenizerMixin-class.html">TextTokenizerMixin</a></span> 
+
+</dt>
+<dd>
+  A mixin class that implements <a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/TextTokenizer/tokenize.html">TextTokenizer.tokenize</a> and
+ <a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/TextTokenizer/tokenizeJson.html">TextTokenizer.tokenizeJson</a>.
+</dd>
+
+        <dt id="Token">
+  <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Token-class.html">Token</a></span> 
+
+</dt>
+<dd>
+  A <a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Token-class.html">Token</a> represents a <a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Token/term.html">term</a> (word) present in a text source:
 </dd>
 
       </dl>
@@ -270,17 +290,8 @@ It enumerates the following property getters:
 </dd>
 
 
-        <dt id="KGramParserExtension">
-    <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/KGramParserExtension.html">KGramParserExtension</a></span> 
-
-</dt>
-<dd>
-    Extension methods on <a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Term.html">Term</a>.
-</dd>
-
-
         <dt id="Porter2StemmerExtension">
-    <span class="name "><a href="https://pub.dev/documentation/porter_2_stemmer/1.0.0+5/porter_2_stemmer/Porter2StemmerExtension.html">Porter2StemmerExtension</a></span> 
+    <span class="name "><a href="https://pub.dev/documentation/porter_2_stemmer/1.0.0+6/porter_2_stemmer/Porter2StemmerExtension.html">Porter2StemmerExtension</a></span> 
 
 </dt>
 <dd>
@@ -307,12 +318,21 @@ It enumerates the following property getters:
 </dd>
 
 
-        <dt id="TokenCollectionExtension">
-    <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/TokenCollectionExtension.html">TokenCollectionExtension</a></span> 
+        <dt id="TextAnalysisExtension">
+    <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/TextAnalysisExtension.html">TextAnalysisExtension</a></span> 
 
 </dt>
 <dd>
-    Extension methods on a collection of <a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Token-class.html">Token</a>.
+    Extension methods on <a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Term.html">Term</a>.
+</dd>
+
+
+        <dt id="TokenCollectionExtension">
+    <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/TokenCollectionExtension.html">TokenCollectionExtension</a></span> 
+
+</dt>
+<dd>
+    Extension methods on a collection of <a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Token-class.html">Token</a>.
 </dd>
 
 
@@ -343,8 +363,8 @@ It enumerates the following property getters:
       <dl>
           
   <dt id="CharacterFilter" class="callable">
-    <span class="name"><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/CharacterFilter.html">CharacterFilter</a></span><span class="signature">
-      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a> Function<span class="signature">(<span class="parameter" id="param-source"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/SourceText.html">SourceText</a></span> <span class="parameter-name">source</span></span>)</span></span>
+    <span class="name"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/CharacterFilter.html">CharacterFilter</a></span><span class="signature">
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a> Function<span class="signature">(<span class="parameter" id="param-source"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/SourceText.html">SourceText</a></span> <span class="parameter-name">source</span></span>)</span></span>
     </span>
     
 
@@ -359,7 +379,7 @@ text in preparation of tokenization.
           
   <dt id="Dictionary" class="">
   <span class="name"><a href="../text_indexing/Dictionary.html">Dictionary</a></span>
-    = <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Term.html">Term</a></span>, <span class="type-parameter"><a href="../text_indexing/Ft.html">Ft</a></span>&gt;</span>
+    = <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Term.html">Term</a></span>, <span class="type-parameter"><a href="../text_indexing/Ft.html">Ft</a></span>&gt;</span>
   </span>
   
 
@@ -374,7 +394,7 @@ text in preparation of tokenization.
           
   <dt id="DictionaryEntry" class="">
   <span class="name"><a href="../text_indexing/DictionaryEntry.html">DictionaryEntry</a></span>
-    = <a href="https://api.flutter.dev/flutter/dart-core/MapEntry-class.html">MapEntry</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Term.html">Term</a></span>, <span class="type-parameter"><a href="../text_indexing/Ft.html">Ft</a></span>&gt;</span>
+    = <a href="https://api.flutter.dev/flutter/dart-core/MapEntry-class.html">MapEntry</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Term.html">Term</a></span>, <span class="type-parameter"><a href="../text_indexing/Ft.html">Ft</a></span>&gt;</span>
   </span>
   
 
@@ -403,7 +423,7 @@ text in preparation of tokenization.
           
   <dt id="DictionaryLoader" class="callable">
     <span class="name"><a href="../text_indexing/DictionaryLoader.html">DictionaryLoader</a></span><span class="signature">
-      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Dictionary.html">Dictionary</a></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-terms">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Term.html">Term</a></span>&gt;</span>?</span> <span class="parameter-name">terms</span>]</span>)</span></span>
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Dictionary.html">Dictionary</a></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-terms">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Term.html">Term</a></span>&gt;</span>?</span> <span class="parameter-name">terms</span>]</span>)</span></span>
     </span>
     
 
@@ -478,13 +498,13 @@ text in preparation of tokenization.
           
   <dt id="FieldPostingsEntry" class="">
   <span class="name"><a href="../text_indexing/FieldPostingsEntry.html">FieldPostingsEntry</a></span>
-    = <a href="https://api.flutter.dev/flutter/dart-core/MapEntry-class.html">MapEntry</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Zone.html">Zone</a></span>, <span class="type-parameter"><a href="../text_indexing/TermPositions.html">TermPositions</a></span>&gt;</span>
+    = <a href="https://api.flutter.dev/flutter/dart-core/MapEntry-class.html">MapEntry</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Zone.html">Zone</a></span>, <span class="type-parameter"><a href="../text_indexing/TermPositions.html">TermPositions</a></span>&gt;</span>
   </span>
   
 
 </dt>
 <dd>
-  Type definition for a hashmap entry of <a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Zone.html">Zone</a> to <a href="../text_indexing/TermPositions.html">TermPositions</a> in a
+  Type definition for a hashmap entry of <a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Zone.html">Zone</a> to <a href="../text_indexing/TermPositions.html">TermPositions</a> in a
 <a href="../text_indexing/ZonePostings.html">ZonePostings</a> hashmap.
   
 
@@ -500,7 +520,7 @@ text in preparation of tokenization.
 
 </dt>
 <dd>
-  An alias for <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a>, used to denote the frequency of a <a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Term.html">Term</a> in an index or
+  An alias for <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a>, used to denote the frequency of a <a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Term.html">Term</a> in an index or
 indexed object.
   
 
@@ -510,7 +530,7 @@ indexed object.
           
   <dt id="FtdPostings" class="">
   <span class="name"><a href="../text_indexing/FtdPostings.html">FtdPostings</a></span>
-    = <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Term.html">Term</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/DocId.html">DocId</a></span>, <span class="type-parameter"><a href="../text_indexing/Ft.html">Ft</a></span>&gt;</span></span>&gt;</span>
+    = <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Term.html">Term</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/DocId.html">DocId</a></span>, <span class="type-parameter"><a href="../text_indexing/Ft.html">Ft</a></span>&gt;</span></span>&gt;</span>
   </span>
   
 
@@ -541,7 +561,7 @@ term.
           
   <dt id="IdFtIndex" class="">
   <span class="name"><a href="../text_indexing/IdFtIndex.html">IdFtIndex</a></span>
-    = <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Term.html">Term</a></span>, <span class="type-parameter"><a href="../text_indexing/IdFt.html">IdFt</a></span>&gt;</span>
+    = <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Term.html">Term</a></span>, <span class="type-parameter"><a href="../text_indexing/IdFt.html">IdFt</a></span>&gt;</span>
   </span>
   
 
@@ -556,7 +576,7 @@ term.
           
   <dt id="JSON" class="">
   <span class="name"><a href="../text_indexing/JSON.html">JSON</a></span>
-    = <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Zone.html">Zone</a></span>, <span class="type-parameter">dynamic</span>&gt;</span>
+    = <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Zone.html">Zone</a></span>, <span class="type-parameter">dynamic</span>&gt;</span>
   </span>
   
 
@@ -587,14 +607,14 @@ documents.
 
           
   <dt id="JsonTokenizer" class="callable">
-    <span class="name"><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/JsonTokenizer.html">JsonTokenizer</a></span><span class="signature">
-      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-json"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">json</span>, </span><span class="parameter" id="param-fields"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Zone.html">Zone</a></span>&gt;</span></span> <span class="parameter-name">fields</span></span>)</span></span>
+    <span class="name"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/JsonTokenizer.html">JsonTokenizer</a></span><span class="signature">
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-json"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">json</span>, </span><span class="parameter" id="param-fields"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Zone.html">Zone</a></span>&gt;</span></span> <span class="parameter-name">fields</span></span>)</span></span>
     </span>
     
 
   </dt>
   <dd>
-    Type definition of a function that returns a collection of <a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Token-class.html">Token</a> from
+    Type definition of a function that returns a collection of <a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Token-class.html">Token</a> from
 the <code>fields</code> in a <code>json</code> document.
     
 
@@ -602,7 +622,7 @@ the <code>fields</code> in a <code>json</code> document.
 
           
   <dt id="KGram" class="">
-  <span class="name"><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/KGram.html">KGram</a></span>
+  <span class="name"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/KGram.html">KGram</a></span>
     = <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>
   </span>
   
@@ -610,7 +630,7 @@ the <code>fields</code> in a <code>json</code> document.
 </dt>
 <dd>
   An alias for String, used in the context of a sequence of k characters
-from a <a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Term.html">Term</a>.
+from a <a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Term.html">Term</a>.
   
 
 </dd>
@@ -619,14 +639,14 @@ from a <a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/
           
   <dt id="KGramIndex" class="">
   <span class="name"><a href="../text_indexing/KGramIndex.html">KGramIndex</a></span>
-    = <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/KGram.html">KGram</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Term.html">Term</a></span>&gt;</span></span>&gt;</span>
+    = <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/KGram.html">KGram</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Term.html">Term</a></span>&gt;</span></span>&gt;</span>
   </span>
   
 
 </dt>
 <dd>
-  A hashmap of <a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/KGram.html">KGram</a> to Set&lt;<a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Term.html">Term</a>&gt;, where the value is the set of unique
-<a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Term.html">Term</a>s that contain the <a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/KGram.html">KGram</a> in the key.
+  A hashmap of <a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/KGram.html">KGram</a> to Set&lt;<a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Term.html">Term</a>&gt;, where the value is the set of unique
+<a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Term.html">Term</a>s that contain the <a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/KGram.html">KGram</a> in the key.
   
 
 </dd>
@@ -635,7 +655,7 @@ from a <a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/
           
   <dt id="KGramIndexLoader" class="callable">
     <span class="name"><a href="../text_indexing/KGramIndexLoader.html">KGramIndexLoader</a></span><span class="signature">
-      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/KGramIndex.html">KGramIndex</a></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-terms">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Term.html">Term</a></span>&gt;</span>?</span> <span class="parameter-name">terms</span>]</span>)</span></span>
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/KGramIndex.html">KGramIndex</a></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-terms">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Term.html">Term</a></span>&gt;</span>?</span> <span class="parameter-name">terms</span>]</span>)</span></span>
     </span>
     
 
@@ -662,15 +682,29 @@ from a <a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/
   </dd>
 
           
+  <dt id="ParagraphSplitter" class="callable">
+    <span class="name"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/ParagraphSplitter.html">ParagraphSplitter</a></span><span class="signature">
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-source"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">source</span></span>)</span></span>
+    </span>
+    
+
+  </dt>
+  <dd>
+    A splitter function that returns a list of paragraphs from <code>source</code>.
+    
+
+  </dd>
+
+          
   <dt id="Postings" class="">
   <span class="name"><a href="../text_indexing/Postings.html">Postings</a></span>
-    = <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Term.html">Term</a></span>, <span class="type-parameter"><a href="../text_indexing/DocumentPostings.html">DocumentPostings</a></span>&gt;</span>
+    = <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Term.html">Term</a></span>, <span class="type-parameter"><a href="../text_indexing/DocumentPostings.html">DocumentPostings</a></span>&gt;</span>
   </span>
   
 
 </dt>
 <dd>
-  Type definition for a hashmap of <a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Term.html">Term</a> to <a href="../text_indexing/DocumentPostings.html">DocumentPostings</a>.
+  Type definition for a hashmap of <a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Term.html">Term</a> to <a href="../text_indexing/DocumentPostings.html">DocumentPostings</a>.
   
 
 </dd>
@@ -679,13 +713,13 @@ from a <a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/
           
   <dt id="PostingsEntry" class="">
   <span class="name"><a href="../text_indexing/PostingsEntry.html">PostingsEntry</a></span>
-    = <a href="https://api.flutter.dev/flutter/dart-core/MapEntry-class.html">MapEntry</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Term.html">Term</a></span>, <span class="type-parameter"><a href="../text_indexing/DocumentPostings.html">DocumentPostings</a></span>&gt;</span>
+    = <a href="https://api.flutter.dev/flutter/dart-core/MapEntry-class.html">MapEntry</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Term.html">Term</a></span>, <span class="type-parameter"><a href="../text_indexing/DocumentPostings.html">DocumentPostings</a></span>&gt;</span>
   </span>
   
 
 </dt>
 <dd>
-  Type definition for a hashmap entry of <a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Term.html">Term</a> to <a href="../text_indexing/DocumentPostings.html">DocumentPostings</a> in a
+  Type definition for a hashmap entry of <a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Term.html">Term</a> to <a href="../text_indexing/DocumentPostings.html">DocumentPostings</a> in a
 <a href="../text_indexing/Postings.html">Postings</a> hashmap.
   
 
@@ -695,7 +729,7 @@ from a <a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/
           
   <dt id="PostingsLoader" class="callable">
     <span class="name"><a href="../text_indexing/PostingsLoader.html">PostingsLoader</a></span><span class="signature">
-      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Postings.html">Postings</a></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)</span></span>
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Postings.html">Postings</a></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)</span></span>
     </span>
     
 
@@ -730,7 +764,7 @@ from a <a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/
 
 </dt>
 <dd>
-  An alias for <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a>, used to denote the position of a <a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Term.html">Term</a> in <a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/SourceText.html">SourceText</a>
+  An alias for <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a>, used to denote the position of a <a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Term.html">Term</a> in <a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/SourceText.html">SourceText</a>
 indexed object (the term position).
   
 
@@ -739,8 +773,8 @@ indexed object (the term position).
 
           
   <dt id="SentenceSplitter" class="callable">
-    <span class="name"><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/SentenceSplitter.html">SentenceSplitter</a></span><span class="signature">
-      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-source"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/SourceText.html">SourceText</a></span> <span class="parameter-name">source</span></span>)</span></span>
+    <span class="name"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/SentenceSplitter.html">SentenceSplitter</a></span><span class="signature">
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-source"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/SourceText.html">SourceText</a></span> <span class="parameter-name">source</span></span>)</span></span>
     </span>
     
 
@@ -753,7 +787,7 @@ indexed object (the term position).
 
           
   <dt id="SourceText" class="">
-  <span class="name"><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/SourceText.html">SourceText</a></span>
+  <span class="name"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/SourceText.html">SourceText</a></span>
     = <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>
   </span>
   
@@ -768,8 +802,8 @@ indexed object (the term position).
 
           
   <dt id="Stemmer" class="callable">
-    <span class="name"><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Stemmer.html">Stemmer</a></span><span class="signature">
-      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a> Function<span class="signature">(<span class="parameter" id="param-term"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Term.html">Term</a></span> <span class="parameter-name">term</span></span>)</span></span>
+    <span class="name"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Stemmer.html">Stemmer</a></span><span class="signature">
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a> Function<span class="signature">(<span class="parameter" id="param-term"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Term.html">Term</a></span> <span class="parameter-name">term</span></span>)</span></span>
     </span>
     
 
@@ -782,23 +816,38 @@ indexed object (the term position).
 
           
   <dt id="StopWords" class="">
-  <span class="name"><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/StopWords.html">StopWords</a></span>
-    = <a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Term.html">Term</a></span>&gt;</span>
+  <span class="name"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/StopWords.html">StopWords</a></span>
+    = <a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Term.html">Term</a></span>&gt;</span>
   </span>
   
 
 </dt>
 <dd>
   An alias for a <a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a> of <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>, when used in the context of a collection
-of <a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Term.html">Term</a> that are excluded from tokenization.
+of <a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Term.html">Term</a> that are excluded from tokenization.
   
 
 </dd>
 
 
           
+  <dt id="SyllableCounter" class="callable">
+    <span class="name"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/SyllableCounter.html">SyllableCounter</a></span><span class="signature">
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a> Function<span class="signature">(<span class="parameter" id="param-term"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Term.html">Term</a></span> <span class="parameter-name">term</span></span>)</span></span>
+    </span>
+    
+
+  </dt>
+  <dd>
+    A language-specific function that returns the number of syllables in a
+string after stripping out all white-space and punctuation.
+    
+
+  </dd>
+
+          
   <dt id="Term" class="">
-  <span class="name"><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Term.html">Term</a></span>
+  <span class="name"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Term.html">Term</a></span>
     = <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>
   </span>
   
@@ -814,8 +863,8 @@ in a text source, document or query.
 
           
   <dt id="TermFilter" class="callable">
-    <span class="name"><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/TermFilter.html">TermFilter</a></span><span class="signature">
-      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-term"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Term.html">Term</a></span> <span class="parameter-name">term</span></span>)</span></span>
+    <span class="name"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/TermFilter.html">TermFilter</a></span><span class="signature">
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-term"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Term.html">Term</a></span> <span class="parameter-name">term</span></span>)</span></span>
     </span>
     
 
@@ -844,8 +893,8 @@ positions in a text source, sorted in ascending order.
 
           
   <dt id="TermSplitter" class="callable">
-    <span class="name"><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/TermSplitter.html">TermSplitter</a></span><span class="signature">
-      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-source"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/SourceText.html">SourceText</a></span> <span class="parameter-name">source</span></span>)</span></span>
+    <span class="name"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/TermSplitter.html">TermSplitter</a></span><span class="signature">
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-source"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/SourceText.html">SourceText</a></span> <span class="parameter-name">source</span></span>)</span></span>
     </span>
     
 
@@ -858,8 +907,8 @@ positions in a text source, sorted in ascending order.
 
           
   <dt id="TokenFilter" class="callable">
-    <span class="name"><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/TokenFilter.html">TokenFilter</a></span><span class="signature">
-      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-tokens"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Token-class.html">Token</a></span>&gt;</span></span> <span class="parameter-name">tokens</span></span>)</span></span>
+    <span class="name"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/TokenFilter.html">TokenFilter</a></span><span class="signature">
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-tokens"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Token-class.html">Token</a></span>&gt;</span></span> <span class="parameter-name">tokens</span></span>)</span></span>
     </span>
     
 
@@ -872,14 +921,14 @@ positions in a text source, sorted in ascending order.
 
           
   <dt id="Tokenizer" class="callable">
-    <span class="name"><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Tokenizer.html">Tokenizer</a></span><span class="signature">
-      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-source"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/SourceText.html">SourceText</a></span> <span class="parameter-name">source</span>, </span><span class="parameter" id="param-zone">[<span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Zone.html">Zone</a>?</span> <span class="parameter-name">zone</span>]</span>)</span></span>
+    <span class="name"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Tokenizer.html">Tokenizer</a></span><span class="signature">
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-source"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/SourceText.html">SourceText</a></span> <span class="parameter-name">source</span>, </span><span class="parameter" id="param-zone">[<span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Zone.html">Zone</a>?</span> <span class="parameter-name">zone</span>]</span>)</span></span>
     </span>
     
 
   </dt>
   <dd>
-    Type definition of a function that returns a collection of <a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Token-class.html">Token</a> from
+    Type definition of a function that returns a collection of <a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Token-class.html">Token</a> from
 the <code>source</code> text.
     
 
@@ -887,7 +936,7 @@ the <code>source</code> text.
 
           
   <dt id="Zone" class="">
-  <span class="name"><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Zone.html">Zone</a></span>
+  <span class="name"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Zone.html">Zone</a></span>
     = <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>
   </span>
   
@@ -904,13 +953,13 @@ in the <code>corpus</code>. Represents the name of the field/zone.
           
   <dt id="ZonePostings" class="">
   <span class="name"><a href="../text_indexing/ZonePostings.html">ZonePostings</a></span>
-    = <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Zone.html">Zone</a></span>, <span class="type-parameter"><a href="../text_indexing/TermPositions.html">TermPositions</a></span>&gt;</span>
+    = <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Zone.html">Zone</a></span>, <span class="type-parameter"><a href="../text_indexing/TermPositions.html">TermPositions</a></span>&gt;</span>
   </span>
   
 
 </dt>
 <dd>
-  Type definition for a hashmap of <a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Zone.html">Zone</a>s to <a href="../text_indexing/TermPositions.html">TermPositions</a>.
+  Type definition for a hashmap of <a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Zone.html">Zone</a>s to <a href="../text_indexing/TermPositions.html">TermPositions</a>.
   
 
 </dd>
@@ -919,7 +968,7 @@ in the <code>corpus</code>. Represents the name of the field/zone.
           
   <dt id="ZoneWeightMap" class="">
   <span class="name"><a href="../text_indexing/ZoneWeightMap.html">ZoneWeightMap</a></span>
-    = <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Zone.html">Zone</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span>&gt;</span>
+    = <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Zone.html">Zone</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span>&gt;</span>
   </span>
   
 
@@ -964,19 +1013,21 @@ in the <code>corpus</code>. Represents the name of the field/zone.
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#classes">Classes</a></li>
   <li><a href="../text_indexing/AsyncCallbackIndex-class.html">AsyncCallbackIndex</a></li>
   <li><a href="../text_indexing/AsyncCallbackIndexMixin-class.html">AsyncCallbackIndexMixin</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/English-class.html">English</a></li>
   <li><a href="../text_indexing/InMemoryIndex-class.html">InMemoryIndex</a></li>
   <li><a href="../text_indexing/InMemoryIndexMixin-class.html">InMemoryIndexMixin</a></li>
   <li><a href="../text_indexing/InvertedIndex-class.html">InvertedIndex</a></li>
   <li><a href="../text_indexing/InvertedIndexMixin-class.html">InvertedIndexMixin</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></li>
-  <li><a href="https://pub.dev/documentation/porter_2_stemmer/1.0.0+5/porter_2_stemmer/Porter2Stemmer-class.html">Porter2Stemmer</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/TextAnalyzerBase-class.html">TextAnalyzerBase</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/TextAnalyzerConfiguration-class.html">TextAnalyzerConfiguration</a></li>
+  <li><a href="https://pub.dev/documentation/porter_2_stemmer/1.0.0+6/porter_2_stemmer/Porter2Stemmer-class.html">Porter2Stemmer</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/TextDocument-class.html">TextDocument</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/TextDocumentBase-class.html">TextDocumentBase</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/TextDocumentMixin-class.html">TextDocumentMixin</a></li>
   <li><a href="../text_indexing/TextIndexer-class.html">TextIndexer</a></li>
   <li><a href="../text_indexing/TextIndexerBase-class.html">TextIndexerBase</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Token-class.html">Token</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/TextTokenizer-class.html">TextTokenizer</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/TextTokenizerBase-class.html">TextTokenizerBase</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/TextTokenizerMixin-class.html">TextTokenizerMixin</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Token-class.html">Token</a></li>
 
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#extensions">Extensions</a></li>
   <li><a href="../text_indexing/DictionaryEntryCollectionExtension.html">DictionaryEntryCollectionExtension</a></li>
@@ -986,11 +1037,11 @@ in the <code>corpus</code>. Represents the name of the field/zone.
   <li><a href="../text_indexing/IDftDictionaryEntryExtension.html">IDftDictionaryEntryExtension</a></li>
   <li><a href="../text_indexing/IdFtIndexExtensions.html">IdFtIndexExtensions</a></li>
   <li><a href="../text_indexing/KGramIndexExtension.html">KGramIndexExtension</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/KGramParserExtension.html">KGramParserExtension</a></li>
-  <li><a href="https://pub.dev/documentation/porter_2_stemmer/1.0.0+5/porter_2_stemmer/Porter2StemmerExtension.html">Porter2StemmerExtension</a></li>
+  <li><a href="https://pub.dev/documentation/porter_2_stemmer/1.0.0+6/porter_2_stemmer/Porter2StemmerExtension.html">Porter2StemmerExtension</a></li>
   <li><a href="../text_indexing/PostingsEntryExtension.html">PostingsEntryExtension</a></li>
   <li><a href="../text_indexing/PostingsExtension.html">PostingsExtension</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/TokenCollectionExtension.html">TokenCollectionExtension</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/TextAnalysisExtension.html">TextAnalysisExtension</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/TokenCollectionExtension.html">TokenCollectionExtension</a></li>
 
 
 
@@ -1000,7 +1051,7 @@ in the <code>corpus</code>. Represents the name of the field/zone.
   <li><a href="../text_indexing/TermSortStrategy.html">TermSortStrategy</a></li>
 
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#typedefs">Typedefs</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/CharacterFilter.html">CharacterFilter</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/CharacterFilter.html">CharacterFilter</a></li>
   <li><a href="../text_indexing/Dictionary.html">Dictionary</a></li>
   <li><a href="../text_indexing/DictionaryEntry.html">DictionaryEntry</a></li>
   <li><a href="../text_indexing/DictionaryLengthLoader.html">DictionaryLengthLoader</a></li>
@@ -1016,27 +1067,29 @@ in the <code>corpus</code>. Represents the name of the field/zone.
   <li><a href="../text_indexing/IdFtIndex.html">IdFtIndex</a></li>
   <li><a href="../text_indexing/JSON.html">JSON</a></li>
   <li><a href="../text_indexing/JsonCollection.html">JsonCollection</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/JsonTokenizer.html">JsonTokenizer</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/KGram.html">KGram</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/JsonTokenizer.html">JsonTokenizer</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/KGram.html">KGram</a></li>
   <li><a href="../text_indexing/KGramIndex.html">KGramIndex</a></li>
   <li><a href="../text_indexing/KGramIndexLoader.html">KGramIndexLoader</a></li>
   <li><a href="../text_indexing/KGramIndexUpdater.html">KGramIndexUpdater</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/ParagraphSplitter.html">ParagraphSplitter</a></li>
   <li><a href="../text_indexing/Postings.html">Postings</a></li>
   <li><a href="../text_indexing/PostingsEntry.html">PostingsEntry</a></li>
   <li><a href="../text_indexing/PostingsLoader.html">PostingsLoader</a></li>
   <li><a href="../text_indexing/PostingsUpdater.html">PostingsUpdater</a></li>
   <li><a href="../text_indexing/Pt.html">Pt</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/SentenceSplitter.html">SentenceSplitter</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/SourceText.html">SourceText</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Stemmer.html">Stemmer</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/StopWords.html">StopWords</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Term.html">Term</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/TermFilter.html">TermFilter</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/SentenceSplitter.html">SentenceSplitter</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/SourceText.html">SourceText</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Stemmer.html">Stemmer</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/StopWords.html">StopWords</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/SyllableCounter.html">SyllableCounter</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Term.html">Term</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/TermFilter.html">TermFilter</a></li>
   <li><a href="../text_indexing/TermPositions.html">TermPositions</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/TermSplitter.html">TermSplitter</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/TokenFilter.html">TokenFilter</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Tokenizer.html">Tokenizer</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.9.1/text_analysis/Zone.html">Zone</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/TermSplitter.html">TermSplitter</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/TokenFilter.html">TokenFilter</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Tokenizer.html">Tokenizer</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.11.0/text_analysis/Zone.html">Zone</a></li>
   <li><a href="../text_indexing/ZonePostings.html">ZonePostings</a></li>
   <li><a href="../text_indexing/ZoneWeightMap.html">ZoneWeightMap</a></li>
 
@@ -1049,7 +1102,7 @@ in the <code>corpus</code>. Represents the name of the field/zone.
 <footer>
   <span class="no-break">
     text_indexing
-      0.14.2
+      0.14.3
   </span>
 
   
