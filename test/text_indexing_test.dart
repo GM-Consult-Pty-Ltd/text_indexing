@@ -162,70 +162,70 @@ void main() {
     /// - index each document, adding/updating terms in the [Dictionary]
     ///   and postings in the [Postings] ; and
     /// - print the top 5 most popular [Dictionary.terms].
-    test('IHiveIndex.indexCollection', () async {
-      //
-      final path = Directory.current.path;
+    // test('IHiveIndex.indexCollection', () async {
+    //   //
+    //   final path = Directory.current.path;
 
-      Hive.init(path);
+    //   Hive.init(path);
 
-      // - initialize the [Dictionary] and clear it
-      final Box<int> dictionaryBox = await Hive.openBox('dictionary');
-      await dictionaryBox.clear();
+    //   // - initialize the [Dictionary] and clear it
+    //   final Box<int> dictionaryBox = await Hive.openBox('dictionary');
+    //   await dictionaryBox.clear();
 
-      // - initialize the [Postings] and clear it
-      final Box<String> postingsBox = await Hive.openBox('postings');
-      await postingsBox.clear();
+    //   // - initialize the [Postings] and clear it
+    //   final Box<String> postingsBox = await Hive.openBox('postings');
+    //   await postingsBox.clear();
 
-      // - initialize the [KGramIndex] and clear it
-      final Box<String> kGramIndexBox = await Hive.openBox('kGramIndex');
-      await kGramIndexBox.clear();
+    //   // - initialize the [KGramIndex] and clear it
+    //   final Box<String> kGramIndexBox = await Hive.openBox('kGramIndex');
+    //   await kGramIndexBox.clear();
 
-      final index = HiveIndex(
-          tokenizer: TextTokenizer(),
-          dictionaryBox: dictionaryBox,
-          postingsBox: postingsBox,
-          kGramIndexBox: kGramIndexBox,
-          zones: stockZones,
-          phraseLength: 2,
-          k: 3);
+    //   final index = HiveIndex(
+    //       tokenizer: TextTokenizer(),
+    //       dictionaryBox: dictionaryBox,
+    //       postingsBox: postingsBox,
+    //       kGramIndexBox: kGramIndexBox,
+    //       zones: stockZones,
+    //       phraseLength: 2,
+    //       k: 3);
 
-      // - initialize a [InMemoryIndexer] with the default tokenizer
-      final indexer = TextIndexer(index: index);
+    //   // - initialize a [InMemoryIndexer] with the default tokenizer
+    //   final indexer = TextIndexer(index: index);
 
-      final searchTokens = (await index.tokenizer.tokenize(searchPrase));
+    //   final searchTokens = (await index.tokenizer.tokenize(searchPrase));
 
-      final startTime = DateTime.now();
-      // get the start time in milliseconds
-      final start = startTime.millisecondsSinceEpoch;
+    //   final startTime = DateTime.now();
+    //   // get the start time in milliseconds
+    //   final start = startTime.millisecondsSinceEpoch;
 
-      _progressReporter(() => dictionaryBox.length, () => kGramIndexBox.length);
+    //   _progressReporter(() => dictionaryBox.length, () => kGramIndexBox.length);
 
-      // - iterate through the sample data
-      await indexer.indexCollection(sampleStocks);
+    //   // - iterate through the sample data
+    //   await indexer.indexCollection(sampleStocks);
 
-      // get the end time in milliseconds
-      final end = DateTime.now().millisecondsSinceEpoch;
+    //   // get the end time in milliseconds
+    //   final end = DateTime.now().millisecondsSinceEpoch;
 
-      // calculate the time taken to index the corpus in milliseconds
-      final dT = ((end - start) / 1000).toStringAsFixed(3);
+    //   // calculate the time taken to index the corpus in milliseconds
+    //   final dT = ((end - start) / 1000).toStringAsFixed(3);
 
-      // wait for stream elements to complete printing
-      await Future.delayed(const Duration(milliseconds: 250));
+    //   // wait for stream elements to complete printing
+    //   await Future.delayed(const Duration(milliseconds: 250));
 
-      // print the document term frequencies for each term in searchTerms
-      await _printTermFrequencyPostings(index, searchTokens);
+    //   // print the document term frequencies for each term in searchTerms
+    //   await _printTermFrequencyPostings(index, searchTokens);
 
-      // print the statistics for each term in [searchTerms].
-      await _printTermStats(index, searchTokens);
+    //   // print the statistics for each term in [searchTerms].
+    //   await _printTermStats(index, searchTokens);
 
-      print('[InMemoryIndex] indexed ${sampleNews.length} documents to '
-          '${index.dictionaryBox.length} postings and '
-          '${index.kGramIndexBox.length} k-grams in $dT seconds!');
+    //   print('[InMemoryIndex] indexed ${sampleNews.length} documents to '
+    //       '${index.dictionaryBox.length} postings and '
+    //       '${index.kGramIndexBox.length} k-grams in $dT seconds!');
 
-      expect(await index.vocabularyLength > 0, true);
+    //   expect(await index.vocabularyLength > 0, true);
 
-      //
-    });
+    //   //
+    // });
 
     /// A simple test of the [InMemoryIndexer] on a small dataset:
     /// - initialize the [Dictionary];
@@ -238,54 +238,54 @@ void main() {
     /// - index each document, adding/updating terms in the [Dictionary]
     ///   and postings in the [Postings] ; and
     /// - print the top 5 most popular [Dictionary.terms].
-    test('IHiveIndex.read', () async {
-      //
-      final path = Directory.current.path;
+    // test('IHiveIndex.read', () async {
+    //   //
+    //   final path = Directory.current.path;
 
-      Hive.init(path);
+    //   Hive.init(path);
 
-      // - initialize the [Dictionary] and clear it
-      final Box<int> dictionaryBox = await Hive.openBox('dictionary');
+    //   // - initialize the [Dictionary] and clear it
+    //   final Box<int> dictionaryBox = await Hive.openBox('dictionary');
 
-      // - initialize the [Postings] and clear it
-      final Box<String> postingsBox = await Hive.openBox('postings');
+    //   // - initialize the [Postings] and clear it
+    //   final Box<String> postingsBox = await Hive.openBox('postings');
 
-      // - initialize the [KGramIndex] and clear it
-      final Box<String> kGramIndexBox = await Hive.openBox('kGramIndex');
+    //   // - initialize the [KGramIndex] and clear it
+    //   final Box<String> kGramIndexBox = await Hive.openBox('kGramIndex');
 
-      final index = HiveIndex(
-          tokenizer: TextTokenizer(),
-          dictionaryBox: dictionaryBox,
-          postingsBox: postingsBox,
-          kGramIndexBox: kGramIndexBox,
-          zones: stockZones,
-          phraseLength: 2,
-          k: 3);
+    //   final index = HiveIndex(
+    //       tokenizer: TextTokenizer(),
+    //       dictionaryBox: dictionaryBox,
+    //       postingsBox: postingsBox,
+    //       kGramIndexBox: kGramIndexBox,
+    //       zones: stockZones,
+    //       phraseLength: 2,
+    //       k: 3);
 
-      final searchTokens = (await index.tokenizer.tokenize(searchPrase));
+    //   final searchTokens = (await index.tokenizer.tokenize(searchPrase));
 
-      final startTime = DateTime.now();
-      // get the start time in milliseconds
-      final start = startTime.millisecondsSinceEpoch;
+    //   final startTime = DateTime.now();
+    //   // get the start time in milliseconds
+    //   final start = startTime.millisecondsSinceEpoch;
 
-      // print the document term frequencies for each term in searchTerms
-      await _printTermFrequencyPostings(index, searchTokens);
+    //   // print the document term frequencies for each term in searchTerms
+    //   await _printTermFrequencyPostings(index, searchTokens);
 
-      // print the statistics for each term in [searchTerms].
-      await _printTermStats(index, searchTokens);
+    //   // print the statistics for each term in [searchTerms].
+    //   await _printTermStats(index, searchTokens);
 
-      // get the end time in milliseconds
-      final end = DateTime.now().millisecondsSinceEpoch;
+    //   // get the end time in milliseconds
+    //   final end = DateTime.now().millisecondsSinceEpoch;
 
-      // calculate the time taken to index the corpus in milliseconds
-      final dT = ((end - start) / 1000).toStringAsFixed(3);
+    //   // calculate the time taken to index the corpus in milliseconds
+    //   final dT = ((end - start) / 1000).toStringAsFixed(3);
 
-      print('Finished all tests in $dT seconds!');
+    //   print('Finished all tests in $dT seconds!');
 
-      expect(await index.vocabularyLength > 0, true);
+    //   expect(await index.vocabularyLength > 0, true);
 
-      //
-    });
+    //   //
+    // });
 
     test('CachedIndex', () async {
       // - initialize a [_TestIndexRepository()]
@@ -426,76 +426,76 @@ void main() {
     /// - index each document, adding/updating terms in the [Dictionary]
     ///   and postings in the [Postings] ; and
     /// - print the top 5 most popular [Dictionary.terms].
-    test('AsyncCallbackIndex.read', () async {
-      //
-      final path = Directory.current.path;
+    // test('AsyncCallbackIndex.read', () async {
+    //   //
+    //   final path = Directory.current.path;
 
-      Hive.init(path);
+    //   Hive.init(path);
 
-      // - initialize the [Dictionary] and clear it
-      final Box<int> dictionaryBox = await Hive.openBox('dictionary');
+    //   // - initialize the [Dictionary] and clear it
+    //   final Box<int> dictionaryBox = await Hive.openBox('dictionary');
 
-      // - initialize the [Postings] and clear it
-      final Box<String> postingsBox = await Hive.openBox('postings');
+    //   // - initialize the [Postings] and clear it
+    //   final Box<String> postingsBox = await Hive.openBox('postings');
 
-      // - initialize the [KGramIndex] and clear it
-      final Box<String> kGramIndexBox = await Hive.openBox('kGramIndex');
+    //   // - initialize the [KGramIndex] and clear it
+    //   final Box<String> kGramIndexBox = await Hive.openBox('kGramIndex');
 
-      final hiveIndex = HiveIndex(
-          tokenizer: TextTokenizer(),
-          dictionaryBox: dictionaryBox,
-          postingsBox: postingsBox,
-          kGramIndexBox: kGramIndexBox,
-          zones: stockZones,
-          phraseLength: 2,
-          k: 3);
+    //   final hiveIndex = HiveIndex(
+    //       tokenizer: TextTokenizer(),
+    //       dictionaryBox: dictionaryBox,
+    //       postingsBox: postingsBox,
+    //       kGramIndexBox: kGramIndexBox,
+    //       zones: stockZones,
+    //       phraseLength: 2,
+    //       k: 3);
 
-      // - initialize a [_TestIndexRepository] and populate it from the hive
-      //    boxes
-      final repository = _TestIndexRepository(latencyMs: 10);
-      final dictionary = await hiveIndex.getDictionary();
-      final terms = dictionary.terms;
-      await repository.upsertDictionary(dictionary);
-      await repository.upsertKGramIndex(await hiveIndex.getKGramIndex());
-      await repository.upsertPostings(await hiveIndex.getPostings(terms));
+    //   // - initialize a [_TestIndexRepository] and populate it from the hive
+    //   //    boxes
+    //   final repository = _TestIndexRepository(latencyMs: 10);
+    //   final dictionary = await hiveIndex.getDictionary();
+    //   final terms = dictionary.terms;
+    //   await repository.upsertDictionary(dictionary);
+    //   await repository.upsertKGramIndex(await hiveIndex.getKGramIndex());
+    //   await repository.upsertPostings(await hiveIndex.getPostings(terms));
 
-      final index = AsyncCallbackIndex(
-          dictionaryLoader: repository.getDictionary,
-          dictionaryUpdater: repository.upsertDictionary,
-          dictionaryLengthLoader: () => repository.vocabularyLength,
-          kGramIndexLoader: repository.getKGramIndex,
-          kGramIndexUpdater: repository.upsertKGramIndex,
-          postingsLoader: repository.getPostings,
-          postingsUpdater: repository.upsertPostings,
-          zones: stockZones,
-          k: 3,
-          phraseLength: 2,
-          tokenizer: TextTokenizer());
+    //   final index = AsyncCallbackIndex(
+    //       dictionaryLoader: repository.getDictionary,
+    //       dictionaryUpdater: repository.upsertDictionary,
+    //       dictionaryLengthLoader: () => repository.vocabularyLength,
+    //       kGramIndexLoader: repository.getKGramIndex,
+    //       kGramIndexUpdater: repository.upsertKGramIndex,
+    //       postingsLoader: repository.getPostings,
+    //       postingsUpdater: repository.upsertPostings,
+    //       zones: stockZones,
+    //       k: 3,
+    //       phraseLength: 2,
+    //       tokenizer: TextTokenizer());
 
-      final searchTokens = (await index.tokenizer.tokenize(searchPrase));
+    //   final searchTokens = (await index.tokenizer.tokenize(searchPrase));
 
-      final startTime = DateTime.now();
-      // get the start time in milliseconds
-      final start = startTime.millisecondsSinceEpoch;
+    //   final startTime = DateTime.now();
+    //   // get the start time in milliseconds
+    //   final start = startTime.millisecondsSinceEpoch;
 
-      // print the document term frequencies for each term in searchTerms
-      await _printTermFrequencyPostings(index, searchTokens);
+    //   // print the document term frequencies for each term in searchTerms
+    //   await _printTermFrequencyPostings(index, searchTokens);
 
-      // print the statistics for each term in [searchTerms].
-      await _printTermStats(index, searchTokens);
+    //   // print the statistics for each term in [searchTerms].
+    //   await _printTermStats(index, searchTokens);
 
-      // get the end time in milliseconds
-      final end = DateTime.now().millisecondsSinceEpoch;
+    //   // get the end time in milliseconds
+    //   final end = DateTime.now().millisecondsSinceEpoch;
 
-      // calculate the time taken to index the corpus in milliseconds
-      final dT = ((end - start) / 1000).toStringAsFixed(3);
+    //   // calculate the time taken to index the corpus in milliseconds
+    //   final dT = ((end - start) / 1000).toStringAsFixed(3);
 
-      print('Finished all tests in $dT seconds!');
+    //   print('Finished all tests in $dT seconds!');
 
-      expect(await index.vocabularyLength > 0, true);
+    //   expect(await index.vocabularyLength > 0, true);
 
-      //
-    });
+    //   //
+    // });
   });
 }
 
