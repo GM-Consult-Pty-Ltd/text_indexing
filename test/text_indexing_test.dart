@@ -7,12 +7,11 @@
 @Timeout(Duration(hours: 4))
 
 import 'dart:async';
-
+import 'package:gmconsult_dev/gmconsult_dev.dart';
 import 'package:hive/hive.dart';
 import 'package:text_indexing/text_indexing.dart';
 import 'package:test/test.dart';
 import 'dart:io';
-// import 'data/text.dart';
 import 'cached_index.dart';
 import 'data/sample_news_subset.dart';
 import 'data/sample_news.dart';
@@ -36,8 +35,6 @@ void main() {
     const stockZones = {
       'name': 1.0,
       'symbol': 5.0,
-      'ticker': 5.0,
-      'description': 0.5,
       'hashTag': 2.0,
     };
 
@@ -144,148 +141,14 @@ void main() {
           '${index.dictionary.length} postings and '
           '${index.kGramIndex.length} k-grams in $dT seconds!');
 
+      await SaveAs.json(fileName: 'kgramIndex', json: kGramIndex);
+
       expect(await index.vocabularyLength > 0, true);
 
-      await saveKgramIndex(kGramIndex);
+      // await saveKgramIndex(kGramIndex);
 
       //
     });
-
-    /// A simple test of the [InMemoryIndexer] on a small dataset:
-    /// - initialize the [Dictionary];
-    /// - initialize the [Postings];
-    /// - initialize a [InMemoryIndexer];
-    /// - listen to the [InMemoryIndexer.postingsStream], printing the
-    ///   emitted postings for each indexed document;
-    /// - get the sample data;
-    /// - iterate through the sample data;
-    /// - index each document, adding/updating terms in the [Dictionary]
-    ///   and postings in the [Postings] ; and
-    /// - print the top 5 most popular [Dictionary.terms].
-    // test('IHiveIndex.indexCollection', () async {
-    //   //
-    //   final path = Directory.current.path;
-
-    //   Hive.init(path);
-
-    //   // - initialize the [Dictionary] and clear it
-    //   final Box<int> dictionaryBox = await Hive.openBox('dictionary');
-    //   await dictionaryBox.clear();
-
-    //   // - initialize the [Postings] and clear it
-    //   final Box<String> postingsBox = await Hive.openBox('postings');
-    //   await postingsBox.clear();
-
-    //   // - initialize the [KGramIndex] and clear it
-    //   final Box<String> kGramIndexBox = await Hive.openBox('kGramIndex');
-    //   await kGramIndexBox.clear();
-
-    //   final index = HiveIndex(
-    //       tokenizer: TextTokenizer(),
-    //       dictionaryBox: dictionaryBox,
-    //       postingsBox: postingsBox,
-    //       kGramIndexBox: kGramIndexBox,
-    //       zones: stockZones,
-    //       phraseLength: 2,
-    //       k: 3);
-
-    //   // - initialize a [InMemoryIndexer] with the default tokenizer
-    //   final indexer = TextIndexer(index: index);
-
-    //   final searchTokens = (await index.tokenizer.tokenize(searchPrase));
-
-    //   final startTime = DateTime.now();
-    //   // get the start time in milliseconds
-    //   final start = startTime.millisecondsSinceEpoch;
-
-    //   _progressReporter(() => dictionaryBox.length, () => kGramIndexBox.length);
-
-    //   // - iterate through the sample data
-    //   await indexer.indexCollection(sampleStocks);
-
-    //   // get the end time in milliseconds
-    //   final end = DateTime.now().millisecondsSinceEpoch;
-
-    //   // calculate the time taken to index the corpus in milliseconds
-    //   final dT = ((end - start) / 1000).toStringAsFixed(3);
-
-    //   // wait for stream elements to complete printing
-    //   await Future.delayed(const Duration(milliseconds: 250));
-
-    //   // print the document term frequencies for each term in searchTerms
-    //   await _printTermFrequencyPostings(index, searchTokens);
-
-    //   // print the statistics for each term in [searchTerms].
-    //   await _printTermStats(index, searchTokens);
-
-    //   print('[InMemoryIndex] indexed ${sampleNews.length} documents to '
-    //       '${index.dictionaryBox.length} postings and '
-    //       '${index.kGramIndexBox.length} k-grams in $dT seconds!');
-
-    //   expect(await index.vocabularyLength > 0, true);
-
-    //   //
-    // });
-
-    /// A simple test of the [InMemoryIndexer] on a small dataset:
-    /// - initialize the [Dictionary];
-    /// - initialize the [Postings];
-    /// - initialize a [InMemoryIndexer];
-    /// - listen to the [InMemoryIndexer.postingsStream], printing the
-    ///   emitted postings for each indexed document;
-    /// - get the sample data;
-    /// - iterate through the sample data;
-    /// - index each document, adding/updating terms in the [Dictionary]
-    ///   and postings in the [Postings] ; and
-    /// - print the top 5 most popular [Dictionary.terms].
-    // test('IHiveIndex.read', () async {
-    //   //
-    //   final path = Directory.current.path;
-
-    //   Hive.init(path);
-
-    //   // - initialize the [Dictionary] and clear it
-    //   final Box<int> dictionaryBox = await Hive.openBox('dictionary');
-
-    //   // - initialize the [Postings] and clear it
-    //   final Box<String> postingsBox = await Hive.openBox('postings');
-
-    //   // - initialize the [KGramIndex] and clear it
-    //   final Box<String> kGramIndexBox = await Hive.openBox('kGramIndex');
-
-    //   final index = HiveIndex(
-    //       tokenizer: TextTokenizer(),
-    //       dictionaryBox: dictionaryBox,
-    //       postingsBox: postingsBox,
-    //       kGramIndexBox: kGramIndexBox,
-    //       zones: stockZones,
-    //       phraseLength: 2,
-    //       k: 3);
-
-    //   final searchTokens = (await index.tokenizer.tokenize(searchPrase));
-
-    //   final startTime = DateTime.now();
-    //   // get the start time in milliseconds
-    //   final start = startTime.millisecondsSinceEpoch;
-
-    //   // print the document term frequencies for each term in searchTerms
-    //   await _printTermFrequencyPostings(index, searchTokens);
-
-    //   // print the statistics for each term in [searchTerms].
-    //   await _printTermStats(index, searchTokens);
-
-    //   // get the end time in milliseconds
-    //   final end = DateTime.now().millisecondsSinceEpoch;
-
-    //   // calculate the time taken to index the corpus in milliseconds
-    //   final dT = ((end - start) / 1000).toStringAsFixed(3);
-
-    //   print('Finished all tests in $dT seconds!');
-
-    //   expect(await index.vocabularyLength > 0, true);
-
-    //   //
-    // });
 
     test('CachedIndex', () async {
       // - initialize a [_TestIndexRepository()]
@@ -414,88 +277,6 @@ void main() {
 
       expect(await index.vocabularyLength > 0, true);
     });
-
-    /// A simple test of the [InMemoryIndexer] on a small dataset:
-    /// - initialize the [Dictionary];
-    /// - initialize the [Postings];
-    /// - initialize a [InMemoryIndexer];
-    /// - listen to the [InMemoryIndexer.postingsStream], printing the
-    ///   emitted postings for each indexed document;
-    /// - get the sample data;
-    /// - iterate through the sample data;
-    /// - index each document, adding/updating terms in the [Dictionary]
-    ///   and postings in the [Postings] ; and
-    /// - print the top 5 most popular [Dictionary.terms].
-    // test('AsyncCallbackIndex.read', () async {
-    //   //
-    //   final path = Directory.current.path;
-
-    //   Hive.init(path);
-
-    //   // - initialize the [Dictionary] and clear it
-    //   final Box<int> dictionaryBox = await Hive.openBox('dictionary');
-
-    //   // - initialize the [Postings] and clear it
-    //   final Box<String> postingsBox = await Hive.openBox('postings');
-
-    //   // - initialize the [KGramIndex] and clear it
-    //   final Box<String> kGramIndexBox = await Hive.openBox('kGramIndex');
-
-    //   final hiveIndex = HiveIndex(
-    //       tokenizer: TextTokenizer(),
-    //       dictionaryBox: dictionaryBox,
-    //       postingsBox: postingsBox,
-    //       kGramIndexBox: kGramIndexBox,
-    //       zones: stockZones,
-    //       phraseLength: 2,
-    //       k: 3);
-
-    //   // - initialize a [_TestIndexRepository] and populate it from the hive
-    //   //    boxes
-    //   final repository = _TestIndexRepository(latencyMs: 10);
-    //   final dictionary = await hiveIndex.getDictionary();
-    //   final terms = dictionary.terms;
-    //   await repository.upsertDictionary(dictionary);
-    //   await repository.upsertKGramIndex(await hiveIndex.getKGramIndex());
-    //   await repository.upsertPostings(await hiveIndex.getPostings(terms));
-
-    //   final index = AsyncCallbackIndex(
-    //       dictionaryLoader: repository.getDictionary,
-    //       dictionaryUpdater: repository.upsertDictionary,
-    //       dictionaryLengthLoader: () => repository.vocabularyLength,
-    //       kGramIndexLoader: repository.getKGramIndex,
-    //       kGramIndexUpdater: repository.upsertKGramIndex,
-    //       postingsLoader: repository.getPostings,
-    //       postingsUpdater: repository.upsertPostings,
-    //       zones: stockZones,
-    //       k: 3,
-    //       phraseLength: 2,
-    //       tokenizer: TextTokenizer());
-
-    //   final searchTokens = (await index.tokenizer.tokenize(searchPrase));
-
-    //   final startTime = DateTime.now();
-    //   // get the start time in milliseconds
-    //   final start = startTime.millisecondsSinceEpoch;
-
-    //   // print the document term frequencies for each term in searchTerms
-    //   await _printTermFrequencyPostings(index, searchTokens);
-
-    //   // print the statistics for each term in [searchTerms].
-    //   await _printTermStats(index, searchTokens);
-
-    //   // get the end time in milliseconds
-    //   final end = DateTime.now().millisecondsSinceEpoch;
-
-    //   // calculate the time taken to index the corpus in milliseconds
-    //   final dT = ((end - start) / 1000).toStringAsFixed(3);
-
-    //   print('Finished all tests in $dT seconds!');
-
-    //   expect(await index.vocabularyLength > 0, true);
-
-    //   //
-    // });
   });
 }
 
@@ -543,15 +324,17 @@ Future<void> _printTermFrequencyPostings(
   // calculate the time taken to index the corpus in milliseconds
   final dT = ((end - start) / 1000).toStringAsFixed(3);
 
-  print('_______________________________________________________');
-  print('TERM DOCUMENT FREQUENCY (search terms, minimum dFt = 1)');
+  final results = <JSON>[];
+
   for (final e in tfPostings.entries) {
-    print('Term: ${e.key}');
     for (final posting in e.value.entries) {
-      print('   DocId: {${posting.key}}:    dFt: [${posting.value}]');
+      results.add({'Term': e.key, 'DocId': posting.key, ' dFt': posting.value});
     }
   }
-  print('_______________________________________________________');
+
+  Echo(title: 'TERM DOCUMENT FREQUENCY', results: results, minPrintWidth: 120)
+      .printResults();
+
   print('Retrieved ${tfPostings.length} Ftd postings for ${searchTerms.length} '
       'terms in $dT seconds.');
 }
@@ -589,45 +372,38 @@ Future<void> _printTermStats(
   // calculate the time taken to index the corpus in milliseconds
   final dT = ((end - start)).toStringAsFixed(3);
 
-  // print the headings
-  print(''.padLeft(80, '_'));
-  print('DICTIONARY STATISTICS (search terms)');
-  print(''.padLeft(80, '-'));
-  print('${'Term'.padRight(10)}'
-      '${'Term Frequency'.toString().padLeft(20)}'
-      '${'Document Frequency'.toString().padLeft(20)}'
-      '${'Inverse Document Frequency'.toString().padLeft(30)}');
-  print(''.padLeft(80, '-'));
-
-  // print the statistics
+  final results = <JSON>[];
   for (final term in searchTerms) {
     final df = dictionary[term] ?? 0;
     final idf = iDftIndex[term] ?? 0.0;
     final tf = tFtIndex[term] ?? 0;
-    print('${term.padRight(10)}'
-        '${tf.toString().padLeft(20)}'
-        '${df.toString().padLeft(20)}'
-        '${idf.toStringAsFixed(2).padLeft(4, '0').padLeft(30)}');
-  }
-  print(''.padLeft(80, '-'));
 
-  // print a closing line
-  print(''.padLeft(80, '-'));
-  print('Retrieved');
-  print('- dictionary for ${dictionary.length} terms;');
-  print('- term frequencies for ${tFtIndex.length} terms;');
-  print('- inverse document frequencies for ${iDftIndex.length} terms; and');
-  print('- k-gram postings for ${kGramTerms.length} terms.');
-  print('in $dT milliseconds.');
-  print(''.padLeft(80, '-'));
-  print(''.padLeft(80, '-'));
+    results.add({
+      'Term': term,
+      'Term Frequency': tf,
+      'Document Frequency': df,
+      'Inverse Document Frequency': idf
+    });
+  }
+
+  Echo(title: 'DICTIONARY STATISTICS', results: results, minPrintWidth: 120)
+      .printResults();
+
+  final stats = <JSON>[];
+  stats.add({
+    'Search Terms': dictionary.length,
+    'k-Gram Terms': kGramTerms.length,
+    'Elapsed Time': dT
+  });
+
+  Echo(title: 'READ PERFORMANCE', results: stats, minPrintWidth: 120)
+      .printResults();
 }
 
 Future<void> saveKgramIndex(KGramIndex value) async {
-  final out = File('kGramIndex.txt').openWrite();
-  out.writeln('const vocabularykGrams = {');
+  final buffer = StringBuffer();
+  buffer.writeln('const vocabularykGrams = {');
   for (final entry in value.entries) {
-    final buffer = StringBuffer();
     buffer.write('r"${entry.key}": {');
     var i = 0;
     for (final term in entry.value) {
@@ -635,9 +411,10 @@ Future<void> saveKgramIndex(KGramIndex value) async {
       buffer.write('r"$term"');
       i++;
     }
-    buffer.write('},');
-    out.writeln(buffer.toString());
+    buffer.writeln('},');
   }
-  out.writeln('};');
+  buffer.writeln('};');
+  final out = File('kGramIndex.txt').openWrite();
+  out.writeln(buffer.toString());
   await out.close();
 }
