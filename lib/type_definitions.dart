@@ -6,3 +6,4 @@
 library text_indexing_type_definitions;
 
 export 'src/typedefs.dart';
+export 'package:text_analysis/type_definitions.dart';

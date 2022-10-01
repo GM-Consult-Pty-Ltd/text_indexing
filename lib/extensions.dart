@@ -6,3 +6,4 @@
 library text_indexing_extensions;
 
 export 'src/inverted_index/artifacts/_index.dart';
+export 'package:text_analysis/extensions.dart';

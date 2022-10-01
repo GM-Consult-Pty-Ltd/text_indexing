@@ -6,8 +6,9 @@ All rights reserved.
 
 *THIS PACKAGE IS **PRE-RELEASE**, IN ACTIVE DEVELOPMENT AND SUBJECT TO DAILY BREAKING CHANGES.*
 
-### 0.14.6
+### 0.14.7
 
+- Added package exports from `text_analysis` to `type_definitions` and `extensions` libraries.
 Updated dependencies, tests, examples and documentation.
 
 ### 0.14.5+1
