@@ -57,8 +57,8 @@
   </ol>
 </div>
 
-<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_indexing/IdFtIndex.html">IdFtIndex</a></span>&gt;</span></span>
-<span class="name ">getIdFtIndex</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="getIdFtIndex-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.11.2/text_analysis/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span></li>
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_indexing_type_definitions/IdFtIndex.html">IdFtIndex</a></span>&gt;</span></span>
+<span class="name ">getIdFtIndex</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="getIdFtIndex-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.13.0/type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span></li>
 </ol>)
 
       <div class="features">override</div>
@@ -69,8 +69,8 @@
   <p>Implements <a href="../../text_indexing/InvertedIndex/getFtdPostings.html">InvertedIndex.getFtdPostings</a> method:</p>
 <ul>
 <li>gets the <a href="../../text_indexing/InvertedIndex/vocabularyLength.html">vocabularyLength</a> (N);</li>
-<li>gets the <a href="../../text_indexing/Dictionary.html">Dictionary</a> for <code>terms</code> by calling <a href="../../text_indexing/InvertedIndex/getDictionary.html">getDictionary</a>; then</li>
-<li>maps the <a href="../../text_indexing/Dictionary.html">Dictionary</a> values (dTf) to inverse document frequency by
+<li>gets the <a href="../../text_indexing_type_definitions/Dictionary.html">Dictionary</a> for <code>terms</code> by calling <a href="../../text_indexing/InvertedIndex/getDictionary.html">getDictionary</a>; then</li>
+<li>maps the <a href="../../text_indexing_type_definitions/Dictionary.html">Dictionary</a> values (dTf) to inverse document frequency by
 calculating log(N/dTf).</li>
 </ul>
 </section>
@@ -154,7 +154,7 @@ Future&lt;IdFtIndex&gt; getIdFtIndex(Iterable&lt;Term&gt; terms) async {
 <footer>
   <span class="no-break">
     text_indexing
-      0.14.5+1
+      0.14.6
   </span>
 
   

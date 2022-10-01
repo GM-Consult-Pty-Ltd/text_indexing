@@ -2,49 +2,7 @@
 // BSD 3-Clause License
 // All rights reserved
 
-import 'package:text_indexing/text_indexing.dart';
-
-/// Type definition for a hashmap of [Term] to [DocumentPostings].
-typedef Postings = Map<Term, DocumentPostings>;
-
-/// Type definition for a hashmap entry of [Term] to [DocumentPostings] in a
-/// [Postings] hashmap.
-typedef PostingsEntry = MapEntry<Term, DocumentPostings>;
-
-/// An alias for [int], used to denote the position of a [Term] in [SourceText]
-/// indexed object (the term position).
-typedef Pt = int;
-
-/// An alias for [String], used whenever a document id is referenced.
-typedef DocId = String;
-
-/// Type definition for a hashmap of [DocId] to [ZonePostings].
-typedef DocumentPostings = Map<DocId, ZonePostings>;
-
-/// Type definition for a hashmap entry of [DocId] to [ZonePostings] in a
-/// [DocumentPostings] hashmap.
-typedef DocumentPostingsEntry = MapEntry<DocId, ZonePostings>;
-
-/// Type definition for a hashmap of [Zone]s to [TermPositions].
-typedef ZonePostings = Map<Zone, TermPositions>;
-
-/// Type definition for a hashmap entry of [Zone] to [TermPositions] in a
-/// [ZonePostings] hashmap.
-typedef FieldPostingsEntry = MapEntry<Zone, TermPositions>;
-
-/// Type definition for an ordered [Set] of unique zero-based term
-/// positions in a text source, sorted in ascending order.
-typedef TermPositions = List<Pt>;
-
-/// Asynchronously retrieves a [Postings] subset for a collection of
-/// [terms] from a [Postings] data source, usually persisted storage.
-typedef PostingsLoader = Future<Postings> Function(Iterable<Term> terms);
-
-/// A callback that [values] for persisting to a [Postings].
-///
-/// Parameter [values] is a subset of a [Postings] containing new or changed
-/// [PostingsEntry] instances.
-typedef PostingsUpdater = Future<void> Function(Postings values);
+import 'package:text_indexing/src/_index.dart';
 
 /// The [PostingsEntry] class enumerates the properties of an entry in a
 /// [Postings] collection:
@@ -73,7 +31,7 @@ extension DocumentPostingsEntryExtension on DocumentPostingsEntry {
   /// Usually the value of the document's primary key zone in the dataset.
   DocId get docId => key;
 
-  /// A hashmap of zone names that conatin the term to the a zero-based,
+  /// A hashmap of zone names that contain the term to the a zero-based,
   /// ordered list of unique word positions of the [Term] in the zone.
   ///
   /// A word position means the index of the word in an array of all the words

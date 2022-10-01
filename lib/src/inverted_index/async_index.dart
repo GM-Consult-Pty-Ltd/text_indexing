@@ -2,9 +2,7 @@
 // BSD 3-Clause License
 // All rights reserved
 
-// ignore_for_file: deprecated_member_use_from_same_package
-
-import 'package:text_indexing/text_indexing.dart';
+import 'package:text_indexing/src/_index.dart';
 
 /// The [AsyncCallbackIndex] is a [InvertedIndex] implementation class that
 /// mixes in [InvertedIndexMixin] and [AsyncCallbackIndexMixin].

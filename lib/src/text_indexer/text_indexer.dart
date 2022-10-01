@@ -4,24 +4,16 @@
 
 import 'dart:async';
 import 'package:meta/meta.dart';
-import 'package:text_indexing/text_indexing.dart';
-
-/// Alias for Map<String, dynamic>, a hashmap known as "Java Script Object
-/// Notation" (JSON), a common format for persisting data.
-typedef JSON = Map<Zone, dynamic>;
-
-/// Alias for Map<String, Map<String, dynamic>>, a hashmap of [DocId] to [JSON]
-/// documents.
-typedef JsonCollection = Map<DocId, JSON>;
+import 'package:text_indexing/src/_index.dart';
 
 /// Interface for classes that construct and maintain an inverted, positional,
 /// zoned index ([InvertedIndex]) and k-gram index ([KGramIndex]) for a
 /// collection of documents (`corpus`).
 ///
 /// Text or documents can be indexed by calling the following methods:
-/// - [TextIndexer.indexJson] indexes the fields in a `JSON` document;
+/// - [TextIndexer.indexJson] indexes the fields in a `Map<String, dynamic>` document;
 /// - [TextIndexer.indexText] indexes text from a text document; and
-/// - [indexCollection] indexes the fields of all the documents in a JSON
+/// - [indexCollection] indexes the fields of all the documents in a Map<String, dynamic>
 ///   document collection.
 ///
 /// Alternatively, pass a [documentStream] or [collectionStream] for indexing
@@ -30,16 +22,16 @@ typedef JsonCollection = Map<DocId, JSON>;
 /// Implementing classes override the following fields:
 /// - [index] is the [InvertedIndex] that provides access to the
 ///   index [Dictionary] and [Postings] and a [TextTokenizer];
-/// - [documentStream] is an input stream of 'JSON' documents. The documents
+/// - [documentStream] is an input stream of 'Map<String, dynamic>' documents. The documents
 ///   updateIndexested by[documentStream] are passed to [indexJson] for indexing; and
-/// - [collectionStream] is an input stream of a collection of 'JSON' documents.
+/// - [collectionStream] is an input stream of a collection of 'Map<String, dynamic>' documents.
 ///   The documents updateIndexested by [collectionStream] are passed to
 ///   [indexCollection] for indexing..
 ///
 /// Implementing classes override the following asynchronous methods:
 /// - [indexText] indexes a text document;
-/// - [indexJson] indexes the fields in a JSON document;
-/// - [indexCollection] indexes the fields of all the documents in a JSON
+/// - [indexJson] indexes the fields in a Map<String, dynamic> document;
+/// - [indexCollection] indexes the fields of all the documents in a Map<String, dynamic>
 ///   document collection; and
 /// - [updateIndexes] updates the [Dictionary], [Postings] and [KGramIndex]
 /// for this indexer.
@@ -48,30 +40,30 @@ abstract class TextIndexer {
 
   /// Factory constructor initializes a [TextIndexer] instance, passing in a
   /// [index] instance:
-  /// - [documentStream] is an input stream of 'JSON' documents. The documents
+  /// - [documentStream] is an input stream of 'Map<String, dynamic>' documents. The documents
   ///   updateIndexested by[documentStream] are passed to [indexJson] for indexing; and
-  /// - [collectionStream] is an input stream of a collection of 'JSON'
+  /// - [collectionStream] is an input stream of a collection of 'Map<String, dynamic>'
   ///   documents. The documents updateIndexested by [collectionStream] are passed to
   ///   [indexCollection] for indexing.
   factory TextIndexer(
           {required InvertedIndex index,
-          Stream<MapEntry<DocId, JSON>>? documentStream,
-          Stream<Map<DocId, JSON>>? collectionStream}) =>
+          Stream<MapEntry<String, Map<String, dynamic>>>? documentStream,
+          Stream<Map<String, Map<String, dynamic>>>? collectionStream}) =>
       _TextIndexerImpl(index, collectionStream, documentStream);
 
-  /// An input stream of 'JSON' documents. The documents updateIndexested by
+  /// An input stream of 'Map<String, dynamic>' documents. The documents updateIndexested by
   /// [documentStream] are passed to [indexJson] for indexing.
   ///
-  /// The key of the MapEntry<DocId, JSON> is the primary key reference of the
-  /// JSON document.
-  Stream<MapEntry<DocId, JSON>>? get documentStream;
+  /// The key of the MapEntry<String, Map<String, dynamic>> is the primary key reference of the
+  /// Map<String, dynamic> document.
+  Stream<MapEntry<String, Map<String, dynamic>>>? get documentStream;
 
-  /// An input stream of a collection of 'JSON' documents. The documents updateIndexested
+  /// An input stream of a collection of 'Map<String, dynamic>' documents. The documents updateIndexested
   /// by [documentStream] are passed to [indexCollection] for indexing.
   ///
-  /// The key of the MapEntry<DocId, JSON> is the primary key reference of the
-  /// JSON document.
-  Stream<Map<DocId, JSON>>? get collectionStream;
+  /// The key of the MapEntry<String, Map<String, dynamic>> is the primary key reference of the
+  /// Map<String, dynamic> document.
+  Stream<Map<String, Map<String, dynamic>>>? get collectionStream;
 
   /// The [updateIndexes] method is called by [index] and updates the
   /// [Dictionary], [Postings] and [KGramIndex] for this indexer.
@@ -81,14 +73,14 @@ abstract class TextIndexer {
   Future<void> updateIndexes(Postings event, Iterable<Token> tokens);
 
   /// Indexes a text document, returning a [Postings].
-  Future<Postings> indexText(DocId docId, SourceText docText);
+  Future<Postings> indexText(String docId, SourceText docText);
 
   /// Indexes the [InvertedIndex.zones] in a [json] document, returning a list
   /// of [DocumentPostingsEntry].
-  Future<Postings> indexJson(DocId docId, JSON json);
+  Future<Postings> indexJson(String docId, Map<String, dynamic> json);
 
   /// Indexes the [InvertedIndex.zones] of all the documents in [collection].
-  Future<void> indexCollection(JsonCollection collection);
+  Future<void> indexCollection(Map<String, Map<String, dynamic>> collection);
 
   /// The [InvertedIndex] that provides access to the
   /// index [Dictionary] and [Postings] and a [TextTokenizer].
@@ -121,7 +113,7 @@ abstract class TextIndexerBase implements TextIndexer {
   /// - calls [updateIndexes], passing the [Postings] for [docId]; and
   /// - returns the [Postings] for [docId].
   @override
-  Future<Postings> indexText(DocId docId, SourceText docText) async {
+  Future<Postings> indexText(String docId, SourceText docText) async {
     // get the terms using tokenizer
     final tokens = (await index.tokenizer.tokenize(docText));
     // map the tokens to postings
@@ -141,7 +133,7 @@ abstract class TextIndexerBase implements TextIndexer {
   /// - calls [updateIndexes], passing the [Postings] for [docId]; and
   /// - returns the [Postings] for [docId].
   @override
-  Future<Postings> indexJson(DocId docId, JSON json) async {
+  Future<Postings> indexJson(String docId, Map<String, dynamic> json) async {
     // get the terms using tokenizer
     final tokens = (await index.tokenizer.tokenizeJson(json, _zoneNames(json)));
     // map the tokens to postings
@@ -155,7 +147,7 @@ abstract class TextIndexerBase implements TextIndexer {
   /// tokens:
   /// - returns index.zones if it is not empty, otherwise
   /// - returns the keys of all entries in [json] that have [String] values.
-  Set<String> _zoneNames(JSON json) {
+  Set<String> _zoneNames(Map<String, dynamic> json) {
     if (index.zones.isNotEmpty) {
       return index.zones.keys.toSet();
     }
@@ -168,12 +160,14 @@ abstract class TextIndexerBase implements TextIndexer {
     return zones;
   }
 
-  /// Implementation of [TextIndexer.indexCollection] that parses each JSON
+  /// Implementation of [TextIndexer.indexCollection] that parses each Map<String, dynamic>
   /// document in [collection] to [Token]s and maps the tokens to a [Postings]
   /// that is passed to [updateIndexes].
   @override
-  Future<void> indexCollection(JsonCollection collection) async {
-    await Future.forEach(collection.entries, (MapEntry<DocId, JSON> e) async {
+  Future<void> indexCollection(
+      Map<String, Map<String, dynamic>> collection) async {
+    await Future.forEach(collection.entries,
+        (MapEntry<String, Map<String, dynamic>> e) async {
       final docId = e.key;
       final json = e.value;
       await indexJson(docId, json);
@@ -184,7 +178,7 @@ abstract class TextIndexerBase implements TextIndexer {
   /// every element in [tokens].
   ///
   /// Also adds a [ZonePostings] entry for term pairs in [tokens].
-  Postings _tokensToPostings(DocId docId, Iterable<Token> tokens) {
+  Postings _tokensToPostings(String docId, Iterable<Token> tokens) {
     // initialize a Postings collection to hold the postings
     final Postings postings = {};
     // initialize the term position index
@@ -287,8 +281,8 @@ class _TextIndexerImpl extends TextIndexerBase {
   _TextIndexerImpl(this.index, this.collectionStream, this.documentStream);
 
   @override
-  final Stream<Map<DocId, JSON>>? collectionStream;
+  final Stream<Map<String, Map<String, dynamic>>>? collectionStream;
 
   @override
-  final Stream<MapEntry<DocId, JSON>>? documentStream;
+  final Stream<MapEntry<String, Map<String, dynamic>>>? documentStream;
 }

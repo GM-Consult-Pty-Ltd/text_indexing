@@ -8,8 +8,9 @@
 
 import 'dart:async';
 import 'package:gmconsult_dev/gmconsult_dev.dart';
+import 'package:gmconsult_dev/test_data.dart';
 import 'package:hive/hive.dart';
-import 'package:text_indexing/text_indexing.dart';
+import 'package:text_indexing/src/_index.dart';
 import 'package:test/test.dart';
 import 'dart:io';
 import 'cached_index.dart';
@@ -34,6 +35,7 @@ void main() {
 
     const stockZones = {
       'name': 1.0,
+      'description': 0.5,
       'symbol': 5.0,
       'hashTag': 2.0,
     };
@@ -66,14 +68,7 @@ void main() {
 
       // - initialize a [InMemoryIndexer] with the default tokenizer
       final indexer = TextIndexer(index: index);
-
-      var i = 0;
-      await Future.forEach(vocabulary, (String docText) async {
-        final docId = i.toString().padLeft(6);
-        await indexer.indexText(docId, docText);
-        i++;
-      });
-
+      await indexer.indexCollection(TestData.stockData);
       await saveKgramIndex(kGramIndex);
     });
 
@@ -141,142 +136,138 @@ void main() {
           '${index.dictionary.length} postings and '
           '${index.kGramIndex.length} k-grams in $dT seconds!');
 
-      await SaveAs.json(fileName: 'kgramIndex', json: kGramIndex);
-
       expect(await index.vocabularyLength > 0, true);
-
-      // await saveKgramIndex(kGramIndex);
 
       //
     });
 
-    test('CachedIndex', () async {
-      // - initialize a [_TestIndexRepository()]
-      final repository = _TestIndexRepository();
+    // test('CachedIndex', () async {
+    //   // - initialize a [_TestIndexRepository()]
+    //   final repository = _TestIndexRepository();
 
-      // initialize a CachedIndex
-      final index = CachedIndex(
-          cacheLimit: 100000,
-          dictionaryLoader: repository.getDictionary,
-          dictionaryUpdater: repository.upsertDictionary,
-          dictionaryLengthLoader: () => repository.vocabularyLength,
-          kGramIndexLoader: repository.getKGramIndex,
-          kGramIndexUpdater: repository.upsertKGramIndex,
-          postingsLoader: repository.getPostings,
-          postingsUpdater: repository.upsertPostings,
-          zones: stockZones,
-          k: 3,
-          phraseLength: 2,
-          tokenizer: TextTokenizer());
+    //   // initialize a CachedIndex
+    //   final index = CachedIndex(
+    //       cacheLimit: 100000,
+    //       dictionaryLoader: repository.getDictionary,
+    //       dictionaryUpdater: repository.upsertDictionary,
+    //       dictionaryLengthLoader: () => repository.vocabularyLength,
+    //       kGramIndexLoader: repository.getKGramIndex,
+    //       kGramIndexUpdater: repository.upsertKGramIndex,
+    //       postingsLoader: repository.getPostings,
+    //       postingsUpdater: repository.upsertPostings,
+    //       zones: stockZones,
+    //       k: 3,
+    //       phraseLength: 2,
+    //       tokenizer: TextTokenizer());
 
-      final searchTokens = (await index.tokenizer.tokenize(searchPrase));
+    //   final searchTokens = (await index.tokenizer.tokenize(searchPrase));
 
-      // - initialize a [AsyncIndexer]
-      final indexer = TextIndexer(index: index);
+    //   // - initialize a [AsyncIndexer]
+    //   final indexer = TextIndexer(index: index);
 
-      final startTime = DateTime.now();
-      // get the start time in milliseconds
-      final start = startTime.millisecondsSinceEpoch;
+    //   final startTime = DateTime.now();
+    //   // get the start time in milliseconds
+    //   final start = startTime.millisecondsSinceEpoch;
 
-      _progressReporter(() => repository.dictionary.length,
-          () => repository.kGramIndex.length);
+    //   _progressReporter(() => repository.dictionary.length,
+    //       () => repository.kGramIndex.length);
 
-      // - iterate through the sample data
-      await indexer.indexCollection(sampleStocks);
+    //   // - iterate through the sample data
+    //   await indexer.indexCollection(sampleStocks);
 
-      // get the end time in milliseconds
-      final end = DateTime.now().millisecondsSinceEpoch;
+    //   // get the end time in milliseconds
+    //   final end = DateTime.now().millisecondsSinceEpoch;
 
-      // calculate the time taken to index the corpus in milliseconds
-      final dT = ((end - start) / 1000).toStringAsFixed(3);
+    //   // calculate the time taken to index the corpus in milliseconds
+    //   final dT = ((end - start) / 1000).toStringAsFixed(3);
 
-      // wait for stream elements to complete printing
-      await Future.delayed(const Duration(milliseconds: 250));
+    //   // wait for stream elements to complete printing
+    //   await Future.delayed(const Duration(milliseconds: 250));
 
-      // print the document term frequencies for each term in searchTerms
-      await _printTermFrequencyPostings(index, searchTokens);
+    //   // print the document term frequencies for each term in searchTerms
+    //   await _printTermFrequencyPostings(index, searchTokens);
 
-      // print the statistics for each term in [searchTerms].
-      await _printTermStats(index, searchTokens);
+    //   // print the statistics for each term in [searchTerms].
+    //   await _printTermStats(index, searchTokens);
 
-      print('[CachedIndex] indexed ${sampleStocks.length} documents to '
-          '${repository.dictionary.length} postings and '
-          '${repository.kGramIndex.length} k-grams in $dT seconds!');
+    //   print('[CachedIndex] indexed ${sampleStocks.length} documents to '
+    //       '${repository.dictionary.length} postings and '
+    //       '${repository.kGramIndex.length} k-grams in $dT seconds!');
 
-      print(' ');
+    //   print(' ');
 
-      expect(await index.vocabularyLength > 0, true);
-    });
+    //   expect(await index.vocabularyLength > 0, true);
+    // });
 
-    /// A test of the [AsyncIndex] on a small dataset using an index repository
-    /// simulator with latency on read/write:
-    /// - initialize the [_TestIndexRepository()];
-    /// - initialize index as an [AsyncCallbackIndex] that calls the methods
-    ///   exposed by _TestIndexRepository;
-    /// - initialize a [TextIndexer];
-    /// - get the sample data;
-    /// - iterate through the sample data;
-    /// - index each document, adding/updating terms, postings and k-grams
-    ///   in the index; and
-    /// - print the index statistics.
-    test('AsyncCallbackIndex.indexCollection', () async {
-      //
+    // /// A test of the [AsyncIndex] on a small dataset using an index repository
+    // /// simulator with latency on read/write:
+    // /// - initialize the [_TestIndexRepository()];
+    // /// - initialize index as an [AsyncCallbackIndex] that calls the methods
+    // ///   exposed by _TestIndexRepository;
+    // /// - initialize a [TextIndexer];
+    // /// - get the sample data;
+    // /// - iterate through the sample data;
+    // /// - index each document, adding/updating terms, postings and k-grams
+    // ///   in the index; and
+    // /// - print the index statistics.
+    // test('AsyncCallbackIndex.indexCollection', () async {
+    //   //
 
-      // - initialize a [_TestIndexRepository()]
-      final repository = _TestIndexRepository(latencyMs: 0);
+    //   // - initialize a [_TestIndexRepository()]
+    //   final repository = _TestIndexRepository(latencyMs: 0);
 
-      final index = AsyncCallbackIndex(
-          dictionaryLoader: repository.getDictionary,
-          dictionaryUpdater: repository.upsertDictionary,
-          dictionaryLengthLoader: () => repository.vocabularyLength,
-          kGramIndexLoader: repository.getKGramIndex,
-          kGramIndexUpdater: repository.upsertKGramIndex,
-          postingsLoader: repository.getPostings,
-          postingsUpdater: repository.upsertPostings,
-          zones: stockZones,
-          k: 3,
-          phraseLength: 2,
-          tokenizer: TextTokenizer());
+    //   final index = AsyncCallbackIndex(
+    //       dictionaryLoader: repository.getDictionary,
+    //       dictionaryUpdater: repository.upsertDictionary,
+    //       dictionaryLengthLoader: () => repository.vocabularyLength,
+    //       kGramIndexLoader: repository.getKGramIndex,
+    //       kGramIndexUpdater: repository.upsertKGramIndex,
+    //       postingsLoader: repository.getPostings,
+    //       postingsUpdater: repository.upsertPostings,
+    //       zones: stockZones,
+    //       k: 3,
+    //       phraseLength: 2,
+    //       tokenizer: TextTokenizer());
 
-      final searchTokens = (await index.tokenizer.tokenize(searchPrase));
+    //   final searchTokens = (await index.tokenizer.tokenize(searchPrase));
 
-      // - initialize a [AsyncIndexer]
-      final indexer = TextIndexer(index: index);
+    //   // - initialize a [AsyncIndexer]
+    //   final indexer = TextIndexer(index: index);
 
-      final startTime = DateTime.now();
-      // get the start time in milliseconds
-      final start = startTime.millisecondsSinceEpoch;
+    //   final startTime = DateTime.now();
+    //   // get the start time in milliseconds
+    //   final start = startTime.millisecondsSinceEpoch;
 
-      _progressReporter(() => repository.dictionary.length,
-          () => repository.kGramIndex.length);
+    //   _progressReporter(() => repository.dictionary.length,
+    //       () => repository.kGramIndex.length);
 
-      // - iterate through the sample data
-      await indexer.indexCollection(sampleStocks);
+    //   // - iterate through the sample data
+    //   await indexer.indexCollection(sampleStocks);
 
-      // get the end time in milliseconds
-      final end = DateTime.now().millisecondsSinceEpoch;
+    //   // get the end time in milliseconds
+    //   final end = DateTime.now().millisecondsSinceEpoch;
 
-      // calculate the time taken to index the corpus in milliseconds
-      final dT = ((end - start) / 1000).toStringAsFixed(3);
+    //   // calculate the time taken to index the corpus in milliseconds
+    //   final dT = ((end - start) / 1000).toStringAsFixed(3);
 
-      // wait for stream elements to complete printing
-      await Future.delayed(const Duration(milliseconds: 250));
+    //   // wait for stream elements to complete printing
+    //   await Future.delayed(const Duration(milliseconds: 250));
 
-      // print the document term frequencies for each term in searchTerms
-      await _printTermFrequencyPostings(index, searchTokens);
+    //   // print the document term frequencies for each term in searchTerms
+    //   await _printTermFrequencyPostings(index, searchTokens);
 
-      // print the statistics for each term in [searchTerms].
-      await _printTermStats(index, searchTokens);
+    //   // print the statistics for each term in [searchTerms].
+    //   await _printTermStats(index, searchTokens);
 
-      print(
-          'Indexed ${sampleStocks.length} documents to ${repository.dictionary.length} '
-          'postings and ${repository.kGramIndex.length} k-grams in '
-          '$dT seconds!');
+    //   print(
+    //       'Indexed ${sampleStocks.length} documents to ${repository.dictionary.length} '
+    //       'postings and ${repository.kGramIndex.length} k-grams in '
+    //       '$dT seconds!');
 
-      print(' ');
+    //   print(' ');
 
-      expect(await index.vocabularyLength > 0, true);
-    });
+    //   expect(await index.vocabularyLength > 0, true);
+    // });
   });
 }
 
@@ -324,7 +315,7 @@ Future<void> _printTermFrequencyPostings(
   // calculate the time taken to index the corpus in milliseconds
   final dT = ((end - start) / 1000).toStringAsFixed(3);
 
-  final results = <JSON>[];
+  final results = <Map<String, dynamic>>[];
 
   for (final e in tfPostings.entries) {
     for (final posting in e.value.entries) {
@@ -372,7 +363,7 @@ Future<void> _printTermStats(
   // calculate the time taken to index the corpus in milliseconds
   final dT = ((end - start)).toStringAsFixed(3);
 
-  final results = <JSON>[];
+  final results = <Map<String, dynamic>>[];
   for (final term in searchTerms) {
     final df = dictionary[term] ?? 0;
     final idf = iDftIndex[term] ?? 0.0;
@@ -389,7 +380,7 @@ Future<void> _printTermStats(
   Echo(title: 'DICTIONARY STATISTICS', results: results, minPrintWidth: 120)
       .printResults();
 
-  final stats = <JSON>[];
+  final stats = <Map<String, dynamic>>[];
   stats.add({
     'Search Terms': dictionary.length,
     'k-Gram Terms': kGramTerms.length,

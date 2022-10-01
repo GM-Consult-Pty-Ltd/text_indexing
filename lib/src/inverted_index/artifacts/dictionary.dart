@@ -2,7 +2,7 @@
 // BSD 3-Clause License
 // All rights reserved
 
-import 'package:text_indexing/text_indexing.dart';
+import 'package:text_indexing/src/_index.dart';
 
 /// Enumerates the sorting strategy for [Dictionary]'s [DictionaryEntry]s.
 enum TermSortStrategy {
@@ -15,41 +15,6 @@ enum TermSortStrategy {
   /// descending order.
   byFrequency
 }
-
-/// Defines a term dictionary used in an inverted index.
-///
-/// The [Dictionary] is a hashmap of [DictionaryEntry]s with the vocabulary as
-/// key and the document frequency as the values.
-///
-/// A [Dictionary] can be an asynchronous data source or an in-memory hashmap.
-///
-/// Alias for Map<String, int>.
-typedef Dictionary = Map<Term, Ft>;
-
-/// A [DictionaryEntry] is an entry in a [Dictionary].
-///
-/// Alias for MapEntry<Term, Ft>.
-typedef DictionaryEntry = MapEntry<Term, Ft>;
-
-/// Asynchronously retrieves a [Dictionary] subset for a collection of
-/// [terms] from a [Dictionary] data source, usually persisted storage.
-///
-/// Loads the entire [Dictionary] if [terms] is null.
-typedef DictionaryLoader = Future<Dictionary> Function([Iterable<Term>? terms]);
-
-/// Asynchronously retrieves the number of terms in the vocabulary (N).
-typedef DictionaryLengthLoader = Future<int> Function();
-
-/// A callback that passes [values] for persisting to a [Dictionary].
-///
-/// Parameter [values] is a subset of a [Dictionary] containing new or changed
-/// [DictionaryEntry] instances.
-typedef DictionaryUpdater = Future<void> Function(Dictionary values);
-
-/// Alias for Map<String, double>.
-///
-/// Maps the vocabulary [Term] to [IdFt].
-typedef IdFtIndex = Map<Term, IdFt>;
 
 /// A [DictionaryEntry] is a unit of entry in the [Dictionary] of an inverted
 /// index.

@@ -2,7 +2,7 @@
 // BSD 3-Clause License
 // All rights reserved
 
-import 'package:text_indexing/text_indexing.dart';
+import 'package:text_indexing/src/_index.dart';
 
 /// The InMemoryIndex is an implementation of the [InvertedIndex] interface
 /// that mixes in [InvertedIndexMixin] and [InMemoryIndexMixin].

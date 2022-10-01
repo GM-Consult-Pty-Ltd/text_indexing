@@ -4,7 +4,7 @@
 
 // ignore_for_file: deprecated_member_use_from_same_package
 
-import 'package:text_indexing/text_indexing.dart';
+import 'package:text_indexing/src/_index.dart';
 
 /// Two examples using the indexers in this package are provided:
 /// - [_inMemoryIndexerExample] is a simple example of a [TextIndexer.inMemory]
@@ -77,14 +77,14 @@ Future<void> _inMemoryIndexerExample(Map<String, String> documents,
   await _printTermStats(indexer.index, searchTerms);
 }
 
-/// A simple test of the [TextIndexer.async] on a small JSON dataset using a
+/// A simple test of the [TextIndexer.async] on a small Map<String, dynamic> dataset using a
 /// simulated persisted index repository with 50 millisecond latency on
 /// read/write operations to [Dictionary] and [Postings] hashmaps:
 /// - initialize the [_TestIndexRepository];
 /// - initialize a [TextIndexer];
-/// - iterate through the JSON documents and index each document; and
+/// - iterate through the Map<String, dynamic> documents and index each document; and
 /// - print the statistics on 5 search terms.
-Future<void> _asyncIndexerExample(Map<String, JSON> documents,
+Future<void> _asyncIndexerExample(Map<String, Map<String, dynamic>> documents,
     String searchPhrase, Map<String, double> zones) async {
   //
 
@@ -170,29 +170,26 @@ Future<void> _printTermStats(
   final dT = ((end - start)).toStringAsFixed(3);
 
   // print the headings
-  print(''.padLeft(80, '_'));
+  print(''.padLeft(85, '_'));
   print('DICTIONARY STATISTICS (search terms)');
-  print(''.padLeft(80, '-'));
-  print('${'Term'.padRight(10)}'
+  print(''.padLeft(85, '-'));
+  print('${'Term'.padRight(15)}'
       '${'Term Frequency'.toString().padLeft(20)}'
       '${'Document Frequency'.toString().padLeft(20)}'
       '${'Inverse Document Frequency'.toString().padLeft(30)}');
-  print(''.padLeft(80, '-'));
+  print(''.padLeft(85, '-'));
 
   // print the statistics
   for (final term in searchTerms) {
     final df = dictionary[term] ?? 0;
     final idf = iDftIndex[term] ?? 0.0;
     final tf = tFtIndex[term] ?? 0;
-    print('${term.padRight(10)}'
+    print('${term.padRight(15)}'
         '${tf.toString().padLeft(20)}'
         '${df.toString().padLeft(20)}'
         '${idf.toStringAsFixed(2).padLeft(4, '0').padLeft(30)}');
   }
-  print(''.padLeft(80, '-'));
-
-  // print a closing line
-  print(''.padLeft(80, '-'));
+  print(''.padLeft(85, '-'));
 
   // print the performance
   print('Retrieved');
@@ -201,8 +198,8 @@ Future<void> _printTermStats(
   print('- inverse document frequencies for ${iDftIndex.length} terms; and');
   print('- k-gram postings for ${kGramTerms.length} terms.');
   print('in $dT milliseconds.');
-  print(''.padLeft(80, '-'));
-  print(''.padLeft(80, '-'));
+  print(''.padLeft(85, '-'));
+  print(''.padLeft(85, '-'));
 }
 
 /// Four paragraphs of text used for testing.
@@ -223,7 +220,7 @@ final textData = {
       'founder John Foley and explore a sale.'
 };
 
-/// JSON data used to demonstrate persisted indexing of fields in JSON documents.
+/// Map<String, dynamic> data used to demonstrate persisted indexing of fields in Map<String, dynamic> documents.
 final jsonData = {
   'ee1760a1-a259-50dc-b11d-8baf34d7d1c5': {
     'avatarImageUrl':

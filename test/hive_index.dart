@@ -4,7 +4,7 @@
 
 // // ignore_for_file: deprecated_member_use_from_same_package
 
-// import 'package:text_indexing/text_indexing.dart';
+// import 'package:text_indexing/src/_index.dart';
 // import 'package:hive/hive.dart';
 // import 'dart:convert';
 

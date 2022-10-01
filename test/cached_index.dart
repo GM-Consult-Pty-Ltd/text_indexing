@@ -4,7 +4,7 @@
 
 import 'dart:async';
 
-import 'package:text_indexing/text_indexing.dart';
+import 'package:text_indexing/src/_index.dart';
 
 /// The [CachedIndex] is a [InvertedIndex] implementation class that mixes in
 /// [InvertedIndexMixin] and [CachedIndexMixin].

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the toList method from the IdFtIndexExtensions extension, for the Dart programming language.">
+  <title>toList method - IdFtIndexExtensions extension - text_indexing_extensions library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../../static-assets/styles.css?v1">
+  <link rel="icon" href="../../static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="../../"
+      data-using-base-href="false">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../../index.html">text_indexing</a></li>
+    <li><a href="../../text_indexing_extensions/text_indexing_extensions-library.html">text_indexing_extensions</a></li>
+    <li><a href="../../text_indexing_extensions/IdFtIndexExtensions.html">IdFtIndexExtensions</a></li>
+    <li class="self-crumb">toList method</li>
+  </ol>
+  <div class="self-name">toList</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+
+  <div id="dartdoc-main-content" class="main-content">
+      <div>
+<h1><span class="kind-method">toList</span> method 
+    <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
+</h1></div>
+
+    <section class="multi-line-signature">
+      
+
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/MapEntry-class.html">MapEntry</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span>&gt;</span></span>&gt;</span></span>
+<span class="name ">toList</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="toList-param-sortBy">[<span class="type-annotation"><a href="../../text_indexing_extensions/TermSortStrategy.html">TermSortStrategy</a></span> <span class="parameter-name">sortBy</span> = <span class="default-value">TermSortStrategy.byTerm</span>]</span></li>
+</ol>)
+
+      
+
+    </section>
+    
+<section class="desc markdown">
+  <p>Returns a list of <a href="../../text_indexing_type_definitions/DictionaryEntry.html">DictionaryEntry</a>s from the <a href="https://api.flutter.dev/flutter/dart-core/Map/entries.html">entries</a> in the <a href="../../text_indexing_type_definitions/Dictionary.html">Dictionary</a>.</p>
+<p>Sorts the terms according to <code>sortBy</code> value:</p>
+<ul>
+<li><a href="../../text_indexing_extensions/TermSortStrategy.html">TermSortStrategy.byTerm</a> sorts the <a href="../../text_indexing_type_definitions/DictionaryEntry.html">DictionaryEntry</a>s alphabetically (default); or</li>
+<li><a href="../../text_indexing_extensions/TermSortStrategy.html">TermSortStrategy.byFrequency</a> sorts the <a href="../../text_indexing_type_definitions/DictionaryEntry.html">DictionaryEntry</a>s by <a href="../../text_indexing_type_definitions/Ft.html">Ft</a> in
+descending order.</li>
+</ul>
+</section>
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">List&lt;MapEntry&lt;String, double&gt;&gt; toList(
+    [TermSortStrategy sortBy = TermSortStrategy.byTerm]) {
+  final list = entries.toList();
+  switch (sortBy) {
+    case TermSortStrategy.byTerm:
+      list.sort(((a, b) =&gt; a.key.compareTo(b.key)));
+      break;
+    case TermSortStrategy.byFrequency:
+      list.sort(((a, b) =&gt; b.value.compareTo(a.value)));
+      break;
+  }
+  return list;
+}</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+  <li><a href="../../index.html">text_indexing</a></li>
+  <li><a href="../../text_indexing_extensions/text_indexing_extensions-library.html">text_indexing_extensions</a></li>
+  <li><a href="../../text_indexing_extensions/IdFtIndexExtensions.html">IdFtIndexExtensions</a></li>
+  <li class="self-crumb">toList method</li>
+</ol>
+
+
+    <h5>IdFtIndexExtensions extension</h5>
+    <ol>
+
+
+
+
+    <li class="section-title"> <a href="../../text_indexing_extensions/IdFtIndexExtensions.html#instance-properties">Properties</a>
+    </li>
+    <li><a href="../../text_indexing_extensions/IdFtIndexExtensions/terms.html">terms</a></li>
+
+    <li class="section-title"><a href="../../text_indexing_extensions/IdFtIndexExtensions.html#instance-methods">Methods</a></li>
+    <li><a href="../../text_indexing_extensions/IdFtIndexExtensions/toList.html">toList</a></li>
+
+
+
+
+</ol>
+
+  </div><!--/.sidebar-offcanvas-->
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    text_indexing
+      0.14.6
+  </span>
+
+  
+</footer>
+
+
+
+<script src="../../static-assets/highlight.pack.js?v1"></script>
+<script src="../../static-assets/script.js?v1"></script>
+
+
+
+</body>
+
+</html>
+

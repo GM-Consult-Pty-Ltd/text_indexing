@@ -5,3 +5,6 @@
 // List all exports below in alphabetical order.
 export 'inverted_index/_index.dart';
 export 'text_indexer/_index.dart';
+export 'package:text_analysis/text_analysis.dart';
+export 'package:text_analysis/type_definitions.dart';
+export 'typedefs.dart';

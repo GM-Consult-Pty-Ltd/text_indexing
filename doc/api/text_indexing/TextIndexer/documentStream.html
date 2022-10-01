@@ -54,7 +54,7 @@
 <section id="getter">
 
 <section class="multi-line-signature">
-  <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/MapEntry-class.html">MapEntry</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_indexing/DocId.html">DocId</a></span>, <span class="type-parameter"><a href="../../text_indexing/JSON.html">JSON</a></span>&gt;</span></span>&gt;</span>?</span>
+  <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/MapEntry-class.html">MapEntry</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span>&gt;</span></span>&gt;</span>?</span>
   <span class="name ">documentStream</span>
   
 
@@ -62,16 +62,16 @@
 
 
 <section class="desc markdown">
-  <p>An input stream of 'JSON' documents. The documents updateIndexested by
+  <p>An input stream of 'Map&lt;String, dynamic&gt;' documents. The documents updateIndexested by
 <a href="../../text_indexing/TextIndexer/documentStream.html">documentStream</a> are passed to <a href="../../text_indexing/TextIndexer/indexJson.html">indexJson</a> for indexing.</p>
-<p>The key of the MapEntry&lt;DocId, JSON&gt; is the primary key reference of the
-JSON document.</p>
+<p>The key of the MapEntry&lt;String, Map&lt;String, dynamic&gt;&gt; is the primary key reference of the
+Map&lt;String, dynamic&gt; document.</p>
 </section>
 
 
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Stream&lt;MapEntry&lt;DocId, JSON&gt;&gt;? get documentStream;</code></pre>
+  <pre class="language-dart"><code class="language-dart">Stream&lt;MapEntry&lt;String, Map&lt;String, dynamic&gt;&gt;&gt;? get documentStream;</code></pre>
 </section>
 
 </section>
@@ -136,7 +136,7 @@ JSON document.</p>
 <footer>
   <span class="no-break">
     text_indexing
-      0.14.5+1
+      0.14.6
   </span>
 
   

@@ -3,33 +3,7 @@
 // All rights reserved
 
 import 'dart:math';
-import 'package:text_indexing/text_indexing.dart';
-
-/// An alias for [int], used to denote the frequency of a [Term] in an index or
-/// indexed object.
-typedef Ft = int;
-
-/// Alias for `Map<Zone, double>`.
-///
-/// Maps the zone names to their relative weight.
-typedef ZoneWeightMap = Map<Zone, double>;
-
-/// Alias for [double] where it represents the inverse document frequency of a
-/// term.
-///
-/// IdFt is defined as `idft = log (N / dft)`, where:
-/// - N is the total number of terms in the index;
-/// - dft is the document frequency of the term (number of documents that
-///   contain the term).
-/// The [IdFt] of a rare term is high, whereas the [IdFt] of a frequent term is
-/// likely to be low.
-typedef IdFt = double;
-
-/// Alias for `Map<String, Map<String, int>>`.
-///
-/// Maps the vocabulary to hashmaps of document id to term frequency in the
-/// document.
-typedef FtdPostings = Map<Term, Map<DocId, Ft>>;
+import 'package:text_indexing/src/_index.dart';
 
 /// An interface that exposes methods for working with an inverted, positional
 /// zoned index on a collection of documents:

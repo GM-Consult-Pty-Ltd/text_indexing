@@ -92,7 +92,14 @@ Copyright (c) 2022, GM Consult Pty Ltd, All rights reserved.
   text_indexing: &lt;latest version&gt;
 </code></pre>
 <p>In your code file add the <code>text_indexing</code> import.</p>
-<pre class="language-dart"><code class="language-dart">import 'package:text_indexing/text_indexing.dart';
+<pre class="language-dart"><code class="language-dart">// import the core classes
+import 'package:text_indexing/text_indexing.dart'; 
+
+// import the typedefs, if needed
+import 'package:text_indexing/type_definitions.dart'; 
+
+// import the extensions, if needed
+import 'package:text_indexing/extensions.dart'; 
 </code></pre>
 <p>For small collections, instantiate a <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html">TextIndexer</a>  with a <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html">InMemoryIndex</a>, (optionally passing empty <code>Dictionary</code> and <code>Postings</code> hashmaps).</p>
 <p>Call the <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer/indexCollection.html">TextIndexer.indexCollection</a> method to a a collection of documents to the index.</p>
@@ -109,7 +116,7 @@ Copyright (c) 2022, GM Consult Pty Ltd, All rights reserved.
 <p>The <a href="https://pub.dev/packages/text_indexing/example">examples</a> demonstrate the use of the <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html">TextIndexer</a> with a <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html">InMemoryIndex</a> and <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/AsyncCallbackIndex-class.html">AsyncCallbackIndex</a>.</p>
 <h2 id="api">API</h2>
 <p>The <a href="https://pub.dev/documentation/text_indexing/latest/">API</a> exposes the <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html">TextIndexer</a> interface that builds and maintains an <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex-class.html">InvertedIndex</a> for a collection of documents.</p>
-<p>To maximise performance of the indexers the API performs lookups in nested hashmaps of DART core types. To improve code legibility the API makes use of <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/text_indexing-library.html#typedefs">type aliases</a> throughout.</p>
+<p>To maximise performance of the indexers the API performs lookups in nested hashmaps of DART core types. To improve code legibility the API makes use of <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/text_indexing-library.html#typedefs">type aliases</a> and extensions. The typedefs and extensions are not exported by the <code>text_indexer</code> library, but can be found in the <code>text_indexer_type_definitions</code> and <code>text_indexer_type_extensions</code>. Import these seperately to use.</p>
 <h3 id="invertedindex">InvertedIndex</h3>
 <p>The <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex-class.html">InvertedIndex</a> interface exposes properties and methods for working with <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/Dictionary.html">Dictionary</a>, <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/KGramIndex.html">KGramIndex</a> and <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/Postings.html">Postings</a> hashmaps.</p>
 <p>A <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndexMixin-class.html">mixin class</a> implements the <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex/getTfIndex.html">getTfIndex</a>, <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex/getFtdPostings.html">getFtdPostings</a> and <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex/getIdFtIndex.html">getIdFtIndex</a> methods.</p>
@@ -152,7 +159,7 @@ Copyright (c) 2022, GM Consult Pty Ltd, All rights reserved.
 <ul>
 <li><code>index</code> - an <a href="https://en.wikipedia.org/wiki/Inverted_index">inverted index</a> used to look up <code>document</code> references from the <code>corpus</code> against a <code>vocabulary</code> of <code>terms</code>.</li>
 <li><code>index-elimination</code> - selecting a subset of the entries in an index where the <code>term</code> is in the collection of <code>terms</code> in a search phrase.</li>
-<li><code>inverse document frequency</code> or <code>iDft</code> is equal to log (N / <code>dft</code>), where N is the total number of terms in the index. The <code>IdFt</code> of a rare term is high, whereas the <a href="text_indexing/IdFt.html">IdFt</a> of a frequent term is likely to be low.</li>
+<li><code>inverse document frequency</code> or <code>iDft</code> is equal to log (N / <code>dft</code>), where N is the total number of terms in the index. The <code>IdFt</code> of a rare term is high, whereas the <a href="text_indexing_type_definitions/IdFt.html">IdFt</a> of a frequent term is likely to be low.</li>
 <li><code>Jaccard index</code> measures similarity between finite sample sets, and is defined as the size of the intersection divided by the size of the union of the sample sets (from <a href="https://en.wikipedia.org/wiki/Jaccard_index">Wikipedia</a>).</li>
 <li><code>JSON</code> is an acronym for <code>"Java Script Object Notation"</code>, a common format for persisting data.</li>
 <li><code>k-gram</code> - a sequence of (any) k consecutive characters from a <code>term</code>. A <code>k-gram</code> can start with "$", denoting the start of the term, and end with "$", denoting the end of the term. The 3-grams for "castle" are { $ca, cas, ast, stl, tle, le$ }.</li>
@@ -199,6 +206,20 @@ Copyright (c) 2022, GM Consult Pty Ltd, All rights reserved.
 <dd>Dart library for creating an inverted index on a collection of text documents.
 </dd>
 
+          <dt id="text_indexing_extensions">
+  <span class="name"><a href="text_indexing_extensions/text_indexing_extensions-library.html">text_indexing_extensions</a></span> 
+
+</dt>
+<dd>The typedefs used in text_indexing.
+</dd>
+
+          <dt id="text_indexing_type_definitions">
+  <span class="name"><a href="text_indexing_type_definitions/text_indexing_type_definitions-library.html">text_indexing_type_definitions</a></span> 
+
+</dt>
+<dd>The typedefs used in text_indexing.
+</dd>
+
         </dl>
       </section>
 
@@ -220,6 +241,8 @@ Copyright (c) 2022, GM Consult Pty Ltd, All rights reserved.
     <ol>
       <li class="section-title">Libraries</li>
       <li><a href="text_indexing/text_indexing-library.html">text_indexing</a></li>
+      <li><a href="text_indexing_extensions/text_indexing_extensions-library.html">text_indexing_extensions</a></li>
+      <li><a href="text_indexing_type_definitions/text_indexing_type_definitions-library.html">text_indexing_type_definitions</a></li>
 </ol>
 
   </div>
@@ -232,7 +255,7 @@ Copyright (c) 2022, GM Consult Pty Ltd, All rights reserved.
 <footer>
   <span class="no-break">
     text_indexing
-      0.14.5+1
+      0.14.6
   </span>
 
   

@@ -59,8 +59,8 @@
 </div>
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
-<span class="name ">updateIndexes</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="updateIndexes-param-event"><span class="type-annotation"><a href="../../text_indexing/Postings.html">Postings</a></span> <span class="parameter-name">event</span>, </span></li>
-<li><span class="parameter" id="updateIndexes-param-tokens"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.11.2/text_analysis/Token-class.html">Token</a></span>&gt;</span></span> <span class="parameter-name">tokens</span></span></li>
+<span class="name ">updateIndexes</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="updateIndexes-param-event"><span class="type-annotation"><a href="../../text_indexing_type_definitions/Postings.html">Postings</a></span> <span class="parameter-name">event</span>, </span></li>
+<li><span class="parameter" id="updateIndexes-param-tokens"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.13.0/text_analysis/Token-class.html">Token</a></span>&gt;</span></span> <span class="parameter-name">tokens</span></span></li>
 </ol>)
 
       <div class="features">@<a href="https://pub.dev/documentation/meta/1.8.0/meta/mustCallSuper-constant.html">mustCallSuper</a>, override</div>
@@ -71,17 +71,17 @@
   <p>Implementation of <a href="../../text_indexing/TextIndexer/updateIndexes.html">TextIndexer.updateIndexes</a> that:</p>
 <ul>
 <li>maps <code>event</code> to a set of unique terms;</li>
-<li>loads the existing <a href="../../text_indexing/PostingsEntry.html">PostingsEntry</a>s for the terms from the <a href="../../text_indexing/TextIndexer/index.html">index</a>
-<a href="../../text_indexing/Postings.html">Postings</a>;</li>
-<li>loads the existing <a href="../../text_indexing/DictionaryEntry.html">DictionaryEntry</a>s for the terms from the <a href="../../text_indexing/TextIndexer/index.html">index</a>;</li>
+<li>loads the existing <a href="../../text_indexing_type_definitions/PostingsEntry.html">PostingsEntry</a>s for the terms from the <a href="../../text_indexing/TextIndexer/index.html">index</a>
+<a href="../../text_indexing_type_definitions/Postings.html">Postings</a>;</li>
+<li>loads the existing <a href="../../text_indexing_type_definitions/DictionaryEntry.html">DictionaryEntry</a>s for the terms from the <a href="../../text_indexing/TextIndexer/index.html">index</a>;</li>
 <li>iterates through the <code>event</code> entries and:</li>
-<li>inserts or updates each <a href="../../text_indexing/DocumentPostingsEntry.html">DocumentPostingsEntry</a> instance to the index
-<a href="../../text_indexing/Postings.html">Postings</a>;</li>
-<li>if a <a href="../../text_indexing/DocumentPostingsEntry.html">DocumentPostingsEntry</a> instance did not exist previously,
+<li>inserts or updates each <a href="../../text_indexing_type_definitions/DocumentPostingsEntry.html">DocumentPostingsEntry</a> instance to the index
+<a href="../../text_indexing_type_definitions/Postings.html">Postings</a>;</li>
+<li>if a <a href="../../text_indexing_type_definitions/DocumentPostingsEntry.html">DocumentPostingsEntry</a> instance did not exist previously,
 increments the document frequency of the associated term;</li>
 <li>then:</li>
-<li>asynchronously updates the index <a href="../../text_indexing/Dictionary.html">Dictionary</a>; and</li>
-<li>asynchronously updates the index <a href="../../text_indexing/Postings.html">Postings</a>.</li>
+<li>asynchronously updates the index <a href="../../text_indexing_type_definitions/Dictionary.html">Dictionary</a>; and</li>
+<li>asynchronously updates the index <a href="../../text_indexing_type_definitions/Postings.html">Postings</a>.</li>
 </ul>
 </section>
 
@@ -183,7 +183,7 @@ Future&lt;void&gt; updateIndexes(Postings event, Iterable&lt;Token&gt; tokens) a
 <footer>
   <span class="no-break">
     text_indexing
-      0.14.5+1
+      0.14.6
   </span>
 
   

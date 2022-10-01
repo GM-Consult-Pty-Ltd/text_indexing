@@ -79,7 +79,14 @@ dependencies:
 In your code file add the `text_indexing` import.
 
 ```dart
-import 'package:text_indexing/text_indexing.dart';
+// import the core classes
+import 'package:text_indexing/text_indexing.dart'; 
+
+// import the typedefs, if needed
+import 'package:text_indexing/type_definitions.dart'; 
+
+// import the extensions, if needed
+import 'package:text_indexing/extensions.dart'; 
 ```
 
 For small collections, instantiate a [TextIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html)  with a [InMemoryIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html), (optionally passing empty `Dictionary` and `Postings` hashmaps). 
@@ -104,7 +111,7 @@ The [examples](https://pub.dev/packages/text_indexing/example) demonstrate the u
 
 The [API](https://pub.dev/documentation/text_indexing/latest/) exposes the [TextIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html) interface that builds and maintains an [InvertedIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex-class.html) for a collection of documents.
 
-To maximise performance of the indexers the API performs lookups in nested hashmaps of DART core types. To improve code legibility the API makes use of [type aliases](https://pub.dev/documentation/text_indexing/latest/text_indexing/text_indexing-library.html#typedefs) throughout.
+To maximise performance of the indexers the API performs lookups in nested hashmaps of DART core types. To improve code legibility the API makes use of [type aliases](https://pub.dev/documentation/text_indexing/latest/text_indexing/text_indexing-library.html#typedefs) and extensions. The typedefs and extensions are not exported by the `text_indexer` library, but can be found in the `text_indexer_type_definitions` and `text_indexer_type_extensions`. Import these seperately to use. 
 
 ### InvertedIndex
 
