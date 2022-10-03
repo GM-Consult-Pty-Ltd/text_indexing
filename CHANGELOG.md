@@ -6,6 +6,20 @@ All rights reserved.
 
 *THIS PACKAGE IS **PRE-RELEASE** AND SUBJECT TO DAILY BREAKING CHANGES.*
 
+### 0.16.0
+
+#### Breaking Changes:
+* Default k-gram length changed from k =2 to k = 2 in `AsyncCallbackIndex` and `InMemoryIndex` constructors and 
+
+#### New:
+* Unnamed factory constructor `InvertedIndex` returns a [AsyncCallbackIndex] instance.
+* Factory constructor `InvertedIndex.inMemory` returns a [InMemoryIndex] instance.
+
+
+#### Updated
+* Dependencies.
+* Documentation.
+
 ### 0.15.0+1
 
 #### Updated

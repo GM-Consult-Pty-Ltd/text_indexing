@@ -47,7 +47,7 @@ class InMemoryIndex
       DftMap? dictionary,
       PostingsMap? postings,
       KGramsMap? kGramIndex,
-      this.k = 3,
+      this.k = 2,
       this.zones = const <String, double>{},
       this.phraseLength = 1})
       : assert(phraseLength > 0, 'The phrase length must be 1 or greater') {

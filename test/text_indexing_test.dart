@@ -52,18 +52,19 @@ void main() {
       // - initialize the [KGramsMap]
       final KGramsMap kGramIndex = {};
 
-      final index = InMemoryIndex(
-          tokenizer: TextTokenizer(),
-          dictionary: dictionary,
-          postings: postings,
-          kGramIndex: kGramIndex,
-          zones: stockZones,
-          phraseLength: 1,
-          k: 2);
+      final index = await _getIndex(sampleNews);
+      // InMemoryIndex(
+      //     tokenizer: TextTokenizer(),
+      //     dictionary: dictionary,
+      //     postings: postings,
+      //     kGramIndex: kGramIndex,
+      //     zones: stockZones,
+      //     phraseLength: 1,
+      //     k: 2);
 
       // - initialize a [InMemoryIndexer] with the default tokenizer
-      final indexer = TextIndexer(index: index);
-      await indexer.indexCollection(TestData.stockData);
+      // final indexer = TextIndexer(index: index);
+      // await indexer.indexCollection(TestData.stockData);
       await saveKgramIndex(kGramIndex);
     });
 
@@ -272,7 +273,19 @@ Future<void> saveKgramIndex(KGramsMap value) async {
     buffer.writeln('},');
   }
   buffer.writeln('};');
-  final out = File('kGramIndex.txt').openWrite();
+  final out = File(r'test\data\kGramIndex.txt').openWrite();
   out.writeln(buffer.toString());
   await out.close();
+}
+
+Future<InvertedIndex> _getIndex(JsonCollection documents,
+    [Map<String, double> zones = const {
+      'name': 1,
+      'descriptions': 0.5
+    }]) async {
+  final index = InMemoryIndex(tokenizer: TextTokenizer(), zones: zones);
+  final indexer = TextIndexer(index: index);
+  await indexer.indexCollection(documents);
+  await saveKgramIndex(index.kGramIndex);
+  return index;
 }

@@ -39,6 +39,96 @@ import 'package:text_indexing/src/_index.dart';
 abstract class InvertedIndex {
   //
 
+  /// A factory constructor that returns an [InMemoryIndex] instance:
+  /// - [tokenizer] is the [TextTokenizer] used to tokenize text for the index;
+  /// - [k] is the length of k-gram entries in the k-gram index;
+  /// - [zones] is a hashmap of zone names to their relative weight in the
+  ///   index;
+  /// - [phraseLength] is the maximum length of phrases in the index vocabulary
+  ///   and must be greater than 0.
+  /// - [dictionary] is the in-memory term dictionary for the indexer. Pass a
+  ///   [DftMap] instance at instantiation, otherwise an empty [DftMap]
+  ///   will be initialized;
+  /// - [kGramIndex] is the in-memory [KGramsMap] for the index. Pass a
+  ///   [KGramsMap] instance at instantiation, otherwise an empty [KGramsMap]
+  ///   will be initialized; and
+  /// - [postings] is the in-memory postings hashmap for the indexer. Pass a
+  ///   [PostingsMap] instance at instantiation, otherwise an empty [PostingsMap]
+  ///   will be initialized.
+  factory InvertedIndex.inMemory(
+          {required TextTokenizer tokenizer,
+          Map<String, int>? dictionary,
+          Map<String, Map<String, Map<String, List<int>>>>? postings,
+          Map<String, Set<String>>? kGramIndex,
+          int k = 2,
+          Map<String, double> zones = const <String, double>{},
+          int phraseLength = 1}) =>
+      InMemoryIndex(
+          tokenizer: tokenizer,
+          dictionary: dictionary,
+          postings: postings,
+          kGramIndex: kGramIndex,
+          k: k,
+          zones: zones,
+          phraseLength: phraseLength);
+
+  /// /// A factory constructor that returns an [AsyncCallbackIndex] instance:
+  /// - [tokenizer] is the [TextTokenizer] used to tokenize text for the index;
+  /// - [k] is the length of k-gram entries in the k-gram index;
+  /// - [zones] is a hashmap of zone names to their relative weight in the
+  ///   index;
+  /// - [phraseLength] is the maximum length of phrases in the index vocabulary
+  ///   and must be greater than 0;
+  /// - [dictionaryLengthLoader] asynchronously retrieves the number of terms
+  ///   in the vocabulary (N);
+  /// - [dictionaryLoader] asynchronously retrieves a [DftMap] for a
+  ///   vocabulary from a index repository;
+  /// - [dictionaryUpdater] is callback that passes a [DftMap] subset
+  ///    for persisting to a index repository;
+  /// - [kGramIndexLoader] asynchronously retrieves a [KGramsMap] for a
+  ///   vocabulary from a index repository;
+  /// - [kGramIndexUpdater] is callback that passes a [KGramsMap] subset
+  ///    for persisting to a index repository;
+  /// - [postingsLoader] asynchronously retrieves a [PostingsMap] for a vocabulary
+  ///   from a index repository; and
+  /// - [postingsUpdater] passes a [PostingsMap] subset for persisting to a
+  ///   index repository.
+  factory InvertedIndex(
+          {required Future<Map<String, int>> Function([Iterable<String>?])
+              dictionaryLoader,
+          required Future<void> Function(Map<String, int>) dictionaryUpdater,
+          required Future<int> Function() dictionaryLengthLoader,
+          required Future<Map<String, Set<String>>> Function(
+                  [Iterable<String>?])
+              kGramIndexLoader,
+          required Future<void> Function(Map<String, Set<String>>)
+              kGramIndexUpdater,
+          required Future<Map<String, Map<String, Map<String, List<int>>>>>
+                  Function(Iterable<String>)
+              postingsLoader,
+          required Future<void> Function(
+                  Map<String, Map<String, Map<String, List<int>>>>)
+              postingsUpdater,
+          required TextTokenizer tokenizer,
+          Map<String, int>? dictionary,
+          Map<String, Map<String, Map<String, List<int>>>>? postings,
+          Map<String, Set<String>>? kGramIndex,
+          int k = 2,
+          Map<String, double> zones = const <String, double>{},
+          int phraseLength = 1}) =>
+      AsyncCallbackIndex(
+          dictionaryLoader: dictionaryLoader,
+          dictionaryUpdater: dictionaryUpdater,
+          dictionaryLengthLoader: dictionaryLengthLoader,
+          kGramIndexLoader: kGramIndexLoader,
+          kGramIndexUpdater: kGramIndexUpdater,
+          postingsLoader: postingsLoader,
+          postingsUpdater: postingsUpdater,
+          tokenizer: tokenizer,
+          k: k,
+          zones: zones,
+          phraseLength: phraseLength);
+
   /// The length of k-gram entries in the k-gram index.
   int get k;
 
