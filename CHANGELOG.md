@@ -10,6 +10,7 @@ All rights reserved.
 
 #### Updated
 * Dependencies.
+* Documentation.
 
 ### 0.15.0
 
