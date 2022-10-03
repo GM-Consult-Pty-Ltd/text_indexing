@@ -116,16 +116,18 @@ import 'package:text_indexing/extensions.dart';
 <p>The <a href="https://pub.dev/packages/text_indexing/example">examples</a> demonstrate the use of the <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html">TextIndexer</a> with a <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html">InMemoryIndex</a> and <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/AsyncCallbackIndex-class.html">AsyncCallbackIndex</a>.</p>
 <h2 id="api">API</h2>
 <p>The <a href="https://pub.dev/documentation/text_indexing/latest/">API</a> exposes the <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html">TextIndexer</a> interface that builds and maintains an <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex-class.html">InvertedIndex</a> for a collection of documents.</p>
-<p>Our API contains a fair amount of boiler-plate, but we aim to make the code as readable, extendable and re-usable as possible:</p>
+<p>To maximise performance of the indexers the API performs lookups in nested hashmaps of DART core types.</p>
+<p>The API contains a fair amount of boiler-plate, but we aim to make the code as readable, extendable and re-usable as possible:</p>
 <ul>
 <li>We use an <code>interface &gt; implementation mixin &gt; base-class &gt; implementation class pattern</code>:
 <ul>
 <li>the <code>interface</code> is an abstract class that exposes fields and methods but contains no implementation code. The <code>interface</code> may expose a factory constructor that returns an <code>implementation class</code> instance;</li>
 <li>the <code>implementation mixin</code> implements the <code>interface</code> class methods, but not the input fields;</li>
-<li>the <code>base-class</code> is an abstract class with the <code>implementation mixin</code> and exposes a default, unnamed generative const constructor for sub-classes. The intention is that <code>implementation classes</code> extend the <code>base class</code>, overriding the <code>interface</code> input fields with final properties passed in via a const generative constructor.</li>
+<li>the <code>base-class</code> is an abstract class with the <code>implementation mixin</code> and exposes a default, unnamed generative const constructor for sub-classes. The intention is that <code>implementation classes</code> extend the <code>base class</code>, overriding the <code>interface</code> input fields with final properties passed in via a const generative constructor; and</li>
+<li>the class naming convention for this pattern is <code>"Interface" &gt; "InterfaceMixin" &gt; "InterfaceBase"</code>.</li>
 </ul>
 </li>
-<li>To maximise performance of the indexers the API performs lookups in nested hashmaps of DART core types. To improve code legibility the API makes use of type aliases, callback function definitions and extensions. The typedefs and extensions are not exported by the <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/text_indexing-library.html">text_indexing</a> library, but can be found in the <a href="https://pub.dev/documentation/text_indexing/latest/type_definitions/type_definitions-library.html">type_definitions</a> and <a href="https://pub.dev/documentation/text_indexing/latest/extensions/extensions-library.html">extensions</a> mini-libraries. <a href="#usage">Import these libraries seperately</a> if needed.</li>
+<li>To improve code legibility the API makes use of type aliases, callback function definitions and extensions. The typedefs and extensions are not exported by the <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/text_indexing-library.html">text_indexing</a> library, but can be found in the <a href="https://pub.dev/documentation/text_indexing/latest/type_definitions/type_definitions-library.html">type_definitions</a> and <a href="https://pub.dev/documentation/text_indexing/latest/extensions/extensions-library.html">extensions</a> mini-libraries. <a href="#usage">Import these libraries seperately</a> if needed.</li>
 </ul>
 <h3 id="invertedindex">InvertedIndex</h3>
 <p>The <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex-class.html">InvertedIndex</a> interface exposes properties and methods for working with <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/Dictionary.html">Dictionary</a>, <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/KGramIndex.html">KGramIndex</a> and <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/Postings.html">Postings</a> hashmaps.</p>
@@ -268,7 +270,7 @@ import 'package:text_indexing/extensions.dart';
 <footer>
   <span class="no-break">
     text_indexing
-      0.14.7
+      0.15.0+1
   </span>
 
   

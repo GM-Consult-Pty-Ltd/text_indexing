@@ -111,13 +111,15 @@ The [examples](https://pub.dev/packages/text_indexing/example) demonstrate the u
 
 The [API](https://pub.dev/documentation/text_indexing/latest/) exposes the [TextIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html) interface that builds and maintains an [InvertedIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex-class.html) for a collection of documents.
 
-Our API contains a fair amount of boiler-plate, but we aim to make the code as readable, extendable and re-usable as possible:
+To maximise performance of the indexers the API performs lookups in nested hashmaps of DART core types.
 
+The API contains a fair amount of boiler-plate, but we aim to make the code as readable, extendable and re-usable as possible:
 * We use an `interface > implementation mixin > base-class > implementation class pattern`:
   - the `interface` is an abstract class that exposes fields and methods but contains no implementation code. The `interface` may expose a factory constructor that returns an `implementation class` instance;
   - the `implementation mixin` implements the `interface` class methods, but not the input fields;
-  - the `base-class` is an abstract class with the `implementation mixin` and exposes a default, unnamed generative const constructor for sub-classes. The intention is that `implementation classes` extend the `base class`, overriding the `interface` input fields with final properties passed in via a const generative constructor.
-* To maximise performance of the indexers the API performs lookups in nested hashmaps of DART core types. To improve code legibility the API makes use of type aliases, callback function definitions and extensions. The typedefs and extensions are not exported by the [text_indexing](https://pub.dev/documentation/text_indexing/latest/text_indexing/text_indexing-library.html) library, but can be found in the [type_definitions](https://pub.dev/documentation/text_indexing/latest/type_definitions/type_definitions-library.html) and [extensions](https://pub.dev/documentation/text_indexing/latest/extensions/extensions-library.html) mini-libraries. [Import these libraries seperately](#usage) if needed.
+  - the `base-class` is an abstract class with the `implementation mixin` and exposes a default, unnamed generative const constructor for sub-classes. The intention is that `implementation classes` extend the `base class`, overriding the `interface` input fields with final properties passed in via a const generative constructor; and
+  - the class naming convention for this pattern is `"Interface" > "InterfaceMixin" > "InterfaceBase"`.
+* To improve code legibility the API makes use of type aliases, callback function definitions and extensions. The typedefs and extensions are not exported by the [text_indexing](https://pub.dev/documentation/text_indexing/latest/text_indexing/text_indexing-library.html) library, but can be found in the [type_definitions](https://pub.dev/documentation/text_indexing/latest/type_definitions/type_definitions-library.html) and [extensions](https://pub.dev/documentation/text_indexing/latest/extensions/extensions-library.html) mini-libraries. [Import these libraries seperately](#usage) if needed.
 
 ### InvertedIndex
 

@@ -6,6 +6,11 @@ All rights reserved.
 
 *THIS PACKAGE IS **PRE-RELEASE** AND SUBJECT TO DAILY BREAKING CHANGES.*
 
+### 0.15.0+1
+
+#### Updated
+* Dependencies.
+
 ### 0.15.0
 
 #### Breaking Changes:
