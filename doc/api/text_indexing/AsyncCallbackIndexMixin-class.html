@@ -56,21 +56,21 @@ callback function fields that must be overriden:</p>
 <ul>
 <li><a href="../text_indexing/AsyncCallbackIndexMixin/dictionaryLengthLoader.html">dictionaryLengthLoader</a> asynchronously retrieves the number of terms
 in the vocabulary (N);</li>
-<li><a href="../text_indexing/AsyncCallbackIndexMixin/dictionaryLoader.html">dictionaryLoader</a> asynchronously retrieves a <a href="../text_indexing_type_definitions/Dictionary.html">Dictionary</a> for a vocabulary
+<li><a href="../text_indexing/AsyncCallbackIndexMixin/dictionaryLoader.html">dictionaryLoader</a> asynchronously retrieves a <a href="../type_definitions/DftMap.html">DftMap</a> for a vocabulary
 from a index repository;</li>
-<li><a href="../text_indexing/AsyncCallbackIndexMixin/dictionaryUpdater.html">dictionaryUpdater</a> is callback that passes a <a href="../text_indexing_type_definitions/Dictionary.html">Dictionary</a> subset
+<li><a href="../text_indexing/AsyncCallbackIndexMixin/dictionaryUpdater.html">dictionaryUpdater</a> is callback that passes a <a href="../type_definitions/DftMap.html">DftMap</a> subset
  for persisting to a index repository;</li>
-<li><a href="../text_indexing/AsyncCallbackIndexMixin/kGramIndexLoader.html">kGramIndexLoader</a> asynchronously retrieves a <a href="../text_indexing_type_definitions/KGramIndex.html">KGramIndex</a> for a vocabulary
+<li><a href="../text_indexing/AsyncCallbackIndexMixin/kGramIndexLoader.html">kGramIndexLoader</a> asynchronously retrieves a <a href="../type_definitions/KGramsMap.html">KGramsMap</a> for a vocabulary
 from a index repository;</li>
-<li><a href="../text_indexing/AsyncCallbackIndexMixin/kGramIndexUpdater.html">kGramIndexUpdater</a> is callback that passes a <a href="../text_indexing_type_definitions/KGramIndex.html">KGramIndex</a> subset
+<li><a href="../text_indexing/AsyncCallbackIndexMixin/kGramIndexUpdater.html">kGramIndexUpdater</a> is callback that passes a <a href="../type_definitions/KGramsMap.html">KGramsMap</a> subset
  for persisting to a index repository;</li>
-<li><a href="../text_indexing/AsyncCallbackIndexMixin/postingsLoader.html">postingsLoader</a> asynchronously retrieves a <a href="../text_indexing_type_definitions/Postings.html">Postings</a> for a vocabulary
+<li><a href="../text_indexing/AsyncCallbackIndexMixin/postingsLoader.html">postingsLoader</a> asynchronously retrieves a <a href="../type_definitions/PostingsMap.html">PostingsMap</a> for a vocabulary
 from a index repository; and</li>
-<li><a href="../text_indexing/AsyncCallbackIndexMixin/postingsUpdater.html">postingsUpdater</a> passes a <a href="../text_indexing_type_definitions/Postings.html">Postings</a> subset for persisting to a
+<li><a href="../text_indexing/AsyncCallbackIndexMixin/postingsUpdater.html">postingsUpdater</a> passes a <a href="../type_definitions/PostingsMap.html">PostingsMap</a> subset for persisting to a
 index repository.</li>
 </ul>
 <p>Provides implementation of the following methods for operations on
-asynchronous <a href="../text_indexing_type_definitions/Dictionary.html">Dictionary</a> and <a href="../text_indexing_type_definitions/Postings.html">Postings</a> repositories:</p>
+asynchronous <a href="../type_definitions/DftMap.html">DftMap</a> and <a href="../type_definitions/PostingsMap.html">PostingsMap</a> repositories:</p>
 <ul>
 <li><a href="../text_indexing/InvertedIndex/vocabularyLength.html">vocabularyLength</a> calls <a href="../text_indexing/AsyncCallbackIndexMixin/dictionaryLengthLoader.html">dictionaryLengthLoader</a>.</li>
 <li><a href="../text_indexing/AsyncCallbackIndexMixin/getDictionary.html">getDictionary</a> calls <a href="../text_indexing/AsyncCallbackIndexMixin/dictionaryLoader.html">dictionaryLoader</a>;</li>
@@ -126,7 +126,7 @@ asynchronous <a href="../text_indexing_type_definitions/Dictionary.html">Diction
       <dl class="properties">
         <dt id="dictionaryLengthLoader" class="property">
   <span class="name"><a href="../text_indexing/AsyncCallbackIndexMixin/dictionaryLengthLoader.html">dictionaryLengthLoader</a></span>
-  <span class="signature">&#8594; <a href="../text_indexing_type_definitions/DictionaryLengthLoader.html">DictionaryLengthLoader</a></span> 
+  <span class="signature">&#8594; <a href="../type_definitions/VocabularySize.html">VocabularySize</a></span> 
 
 </dt>
 <dd>
@@ -137,24 +137,24 @@ asynchronous <a href="../text_indexing_type_definitions/Dictionary.html">Diction
 
         <dt id="dictionaryLoader" class="property">
   <span class="name"><a href="../text_indexing/AsyncCallbackIndexMixin/dictionaryLoader.html">dictionaryLoader</a></span>
-  <span class="signature">&#8594; <a href="../text_indexing_type_definitions/DictionaryLoader.html">DictionaryLoader</a></span> 
+  <span class="signature">&#8594; <a href="../type_definitions/DftMapLoader.html">DftMapLoader</a></span> 
 
 </dt>
 <dd>
-  Asynchronously retrieves a <a href="../text_indexing_type_definitions/Dictionary.html">Dictionary</a> subset for a vocabulary from a
-<a href="../text_indexing_type_definitions/Dictionary.html">Dictionary</a> index repository, usually persisted storage.
+  Asynchronously retrieves a <a href="../type_definitions/DftMap.html">DftMap</a> subset for a vocabulary from a
+<a href="../type_definitions/DftMap.html">DftMap</a> index repository, usually persisted storage.
   <div class="features">read-only</div>
 
 </dd>
 
         <dt id="dictionaryUpdater" class="property">
   <span class="name"><a href="../text_indexing/AsyncCallbackIndexMixin/dictionaryUpdater.html">dictionaryUpdater</a></span>
-  <span class="signature">&#8594; <a href="../text_indexing_type_definitions/DictionaryUpdater.html">DictionaryUpdater</a></span> 
+  <span class="signature">&#8594; <a href="../type_definitions/DftMapUpdater.html">DftMapUpdater</a></span> 
 
 </dt>
 <dd>
-  A callback that passes a subset of a <a href="../text_indexing_type_definitions/Dictionary.html">Dictionary</a> containing new or
-changed <a href="../text_indexing_type_definitions/DictionaryEntry.html">DictionaryEntry</a> instances for persisting to the <a href="../text_indexing_type_definitions/Dictionary.html">Dictionary</a>
+  A callback that passes a subset of a <a href="../type_definitions/DftMap.html">DftMap</a> containing new or
+changed <a href="../type_definitions/DftMapEntry.html">DftMapEntry</a> instances for persisting to the <a href="../type_definitions/DftMap.html">DftMap</a>
 index repository.
   <div class="features">read-only</div>
 
@@ -184,24 +184,24 @@ index repository.
 
         <dt id="kGramIndexLoader" class="property">
   <span class="name"><a href="../text_indexing/AsyncCallbackIndexMixin/kGramIndexLoader.html">kGramIndexLoader</a></span>
-  <span class="signature">&#8594; <a href="../text_indexing_type_definitions/KGramIndexLoader.html">KGramIndexLoader</a></span> 
+  <span class="signature">&#8594; <a href="../type_definitions/KGramsMapLoader.html">KGramsMapLoader</a></span> 
 
 </dt>
 <dd>
-  Asynchronously retrieves a <a href="../text_indexing_type_definitions/KGramIndex.html">KGramIndex</a> subset for a vocabulary from a
-<a href="../text_indexing_type_definitions/KGramIndex.html">KGramIndex</a> index repository, usually persisted storage.
+  Asynchronously retrieves a <a href="../type_definitions/KGramsMap.html">KGramsMap</a> subset for a vocabulary from a
+<a href="../type_definitions/KGramsMap.html">KGramsMap</a> index repository, usually persisted storage.
   <div class="features">read-only</div>
 
 </dd>
 
         <dt id="kGramIndexUpdater" class="property">
   <span class="name"><a href="../text_indexing/AsyncCallbackIndexMixin/kGramIndexUpdater.html">kGramIndexUpdater</a></span>
-  <span class="signature">&#8594; <a href="../text_indexing_type_definitions/KGramIndexUpdater.html">KGramIndexUpdater</a></span> 
+  <span class="signature">&#8594; <a href="../type_definitions/KGramsMapUpdater.html">KGramsMapUpdater</a></span> 
 
 </dt>
 <dd>
-  A callback that passes a subset of a <a href="../text_indexing_type_definitions/KGramIndex.html">KGramIndex</a> containing new or
-changed entries for persisting to the <a href="../text_indexing_type_definitions/KGramIndex.html">KGramIndex</a> repository.
+  A callback that passes a subset of a <a href="../type_definitions/KGramsMap.html">KGramsMap</a> containing new or
+changed entries for persisting to the <a href="../type_definitions/KGramsMap.html">KGramsMap</a> repository.
   <div class="features">read-only</div>
 
 </dd>
@@ -219,24 +219,24 @@ changed entries for persisting to the <a href="../text_indexing_type_definitions
 
         <dt id="postingsLoader" class="property">
   <span class="name"><a href="../text_indexing/AsyncCallbackIndexMixin/postingsLoader.html">postingsLoader</a></span>
-  <span class="signature">&#8594; <a href="../text_indexing_type_definitions/PostingsLoader.html">PostingsLoader</a></span> 
+  <span class="signature">&#8594; <a href="../type_definitions/PostingsMapLoader.html">PostingsMapLoader</a></span> 
 
 </dt>
 <dd>
-  Asynchronously retrieves a <a href="../text_indexing_type_definitions/Postings.html">Postings</a> subset for a vocabulary from a
-<a href="../text_indexing_type_definitions/Postings.html">Postings</a> index repository, usually persisted storage.
+  Asynchronously retrieves a <a href="../type_definitions/PostingsMap.html">PostingsMap</a> subset for a vocabulary from a
+<a href="../type_definitions/PostingsMap.html">PostingsMap</a> index repository, usually persisted storage.
   <div class="features">read-only</div>
 
 </dd>
 
         <dt id="postingsUpdater" class="property">
   <span class="name"><a href="../text_indexing/AsyncCallbackIndexMixin/postingsUpdater.html">postingsUpdater</a></span>
-  <span class="signature">&#8594; <a href="../text_indexing_type_definitions/PostingsUpdater.html">PostingsUpdater</a></span> 
+  <span class="signature">&#8594; <a href="../type_definitions/PostingsMapUpdater.html">PostingsMapUpdater</a></span> 
 
 </dt>
 <dd>
-  A callback that passes a subset of a <a href="../text_indexing_type_definitions/Postings.html">Postings</a> containing new or changed
-<a href="../text_indexing_type_definitions/PostingsEntry.html">PostingsEntry</a> instances to the <a href="../text_indexing_type_definitions/Postings.html">Postings</a> index repository.
+  A callback that passes a subset of a <a href="../type_definitions/PostingsMap.html">PostingsMap</a> containing new or changed
+<a href="../type_definitions/PostingsMapEntry.html">PostingsMapEntry</a> instances to the <a href="../type_definitions/PostingsMap.html">PostingsMap</a> index repository.
   <div class="features">read-only</div>
 
 </dd>
@@ -265,7 +265,7 @@ changed entries for persisting to the <a href="../text_indexing_type_definitions
 
         <dt id="vocabularyLength" class="property inherited">
   <span class="name"><a href="../text_indexing/InvertedIndex/vocabularyLength.html">vocabularyLength</a></span>
-  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing_type_definitions/Ft.html">Ft</a></span>&gt;</span></span> 
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Ft.html">Ft</a></span>&gt;</span></span> 
 
 </dt>
 <dd class="inherited">
@@ -276,7 +276,7 @@ changed entries for persisting to the <a href="../text_indexing_type_definitions
 
         <dt id="zones" class="property inherited">
   <span class="name"><a href="../text_indexing/InvertedIndex/zones.html">zones</a></span>
-  <span class="signature">&#8594; <a href="../text_indexing_type_definitions/ZoneWeightMap.html">ZoneWeightMap</a></span> 
+  <span class="signature">&#8594; <a href="../type_definitions/ZoneWeightMap.html">ZoneWeightMap</a></span> 
 
 </dt>
 <dd class="inherited">
@@ -296,81 +296,81 @@ changed entries for persisting to the <a href="../text_indexing_type_definitions
     <dl class="callables">
         <dt id="getDictionary" class="callable">
   <span class="name"><a href="../text_indexing/AsyncCallbackIndexMixin/getDictionary.html">getDictionary</a></span><span class="signature">(<wbr><span class="parameter" id="getDictionary-param-terms">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.14.0/type_definitions/Term.html">Term</a></span>&gt;</span>?</span> <span class="parameter-name">terms</span>]</span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing_type_definitions/Dictionary.html">Dictionary</a></span>&gt;</span></span>
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/DftMap.html">DftMap</a></span>&gt;</span></span>
   </span>
   
 
 </dt>
 <dd>
-  Asynchronously retrieves a <code>Dictionary</code> for the <code>terms</code> from a
-<code>Dictionary</code> repository.
+  Asynchronously retrieves a <code>DftMap</code> for the <code>terms</code> from a
+<code>DftMap</code> repository.
   <div class="features">override</div>
 
 </dd>
 
         <dt id="getFtdPostings" class="callable inherited">
-  <span class="name"><a href="../text_indexing/InvertedIndex/getFtdPostings.html">getFtdPostings</a></span><span class="signature">(<wbr><span class="parameter" id="getFtdPostings-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.14.0/type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span>, </span><span class="parameter" id="getFtdPostings-param-minFtd">[<span class="type-annotation"><a href="../text_indexing_type_definitions/Ft.html">Ft</a></span> <span class="parameter-name">minFtd</span> = <span class="default-value">1</span>]</span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing_type_definitions/FtdPostings.html">FtdPostings</a></span>&gt;</span></span>
+  <span class="name"><a href="../text_indexing/InvertedIndex/getFtdPostings.html">getFtdPostings</a></span><span class="signature">(<wbr><span class="parameter" id="getFtdPostings-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.14.0/type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span>, </span><span class="parameter" id="getFtdPostings-param-minFtd">[<span class="type-annotation"><a href="../type_definitions/Ft.html">Ft</a></span> <span class="parameter-name">minFtd</span> = <span class="default-value">1</span>]</span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/FtdPostings.html">FtdPostings</a></span>&gt;</span></span>
   </span>
   
 
 </dt>
 <dd class="inherited">
-  Returns a map of <code>terms</code> to hashmaps of <a href="../text_indexing_type_definitions/DocId.html">DocId</a> to <a href="../text_indexing_type_definitions/Ft.html">Ft</a>
+  Returns a map of <code>terms</code> to hashmaps of <a href="../type_definitions/DocId.html">DocId</a> to <a href="../type_definitions/Ft.html">Ft</a>
   <div class="features">inherited</div>
 
 </dd>
 
         <dt id="getIdFtIndex" class="callable inherited">
   <span class="name"><a href="../text_indexing/InvertedIndex/getIdFtIndex.html">getIdFtIndex</a></span><span class="signature">(<wbr><span class="parameter" id="getIdFtIndex-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.14.0/type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing_type_definitions/IdFtIndex.html">IdFtIndex</a></span>&gt;</span></span>
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/IdFtIndex.html">IdFtIndex</a></span>&gt;</span></span>
   </span>
   
 
 </dt>
 <dd class="inherited">
-  Returns a map of <code>terms</code> to hashmaps of <a href="../text_indexing_type_definitions/DocId.html">DocId</a> to <a href="../text_indexing_type_definitions/Ft.html">Ft</a>.
+  Returns a map of <code>terms</code> to hashmaps of <a href="../type_definitions/DocId.html">DocId</a> to <a href="../type_definitions/Ft.html">Ft</a>.
   <div class="features">inherited</div>
 
 </dd>
 
         <dt id="getKGramIndex" class="callable">
   <span class="name"><a href="../text_indexing/AsyncCallbackIndexMixin/getKGramIndex.html">getKGramIndex</a></span><span class="signature">(<wbr><span class="parameter" id="getKGramIndex-param-terms">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.14.0/type_definitions/Term.html">Term</a></span>&gt;</span>?</span> <span class="parameter-name">terms</span>]</span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing_type_definitions/KGramIndex.html">KGramIndex</a></span>&gt;</span></span>
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/KGramsMap.html">KGramsMap</a></span>&gt;</span></span>
   </span>
   
 
 </dt>
 <dd>
-  Asynchronously retrieves a <code>KGramIndex</code> for the <code>terms</code> from a
-<code>KGramIndex</code> repository.
+  Asynchronously retrieves a <code>KGramsMap</code> for the <code>terms</code> from a
+<code>KGramsMap</code> repository.
   <div class="features">override</div>
 
 </dd>
 
         <dt id="getPostings" class="callable">
   <span class="name"><a href="../text_indexing/AsyncCallbackIndexMixin/getPostings.html">getPostings</a></span><span class="signature">(<wbr><span class="parameter" id="getPostings-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.14.0/type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing_type_definitions/Postings.html">Postings</a></span>&gt;</span></span>
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/PostingsMap.html">PostingsMap</a></span>&gt;</span></span>
   </span>
   
 
 </dt>
 <dd>
-  Asynchronously retrieves <a href="../text_indexing_type_definitions/PostingsEntry.html">PostingsEntry</a> entities for the <code>terms</code> from a
-<code>Postings</code> repository.
+  Asynchronously retrieves <a href="../type_definitions/PostingsMapEntry.html">PostingsMapEntry</a> entities for the <code>terms</code> from a
+<code>PostingsMap</code> repository.
   <div class="features">override</div>
 
 </dd>
 
         <dt id="getTfIndex" class="callable inherited">
   <span class="name"><a href="../text_indexing/InvertedIndex/getTfIndex.html">getTfIndex</a></span><span class="signature">(<wbr><span class="parameter" id="getTfIndex-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.14.0/type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing_type_definitions/Dictionary.html">Dictionary</a></span>&gt;</span></span>
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/DftMap.html">DftMap</a></span>&gt;</span></span>
   </span>
   
 
 </dt>
 <dd class="inherited">
-  Returns a hashmap of <a href="https://pub.dev/documentation/text_analysis/0.14.0/type_definitions/Term.html">Term</a> to <a href="../text_indexing_type_definitions/Ft.html">Ft</a> for the <code>terms</code>, where <a href="../text_indexing_type_definitions/Ft.html">Ft</a> is
+  Returns a hashmap of <a href="https://pub.dev/documentation/text_analysis/0.14.0/type_definitions/Term.html">Term</a> to <a href="../type_definitions/Ft.html">Ft</a> for the <code>terms</code>, where <a href="../type_definitions/Ft.html">Ft</a> is
 the number of times each of <code>terms</code> occurs in the <code>corpus</code>.
   <div class="features">inherited</div>
 
@@ -403,42 +403,42 @@ the number of times each of <code>terms</code> occurs in the <code>corpus</code>
 </dd>
 
         <dt id="upsertDictionary" class="callable">
-  <span class="name"><a href="../text_indexing/AsyncCallbackIndexMixin/upsertDictionary.html">upsertDictionary</a></span><span class="signature">(<wbr><span class="parameter" id="upsertDictionary-param-values"><span class="type-annotation"><a href="../text_indexing_type_definitions/Dictionary.html">Dictionary</a></span> <span class="parameter-name">values</span></span>)
+  <span class="name"><a href="../text_indexing/AsyncCallbackIndexMixin/upsertDictionary.html">upsertDictionary</a></span><span class="signature">(<wbr><span class="parameter" id="upsertDictionary-param-values"><span class="type-annotation"><a href="../type_definitions/DftMap.html">DftMap</a></span> <span class="parameter-name">values</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
   </span>
   
 
 </dt>
 <dd>
-  Inserts <code>values</code> into a <a href="../text_indexing_type_definitions/Dictionary.html">Dictionary</a> repository, overwriting them if they
+  Inserts <code>values</code> into a <a href="../type_definitions/DftMap.html">DftMap</a> repository, overwriting them if they
 already exist.
   <div class="features">override</div>
 
 </dd>
 
         <dt id="upsertKGramIndex" class="callable">
-  <span class="name"><a href="../text_indexing/AsyncCallbackIndexMixin/upsertKGramIndex.html">upsertKGramIndex</a></span><span class="signature">(<wbr><span class="parameter" id="upsertKGramIndex-param-values"><span class="type-annotation"><a href="../text_indexing_type_definitions/KGramIndex.html">KGramIndex</a></span> <span class="parameter-name">values</span></span>)
+  <span class="name"><a href="../text_indexing/AsyncCallbackIndexMixin/upsertKGramIndex.html">upsertKGramIndex</a></span><span class="signature">(<wbr><span class="parameter" id="upsertKGramIndex-param-values"><span class="type-annotation"><a href="../type_definitions/KGramsMap.html">KGramsMap</a></span> <span class="parameter-name">values</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
   </span>
   
 
 </dt>
 <dd>
-  Inserts <code>values</code> into a <a href="../text_indexing_type_definitions/KGramIndex.html">KGramIndex</a> repository, overwriting any existing
+  Inserts <code>values</code> into a <a href="../type_definitions/KGramsMap.html">KGramsMap</a> repository, overwriting any existing
 entries.
   <div class="features">override</div>
 
 </dd>
 
         <dt id="upsertPostings" class="callable">
-  <span class="name"><a href="../text_indexing/AsyncCallbackIndexMixin/upsertPostings.html">upsertPostings</a></span><span class="signature">(<wbr><span class="parameter" id="upsertPostings-param-values"><span class="type-annotation"><a href="../text_indexing_type_definitions/Postings.html">Postings</a></span> <span class="parameter-name">values</span></span>)
+  <span class="name"><a href="../text_indexing/AsyncCallbackIndexMixin/upsertPostings.html">upsertPostings</a></span><span class="signature">(<wbr><span class="parameter" id="upsertPostings-param-values"><span class="type-annotation"><a href="../type_definitions/PostingsMap.html">PostingsMap</a></span> <span class="parameter-name">values</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
   </span>
   
 
 </dt>
 <dd>
-  Inserts <code>values</code> into a <a href="../text_indexing_type_definitions/Postings.html">Postings</a> repository, overwriting them if they
+  Inserts <code>values</code> into a <a href="../type_definitions/PostingsMap.html">PostingsMap</a> repository, overwriting them if they
 already exist.
   <div class="features">override</div>
 

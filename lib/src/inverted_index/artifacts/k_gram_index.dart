@@ -4,8 +4,8 @@
 
 import 'package:text_indexing/src/_index.dart';
 
-/// Extension methods on [KGramIndex].
-extension KGramIndexExtension on KGramIndex {
+/// Extension methods on [KGramsMap].
+extension KGramIndexExtension on KGramsMap {
   //
 
   /// Returns a set of unique terms by iterating over all the [values] in the

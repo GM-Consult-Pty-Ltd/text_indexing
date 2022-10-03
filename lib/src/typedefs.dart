@@ -4,15 +4,15 @@
 
 import 'package:text_indexing/src/_index.dart';
 
-/// Alias for Map<String, dynamic>, a hashmap known as "Java Script Object
-/// Notation" (Map<String, dynamic>), a common format for persisting data.
+/// Alias for `Map<String, dynamic>`, a hashmap known as `Java Script Object
+/// Notation`, a common format for persisting data.
 typedef JSON = Map<String, dynamic>;
 
-/// Alias for Map<String, Map<String, dynamic>>, a hashmap of [String] to [Map<String, dynamic>]
-/// documents.
+/// Alias for `Map<String, Map<String, dynamic>>`, a hashmap of
+/// `String` to `Map<String, dynamic>` documents.
 typedef JsonCollection = Map<String, Map<String, dynamic>>;
 
-/// An alias for [int], used to denote the frequency of a [Term] in an index or
+/// An alias for `int`, used to denote the frequency of a [Term] in an index or
 /// indexed object.
 typedef Ft = int;
 
@@ -21,7 +21,7 @@ typedef Ft = int;
 /// Maps the zone names to their relative weight.
 typedef ZoneWeightMap = Map<Zone, double>;
 
-/// Alias for [double] where it represents the inverse document frequency of a
+/// Alias for `double` where it represents the inverse document frequency of a
 /// term.
 ///
 /// IdFt is defined as `idft = log (N / dft)`, where:
@@ -38,65 +38,68 @@ typedef IdFt = double;
 /// document.
 typedef FtdPostings = Map<Term, Map<DocId, Ft>>;
 
+/// Alias for `Map<String, int>`.
+///
 /// Defines a term dictionary used in an inverted index.
 ///
-/// The [Dictionary] is a hashmap of [DictionaryEntry]s with the vocabulary as
+/// The [DftMap] is a hashmap of [DftMapEntry]s with the vocabulary as
 /// key and the document frequency as the values.
 ///
-/// A [Dictionary] can be an asynchronous data source or an in-memory hashmap.
+/// A [DftMap] can be an asynchronous data source or an in-memory hashmap.
+typedef DftMap = Map<Term, Ft>;
+
+/// Alias for `MapEntry<Term, Ft>`.
 ///
-/// Alias for Map<String, int>.
-typedef Dictionary = Map<Term, Ft>;
+/// A [DftMapEntry] is an entry in a [DftMap].
+typedef DftMapEntry = MapEntry<Term, Ft>;
 
-/// A [DictionaryEntry] is an entry in a [Dictionary].
+/// A callback that asynchronously retrieves a [DftMap] subset for a collection
+/// of [terms] from a [DftMap] data source, usually persisted storage.
 ///
-/// Alias for MapEntry<Term, Ft>.
-typedef DictionaryEntry = MapEntry<Term, Ft>;
+/// Loads the entire [DftMap] if [terms] is null.
+typedef DftMapLoader = Future<Map<String, int>> Function(
+    [Iterable<String>? terms]);
 
-/// Asynchronously retrieves a [Dictionary] subset for a collection of
-/// [terms] from a [Dictionary] data source, usually persisted storage.
+/// A callback that passes [values] for persisting to a [DftMap].
 ///
-/// Loads the entire [Dictionary] if [terms] is null.
-typedef DictionaryLoader = Future<Dictionary> Function([Iterable<Term>? terms]);
+/// Parameter [values] is a subset of a [DftMap] containing new or changed
+/// [DftMapEntry] instances.
+typedef DftMapUpdater = Future<void> Function(DftMap values);
 
-/// Asynchronously retrieves the number of terms in the vocabulary (N).
-typedef DictionaryLengthLoader = Future<int> Function();
+/// A callback that asynchronously retrieves the number of terms in the
+/// vocabulary (N).
+typedef VocabularySize = Future<int> Function();
 
-/// A callback that passes [values] for persisting to a [Dictionary].
-///
-/// Parameter [values] is a subset of a [Dictionary] containing new or changed
-/// [DictionaryEntry] instances.
-typedef DictionaryUpdater = Future<void> Function(Dictionary values);
-
-/// Alias for Map<String, double>.
+/// Alias for `Map<String, double>`.
 ///
 /// Maps the vocabulary [Term] to [IdFt].
 typedef IdFtIndex = Map<Term, IdFt>;
 
+/// Alias for `Map<String, Set<String>>`.
+///
 /// A hashmap of [KGram] to Set<[Term]>, where the value is the set of unique
 /// [Term]s that contain the [KGram] in the key.
-///
-/// Alias for Map<String, Set<String>>.
-typedef KGramIndex = Map<KGram, Set<Term>>;
+typedef KGramsMap = Map<KGram, Set<Term>>;
 
-/// Asynchronously retrieves a [KGramIndex] subset for a collection of
-/// [terms] from a [KGramIndex] data source, usually persisted storage.
+/// A callback that asynchronously retrieves a [KGramsMap] subset for a
+/// collection of [terms] from a [KGramsMap] data source,
+/// usually persisted storage.
 ///
-/// Loads the entire [KGramIndex] if [terms] is null.
-typedef KGramIndexLoader = Future<KGramIndex> Function([Iterable<Term>? terms]);
+/// Loads the entire [KGramsMap] if [terms] is null.
+typedef KGramsMapLoader = Future<KGramsMap> Function([Iterable<Term>? terms]);
 
-/// A callback that passes [values] for persisting to a [KGramIndex].
+/// A callback that passes [values] for persisting to a [KGramsMap].
 ///
-/// Parameter [values] is a subset of a [KGramIndex] containing new or changed
+/// Parameter [values] is a subset of a [KGramsMap] containing new or changed
 /// entries.
-typedef KGramIndexUpdater = Future<void> Function(KGramIndex values);
+typedef KGramsMapUpdater = Future<void> Function(KGramsMap values);
 
-/// Type definition for a hashmap of [Term] to [DocumentPostings].
-typedef Postings = Map<Term, DocumentPostings>;
+/// Type definition for a hashmap of [Term] to [DocPostingsMap].
+typedef PostingsMap = Map<Term, DocPostingsMap>;
 
-/// Type definition for a hashmap entry of [Term] to [DocumentPostings] in a
-/// [Postings] hashmap.
-typedef PostingsEntry = MapEntry<Term, DocumentPostings>;
+/// Type definition for a hashmap entry of [Term] to [DocPostingsMap] in a
+/// [PostingsMap] hashmap.
+typedef PostingsMapEntry = MapEntry<Term, DocPostingsMap>;
 
 /// An alias for [int], used to denote the position of a [Term] in [SourceText]
 /// indexed object (the term position).
@@ -105,30 +108,30 @@ typedef Pt = int;
 /// An alias for [String], used whenever a document id is referenced.
 typedef DocId = String;
 
-/// Type definition for a hashmap of [DocId] to [ZonePostings].
-typedef DocumentPostings = Map<DocId, ZonePostings>;
+/// Type definition for a hashmap of [DocId] to [ZonePostingsMap].
+typedef DocPostingsMap = Map<DocId, ZonePostingsMap>;
 
-/// Type definition for a hashmap entry of [DocId] to [ZonePostings] in a
-/// [DocumentPostings] hashmap.
-typedef DocumentPostingsEntry = MapEntry<DocId, ZonePostings>;
+/// Type definition for a hashmap entry of [DocId] to [ZonePostingsMap] in a
+/// [DocPostingsMap] hashmap.
+typedef DocPostingsMapEntry = MapEntry<DocId, ZonePostingsMap>;
 
 /// Type definition for a hashmap of [Zone]s to [TermPositions].
-typedef ZonePostings = Map<Zone, TermPositions>;
+typedef ZonePostingsMap = Map<Zone, TermPositions>;
 
 /// Type definition for a hashmap entry of [Zone] to [TermPositions] in a
-/// [ZonePostings] hashmap.
-typedef FieldPostingsEntry = MapEntry<Zone, TermPositions>;
+/// [ZonePostingsMap] hashmap.
+typedef ZonePostingsMapEntry = MapEntry<Zone, TermPositions>;
 
 /// Type definition for an ordered [Set] of unique zero-based term
 /// positions in a text source, sorted in ascending order.
 typedef TermPositions = List<Pt>;
 
-/// Asynchronously retrieves a [Postings] subset for a collection of
-/// [terms] from a [Postings] data source, usually persisted storage.
-typedef PostingsLoader = Future<Postings> Function(Iterable<Term> terms);
+/// Asynchronously retrieves a [PostingsMap] subset for a collection of
+/// [terms] from a [PostingsMap] data source, usually persisted storage.
+typedef PostingsMapLoader = Future<PostingsMap> Function(Iterable<Term> terms);
 
-/// A callback that [values] for persisting to a [Postings].
+/// A callback that [values] for persisting to a [PostingsMap].
 ///
-/// Parameter [values] is a subset of a [Postings] containing new or changed
-/// [PostingsEntry] instances.
-typedef PostingsUpdater = Future<void> Function(Postings values);
+/// Parameter [values] is a subset of a [PostingsMap] containing new or changed
+/// [PostingsMapEntry] instances.
+typedef PostingsMapUpdater = Future<void> Function(PostingsMap values);

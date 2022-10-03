@@ -51,11 +51,11 @@
 
     <section class="multi-line-signature">
       <span class="name ">InMemoryIndex</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="-param-tokenizer">{<span>required</span> <span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.14.0/text_analysis/TextTokenizer-class.html">TextTokenizer</a></span> <span class="parameter-name">tokenizer</span>, </span></li>
-<li><span class="parameter" id="-param-dictionary"><span class="type-annotation"><a href="../../text_indexing_type_definitions/Dictionary.html">Dictionary</a>?</span> <span class="parameter-name">dictionary</span>, </span></li>
-<li><span class="parameter" id="-param-postings"><span class="type-annotation"><a href="../../text_indexing_type_definitions/Postings.html">Postings</a>?</span> <span class="parameter-name">postings</span>, </span></li>
-<li><span class="parameter" id="-param-kGramIndex"><span class="type-annotation"><a href="../../text_indexing_type_definitions/KGramIndex.html">KGramIndex</a>?</span> <span class="parameter-name">kGramIndex</span>, </span></li>
+<li><span class="parameter" id="-param-dictionary"><span class="type-annotation"><a href="../../type_definitions/DftMap.html">DftMap</a>?</span> <span class="parameter-name">dictionary</span>, </span></li>
+<li><span class="parameter" id="-param-postings"><span class="type-annotation"><a href="../../type_definitions/PostingsMap.html">PostingsMap</a>?</span> <span class="parameter-name">postings</span>, </span></li>
+<li><span class="parameter" id="-param-kGramIndex"><span class="type-annotation"><a href="../../type_definitions/KGramsMap.html">KGramsMap</a>?</span> <span class="parameter-name">kGramIndex</span>, </span></li>
 <li><span class="parameter" id="-param-k"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">3</span>, </span></li>
-<li><span class="parameter" id="-param-zones"><span class="type-annotation"><a href="../../text_indexing_type_definitions/ZoneWeightMap.html">ZoneWeightMap</a></span> <span class="parameter-name">zones</span> = <span class="default-value">const &lt;String, double&gt;{}</span>, </span></li>
+<li><span class="parameter" id="-param-zones"><span class="type-annotation"><a href="../../type_definitions/ZoneWeightMap.html">ZoneWeightMap</a></span> <span class="parameter-name">zones</span> = <span class="default-value">const &lt;String, double&gt;{}</span>, </span></li>
 <li><span class="parameter" id="-param-phraseLength"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">phraseLength</span> = <span class="default-value">1</span>}</span></li>
 </ol>)
     </section>
@@ -71,13 +71,13 @@ index;</li>
 <li><a href="../../text_indexing/InMemoryIndex/phraseLength.html">phraseLength</a> is the maximum length of phrases in the index vocabulary
 and must be greater than 0.</li>
 <li><code>dictionary</code> is the in-memory term dictionary for the indexer. Pass a
-<a href="../../text_indexing_type_definitions/Dictionary.html">Dictionary</a> instance at instantiation, otherwise an empty <a href="../../text_indexing_type_definitions/Dictionary.html">Dictionary</a>
+<a href="../../type_definitions/DftMap.html">DftMap</a> instance at instantiation, otherwise an empty <a href="../../type_definitions/DftMap.html">DftMap</a>
 will be initialized;</li>
-<li><code>kGramIndex</code> is the in-memory <a href="../../text_indexing_type_definitions/KGramIndex.html">KGramIndex</a> for the index. Pass a
-<a href="../../text_indexing_type_definitions/KGramIndex.html">KGramIndex</a> instance at instantiation, otherwise an empty <a href="../../text_indexing_type_definitions/KGramIndex.html">KGramIndex</a>
+<li><code>kGramIndex</code> is the in-memory <a href="../../type_definitions/KGramsMap.html">KGramsMap</a> for the index. Pass a
+<a href="../../type_definitions/KGramsMap.html">KGramsMap</a> instance at instantiation, otherwise an empty <a href="../../type_definitions/KGramsMap.html">KGramsMap</a>
 will be initialized; and</li>
 <li><code>postings</code> is the in-memory postings hashmap for the indexer. Pass a
-<a href="../../text_indexing_type_definitions/Postings.html">Postings</a> instance at instantiation, otherwise an empty <a href="../../text_indexing_type_definitions/Postings.html">Postings</a>
+<a href="../../type_definitions/PostingsMap.html">PostingsMap</a> instance at instantiation, otherwise an empty <a href="../../type_definitions/PostingsMap.html">PostingsMap</a>
 will be initialized.</li>
 </ul>
 </section>
@@ -88,9 +88,9 @@ will be initialized.</li>
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">InMemoryIndex(
     {required this.tokenizer,
-    Dictionary? dictionary,
-    Postings? postings,
-    KGramIndex? kGramIndex,
+    DftMap? dictionary,
+    PostingsMap? postings,
+    KGramsMap? kGramIndex,
     this.k = 3,
     this.zones = const &lt;String, double&gt;{},
     this.phraseLength = 1})

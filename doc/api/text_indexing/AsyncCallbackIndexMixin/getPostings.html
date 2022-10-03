@@ -57,7 +57,7 @@
   </ol>
 </div>
 
-<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_indexing_type_definitions/Postings.html">Postings</a></span>&gt;</span></span>
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../type_definitions/PostingsMap.html">PostingsMap</a></span>&gt;</span></span>
 <span class="name ">getPostings</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="getPostings-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.14.0/type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span></li>
 </ol>)
 
@@ -66,9 +66,9 @@
     </section>
     
 <section class="desc markdown">
-  <p>Asynchronously retrieves <a href="../../text_indexing_type_definitions/PostingsEntry.html">PostingsEntry</a> entities for the <code>terms</code> from a
-<code>Postings</code> repository.</p>
-<p>Used in <code>index-elimination</code>, to return a subset of the <code>Postings</code>
+  <p>Asynchronously retrieves <a href="../../type_definitions/PostingsMapEntry.html">PostingsMapEntry</a> entities for the <code>terms</code> from a
+<code>PostingsMap</code> repository.</p>
+<p>Used in <code>index-elimination</code>, to return a subset of the <code>PostingsMap</code>
 where the key (<a href="https://pub.dev/documentation/text_analysis/0.14.0/type_definitions/Term.html">Term</a>) is in <code>terms</code>.</p>
 </section>
 
@@ -77,7 +77,8 @@ where the key (<a href="https://pub.dev/documentation/text_analysis/0.14.0/type_
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
-Future&lt;Postings&gt; getPostings(Iterable&lt;Term&gt; terms) =&gt; postingsLoader(terms);</code></pre>
+Future&lt;PostingsMap&gt; getPostings(Iterable&lt;Term&gt; terms) =&gt;
+    postingsLoader(terms);</code></pre>
 </section>
 
 

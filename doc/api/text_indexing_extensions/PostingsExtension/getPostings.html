@@ -52,7 +52,7 @@
     <section class="multi-line-signature">
       
 
-<span class="returntype"><a href="../../text_indexing_type_definitions/Postings.html">Postings</a></span>
+<span class="returntype"><a href="../../type_definitions/PostingsMap.html">PostingsMap</a></span>
 <span class="name ">getPostings</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="getPostings-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.14.0/type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span></li>
 </ol>)
 
@@ -61,8 +61,8 @@
     </section>
     
 <section class="desc markdown">
-  <p>Filters the <a href="../../text_indexing_type_definitions/Postings.html">Postings</a> by terms.</p>
-<p>Returns a subset of the <a href="../../text_indexing_type_definitions/Postings.html">Postings</a> instance that only contains
+  <p>Filters the <a href="../../type_definitions/PostingsMap.html">PostingsMap</a> by terms.</p>
+<p>Returns a subset of the <a href="../../type_definitions/PostingsMap.html">PostingsMap</a> instance that only contains
 entires with a key in the <code>terms</code> collection.</p>
 </section>
 
@@ -70,8 +70,8 @@ entires with a key in the <code>terms</code> collection.</p>
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Postings getPostings(Iterable&lt;Term&gt; terms) {
-  final Postings retVal = {};
+  <pre class="language-dart"><code class="language-dart">PostingsMap getPostings(Iterable&lt;Term&gt; terms) {
+  final PostingsMap retVal = {};
   for (final term in terms) {
     final posting = this[term];
     if (posting != null) {

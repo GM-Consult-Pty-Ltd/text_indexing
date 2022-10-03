@@ -4,35 +4,34 @@
 
 import 'package:text_indexing/src/_index.dart';
 
-/// A [DictionaryEntry] is a unit of entry in the [Dictionary] of an inverted
+/// A [DftMapEntry] is a unit of entry in the [DftMap] of an inverted
 /// index.
 /// It enumerates the following property getters:
 /// - [term] is the word/term that is indexed; and
 /// - [dFt] is the number of documents that contain [term].
-extension DictionaryEntryExtension on DictionaryEntry {
+extension DictionaryEntryExtension on DftMapEntry {
   //
 
   /// The word/term that is indexed.
   ///
   /// The [term] must not be an empty String.
   ///
-  /// The [term] must only occur once in the [Dictionary].
+  /// The [term] must only occur once in the [DftMap].
   Term get term => key;
 
   /// The number of documents that contain [term].
   Ft get dFt => value;
 
-  /// Returns a copy of the [DictionaryEntry] instance with the [Ft] set to
+  /// Returns a copy of the [DftMapEntry] instance with the [Ft] set to
   /// [frequency].
-  DictionaryEntry setFrequency(Ft frequency) =>
-      DictionaryEntry(term, frequency);
+  DftMapEntry setFrequency(Ft frequency) => DftMapEntry(term, frequency);
 
-  /// Returns a copy of the [DictionaryEntry] instance with the [Ft]
+  /// Returns a copy of the [DftMapEntry] instance with the [Ft]
   /// incremented by 1.
-  DictionaryEntry incrementFrequency() => setFrequency(dFt + 1);
+  DftMapEntry incrementFrequency() => setFrequency(dFt + 1);
 }
 
-/// A [DictionaryEntry] is a unit of entry in the [Dictionary] of an inverted
+/// A [DftMapEntry] is a unit of entry in the [DftMap] of an inverted
 /// index.
 /// It enumerates the following property getters:
 /// - [term] is the word/term that is indexed; and
@@ -44,35 +43,34 @@ extension IDftDictionaryEntryExtension on MapEntry<String, IdFt> {
   ///
   /// The [term] must not be an empty String.
   ///
-  /// The [term] must only occur once in the [Dictionary].
+  /// The [term] must only occur once in the [DftMap].
   Term get term => key;
 
   /// The inverse document frequency of [term] in the `corpus`.
   IdFt get iDFt => value;
 }
 
-/// Extension methods on [Dictionary.entries].
-extension DictionaryEntryCollectionExtension on Iterable<DictionaryEntry> {
+/// Extension methods on [DftMap.entries].
+extension DictionaryEntryCollectionExtension on Iterable<DftMapEntry> {
 //
 
-  /// Sorts the collection of [DictionaryEntry]s according to [sortBy] value:
-  /// - [TermSortStrategy.byTerm] sorts the [DictionaryEntry]s alphabetically (default); or
-  /// - [TermSortStrategy.byFrequency] sorts the [DictionaryEntry]s by [Ft] in
+  /// Sorts the collection of [DftMapEntry]s according to [sortBy] value:
+  /// - [TermSortStrategy.byTerm] sorts the [DftMapEntry]s alphabetically (default); or
+  /// - [TermSortStrategy.byFrequency] sorts the [DftMapEntry]s by [Ft] in
   ///   descending order.
-  List<DictionaryEntry> sort(
-          [TermSortStrategy sortBy = TermSortStrategy.byTerm]) =>
+  List<DftMapEntry> sort([TermSortStrategy sortBy = TermSortStrategy.byTerm]) =>
       sortBy == TermSortStrategy.byTerm ? sortByTerm() : sortByFrequency();
 
-  /// Sorts the collection of [DictionaryEntry]s by [Ft] in descending order.
-  List<DictionaryEntry> sortByFrequency() {
-    final terms = List<DictionaryEntry>.from(this);
+  /// Sorts the collection of [DftMapEntry]s by [Ft] in descending order.
+  List<DftMapEntry> sortByFrequency() {
+    final terms = List<DftMapEntry>.from(this);
     terms.sort((a, b) => b.dFt.compareTo(a.dFt));
     return terms;
   }
 
-  /// Sorts the collection of [DictionaryEntry]s alphabetically.
-  List<DictionaryEntry> sortByTerm() {
-    final terms = List<DictionaryEntry>.from(this);
+  /// Sorts the collection of [DftMapEntry]s alphabetically.
+  List<DftMapEntry> sortByTerm() {
+    final terms = List<DftMapEntry>.from(this);
     terms.sort((a, b) => a.term.compareTo(b.term));
     return terms;
   }
@@ -82,11 +80,11 @@ extension DictionaryEntryCollectionExtension on Iterable<DictionaryEntry> {
 extension IdFtIndexExtensions on Map<String, double> {
   //
 
-  /// Returns a list of [DictionaryEntry]s from the [entries] in the [Dictionary].
+  /// Returns a list of [DftMapEntry]s from the [entries] in the [DftMap].
   ///
   /// Sorts the terms according to [sortBy] value:
-  /// - [TermSortStrategy.byTerm] sorts the [DictionaryEntry]s alphabetically (default); or
-  /// - [TermSortStrategy.byFrequency] sorts the [DictionaryEntry]s by [Ft] in
+  /// - [TermSortStrategy.byTerm] sorts the [DftMapEntry]s alphabetically (default); or
+  /// - [TermSortStrategy.byFrequency] sorts the [DftMapEntry]s by [Ft] in
   ///   descending order.
   List<MapEntry<String, double>> toList(
       [TermSortStrategy sortBy = TermSortStrategy.byTerm]) {
@@ -111,17 +109,17 @@ extension IdFtIndexExtensions on Map<String, double> {
   }
 }
 
-/// Extensions on [DictionaryEntry].
-extension DictionaryExtensions on Dictionary {
+/// Extensions on [DftMapEntry].
+extension DictionaryExtensions on DftMap {
   //
 
-  /// Returns a list of [DictionaryEntry]s from the [entries] in the [Dictionary].
+  /// Returns a list of [DftMapEntry]s from the [entries] in the [DftMap].
   ///
   /// Sorts the terms according to [sortBy] value:
-  /// - [TermSortStrategy.byTerm] sorts the [DictionaryEntry]s alphabetically (default); or
-  /// - [TermSortStrategy.byFrequency] sorts the [DictionaryEntry]s by [Ft] in
+  /// - [TermSortStrategy.byTerm] sorts the [DftMapEntry]s alphabetically (default); or
+  /// - [TermSortStrategy.byFrequency] sorts the [DftMapEntry]s by [Ft] in
   ///   descending order.
-  List<DictionaryEntry> toList(
+  List<DftMapEntry> toList(
       [TermSortStrategy sortBy = TermSortStrategy.byTerm]) {
     final list = entries.toList();
     switch (sortBy) {
@@ -143,29 +141,29 @@ extension DictionaryExtensions on Dictionary {
     return terms;
   }
 
-  /// Inserts or replaces the [value] in the [Dictionary].
-  void addEntry(DictionaryEntry value) => this[value.term] = value.dFt;
+  /// Inserts or replaces the [value] in the [DftMap].
+  void addEntry(DftMapEntry value) => this[value.term] = value.dFt;
 
-  /// Returns the mapped value for the [term] key from the [Dictionary].
+  /// Returns the mapped value for the [term] key from the [DftMap].
   ///
-  /// Returns 0 if the [term] key does not exist in the [Dictionary].
+  /// Returns 0 if the [term] key does not exist in the [DftMap].
   Ft getFrequency(Term term) => this[term] ?? 0;
 
-  /// Returns a [DictionaryEntry] with:
+  /// Returns a [DftMapEntry] with:
   /// - key set to [term]; and
   /// - the value set to [frequency].
-  DictionaryEntry setFrequency(Term term, Ft frequency) {
+  DftMapEntry setFrequency(Term term, Ft frequency) {
     this[term] = frequency;
-    return DictionaryEntry(term, frequency);
+    return DftMapEntry(term, frequency);
   }
 
-  /// Returns a DictionaryEntry with the key set to [term].
+  /// Returns a DftMapEntry with the key set to [term].
   ///
-  /// If the [term] key exists in the [Dictionary], it's mapped value is
+  /// If the [term] key exists in the [DftMap], it's mapped value is
   /// incremented by 1.
   ///
-  /// If the [term] key does not exist in the [Dictionary], an entry is created
+  /// If the [term] key does not exist in the [DftMap], an entry is created
   /// and its value set to 1.
-  DictionaryEntry incrementFrequency(String term) =>
+  DftMapEntry incrementFrequency(String term) =>
       setFrequency(term, getFrequency(term) + 1);
 }

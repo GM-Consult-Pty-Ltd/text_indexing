@@ -90,7 +90,7 @@ in-memory dictionary, k-gram and postings hashmaps.</p>
 
     <dl class="constructor-summary-list">
         <dt id="InMemoryIndex" class="callable">
-          <span class="name"><a href="../text_indexing/InMemoryIndex/InMemoryIndex.html">InMemoryIndex</a></span><span class="signature">(<span class="parameter" id="-param-tokenizer">{<span>required</span> <span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.14.0/text_analysis/TextTokenizer-class.html">TextTokenizer</a></span> <span class="parameter-name">tokenizer</span>, </span><span class="parameter" id="-param-dictionary"><span class="type-annotation"><a href="../text_indexing_type_definitions/Dictionary.html">Dictionary</a>?</span> <span class="parameter-name">dictionary</span>, </span><span class="parameter" id="-param-postings"><span class="type-annotation"><a href="../text_indexing_type_definitions/Postings.html">Postings</a>?</span> <span class="parameter-name">postings</span>, </span><span class="parameter" id="-param-kGramIndex"><span class="type-annotation"><a href="../text_indexing_type_definitions/KGramIndex.html">KGramIndex</a>?</span> <span class="parameter-name">kGramIndex</span>, </span><span class="parameter" id="-param-k"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">3</span>, </span><span class="parameter" id="-param-zones"><span class="type-annotation"><a href="../text_indexing_type_definitions/ZoneWeightMap.html">ZoneWeightMap</a></span> <span class="parameter-name">zones</span> = <span class="default-value">const &lt;String, double&gt;{}</span>, </span><span class="parameter" id="-param-phraseLength"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">phraseLength</span> = <span class="default-value">1</span>}</span>)</span>
+          <span class="name"><a href="../text_indexing/InMemoryIndex/InMemoryIndex.html">InMemoryIndex</a></span><span class="signature">(<span class="parameter" id="-param-tokenizer">{<span>required</span> <span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.14.0/text_analysis/TextTokenizer-class.html">TextTokenizer</a></span> <span class="parameter-name">tokenizer</span>, </span><span class="parameter" id="-param-dictionary"><span class="type-annotation"><a href="../type_definitions/DftMap.html">DftMap</a>?</span> <span class="parameter-name">dictionary</span>, </span><span class="parameter" id="-param-postings"><span class="type-annotation"><a href="../type_definitions/PostingsMap.html">PostingsMap</a>?</span> <span class="parameter-name">postings</span>, </span><span class="parameter" id="-param-kGramIndex"><span class="type-annotation"><a href="../type_definitions/KGramsMap.html">KGramsMap</a>?</span> <span class="parameter-name">kGramIndex</span>, </span><span class="parameter" id="-param-k"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">3</span>, </span><span class="parameter" id="-param-zones"><span class="type-annotation"><a href="../type_definitions/ZoneWeightMap.html">ZoneWeightMap</a></span> <span class="parameter-name">zones</span> = <span class="default-value">const &lt;String, double&gt;{}</span>, </span><span class="parameter" id="-param-phraseLength"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">phraseLength</span> = <span class="default-value">1</span>}</span>)</span>
         </dt>
         <dd>
           Instantiates a <a href="../text_indexing/InMemoryIndex-class.html">InMemoryIndex</a> instance:
@@ -104,7 +104,7 @@ in-memory dictionary, k-gram and postings hashmaps.</p>
       <dl class="properties">
         <dt id="dictionary" class="property">
   <span class="name"><a href="../text_indexing/InMemoryIndex/dictionary.html">dictionary</a></span>
-  <span class="signature">&#8596; <a href="../text_indexing_type_definitions/Dictionary.html">Dictionary</a></span> 
+  <span class="signature">&#8596; <a href="../type_definitions/DftMap.html">DftMap</a></span> 
 
 </dt>
 <dd>
@@ -137,11 +137,11 @@ in-memory dictionary, k-gram and postings hashmaps.</p>
 
         <dt id="kGramIndex" class="property">
   <span class="name"><a href="../text_indexing/InMemoryIndex/kGramIndex.html">kGramIndex</a></span>
-  <span class="signature">&#8596; <a href="../text_indexing_type_definitions/KGramIndex.html">KGramIndex</a></span> 
+  <span class="signature">&#8596; <a href="../type_definitions/KGramsMap.html">KGramsMap</a></span> 
 
 </dt>
 <dd>
-  The in-memory <a href="../text_indexing_type_definitions/KGramIndex.html">KGramIndex</a> for the index.
+  The in-memory <a href="../type_definitions/KGramsMap.html">KGramsMap</a> for the index.
   <div class="features">read / write, override-getter</div>
 
 </dd>
@@ -159,7 +159,7 @@ in-memory dictionary, k-gram and postings hashmaps.</p>
 
         <dt id="postings" class="property">
   <span class="name"><a href="../text_indexing/InMemoryIndex/postings.html">postings</a></span>
-  <span class="signature">&#8596; <a href="../text_indexing_type_definitions/Postings.html">Postings</a></span> 
+  <span class="signature">&#8596; <a href="../type_definitions/PostingsMap.html">PostingsMap</a></span> 
 
 </dt>
 <dd>
@@ -192,7 +192,7 @@ in-memory dictionary, k-gram and postings hashmaps.</p>
 
         <dt id="vocabularyLength" class="property inherited">
   <span class="name"><a href="../text_indexing/InMemoryIndexMixin/vocabularyLength.html">vocabularyLength</a></span>
-  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing_type_definitions/Ft.html">Ft</a></span>&gt;</span></span> 
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Ft.html">Ft</a></span>&gt;</span></span> 
 
 </dt>
 <dd class="inherited">
@@ -203,7 +203,7 @@ in-memory dictionary, k-gram and postings hashmaps.</p>
 
         <dt id="zones" class="property">
   <span class="name"><a href="../text_indexing/InMemoryIndex/zones.html">zones</a></span>
-  <span class="signature">&#8594; <a href="../text_indexing_type_definitions/ZoneWeightMap.html">ZoneWeightMap</a></span> 
+  <span class="signature">&#8594; <a href="../type_definitions/ZoneWeightMap.html">ZoneWeightMap</a></span> 
 
 </dt>
 <dd>
@@ -223,21 +223,21 @@ in-memory dictionary, k-gram and postings hashmaps.</p>
     <dl class="callables">
         <dt id="getDictionary" class="callable inherited">
   <span class="name"><a href="../text_indexing/InMemoryIndexMixin/getDictionary.html">getDictionary</a></span><span class="signature">(<wbr><span class="parameter" id="getDictionary-param-terms">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.14.0/type_definitions/Term.html">Term</a></span>&gt;</span>?</span> <span class="parameter-name">terms</span>]</span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing_type_definitions/Dictionary.html">Dictionary</a></span>&gt;</span></span>
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/DftMap.html">DftMap</a></span>&gt;</span></span>
   </span>
   
 
 </dt>
 <dd class="inherited">
-  Asynchronously retrieves a <code>Dictionary</code> for the <code>terms</code> from a
-<code>Dictionary</code> repository.
+  Asynchronously retrieves a <code>DftMap</code> for the <code>terms</code> from a
+<code>DftMap</code> repository.
   <div class="features">inherited</div>
 
 </dd>
 
         <dt id="getFtdPostings" class="callable inherited">
-  <span class="name"><a href="../text_indexing/InvertedIndexMixin/getFtdPostings.html">getFtdPostings</a></span><span class="signature">(<wbr><span class="parameter" id="getFtdPostings-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.14.0/type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span>, </span><span class="parameter" id="getFtdPostings-param-minFtd">[<span class="type-annotation"><a href="../text_indexing_type_definitions/Ft.html">Ft</a></span> <span class="parameter-name">minFtd</span> = <span class="default-value">1</span>]</span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing_type_definitions/FtdPostings.html">FtdPostings</a></span>&gt;</span></span>
+  <span class="name"><a href="../text_indexing/InvertedIndexMixin/getFtdPostings.html">getFtdPostings</a></span><span class="signature">(<wbr><span class="parameter" id="getFtdPostings-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.14.0/type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span>, </span><span class="parameter" id="getFtdPostings-param-minFtd">[<span class="type-annotation"><a href="../type_definitions/Ft.html">Ft</a></span> <span class="parameter-name">minFtd</span> = <span class="default-value">1</span>]</span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/FtdPostings.html">FtdPostings</a></span>&gt;</span></span>
   </span>
   
 
@@ -250,7 +250,7 @@ in-memory dictionary, k-gram and postings hashmaps.</p>
 
         <dt id="getIdFtIndex" class="callable inherited">
   <span class="name"><a href="../text_indexing/InvertedIndexMixin/getIdFtIndex.html">getIdFtIndex</a></span><span class="signature">(<wbr><span class="parameter" id="getIdFtIndex-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.14.0/type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing_type_definitions/IdFtIndex.html">IdFtIndex</a></span>&gt;</span></span>
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/IdFtIndex.html">IdFtIndex</a></span>&gt;</span></span>
   </span>
   
 
@@ -263,35 +263,35 @@ in-memory dictionary, k-gram and postings hashmaps.</p>
 
         <dt id="getKGramIndex" class="callable inherited">
   <span class="name"><a href="../text_indexing/InMemoryIndexMixin/getKGramIndex.html">getKGramIndex</a></span><span class="signature">(<wbr><span class="parameter" id="getKGramIndex-param-kGrams"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.14.0/type_definitions/KGram.html">KGram</a></span>&gt;</span></span> <span class="parameter-name">kGrams</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing_type_definitions/KGramIndex.html">KGramIndex</a></span>&gt;</span></span>
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/KGramsMap.html">KGramsMap</a></span>&gt;</span></span>
   </span>
   
 
 </dt>
 <dd class="inherited">
-  Asynchronously retrieves a <code>KGramIndex</code> for the <code>terms</code> from a
-<code>KGramIndex</code> repository.
+  Asynchronously retrieves a <code>KGramsMap</code> for the <code>terms</code> from a
+<code>KGramsMap</code> repository.
   <div class="features">inherited</div>
 
 </dd>
 
         <dt id="getPostings" class="callable inherited">
   <span class="name"><a href="../text_indexing/InMemoryIndexMixin/getPostings.html">getPostings</a></span><span class="signature">(<wbr><span class="parameter" id="getPostings-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.14.0/type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing_type_definitions/Postings.html">Postings</a></span>&gt;</span></span>
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/PostingsMap.html">PostingsMap</a></span>&gt;</span></span>
   </span>
   
 
 </dt>
 <dd class="inherited">
-  Asynchronously retrieves <a href="../text_indexing_type_definitions/PostingsEntry.html">PostingsEntry</a> entities for the <code>terms</code> from a
-<code>Postings</code> repository.
+  Asynchronously retrieves <a href="../type_definitions/PostingsMapEntry.html">PostingsMapEntry</a> entities for the <code>terms</code> from a
+<code>PostingsMap</code> repository.
   <div class="features">inherited</div>
 
 </dd>
 
         <dt id="getTfIndex" class="callable inherited">
   <span class="name"><a href="../text_indexing/InvertedIndexMixin/getTfIndex.html">getTfIndex</a></span><span class="signature">(<wbr><span class="parameter" id="getTfIndex-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.14.0/type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing_type_definitions/Dictionary.html">Dictionary</a></span>&gt;</span></span>
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/DftMap.html">DftMap</a></span>&gt;</span></span>
   </span>
   
 
@@ -329,42 +329,42 @@ in-memory dictionary, k-gram and postings hashmaps.</p>
 </dd>
 
         <dt id="upsertDictionary" class="callable inherited">
-  <span class="name"><a href="../text_indexing/InMemoryIndexMixin/upsertDictionary.html">upsertDictionary</a></span><span class="signature">(<wbr><span class="parameter" id="upsertDictionary-param-values"><span class="type-annotation"><a href="../text_indexing_type_definitions/Dictionary.html">Dictionary</a></span> <span class="parameter-name">values</span></span>)
+  <span class="name"><a href="../text_indexing/InMemoryIndexMixin/upsertDictionary.html">upsertDictionary</a></span><span class="signature">(<wbr><span class="parameter" id="upsertDictionary-param-values"><span class="type-annotation"><a href="../type_definitions/DftMap.html">DftMap</a></span> <span class="parameter-name">values</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
   </span>
   
 
 </dt>
 <dd class="inherited">
-  Inserts <code>values</code> into a <a href="../text_indexing_type_definitions/Dictionary.html">Dictionary</a> repository, overwriting them if they
+  Inserts <code>values</code> into a <a href="../type_definitions/DftMap.html">DftMap</a> repository, overwriting them if they
 already exist.
   <div class="features">inherited</div>
 
 </dd>
 
         <dt id="upsertKGramIndex" class="callable inherited">
-  <span class="name"><a href="../text_indexing/InMemoryIndexMixin/upsertKGramIndex.html">upsertKGramIndex</a></span><span class="signature">(<wbr><span class="parameter" id="upsertKGramIndex-param-values"><span class="type-annotation"><a href="../text_indexing_type_definitions/KGramIndex.html">KGramIndex</a></span> <span class="parameter-name">values</span></span>)
+  <span class="name"><a href="../text_indexing/InMemoryIndexMixin/upsertKGramIndex.html">upsertKGramIndex</a></span><span class="signature">(<wbr><span class="parameter" id="upsertKGramIndex-param-values"><span class="type-annotation"><a href="../type_definitions/KGramsMap.html">KGramsMap</a></span> <span class="parameter-name">values</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
   </span>
   
 
 </dt>
 <dd class="inherited">
-  Inserts <code>values</code> into a <a href="../text_indexing_type_definitions/KGramIndex.html">KGramIndex</a> repository, overwriting any existing
+  Inserts <code>values</code> into a <a href="../type_definitions/KGramsMap.html">KGramsMap</a> repository, overwriting any existing
 entries.
   <div class="features">inherited</div>
 
 </dd>
 
         <dt id="upsertPostings" class="callable inherited">
-  <span class="name"><a href="../text_indexing/InMemoryIndexMixin/upsertPostings.html">upsertPostings</a></span><span class="signature">(<wbr><span class="parameter" id="upsertPostings-param-values"><span class="type-annotation"><a href="../text_indexing_type_definitions/Postings.html">Postings</a></span> <span class="parameter-name">values</span></span>)
+  <span class="name"><a href="../text_indexing/InMemoryIndexMixin/upsertPostings.html">upsertPostings</a></span><span class="signature">(<wbr><span class="parameter" id="upsertPostings-param-values"><span class="type-annotation"><a href="../type_definitions/PostingsMap.html">PostingsMap</a></span> <span class="parameter-name">values</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
   </span>
   
 
 </dt>
 <dd class="inherited">
-  Inserts <code>values</code> into a <a href="../text_indexing_type_definitions/Postings.html">Postings</a> repository, overwriting them if they
+  Inserts <code>values</code> into a <a href="../type_definitions/PostingsMap.html">PostingsMap</a> repository, overwriting them if they
 already exist.
   <div class="features">inherited</div>
 

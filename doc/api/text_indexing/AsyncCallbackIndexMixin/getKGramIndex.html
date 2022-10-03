@@ -57,7 +57,7 @@
   </ol>
 </div>
 
-<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_indexing_type_definitions/KGramIndex.html">KGramIndex</a></span>&gt;</span></span>
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../type_definitions/KGramsMap.html">KGramsMap</a></span>&gt;</span></span>
 <span class="name ">getKGramIndex</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="getKGramIndex-param-terms">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.14.0/type_definitions/Term.html">Term</a></span>&gt;</span>?</span> <span class="parameter-name">terms</span>]</span></li>
 </ol>)
 
@@ -66,10 +66,10 @@
     </section>
     
 <section class="desc markdown">
-  <p>Asynchronously retrieves a <code>KGramIndex</code> for the <code>terms</code> from a
-<code>KGramIndex</code> repository.</p>
-<p>Loads the entire <code>KGramIndex</code> if <code>terms</code> is null.</p>
-<p>Used in <code>index-elimination</code>, to return a subset of the <code>KGramIndex</code>
+  <p>Asynchronously retrieves a <code>KGramsMap</code> for the <code>terms</code> from a
+<code>KGramsMap</code> repository.</p>
+<p>Loads the entire <code>KGramsMap</code> if <code>terms</code> is null.</p>
+<p>Used in <code>index-elimination</code>, to return a subset of the <code>KGramsMap</code>
 where the key (<a href="https://pub.dev/documentation/text_analysis/0.14.0/type_definitions/KGram.html">KGram</a>) is in <code>kGrams</code>.</p>
 </section>
 
@@ -78,7 +78,7 @@ where the key (<a href="https://pub.dev/documentation/text_analysis/0.14.0/type_
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
-Future&lt;KGramIndex&gt; getKGramIndex([Iterable&lt;Term&gt;? terms]) =&gt;
+Future&lt;KGramsMap&gt; getKGramIndex([Iterable&lt;Term&gt;? terms]) =&gt;
     kGramIndexLoader(terms);</code></pre>
 </section>
 

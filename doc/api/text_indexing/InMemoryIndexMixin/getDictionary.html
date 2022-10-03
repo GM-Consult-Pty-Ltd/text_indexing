@@ -57,7 +57,7 @@
   </ol>
 </div>
 
-<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_indexing_type_definitions/Dictionary.html">Dictionary</a></span>&gt;</span></span>
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../type_definitions/DftMap.html">DftMap</a></span>&gt;</span></span>
 <span class="name ">getDictionary</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="getDictionary-param-terms">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.14.0/type_definitions/Term.html">Term</a></span>&gt;</span>?</span> <span class="parameter-name">terms</span>]</span></li>
 </ol>)
 
@@ -66,10 +66,10 @@
     </section>
     
 <section class="desc markdown">
-  <p>Asynchronously retrieves a <code>Dictionary</code> for the <code>terms</code> from a
-<code>Dictionary</code> repository.</p>
-<p>Loads the entire <code>Dictionary</code> if <code>terms</code> is null.</p>
-<p>Used in <code>index-elimination</code>, to return a subset of <code>Dictionary</code> where the
+  <p>Asynchronously retrieves a <code>DftMap</code> for the <code>terms</code> from a
+<code>DftMap</code> repository.</p>
+<p>Loads the entire <code>DftMap</code> if <code>terms</code> is null.</p>
+<p>Used in <code>index-elimination</code>, to return a subset of <code>DftMap</code> where the
 key (<a href="https://pub.dev/documentation/text_analysis/0.14.0/type_definitions/Term.html">Term</a>) is in <code>terms</code>.</p>
 </section>
 
@@ -78,9 +78,9 @@ key (<a href="https://pub.dev/documentation/text_analysis/0.14.0/type_definition
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
-Future&lt;Dictionary&gt; getDictionary([Iterable&lt;Term&gt;? terms]) async {
+Future&lt;DftMap&gt; getDictionary([Iterable&lt;Term&gt;? terms]) async {
   if (terms == null) return dictionary;
-  final Dictionary retVal = {};
+  final DftMap retVal = {};
   for (final term in terms) {
     final entry = dictionary[term];
     if (entry != null) {

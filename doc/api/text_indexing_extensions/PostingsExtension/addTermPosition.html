@@ -54,8 +54,8 @@
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>
 <span class="name ">addTermPosition</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="addTermPosition-param-term">{<span>required</span> <span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.14.0/type_definitions/Term.html">Term</a></span> <span class="parameter-name">term</span>, </span></li>
-<li><span class="parameter" id="addTermPosition-param-docId"><span>required</span> <span class="type-annotation"><a href="../../text_indexing_type_definitions/DocId.html">DocId</a></span> <span class="parameter-name">docId</span>, </span></li>
-<li><span class="parameter" id="addTermPosition-param-position"><span>required</span> <span class="type-annotation"><a href="../../text_indexing_type_definitions/Pt.html">Pt</a></span> <span class="parameter-name">position</span>, </span></li>
+<li><span class="parameter" id="addTermPosition-param-docId"><span>required</span> <span class="type-annotation"><a href="../../type_definitions/DocId.html">DocId</a></span> <span class="parameter-name">docId</span>, </span></li>
+<li><span class="parameter" id="addTermPosition-param-position"><span>required</span> <span class="type-annotation"><a href="../../type_definitions/Pt.html">Pt</a></span> <span class="parameter-name">position</span>, </span></li>
 <li><span class="parameter" id="addTermPosition-param-zone"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.14.0/type_definitions/Zone.html">Zone</a>?</span> <span class="parameter-name">zone</span>}</span></li>
 </ol>)
 
@@ -64,13 +64,13 @@
     </section>
     
 <section class="desc markdown">
-  <p>Adds or updates a posting position for the <code>docId</code> to <a href="../../text_indexing_type_definitions/Postings.html">Postings</a> entry
+  <p>Adds or updates a posting position for the <code>docId</code> to <a href="../../type_definitions/PostingsMap.html">PostingsMap</a> entry
 for the <code>term</code>.</p>
 <p>Returns true if the posting positions for the <code>docId</code> did not previously
-exist in the <a href="../../text_indexing_type_definitions/Postings.html">Postings</a>.</p>
+exist in the <a href="../../type_definitions/PostingsMap.html">PostingsMap</a>.</p>
 <p>Looks up an existing entry for <code>term</code> and adds a position to the list of
 positions for <code>docId</code> if it exists.</p>
-<p>If no entry for <code>term</code> exists in the <a href="../../text_indexing_type_definitions/Postings.html">Postings</a>, creates a new entry
+<p>If no entry for <code>term</code> exists in the <a href="../../type_definitions/PostingsMap.html">PostingsMap</a>, creates a new entry
 for term.</p>
 <p>If <code>zone</code> is null, the posting position zone name is "null".</p>
 <p>If no positions list exists for <code>docId</code>, creates a new position list
@@ -78,7 +78,7 @@ for <code>docId</code>.</p>
 <p>Adds <code>position</code> to the positions list for <code>docId</code> if it is not already
 in the list.</p>
 <p>Sorts the positions list in ascending order.</p>
-<p>Updates the <code>term</code> entry in the <a href="../../text_indexing_type_definitions/Postings.html">Postings</a>.</p>
+<p>Updates the <code>term</code> entry in the <a href="../../type_definitions/PostingsMap.html">PostingsMap</a>.</p>
 </section>
 
 

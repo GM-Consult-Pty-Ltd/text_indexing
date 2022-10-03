@@ -17,25 +17,25 @@ import 'package:text_indexing/src/_index.dart';
 /// - [zones] is a hashmap of zone names to their relative weight in the index.
 ///   If [zones] is empty, all the `JSON` fields will be indexed;
 /// - [k] is the length of k-gram entries in the k-gram index;
-/// - [getDictionary] Asynchronously retrieves a [Dictionary] for a collection
-///   of [Term]s from a [Dictionary] repository;
-/// - [upsertDictionary ] inserts entries into a [Dictionary] repository,
+/// - [getDictionary] Asynchronously retrieves a [DftMap] for a collection
+///   of [Term]s from a [DftMap] repository;
+/// - [upsertDictionary ] inserts entries into a [DftMap] repository,
 ///   overwriting any existing entries;
-/// - [getKGramIndex] Asynchronously retrieves a [KGramIndex] for a collection
-///   of [KGram]s from a [KGramIndex] repository;
-/// - [upsertKGramIndex ] inserts entries into a [KGramIndex] repository,
+/// - [getKGramIndex] Asynchronously retrieves a [KGramsMap] for a collection
+///   of [KGram]s from a [KGramsMap] repository;
+/// - [upsertKGramIndex ] inserts entries into a [KGramsMap] repository,
 ///   overwriting any existing entries;
-/// - [getPostings] asynchronously retrieves [Postings] for a collection
-///   of [Term]s from a [Postings] repository;
-/// - [upsertPostings] inserts entries into a [Postings] repository,
+/// - [getPostings] asynchronously retrieves [PostingsMap] for a collection
+///   of [Term]s from a [PostingsMap] repository;
+/// - [upsertPostings] inserts entries into a [PostingsMap] repository,
 ///   overwriting any existing entries;
 /// - [getTfIndex] returns hashmap of [Term] to [Ft] for a collection of
 ///   [Term]s, where [Ft] is the number of times each of the terms occurs in
 ///   the `corpus`;
 /// - [getFtdPostings] return a [FtdPostings] for a collection of [Term]s from
-///   the [Postings], optionally filtered by minimum term frequency; and
+///   the [PostingsMap], optionally filtered by minimum term frequency; and
 /// - [getIdFtIndex] returns a [IdFtIndex] for a collection of [Term]s from
-///   the [Dictionary].
+///   the [DftMap].
 abstract class InvertedIndex {
   //
 
@@ -61,7 +61,7 @@ abstract class InvertedIndex {
   /// Returns a map of [terms] to hashmaps of [DocId] to [Ft]
   ///
   /// Used in `index-elimination` to return a [FtdPostings] for [terms] from
-  /// the [Postings].
+  /// the [PostingsMap].
   ///
   /// Filters the [FtdPostings] by [minFtd], the minimum term frequency in the
   /// document. The default [minFtd] is 1 and it cannot be less than 1. Provide
@@ -72,49 +72,57 @@ abstract class InvertedIndex {
   /// Returns a map of [terms] to hashmaps of [DocId] to [Ft].
   ///
   /// Used in `index-elimination`, to return a [IdFtIndex] for [terms] from
-  /// the [Dictionary].
+  /// the [DftMap].
   Future<IdFtIndex> getIdFtIndex(Iterable<Term> terms);
 
   /// Returns a hashmap of [Term] to [Ft] for the [terms], where [Ft] is
   /// the number of times each of [terms] occurs in the `corpus`.
-  Future<Dictionary> getTfIndex(Iterable<Term> terms);
+  Future<DftMap> getTfIndex(Iterable<Term> terms);
 
-  /// Asynchronously retrieves a [Dictionary] for the [terms] from a
-  /// [Dictionary] repository.
+  /// Asynchronously retrieves a [DftMap] for the [terms] from a
+  /// [DftMap] repository.
   ///
-  /// Loads the entire [Dictionary] if [terms] is null.
+  /// Loads the entire [DftMap] if [terms] is null.
   ///
-  /// Used in `index-elimination`, to return a subset of [Dictionary] where the
+  /// Used in `index-elimination`, to return a subset of [DftMap] where the
   /// key ([Term]) is in [terms].
-  Future<Dictionary> getDictionary([Iterable<Term>? terms]);
+  Future<DftMap> getDictionary([Iterable<Term>? terms]);
 
-  /// Inserts [values] into a [Dictionary] repository, overwriting them if they
+  /// Inserts [values] into a [DftMap] repository, overwriting them if they
   /// already exist.
-  Future<void> upsertDictionary(Dictionary values);
+  Future<void> upsertDictionary(DftMap values);
 
-  /// Asynchronously retrieves a [KGramIndex] for the [terms] from a
-  /// [KGramIndex] repository.
+  /// Asynchronously retrieves a [KGramsMap] for the [terms] from a
+  /// [KGramsMap] repository.
   ///
-  /// Loads the entire [KGramIndex] if [terms] is null.
+  /// Loads the entire [KGramsMap] if [terms] is null.
   ///
-  /// Used in `index-elimination`, to return a subset of the [KGramIndex]
+  /// Used in `index-elimination`, to return a subset of the [KGramsMap]
   /// where the key ([KGram]) is in [kGrams].
-  Future<KGramIndex> getKGramIndex(Iterable<KGram> kGrams);
+  Future<KGramsMap> getKGramIndex(Iterable<KGram> kGrams);
 
-  /// Inserts [values] into a [KGramIndex] repository, overwriting any existing
+  /// Inserts [values] into a [KGramsMap] repository, overwriting any existing
   /// entries.
-  Future<void> upsertKGramIndex(KGramIndex values);
+  Future<void> upsertKGramIndex(KGramsMap values);
 
-  /// Asynchronously retrieves [PostingsEntry] entities for the [terms] from a
-  /// [Postings] repository.
+  /// Asynchronously retrieves [PostingsMapEntry] entities for the [terms] from a
+  /// [PostingsMap] repository.
   ///
-  /// Used in `index-elimination`, to return a subset of the [Postings]
+  /// Used in `index-elimination`, to return a subset of the [PostingsMap]
   /// where the key ([Term]) is in [terms].
-  Future<Postings> getPostings(Iterable<Term> terms);
+  Future<PostingsMap> getPostings(Iterable<Term> terms);
 
-  /// Inserts [values] into a [Postings] repository, overwriting them if they
+  /// Inserts [values] into a [PostingsMap] repository, overwriting them if they
   /// already exist.
-  Future<void> upsertPostings(Postings values);
+  Future<void> upsertPostings(PostingsMap values);
+}
+
+/// An abstract [InvertedIndex] base class that mixies in [InvertedIndexMixin].
+///
+/// Provides a default unnamed generative const constructor for sub-classes.
+abstract class InvertedIndexBase with InvertedIndexMixin {
+  /// Default unnamed generative const constructor for sub-classes.
+  const InvertedIndexBase();
 }
 
 /// A mixin that implements the [InvertedIndex.getTfIndex],
@@ -123,8 +131,8 @@ abstract class InvertedIndexMixin implements InvertedIndex {
 //
 
   /// Implements [InvertedIndex.getFtdPostings] method:
-  /// - loads a subset of [Postings] for [terms] by calling [getPostings].
-  /// - iterates over the loaded [Postings] to map the document ids to the
+  /// - loads a subset of [PostingsMap] for [terms] by calling [getPostings].
+  /// - iterates over the loaded [PostingsMap] to map the document ids to the
   ///   document term frequency for the document.
   @override
   Future<FtdPostings> getFtdPostings(Iterable<Term> terms,
@@ -154,8 +162,8 @@ abstract class InvertedIndexMixin implements InvertedIndex {
 
   /// Implements [InvertedIndex.getFtdPostings] method:
   /// - gets the [vocabularyLength] (N);
-  /// - gets the [Dictionary] for [terms] by calling [getDictionary]; then
-  /// - maps the [Dictionary] values (dTf) to inverse document frequency by
+  /// - gets the [DftMap] for [terms] by calling [getDictionary]; then
+  /// - maps the [DftMap] values (dTf) to inverse document frequency by
   ///   calculating log(N/dTf).
   @override
   Future<IdFtIndex> getIdFtIndex(Iterable<Term> terms) async {
@@ -165,11 +173,11 @@ abstract class InvertedIndexMixin implements InvertedIndex {
   }
 
   /// Implements [InvertedIndex.getTfIndex] method:
-  /// - loads a subset of [Postings] for [terms] by calling [getPostings].
-  /// - iterates over the loaded [Postings] to map aggregate the postings for
+  /// - loads a subset of [PostingsMap] for [terms] by calling [getPostings].
+  /// - iterates over the loaded [PostingsMap] to map aggregate the postings for
   ///  the term.
   @override
-  Future<Dictionary> getTfIndex(Iterable<Term> terms) async {
+  Future<DftMap> getTfIndex(Iterable<Term> terms) async {
     final Map<String, Ft> tfIndex = {};
     final postings = await getPostings(terms);
     for (final termPosting in postings.entries) {

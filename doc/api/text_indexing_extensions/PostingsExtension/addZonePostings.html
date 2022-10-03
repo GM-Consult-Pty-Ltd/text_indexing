@@ -54,8 +54,8 @@
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>
 <span class="name ">addZonePostings</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="addZonePostings-param-term"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.14.0/type_definitions/Term.html">Term</a></span> <span class="parameter-name">term</span>, </span></li>
-<li><span class="parameter" id="addZonePostings-param-docId"><span class="type-annotation"><a href="../../text_indexing_type_definitions/DocId.html">DocId</a></span> <span class="parameter-name">docId</span>, </span></li>
-<li><span class="parameter" id="addZonePostings-param-positions"><span class="type-annotation"><a href="../../text_indexing_type_definitions/ZonePostings.html">ZonePostings</a></span> <span class="parameter-name">positions</span></span></li>
+<li><span class="parameter" id="addZonePostings-param-docId"><span class="type-annotation"><a href="../../type_definitions/DocId.html">DocId</a></span> <span class="parameter-name">docId</span>, </span></li>
+<li><span class="parameter" id="addZonePostings-param-positions"><span class="type-annotation"><a href="../../type_definitions/ZonePostingsMap.html">ZonePostingsMap</a></span> <span class="parameter-name">positions</span></span></li>
 </ol>)
 
       
@@ -63,12 +63,12 @@
     </section>
     
 <section class="desc markdown">
-  <p>Adds a postings for the <code>docId</code> to <a href="../../text_indexing_type_definitions/Postings.html">Postings</a> entry for the <code>term</code>.</p>
+  <p>Adds a postings for the <code>docId</code> to <a href="../../type_definitions/PostingsMap.html">PostingsMap</a> entry for the <code>term</code>.</p>
 <p>Returns true if  posting positions for the <code>docId</code> did not previously
-exist in the <a href="../../text_indexing_type_definitions/Postings.html">Postings</a>.</p>
+exist in the <a href="../../type_definitions/PostingsMap.html">PostingsMap</a>.</p>
 <p>Looks up an existing entry for <code>term</code> and inserts/overwrites an entry
 for <code>docId</code> if it exists.</p>
-<p>If no entry for <code>term</code> exists in the <a href="../../text_indexing_type_definitions/Postings.html">Postings</a>, creates a new entry
+<p>If no entry for <code>term</code> exists in the <a href="../../type_definitions/PostingsMap.html">PostingsMap</a>, creates a new entry
 and adds <code>positions</code> for <code>docId</code> to the new entry.</p>
 </section>
 
@@ -76,10 +76,10 @@ and adds <code>positions</code> for <code>docId</code> to the new entry.</p>
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">bool addZonePostings(Term term, DocId docId, ZonePostings positions) {
+  <pre class="language-dart"><code class="language-dart">bool addZonePostings(Term term, DocId docId, ZonePostingsMap positions) {
   &#47;&#47;
   &#47;&#47; get the entry for the term or initialize a new one if it does not exist
-  final DocumentPostings entry = this[term] ?? {};
+  final DocPostingsMap entry = this[term] ?? {};
   &#47;&#47; get the existing positions list for [docId] if it exists
   final existingEntry = entry[docId];
   &#47;&#47; overwrite the positions for docId

@@ -51,11 +51,11 @@
 
     
 <section class="desc markdown">
-  <p>The <a href="../text_indexing_type_definitions/PostingsEntry.html">PostingsEntry</a> class enumerates the properties of an entry in a
-<a href="../text_indexing_type_definitions/Postings.html">Postings</a> collection:</p>
+  <p>The <a href="../type_definitions/PostingsMapEntry.html">PostingsMapEntry</a> class enumerates the properties of an entry in a
+<a href="../type_definitions/PostingsMap.html">PostingsMap</a> collection:</p>
 <ul>
 <li><a href="../text_indexing_extensions/PostingsEntryExtension/term.html">term</a> is the word/term that is indexed; and</li>
-<li><a href="../text_indexing_extensions/PostingsEntryExtension/postings.html">postings</a> is a hashmap of the <a href="../text_indexing_type_definitions/DocumentPostingsEntry.html">DocumentPostingsEntry</a> for <a href="../text_indexing_extensions/PostingsEntryExtension/term.html">term</a>.</li>
+<li><a href="../text_indexing_extensions/PostingsEntryExtension/postings.html">postings</a> is a hashmap of the <a href="../type_definitions/DocPostingsMapEntry.html">DocPostingsMapEntry</a> for <a href="../text_indexing_extensions/PostingsEntryExtension/term.html">term</a>.</li>
 </ul>
 </section>
 
@@ -64,7 +64,7 @@
         <dt>on</dt>
         <dd>
           <ul class="comma-separated clazz-relationships">
-              <li><a href="../text_indexing_type_definitions/PostingsEntry.html">PostingsEntry</a></li>
+              <li><a href="../type_definitions/PostingsMapEntry.html">PostingsMapEntry</a></li>
           </ul>
         </dd>
       </dl>
@@ -77,11 +77,11 @@
         <dl class="properties">
             <dt id="postings" class="property">
   <span class="name"><a href="../text_indexing_extensions/PostingsEntryExtension/postings.html">postings</a></span>
-  <span class="signature">&#8594; <a href="../text_indexing_type_definitions/DocumentPostings.html">DocumentPostings</a></span> 
+  <span class="signature">&#8594; <a href="../type_definitions/DocPostingsMap.html">DocPostingsMap</a></span> 
 
 </dt>
 <dd>
-  Returns <a href="https://api.flutter.dev/flutter/dart-core/MapEntry/value.html">value</a>, a hashmap of the <code>DocId</code> to <code>ZonePostings</code>.
+  Returns <a href="https://api.flutter.dev/flutter/dart-core/MapEntry/value.html">value</a>, a hashmap of the <code>DocId</code> to <code>ZonePostingsMap</code>.
   <div class="features">read-only</div>
 
 </dd>

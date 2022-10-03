@@ -52,7 +52,7 @@
     <section class="multi-line-signature">
       
 
-<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_indexing_type_definitions/DocumentPostingsEntry.html">DocumentPostingsEntry</a></span>&gt;</span></span>
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../type_definitions/DocPostingsMapEntry.html">DocPostingsMapEntry</a></span>&gt;</span></span>
 <span class="name ">termPostings</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="termPostings-param-term"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.14.0/type_definitions/Term.html">Term</a></span> <span class="parameter-name">term</span></span></li>
 </ol>)
 
@@ -61,15 +61,15 @@
     </section>
     
 <section class="desc markdown">
-  <p>Returns the list of all the <code>DocumentPostingsEntry</code> for the <code>term</code>
-from the <a href="../../text_indexing_type_definitions/Postings.html">Postings</a>.</p>
+  <p>Returns the list of all the <code>DocPostingsMapEntry</code> for the <code>term</code>
+from the <a href="../../type_definitions/PostingsMap.html">PostingsMap</a>.</p>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">List&lt;DocumentPostingsEntry&gt; termPostings(Term term) =&gt;
+  <pre class="language-dart"><code class="language-dart">List&lt;DocPostingsMapEntry&gt; termPostings(Term term) =&gt;
     this[term]?.entries.toList() ?? [];</code></pre>
 </section>
 

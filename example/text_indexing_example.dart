@@ -2,15 +2,10 @@
 // BSD 3-Clause License
 // All rights reserved
 
-// ignore_for_file: deprecated_member_use_from_same_package
-
 import 'package:text_indexing/src/_index.dart';
 
-/// Two examples using the indexers in this package are provided:
-/// - [_inMemoryIndexerExample] is a simple example of a [TextIndexer.inMemory]
-///   indexing the [textData] dataset; and
-/// - [_asyncIndexerExample] is a simple example of a [TextIndexer.async]
-///   indexing the [textData] dataset.
+/// A simple example of a [TextIndexer.inMemory], indexing the [textData]
+/// dataset, is shown below.
 void main() async {
   //
 
@@ -25,31 +20,27 @@ void main() async {
 
   // Run a simple example of the [InMemoryIndexer] on the [textData] dataset.
   await _inMemoryIndexerExample(textData, searchPhrase, zones);
-
-  //  Run a simple example of the [AsyncIndexer] on the [textData] dataset.
-  await _asyncIndexerExample(jsonData, searchPhrase, zones);
-
   //
 }
 
 /// A simple example of the [TextIndexer.inMemory] on the [documents] dataset:
-/// - initialize the [Dictionary];
-/// - initialize the [Postings];
+/// - initialize the [DftMap];
+/// - initialize the [PostingsMap];
 /// - initialize a [TextIndexer];
 /// - iterate through the sample data, indexing each document in turn; and
-/// - print the top 5 most popular [Dictionary.terms].
+/// - print the top 5 most popular [DftMap.terms].
 Future<void> _inMemoryIndexerExample(Map<String, String> documents,
     String searchPhrase, Map<String, double> zones) async {
   //
 
-  // - initialize the [Dictionary]
-  final Dictionary dictionary = {};
+  // - initialize the [DftMap]
+  final DftMap dictionary = {};
 
-  // - initialize the [Postings]
-  final Postings postings = {};
+  // - initialize the [PostingsMap]
+  final PostingsMap postings = {};
 
-  // - initialize the [KGramIndex]
-  final KGramIndex kGramIndex = {};
+  // - initialize the [KGramsMap]
+  final KGramsMap kGramIndex = {};
 
   // - initialize the index
   final index = InMemoryIndex(
@@ -75,57 +66,6 @@ Future<void> _inMemoryIndexerExample(Map<String, String> documents,
 
   // print the statistics for each term in [searchTerms].
   await _printTermStats(indexer.index, searchTerms);
-}
-
-/// A simple test of the [TextIndexer.async] on a small Map<String, dynamic> dataset using a
-/// simulated persisted index repository with 50 millisecond latency on
-/// read/write operations to [Dictionary] and [Postings] hashmaps:
-/// - initialize the [_TestIndexRepository];
-/// - initialize a [TextIndexer];
-/// - iterate through the Map<String, dynamic> documents and index each document; and
-/// - print the statistics on 5 search terms.
-Future<void> _asyncIndexerExample(Map<String, Map<String, dynamic>> documents,
-    String searchPhrase, Map<String, double> zones) async {
-  //
-
-// initialize a Set for the vocabulary state
-  final termsSet = <String>{};
-
-  // initialize a Set for the document ids state
-  final docsSet = <String>{};
-
-  // - initialize a [_TestIndexRepository()]
-  final repository = _TestIndexRepository();
-
-  final index = AsyncCallbackIndex(
-      dictionaryLoader: repository.getDictionary,
-      dictionaryUpdater: repository.upsertDictionary,
-      dictionaryLengthLoader: () => repository.vocabularyLength,
-      kGramIndexLoader: repository.getKGramIndex,
-      kGramIndexUpdater: repository.upsertKGramIndex,
-      postingsLoader: repository.getPostings,
-      postingsUpdater: repository.upsertPostings,
-      zones: zones,
-      k: 3,
-      phraseLength: 2,
-      tokenizer: TextTokenizer());
-
-  /// - tokenize a phrase into searh terms
-  final searchTerms = (await index.tokenizer.tokenize(searchPhrase));
-
-  // - initialize a [AsyncIndexer]
-  final indexer = TextIndexer(index: index);
-
-  print('Indexed ${termsSet.length} terms from ${docsSet.length} documents.');
-
-  // - iterate through the sample data
-  await indexer.indexCollection(jsonData);
-
-  // wait for stream elements to complete printing
-  await Future.delayed(const Duration(milliseconds: 250));
-
-  // print the statistics for each term in [searchTerms].
-  await _printTermStats(index, searchTerms);
 }
 
 /// Print the statistics for each term in [searchTerms].
@@ -381,99 +321,3 @@ final jsonData = {
     'timestamp': 1657002625523
   }
 };
-
-/// A dummy asynchronous term dictionary repository with simulated latency on
-/// read/write operations to the [dictionary] and [postings].
-///
-/// Use for testing and examples.
-class _TestIndexRepository {
-  //
-
-  /// The [Dictionary] instance that is the data-store for the index's term
-  /// dictionary
-  final Dictionary dictionary = {};
-
-  /// The [Dictionary] instance that is the data-store for the index's term
-  /// dictionary
-  final Postings postings = {};
-
-  final KGramIndex kGramIndex = {};
-
-  /// Returns a subset of [postings] corresponding to [terms].
-  ///
-  /// Simulates latency of 100 uS per term in [terms].
-  Future<Postings> getPostings(Iterable<String> terms) async {
-    final Postings retVal = {};
-    for (final term in terms) {
-      final entry = postings[term];
-      if (entry != null) {
-        retVal[term] = entry;
-      }
-    }
-    await Future.delayed(Duration(milliseconds: (terms.length / 10).floor()));
-    return retVal;
-  }
-
-  /// Adds/overwrites the [values] to [dictionary].
-  ///
-  /// Simulates latency of 100 uS  per entry.
-  Future<void> upsertDictionary(Dictionary values) async {
-    /// Simulate latency of 100 uS  per entry.
-    await Future.delayed(Duration(milliseconds: (values.length / 10).floor()));
-    dictionary.addAll(values);
-  }
-
-  /// Adds/overwrites the [values] to [postings].
-  ///
-  /// Simulates latency of 100 uS  per entry.
-  Future<void> upsertPostings(Postings values) async {
-    /// Simulate write latency of 100 uS  per entry.
-    await Future.delayed(Duration(milliseconds: (values.length / 10).floor()));
-    postings.addAll(values);
-  }
-
-  /// Returns a subset of [dictionary] corresponding to [terms].
-  ///
-  /// Simulates latency of 100 uS  per term in [terms].
-  Future<Dictionary> getDictionary([Iterable<String>? terms]) async {
-    terms = terms ?? kGramIndex.keys;
-    final Dictionary retVal = {};
-    for (final term in terms) {
-      final entry = dictionary[term];
-      if (entry != null) {
-        retVal[term] = entry;
-      }
-    }
-    await Future.delayed(Duration(milliseconds: ((terms.length / 10).floor())));
-    return retVal;
-  }
-
-  /// Returns a subset of [kGramIndex] corresponding to [kGrams].
-  ///
-  /// Simulates latency of 100 uS  per entry.
-  Future<KGramIndex> getKGramIndex([Iterable<KGram>? kGrams]) async {
-    kGrams = kGrams ?? kGramIndex.keys;
-    final KGramIndex retVal = {};
-    for (final kGram in kGrams) {
-      final entry = kGramIndex[kGram];
-      if (entry != null) {
-        retVal[kGram] = entry;
-      }
-    }
-    await Future.delayed(
-        Duration(milliseconds: ((kGrams.length / 10).floor())));
-    return retVal;
-  }
-
-  Future<void> upsertKGramIndex(KGramIndex values) async =>
-      kGramIndex.addAll(values);
-
-  /// Returns the length of the [dictionary].
-  ///
-  /// Simulate a read latency of 5 milliseconds.
-  Future<Ft> get vocabularyLength async {
-    /// Simulate a read latency of 5 milliseconds.
-    await Future.delayed(const Duration(milliseconds: 5));
-    return dictionary.length;
-  }
-}

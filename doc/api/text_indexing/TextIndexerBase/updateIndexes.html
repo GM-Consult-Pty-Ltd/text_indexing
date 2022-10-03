@@ -59,7 +59,7 @@
 </div>
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
-<span class="name ">updateIndexes</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="updateIndexes-param-event"><span class="type-annotation"><a href="../../text_indexing_type_definitions/Postings.html">Postings</a></span> <span class="parameter-name">event</span>, </span></li>
+<span class="name ">updateIndexes</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="updateIndexes-param-event"><span class="type-annotation"><a href="../../type_definitions/PostingsMap.html">PostingsMap</a></span> <span class="parameter-name">event</span>, </span></li>
 <li><span class="parameter" id="updateIndexes-param-tokens"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.14.0/text_analysis/Token-class.html">Token</a></span>&gt;</span></span> <span class="parameter-name">tokens</span></span></li>
 </ol>)
 
@@ -71,17 +71,17 @@
   <p>Implementation of <a href="../../text_indexing/TextIndexer/updateIndexes.html">TextIndexer.updateIndexes</a> that:</p>
 <ul>
 <li>maps <code>event</code> to a set of unique terms;</li>
-<li>loads the existing <a href="../../text_indexing_type_definitions/PostingsEntry.html">PostingsEntry</a>s for the terms from the <a href="../../text_indexing/TextIndexer/index.html">index</a>
-<a href="../../text_indexing_type_definitions/Postings.html">Postings</a>;</li>
-<li>loads the existing <a href="../../text_indexing_type_definitions/DictionaryEntry.html">DictionaryEntry</a>s for the terms from the <a href="../../text_indexing/TextIndexer/index.html">index</a>;</li>
+<li>loads the existing <a href="../../type_definitions/PostingsMapEntry.html">PostingsMapEntry</a>s for the terms from the <a href="../../text_indexing/TextIndexer/index.html">index</a>
+<a href="../../type_definitions/PostingsMap.html">PostingsMap</a>;</li>
+<li>loads the existing <a href="../../type_definitions/DftMapEntry.html">DftMapEntry</a>s for the terms from the <a href="../../text_indexing/TextIndexer/index.html">index</a>;</li>
 <li>iterates through the <code>event</code> entries and:</li>
-<li>inserts or updates each <a href="../../text_indexing_type_definitions/DocumentPostingsEntry.html">DocumentPostingsEntry</a> instance to the index
-<a href="../../text_indexing_type_definitions/Postings.html">Postings</a>;</li>
-<li>if a <a href="../../text_indexing_type_definitions/DocumentPostingsEntry.html">DocumentPostingsEntry</a> instance did not exist previously,
+<li>inserts or updates each <a href="../../type_definitions/DocPostingsMapEntry.html">DocPostingsMapEntry</a> instance to the index
+<a href="../../type_definitions/PostingsMap.html">PostingsMap</a>;</li>
+<li>if a <a href="../../type_definitions/DocPostingsMapEntry.html">DocPostingsMapEntry</a> instance did not exist previously,
 increments the document frequency of the associated term;</li>
 <li>then:</li>
-<li>asynchronously updates the index <a href="../../text_indexing_type_definitions/Dictionary.html">Dictionary</a>; and</li>
-<li>asynchronously updates the index <a href="../../text_indexing_type_definitions/Postings.html">Postings</a>.</li>
+<li>asynchronously updates the index <a href="../../type_definitions/DftMap.html">DftMap</a>; and</li>
+<li>asynchronously updates the index <a href="../../type_definitions/PostingsMap.html">PostingsMap</a>.</li>
 </ul>
 </section>
 
@@ -91,34 +91,34 @@ increments the document frequency of the associated term;</li>
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
 @mustCallSuper
-Future&lt;void&gt; updateIndexes(Postings event, Iterable&lt;Token&gt; tokens) async {
+Future&lt;void&gt; updateIndexes(PostingsMap event, Iterable&lt;Token&gt; tokens) async {
   &#47;&#47; - maps [event] to a set of unique terms;
   final terms = Set&lt;Term&gt;.from(event.keys);
   await _upsertKgrams(tokens);
 
-  &#47;&#47; - loads the existing [PostingsEntry]s for the terms from a [Postings] by calling [getPostings];
+  &#47;&#47; - loads the existing [PostingsMapEntry]s for the terms from a [PostingsMap] by calling [getPostings];
   final postingsToUpdate = await index.getPostings(terms);
-&#47;&#47; - loads the existing [DictionaryEntry]s for the terms from a [Dictionary] by calling [getDictionary];
-  final Dictionary termsToUpdate = await index.getDictionary(terms);
-  &#47;&#47; - iterates through the [DocumentPostingsEntry] in [event];
-  await Future.forEach(event.entries, (PostingsEntry entry) {
+&#47;&#47; - loads the existing [DftMapEntry]s for the terms from a [DftMap] by calling [getDictionary];
+  final DftMap termsToUpdate = await index.getDictionary(terms);
+  &#47;&#47; - iterates through the [DocPostingsMapEntry] in [event];
+  await Future.forEach(event.entries, (PostingsMapEntry entry) {
     final term = entry.key;
     final postings = entry.value;
     for (final docEntry in postings.entries) {
       final docId = docEntry.key;
       final fieldPostings = docEntry.value;
-      &#47;&#47; - inserts or updates each [DocumentPostingsEntry] instance to a collection of postings to update;
+      &#47;&#47; - inserts or updates each [DocPostingsMapEntry] instance to a collection of postings to update;
       final increment =
           postingsToUpdate.addZonePostings(term, docId, fieldPostings);
-      &#47;&#47; - if a [DocumentPostingsEntry] instance did not exist previously, also increments the document frequency of the associated term;
+      &#47;&#47; - if a [DocPostingsMapEntry] instance did not exist previously, also increments the document frequency of the associated term;
       if (increment) {
         termsToUpdate.incrementFrequency(term);
       }
     }
   });
-  &#47;&#47; - asynchronously updates the [Dictionary] by calling [upsertDictionary];
+  &#47;&#47; - asynchronously updates the [DftMap] by calling [upsertDictionary];
   await index.upsertDictionary(termsToUpdate);
-  &#47;&#47; - asynchronously updates the [Postings] by calling [upsertPostings]; and
+  &#47;&#47; - asynchronously updates the [PostingsMap] by calling [upsertPostings]; and
   await index.upsertPostings(postingsToUpdate);
 }</code></pre>
 </section>

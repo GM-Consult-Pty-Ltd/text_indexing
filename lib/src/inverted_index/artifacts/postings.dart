@@ -4,27 +4,27 @@
 
 import 'package:text_indexing/src/_index.dart';
 
-/// The [PostingsEntry] class enumerates the properties of an entry in a
-/// [Postings] collection:
+/// The [PostingsMapEntry] class enumerates the properties of an entry in a
+/// [PostingsMap] collection:
 /// - [term] is the word/term that is indexed; and
-/// - [postings] is a hashmap of the [DocumentPostingsEntry] for [term].
-extension PostingsEntryExtension on PostingsEntry {
+/// - [postings] is a hashmap of the [DocPostingsMapEntry] for [term].
+extension PostingsEntryExtension on PostingsMapEntry {
   //
 
   /// Returns [key], the indexed [Term].
   Term get term => key;
 
-  /// Returns [value], a hashmap of the [DocId] to [ZonePostings].
-  DocumentPostings get postings => value;
+  /// Returns [value], a hashmap of the [DocId] to [ZonePostingsMap].
+  DocPostingsMap get postings => value;
 }
 
-/// The [DocumentPostingsEntry] class enumerates the properties of a document
-/// posting in a [Postings] as part of an inverted index of a dataset:
-/// - [docId] is the document's id value, (the [DocumentPostingsEntry.key]);
+/// The [DocPostingsMapEntry] class enumerates the properties of a document
+/// posting in a [PostingsMap] as part of an inverted index of a dataset:
+/// - [docId] is the document's id value, (the [DocPostingsMapEntry.key]);
 /// - [fieldPostings] is a hashmap of zone names that contain the term to
 ///   the a zero-based, ordered list of word positions of the term in the
-///   zone (the [DocumentPostingsEntry.value]).
-extension DocumentPostingsEntryExtension on DocumentPostingsEntry {
+///   zone (the [DocPostingsMapEntry.value]).
+extension DocumentPostingsEntryExtension on DocPostingsMapEntry {
   //
   /// The document's id value.
   ///
@@ -36,11 +36,11 @@ extension DocumentPostingsEntryExtension on DocumentPostingsEntry {
   ///
   /// A word position means the index of the word in an array of all the words
   /// in the document.
-  ZonePostings get fieldPostings => value;
+  ZonePostingsMap get fieldPostings => value;
 }
 
-/// Extension methods and properties on [Postings].
-extension PostingsExtension on Postings {
+/// Extension methods and properties on [PostingsMap].
+extension PostingsExtension on PostingsMap {
   //
 
   /// Returns a [Set] of [DocId] of those documents that contain all the
@@ -59,7 +59,7 @@ extension PostingsExtension on Postings {
   /// ranking of search results.
   Set<DocId> containsAny(Iterable<Term> terms) => getPostings(terms).docIds;
 
-  /// Returns all the unique document ids ([DocId]) in the [Postings].
+  /// Returns all the unique document ids ([DocId]) in the [PostingsMap].
   Set<DocId> get docIds {
     final Set<DocId> retVal = {};
     for (final docPostings in values) {
@@ -68,27 +68,28 @@ extension PostingsExtension on Postings {
     return retVal;
   }
 
-  /// Filters the [Postings] by [terms], [docIds] AND [fields].
+  /// Filters the [PostingsMap] by [terms], [docIds] AND [fields].
   ///
   /// Filter is applied by succesively calling, in order:
   /// - [getPostings] if [terms] is not null; then
   /// - [documentPostings], if [docIds] is not null; and finally
   /// - [fieldPostings], if [fields] is not null.
-  Postings filter(
+  PostingsMap filter(
       {Iterable<Term>? terms,
       Iterable<DocId>? docIds,
       Iterable<Zone>? fields}) {
-    Postings retVal = terms != null ? getPostings(terms) : Postings.from(this);
+    PostingsMap retVal =
+        terms != null ? getPostings(terms) : PostingsMap.from(this);
     retVal = docIds != null ? retVal.documentPostings(docIds) : retVal;
     return fields != null ? retVal.fieldPostings(fields) : retVal;
   }
 
-  /// Filters the [Postings] by terms.
+  /// Filters the [PostingsMap] by terms.
   ///
-  /// Returns a subset of the [Postings] instance that only contains
+  /// Returns a subset of the [PostingsMap] instance that only contains
   /// entires with a key in the [terms] collection.
-  Postings getPostings(Iterable<Term> terms) {
-    final Postings retVal = {};
+  PostingsMap getPostings(Iterable<Term> terms) {
+    final PostingsMap retVal = {};
     for (final term in terms) {
       final posting = this[term];
       if (posting != null) {
@@ -98,25 +99,25 @@ extension PostingsExtension on Postings {
     return retVal;
   }
 
-  /// Returns the list of all the [DocumentPostingsEntry] for the [term]
-  /// from the [Postings].
-  List<DocumentPostingsEntry> termPostings(Term term) =>
+  /// Returns the list of all the [DocPostingsMapEntry] for the [term]
+  /// from the [PostingsMap].
+  List<DocPostingsMapEntry> termPostings(Term term) =>
       this[term]?.entries.toList() ?? [];
 
-  /// Filters the [Postings] by document ids.
+  /// Filters the [PostingsMap] by document ids.
   ///
-  /// Returns a subset of the [Postings] instance that only contains entries
+  /// Returns a subset of the [PostingsMap] instance that only contains entries
   /// where a document id in [docIds] has a key in the entry's postings lists.
-  Postings documentPostings(Iterable<DocId> docIds) => Postings.from(this)
+  PostingsMap documentPostings(Iterable<DocId> docIds) => PostingsMap.from(this)
     ..removeWhere((key, value) =>
         value.keys.toSet().intersection(docIds.toSet()).isEmpty);
 
-  /// Filters the [Postings] by zone names.
+  /// Filters the [PostingsMap] by zone names.
   ///
-  /// Returns a subset of the [Postings] instance that only contains entries
+  /// Returns a subset of the [PostingsMap] instance that only contains entries
   /// where a zone name in [fields] has a key in any document's postings the
   /// entry's postings lists.
-  Postings fieldPostings(Iterable<Zone> fields) => Postings.from(this)
+  PostingsMap fieldPostings(Iterable<Zone> fields) => PostingsMap.from(this)
     ..removeWhere((key, value) {
       final docFields = <Zone>[];
       for (final doc in value.values) {
@@ -125,13 +126,13 @@ extension PostingsExtension on Postings {
       return docFields.toSet().intersection(fields.toSet()).isEmpty;
     });
 
-  /// Returns the list of all the [DocumentPostingsEntry] for the [terms]
-  /// from the [Postings].
+  /// Returns the list of all the [DocPostingsMapEntry] for the [terms]
+  /// from the [PostingsMap].
   ///
-  /// Returns all the [DocumentPostingsEntry] instances for all terms in
-  /// the [Postings] if [terms] is null.
-  List<DocumentPostingsEntry> termPostingsList([Iterable<Term>? terms]) {
-    final List<DocumentPostingsEntry> termPostings = [];
+  /// Returns all the [DocPostingsMapEntry] instances for all terms in
+  /// the [PostingsMap] if [terms] is null.
+  List<DocPostingsMapEntry> termPostingsList([Iterable<Term>? terms]) {
+    final List<DocPostingsMapEntry> termPostings = [];
     if (terms != null) {
       for (final term in terms) {
         final entry = this[term];
@@ -147,9 +148,9 @@ extension PostingsExtension on Postings {
     return termPostings;
   }
 
-  /// Returns the list of [PostingsEntry] elements in the [Postings] in
+  /// Returns the list of [PostingsMapEntry] elements in the [PostingsMap] in
   /// alphapetic order of the terms (keys).
-  List<PostingsEntry> toList() => entries.toList();
+  List<PostingsMapEntry> toList() => entries.toList();
 
   /// Returns the dictionary terms (keys) as an ordered list,
   /// sorted alphabetically.
@@ -159,20 +160,20 @@ extension PostingsExtension on Postings {
     return terms;
   }
 
-  /// Adds a postings for the [docId] to [Postings] entry for the [term].
+  /// Adds a postings for the [docId] to [PostingsMap] entry for the [term].
   ///
   ///   Returns true if  posting positions for the [docId] did not previously
-  /// exist in the [Postings].
+  /// exist in the [PostingsMap].
   ///
   /// Looks up an existing entry for [term] and inserts/overwrites an entry
   /// for [docId] if it exists.
   ///
-  /// If no entry for [term] exists in the [Postings], creates a new entry
+  /// If no entry for [term] exists in the [PostingsMap], creates a new entry
   /// and adds [positions] for [docId] to the new entry.
-  bool addZonePostings(Term term, DocId docId, ZonePostings positions) {
+  bool addZonePostings(Term term, DocId docId, ZonePostingsMap positions) {
     //
     // get the entry for the term or initialize a new one if it does not exist
-    final DocumentPostings entry = this[term] ?? {};
+    final DocPostingsMap entry = this[term] ?? {};
     // get the existing positions list for [docId] if it exists
     final existingEntry = entry[docId];
     // overwrite the positions for docId
@@ -183,16 +184,16 @@ extension PostingsExtension on Postings {
     return existingEntry == null;
   }
 
-  /// Adds or updates a posting position for the [docId] to [Postings] entry
+  /// Adds or updates a posting position for the [docId] to [PostingsMap] entry
   /// for the [term].
   ///
   /// Returns true if the posting positions for the [docId] did not previously
-  /// exist in the [Postings].
+  /// exist in the [PostingsMap].
   ///
   /// Looks up an existing entry for [term] and adds a position to the list of
   /// positions for [docId] if it exists.
   ///
-  /// If no entry for [term] exists in the [Postings], creates a new entry
+  /// If no entry for [term] exists in the [PostingsMap], creates a new entry
   /// for term.
   ///
   /// If [zone] is null, the posting position zone name is "null".
@@ -205,7 +206,7 @@ extension PostingsExtension on Postings {
   ///
   /// Sorts the positions list in ascending order.
   ///
-  /// Updates the [term] entry in the [Postings].
+  /// Updates the [term] entry in the [PostingsMap].
   bool addTermPosition(
       {required Term term,
       required DocId docId,

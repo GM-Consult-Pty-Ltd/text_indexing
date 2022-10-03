@@ -52,9 +52,9 @@
     <section class="multi-line-signature">
       
 
-<span class="returntype"><a href="../../text_indexing_type_definitions/Postings.html">Postings</a></span>
+<span class="returntype"><a href="../../type_definitions/PostingsMap.html">PostingsMap</a></span>
 <span class="name ">filter</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="filter-param-terms">{<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.14.0/type_definitions/Term.html">Term</a></span>&gt;</span>?</span> <span class="parameter-name">terms</span>, </span></li>
-<li><span class="parameter" id="filter-param-docIds"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_indexing_type_definitions/DocId.html">DocId</a></span>&gt;</span>?</span> <span class="parameter-name">docIds</span>, </span></li>
+<li><span class="parameter" id="filter-param-docIds"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../type_definitions/DocId.html">DocId</a></span>&gt;</span>?</span> <span class="parameter-name">docIds</span>, </span></li>
 <li><span class="parameter" id="filter-param-fields"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.14.0/type_definitions/Zone.html">Zone</a></span>&gt;</span>?</span> <span class="parameter-name">fields</span>}</span></li>
 </ol>)
 
@@ -63,7 +63,7 @@
     </section>
     
 <section class="desc markdown">
-  <p>Filters the <a href="../../text_indexing_type_definitions/Postings.html">Postings</a> by <code>terms</code>, <code>docIds</code> AND <code>fields</code>.</p>
+  <p>Filters the <a href="../../type_definitions/PostingsMap.html">PostingsMap</a> by <code>terms</code>, <code>docIds</code> AND <code>fields</code>.</p>
 <p>Filter is applied by succesively calling, in order:</p>
 <ul>
 <li><a href="../../text_indexing_extensions/PostingsExtension/getPostings.html">getPostings</a> if <code>terms</code> is not null; then</li>
@@ -76,11 +76,12 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Postings filter(
+  <pre class="language-dart"><code class="language-dart">PostingsMap filter(
     {Iterable&lt;Term&gt;? terms,
     Iterable&lt;DocId&gt;? docIds,
     Iterable&lt;Zone&gt;? fields}) {
-  Postings retVal = terms != null ? getPostings(terms) : Postings.from(this);
+  PostingsMap retVal =
+      terms != null ? getPostings(terms) : PostingsMap.from(this);
   retVal = docIds != null ? retVal.documentPostings(docIds) : retVal;
   return fields != null ? retVal.fieldPostings(fields) : retVal;
 }</code></pre>

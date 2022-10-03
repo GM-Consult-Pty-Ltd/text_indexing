@@ -4,14 +4,14 @@
 
 import 'package:text_indexing/src/_index.dart';
 
-/// Enumerates the sorting strategy for [Dictionary]'s [DictionaryEntry]s.
+/// Enumerates the sorting strategy for [DftMap]'s [DftMapEntry]s.
 enum TermSortStrategy {
   //
 
-  /// Sorts the [DictionaryEntry] collection alphabetically.
+  /// Sorts the [DftMapEntry] collection alphabetically.
   byTerm,
 
-  /// Sorts the [DictionaryEntry] collection by [Ft] in
+  /// Sorts the [DftMapEntry] collection by [Ft] in
   /// descending order.
   byFrequency
 }

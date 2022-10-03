@@ -52,7 +52,7 @@
     <section class="multi-line-signature">
       
 
-<span class="returntype"><a href="../../text_indexing_type_definitions/Postings.html">Postings</a></span>
+<span class="returntype"><a href="../../type_definitions/PostingsMap.html">PostingsMap</a></span>
 <span class="name ">fieldPostings</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="fieldPostings-param-fields"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.14.0/type_definitions/Zone.html">Zone</a></span>&gt;</span></span> <span class="parameter-name">fields</span></span></li>
 </ol>)
 
@@ -61,8 +61,8 @@
     </section>
     
 <section class="desc markdown">
-  <p>Filters the <a href="../../text_indexing_type_definitions/Postings.html">Postings</a> by zone names.</p>
-<p>Returns a subset of the <a href="../../text_indexing_type_definitions/Postings.html">Postings</a> instance that only contains entries
+  <p>Filters the <a href="../../type_definitions/PostingsMap.html">PostingsMap</a> by zone names.</p>
+<p>Returns a subset of the <a href="../../type_definitions/PostingsMap.html">PostingsMap</a> instance that only contains entries
 where a zone name in <code>fields</code> has a key in any document's postings the
 entry's postings lists.</p>
 </section>
@@ -71,7 +71,7 @@ entry's postings lists.</p>
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Postings fieldPostings(Iterable&lt;Zone&gt; fields) =&gt; Postings.from(this)
+  <pre class="language-dart"><code class="language-dart">PostingsMap fieldPostings(Iterable&lt;Zone&gt; fields) =&gt; PostingsMap.from(this)
   ..removeWhere((key, value) {
     final docFields = &lt;Zone&gt;[];
     for (final doc in value.values) {

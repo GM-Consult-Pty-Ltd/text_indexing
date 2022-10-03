@@ -52,7 +52,7 @@
     
 <section class="desc markdown">
   <p>Interface for classes that construct and maintain an inverted, positional,
-zoned index (<a href="../text_indexing/InvertedIndex-class.html">InvertedIndex</a>) and k-gram index (<a href="../text_indexing_type_definitions/KGramIndex.html">KGramIndex</a>) for a
+zoned index (<a href="../text_indexing/InvertedIndex-class.html">InvertedIndex</a>) and k-gram index (<a href="../type_definitions/KGramsMap.html">KGramsMap</a>) for a
 collection of documents (<code>corpus</code>).</p>
 <p>Text or documents can be indexed by calling the following methods:</p>
 <ul>
@@ -66,7 +66,7 @@ whenever either of these streams updateIndexes (a) document(s).</p>
 <p>Implementing classes override the following fields:</p>
 <ul>
 <li><a href="../text_indexing/TextIndexer/index.html">index</a> is the <a href="../text_indexing/InvertedIndex-class.html">InvertedIndex</a> that provides access to the
-index <a href="../text_indexing_type_definitions/Dictionary.html">Dictionary</a> and <a href="../text_indexing_type_definitions/Postings.html">Postings</a> and a <a href="https://pub.dev/documentation/text_analysis/0.14.0/text_analysis/TextTokenizer-class.html">TextTokenizer</a>;</li>
+index <a href="../type_definitions/DftMap.html">DftMap</a> and <a href="../type_definitions/PostingsMap.html">PostingsMap</a> and a <a href="https://pub.dev/documentation/text_analysis/0.14.0/text_analysis/TextTokenizer-class.html">TextTokenizer</a>;</li>
 <li><a href="../text_indexing/TextIndexer/documentStream.html">documentStream</a> is an input stream of 'Map&lt;String, dynamic&gt;' documents. The documents
 updateIndexested by<a href="../text_indexing/TextIndexer/documentStream.html">documentStream</a> are passed to <a href="../text_indexing/TextIndexer/indexJson.html">indexJson</a> for indexing; and</li>
 <li><a href="../text_indexing/TextIndexer/collectionStream.html">collectionStream</a> is an input stream of a collection of 'Map&lt;String, dynamic&gt;' documents.
@@ -79,7 +79,7 @@ The documents updateIndexested by <a href="../text_indexing/TextIndexer/collecti
 <li><a href="../text_indexing/TextIndexer/indexJson.html">indexJson</a> indexes the fields in a Map&lt;String, dynamic&gt; document;</li>
 <li><a href="../text_indexing/TextIndexer/indexCollection.html">indexCollection</a> indexes the fields of all the documents in a Map&lt;String, dynamic&gt;
 document collection; and</li>
-<li><a href="../text_indexing/TextIndexer/updateIndexes.html">updateIndexes</a> updates the <a href="../text_indexing_type_definitions/Dictionary.html">Dictionary</a>, <a href="../text_indexing_type_definitions/Postings.html">Postings</a> and <a href="../text_indexing_type_definitions/KGramIndex.html">KGramIndex</a>
+<li><a href="../text_indexing/TextIndexer/updateIndexes.html">updateIndexes</a> updates the <a href="../type_definitions/DftMap.html">DftMap</a>, <a href="../type_definitions/PostingsMap.html">PostingsMap</a> and <a href="../type_definitions/KGramsMap.html">KGramsMap</a>
 for this indexer.</li>
 </ul>
 </section>
@@ -164,7 +164,7 @@ by <a href="../text_indexing/TextIndexer/documentStream.html">documentStream</a>
 </dt>
 <dd>
   The <a href="../text_indexing/InvertedIndex-class.html">InvertedIndex</a> that provides access to the
-index <a href="../text_indexing_type_definitions/Dictionary.html">Dictionary</a> and <a href="../text_indexing_type_definitions/Postings.html">Postings</a> and a <a href="https://pub.dev/documentation/text_analysis/0.14.0/text_analysis/TextTokenizer-class.html">TextTokenizer</a>.
+index <a href="../type_definitions/DftMap.html">DftMap</a> and <a href="../type_definitions/PostingsMap.html">PostingsMap</a> and a <a href="https://pub.dev/documentation/text_analysis/0.14.0/text_analysis/TextTokenizer-class.html">TextTokenizer</a>.
   <div class="features">read-only</div>
 
 </dd>
@@ -204,27 +204,27 @@ index <a href="../text_indexing_type_definitions/Dictionary.html">Dictionary</a>
 
         <dt id="indexJson" class="callable">
   <span class="name"><a href="../text_indexing/TextIndexer/indexJson.html">indexJson</a></span><span class="signature">(<wbr><span class="parameter" id="indexJson-param-docId"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">docId</span>, </span><span class="parameter" id="indexJson-param-json"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">json</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing_type_definitions/Postings.html">Postings</a></span>&gt;</span></span>
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/PostingsMap.html">PostingsMap</a></span>&gt;</span></span>
   </span>
   
 
 </dt>
 <dd>
   Indexes the <a href="../text_indexing/InvertedIndex/zones.html">InvertedIndex.zones</a> in a <code>json</code> document, returning a list
-of <a href="../text_indexing_type_definitions/DocumentPostingsEntry.html">DocumentPostingsEntry</a>.
+of <a href="../type_definitions/DocPostingsMapEntry.html">DocPostingsMapEntry</a>.
   
 
 </dd>
 
         <dt id="indexText" class="callable">
   <span class="name"><a href="../text_indexing/TextIndexer/indexText.html">indexText</a></span><span class="signature">(<wbr><span class="parameter" id="indexText-param-docId"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">docId</span>, </span><span class="parameter" id="indexText-param-docText"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.14.0/type_definitions/SourceText.html">SourceText</a></span> <span class="parameter-name">docText</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing_type_definitions/Postings.html">Postings</a></span>&gt;</span></span>
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/PostingsMap.html">PostingsMap</a></span>&gt;</span></span>
   </span>
   
 
 </dt>
 <dd>
-  Indexes a text document, returning a <code>Postings</code>.
+  Indexes a text document, returning a <code>PostingsMap</code>.
   
 
 </dd>
@@ -256,7 +256,7 @@ of <a href="../text_indexing_type_definitions/DocumentPostingsEntry.html">Docume
 </dd>
 
         <dt id="updateIndexes" class="callable">
-  <span class="name"><a href="../text_indexing/TextIndexer/updateIndexes.html">updateIndexes</a></span><span class="signature">(<wbr><span class="parameter" id="updateIndexes-param-event"><span class="type-annotation"><a href="../text_indexing_type_definitions/Postings.html">Postings</a></span> <span class="parameter-name">event</span>, </span><span class="parameter" id="updateIndexes-param-tokens"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.14.0/text_analysis/Token-class.html">Token</a></span>&gt;</span></span> <span class="parameter-name">tokens</span></span>)
+  <span class="name"><a href="../text_indexing/TextIndexer/updateIndexes.html">updateIndexes</a></span><span class="signature">(<wbr><span class="parameter" id="updateIndexes-param-event"><span class="type-annotation"><a href="../type_definitions/PostingsMap.html">PostingsMap</a></span> <span class="parameter-name">event</span>, </span><span class="parameter" id="updateIndexes-param-tokens"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.14.0/text_analysis/Token-class.html">Token</a></span>&gt;</span></span> <span class="parameter-name">tokens</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
   </span>
   
@@ -264,7 +264,7 @@ of <a href="../text_indexing_type_definitions/DocumentPostingsEntry.html">Docume
 </dt>
 <dd>
   The <a href="../text_indexing/TextIndexer/updateIndexes.html">updateIndexes</a> method is called by <a href="../text_indexing/TextIndexer/index.html">index</a> and updates the
-<a href="../text_indexing_type_definitions/Dictionary.html">Dictionary</a>, <a href="../text_indexing_type_definitions/Postings.html">Postings</a> and <a href="../text_indexing_type_definitions/KGramIndex.html">KGramIndex</a> for this indexer.
+<a href="../type_definitions/DftMap.html">DftMap</a>, <a href="../type_definitions/PostingsMap.html">PostingsMap</a> and <a href="../type_definitions/KGramsMap.html">KGramsMap</a> for this indexer.
   
 
 </dd>

@@ -51,13 +51,13 @@
 
     
 <section class="desc markdown">
-  <p>The <a href="../text_indexing_type_definitions/DocumentPostingsEntry.html">DocumentPostingsEntry</a> class enumerates the properties of a document
-posting in a <a href="../text_indexing_type_definitions/Postings.html">Postings</a> as part of an inverted index of a dataset:</p>
+  <p>The <a href="../type_definitions/DocPostingsMapEntry.html">DocPostingsMapEntry</a> class enumerates the properties of a document
+posting in a <a href="../type_definitions/PostingsMap.html">PostingsMap</a> as part of an inverted index of a dataset:</p>
 <ul>
-<li><a href="../text_indexing_extensions/DocumentPostingsEntryExtension/docId.html">docId</a> is the document's id value, (the <a href="https://api.flutter.dev/flutter/dart-core/MapEntry/key.html">DocumentPostingsEntry.key</a>);</li>
+<li><a href="../text_indexing_extensions/DocumentPostingsEntryExtension/docId.html">docId</a> is the document's id value, (the <a href="https://api.flutter.dev/flutter/dart-core/MapEntry/key.html">DocPostingsMapEntry.key</a>);</li>
 <li><a href="../text_indexing_extensions/DocumentPostingsEntryExtension/fieldPostings.html">fieldPostings</a> is a hashmap of zone names that contain the term to
 the a zero-based, ordered list of word positions of the term in the
-zone (the <a href="https://api.flutter.dev/flutter/dart-core/MapEntry/value.html">DocumentPostingsEntry.value</a>).</li>
+zone (the <a href="https://api.flutter.dev/flutter/dart-core/MapEntry/value.html">DocPostingsMapEntry.value</a>).</li>
 </ul>
 </section>
 
@@ -66,7 +66,7 @@ zone (the <a href="https://api.flutter.dev/flutter/dart-core/MapEntry/value.html
         <dt>on</dt>
         <dd>
           <ul class="comma-separated clazz-relationships">
-              <li><a href="../text_indexing_type_definitions/DocumentPostingsEntry.html">DocumentPostingsEntry</a></li>
+              <li><a href="../type_definitions/DocPostingsMapEntry.html">DocPostingsMapEntry</a></li>
           </ul>
         </dd>
       </dl>
@@ -79,7 +79,7 @@ zone (the <a href="https://api.flutter.dev/flutter/dart-core/MapEntry/value.html
         <dl class="properties">
             <dt id="docId" class="property">
   <span class="name"><a href="../text_indexing_extensions/DocumentPostingsEntryExtension/docId.html">docId</a></span>
-  <span class="signature">&#8594; <a href="../text_indexing_type_definitions/DocId.html">DocId</a></span> 
+  <span class="signature">&#8594; <a href="../type_definitions/DocId.html">DocId</a></span> 
 
 </dt>
 <dd>
@@ -90,7 +90,7 @@ zone (the <a href="https://api.flutter.dev/flutter/dart-core/MapEntry/value.html
 
             <dt id="fieldPostings" class="property">
   <span class="name"><a href="../text_indexing_extensions/DocumentPostingsEntryExtension/fieldPostings.html">fieldPostings</a></span>
-  <span class="signature">&#8594; <a href="../text_indexing_type_definitions/ZonePostings.html">ZonePostings</a></span> 
+  <span class="signature">&#8594; <a href="../type_definitions/ZonePostingsMap.html">ZonePostingsMap</a></span> 
 
 </dt>
 <dd>

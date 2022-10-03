@@ -52,9 +52,9 @@
     <section class="multi-line-signature">
       
 
-<span class="returntype"><a href="../../text_indexing_type_definitions/DictionaryEntry.html">DictionaryEntry</a></span>
+<span class="returntype"><a href="../../type_definitions/DftMapEntry.html">DftMapEntry</a></span>
 <span class="name ">setFrequency</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="setFrequency-param-term"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.14.0/type_definitions/Term.html">Term</a></span> <span class="parameter-name">term</span>, </span></li>
-<li><span class="parameter" id="setFrequency-param-frequency"><span class="type-annotation"><a href="../../text_indexing_type_definitions/Ft.html">Ft</a></span> <span class="parameter-name">frequency</span></span></li>
+<li><span class="parameter" id="setFrequency-param-frequency"><span class="type-annotation"><a href="../../type_definitions/Ft.html">Ft</a></span> <span class="parameter-name">frequency</span></span></li>
 </ol>)
 
       
@@ -62,7 +62,7 @@
     </section>
     
 <section class="desc markdown">
-  <p>Returns a <a href="../../text_indexing_type_definitions/DictionaryEntry.html">DictionaryEntry</a> with:</p>
+  <p>Returns a <a href="../../type_definitions/DftMapEntry.html">DftMapEntry</a> with:</p>
 <ul>
 <li>key set to <code>term</code>; and</li>
 <li>the value set to <code>frequency</code>.</li>
@@ -73,9 +73,9 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">DictionaryEntry setFrequency(Term term, Ft frequency) {
+  <pre class="language-dart"><code class="language-dart">DftMapEntry setFrequency(Term term, Ft frequency) {
   this[term] = frequency;
-  return DictionaryEntry(term, frequency);
+  return DftMapEntry(term, frequency);
 }</code></pre>
 </section>
 

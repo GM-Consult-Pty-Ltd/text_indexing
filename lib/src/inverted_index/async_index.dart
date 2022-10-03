@@ -9,8 +9,8 @@ import 'package:text_indexing/src/_index.dart';
 ///
 /// The InMemoryIndex is intended for working with a larger corpus and an
 /// asynchronous index repository in persisted storage.  It uses asynchronous
-/// callbacks to perform read and write operations on [Dictionary], [KGramIndex]
-/// and [Postings] repositories.
+/// callbacks to perform read and write operations on [DftMap], [KGramsMap]
+/// and [PostingsMap] repositories.
 class AsyncCallbackIndex
     with InvertedIndexMixin, AsyncCallbackIndexMixin
     implements InvertedIndex {
@@ -23,25 +23,25 @@ class AsyncCallbackIndex
   final int phraseLength;
 
   @override
-  final DictionaryLengthLoader dictionaryLengthLoader;
+  final VocabularySize dictionaryLengthLoader;
 
   @override
-  final DictionaryLoader dictionaryLoader;
+  final DftMapLoader dictionaryLoader;
 
   @override
-  final DictionaryUpdater dictionaryUpdater;
+  final DftMapUpdater dictionaryUpdater;
 
   @override
-  final KGramIndexLoader kGramIndexLoader;
+  final KGramsMapLoader kGramIndexLoader;
 
   @override
-  final KGramIndexUpdater kGramIndexUpdater;
+  final KGramsMapUpdater kGramIndexUpdater;
 
   @override
-  final PostingsLoader postingsLoader;
+  final PostingsMapLoader postingsLoader;
 
   @override
-  final PostingsUpdater postingsUpdater;
+  final PostingsMapUpdater postingsUpdater;
 
   /// Instantiates a [AsyncCallbackIndex] instance:
   /// - [tokenizer] is the [TextTokenizer] used to tokenize text for the index;
@@ -52,17 +52,17 @@ class AsyncCallbackIndex
   ///   and must be greater than 0;
   /// - [dictionaryLengthLoader] asynchronously retrieves the number of terms
   ///   in the vocabulary (N);
-  /// - [dictionaryLoader] asynchronously retrieves a [Dictionary] for a
+  /// - [dictionaryLoader] asynchronously retrieves a [DftMap] for a
   ///   vocabulary from a index repository;
-  /// - [dictionaryUpdater] is callback that passes a [Dictionary] subset
+  /// - [dictionaryUpdater] is callback that passes a [DftMap] subset
   ///    for persisting to a index repository;
-  /// - [kGramIndexLoader] asynchronously retrieves a [KGramIndex] for a
+  /// - [kGramIndexLoader] asynchronously retrieves a [KGramsMap] for a
   ///   vocabulary from a index repository;
-  /// - [kGramIndexUpdater] is callback that passes a [KGramIndex] subset
+  /// - [kGramIndexUpdater] is callback that passes a [KGramsMap] subset
   ///    for persisting to a index repository;
-  /// - [postingsLoader] asynchronously retrieves a [Postings] for a vocabulary
+  /// - [postingsLoader] asynchronously retrieves a [PostingsMap] for a vocabulary
   ///   from a index repository; and
-  /// - [postingsUpdater] passes a [Postings] subset for persisting to a
+  /// - [postingsUpdater] passes a [PostingsMap] subset for persisting to a
   ///   index repository.
   const AsyncCallbackIndex(
       {required this.dictionaryLoader,
@@ -92,21 +92,21 @@ class AsyncCallbackIndex
 /// callback function fields that must be overriden:
 /// - [dictionaryLengthLoader] asynchronously retrieves the number of terms
 ///   in the vocabulary (N);
-/// - [dictionaryLoader] asynchronously retrieves a [Dictionary] for a vocabulary
+/// - [dictionaryLoader] asynchronously retrieves a [DftMap] for a vocabulary
 ///   from a index repository;
-/// - [dictionaryUpdater] is callback that passes a [Dictionary] subset
+/// - [dictionaryUpdater] is callback that passes a [DftMap] subset
 ///    for persisting to a index repository;
-/// - [kGramIndexLoader] asynchronously retrieves a [KGramIndex] for a vocabulary
+/// - [kGramIndexLoader] asynchronously retrieves a [KGramsMap] for a vocabulary
 ///   from a index repository;
-/// - [kGramIndexUpdater] is callback that passes a [KGramIndex] subset
+/// - [kGramIndexUpdater] is callback that passes a [KGramsMap] subset
 ///    for persisting to a index repository;
-/// - [postingsLoader] asynchronously retrieves a [Postings] for a vocabulary
+/// - [postingsLoader] asynchronously retrieves a [PostingsMap] for a vocabulary
 ///   from a index repository; and
-/// - [postingsUpdater] passes a [Postings] subset for persisting to a
+/// - [postingsUpdater] passes a [PostingsMap] subset for persisting to a
 ///   index repository.
 ///
 /// Provides implementation of the following methods for operations on
-/// asynchronous [Dictionary] and [Postings] repositories:
+/// asynchronous [DftMap] and [PostingsMap] repositories:
 /// - [vocabularyLength] calls [dictionaryLengthLoader].
 /// - [getDictionary] calls [dictionaryLoader];
 /// - [upsertDictionary ] calls [dictionaryUpdater];
@@ -118,50 +118,51 @@ abstract class AsyncCallbackIndexMixin implements InvertedIndex {
   //
 
   /// Asynchronously retrieves the number of terms in the vocabulary (N).
-  DictionaryLengthLoader get dictionaryLengthLoader;
+  VocabularySize get dictionaryLengthLoader;
 
-  /// Asynchronously retrieves a [Dictionary] subset for a vocabulary from a
-  /// [Dictionary] index repository, usually persisted storage.
-  DictionaryLoader get dictionaryLoader;
+  /// Asynchronously retrieves a [DftMap] subset for a vocabulary from a
+  /// [DftMap] index repository, usually persisted storage.
+  DftMapLoader get dictionaryLoader;
 
-  /// A callback that passes a subset of a [Dictionary] containing new or
-  /// changed [DictionaryEntry] instances for persisting to the [Dictionary]
+  /// A callback that passes a subset of a [DftMap] containing new or
+  /// changed [DftMapEntry] instances for persisting to the [DftMap]
   /// index repository.
-  DictionaryUpdater get dictionaryUpdater;
+  DftMapUpdater get dictionaryUpdater;
 
-  /// Asynchronously retrieves a [KGramIndex] subset for a vocabulary from a
-  /// [KGramIndex] index repository, usually persisted storage.
-  KGramIndexLoader get kGramIndexLoader;
+  /// Asynchronously retrieves a [KGramsMap] subset for a vocabulary from a
+  /// [KGramsMap] index repository, usually persisted storage.
+  KGramsMapLoader get kGramIndexLoader;
 
-  /// A callback that passes a subset of a [KGramIndex] containing new or
-  /// changed entries for persisting to the [KGramIndex] repository.
-  KGramIndexUpdater get kGramIndexUpdater;
+  /// A callback that passes a subset of a [KGramsMap] containing new or
+  /// changed entries for persisting to the [KGramsMap] repository.
+  KGramsMapUpdater get kGramIndexUpdater;
 
-  /// Asynchronously retrieves a [Postings] subset for a vocabulary from a
-  /// [Postings] index repository, usually persisted storage.
-  PostingsLoader get postingsLoader;
+  /// Asynchronously retrieves a [PostingsMap] subset for a vocabulary from a
+  /// [PostingsMap] index repository, usually persisted storage.
+  PostingsMapLoader get postingsLoader;
 
-  /// A callback that passes a subset of a [Postings] containing new or changed
-  /// [PostingsEntry] instances to the [Postings] index repository.
-  PostingsUpdater get postingsUpdater;
+  /// A callback that passes a subset of a [PostingsMap] containing new or changed
+  /// [PostingsMapEntry] instances to the [PostingsMap] index repository.
+  PostingsMapUpdater get postingsUpdater;
 
   @override
-  Future<Dictionary> getDictionary([Iterable<Term>? terms]) =>
+  Future<DftMap> getDictionary([Iterable<Term>? terms]) =>
       dictionaryLoader(terms);
 
   @override
-  Future<void> upsertDictionary(Dictionary values) => dictionaryUpdater(values);
+  Future<void> upsertDictionary(DftMap values) => dictionaryUpdater(values);
 
   @override
-  Future<KGramIndex> getKGramIndex([Iterable<Term>? terms]) =>
+  Future<KGramsMap> getKGramIndex([Iterable<Term>? terms]) =>
       kGramIndexLoader(terms);
 
   @override
-  Future<void> upsertKGramIndex(KGramIndex values) => kGramIndexUpdater(values);
+  Future<void> upsertKGramIndex(KGramsMap values) => kGramIndexUpdater(values);
 
   @override
-  Future<Postings> getPostings(Iterable<Term> terms) => postingsLoader(terms);
+  Future<PostingsMap> getPostings(Iterable<Term> terms) =>
+      postingsLoader(terms);
 
   @override
-  Future<void> upsertPostings(Postings values) => postingsUpdater(values);
+  Future<void> upsertPostings(PostingsMap values) => postingsUpdater(values);
 }

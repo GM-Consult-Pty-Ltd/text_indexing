@@ -52,9 +52,9 @@
     <section class="multi-line-signature">
       
 
-<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_indexing_type_definitions/FtdPostings.html">FtdPostings</a></span>&gt;</span></span>
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../type_definitions/FtdPostings.html">FtdPostings</a></span>&gt;</span></span>
 <span class="name ">getFtdPostings</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="getFtdPostings-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.14.0/type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span>, </span></li>
-<li><span class="parameter" id="getFtdPostings-param-minFtd">[<span class="type-annotation"><a href="../../text_indexing_type_definitions/Ft.html">Ft</a></span> <span class="parameter-name">minFtd</span> = <span class="default-value">1</span>]</span></li>
+<li><span class="parameter" id="getFtdPostings-param-minFtd">[<span class="type-annotation"><a href="../../type_definitions/Ft.html">Ft</a></span> <span class="parameter-name">minFtd</span> = <span class="default-value">1</span>]</span></li>
 </ol>)
 
       
@@ -62,9 +62,9 @@
     </section>
     
 <section class="desc markdown">
-  <p>Returns a map of <code>terms</code> to hashmaps of <a href="../../text_indexing_type_definitions/DocId.html">DocId</a> to <a href="../../text_indexing_type_definitions/Ft.html">Ft</a></p>
+  <p>Returns a map of <code>terms</code> to hashmaps of <a href="../../type_definitions/DocId.html">DocId</a> to <a href="../../type_definitions/Ft.html">Ft</a></p>
 <p>Used in <code>index-elimination</code> to return a <code>FtdPostings</code> for <code>terms</code> from
-the <a href="../../text_indexing_type_definitions/Postings.html">Postings</a>.</p>
+the <a href="../../type_definitions/PostingsMap.html">PostingsMap</a>.</p>
 <p>Filters the <code>FtdPostings</code> by <code>minFtd</code>, the minimum term frequency in the
 document. The default <code>minFtd</code> is 1 and it cannot be less than 1. Provide
 <code>minFtd</code> greater than 1 for more agressive index-elimination in tiered

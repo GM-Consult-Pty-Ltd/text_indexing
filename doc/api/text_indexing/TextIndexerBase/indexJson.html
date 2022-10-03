@@ -57,7 +57,7 @@
   </ol>
 </div>
 
-<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_indexing_type_definitions/Postings.html">Postings</a></span>&gt;</span></span>
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../type_definitions/PostingsMap.html">PostingsMap</a></span>&gt;</span></span>
 <span class="name ">indexJson</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="indexJson-param-docId"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">docId</span>, </span></li>
 <li><span class="parameter" id="indexJson-param-json"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">json</span></span></li>
 </ol>)
@@ -72,9 +72,9 @@
 <li>parses <code>json</code> to a collection of <a href="https://pub.dev/documentation/text_analysis/0.14.0/text_analysis/Token-class.html">Token</a>s in <a href="../../text_indexing/TextIndexer/index.html">index</a>.zones. If
 <a href="../../text_indexing/TextIndexer/index.html">index</a>.zones is empty, tokenize all the fields in <code>json</code>;</li>
 <li>maps the tokens to postings for <code>docId</code>;</li>
-<li>maps the postings for <code>docId</code> to a <code>Postings</code>;</li>
-<li>calls <a href="../../text_indexing/TextIndexerBase/updateIndexes.html">updateIndexes</a>, passing the <code>Postings</code> for <code>docId</code>; and</li>
-<li>returns the <code>Postings</code> for <code>docId</code>.</li>
+<li>maps the postings for <code>docId</code> to a <code>PostingsMap</code>;</li>
+<li>calls <a href="../../text_indexing/TextIndexerBase/updateIndexes.html">updateIndexes</a>, passing the <code>PostingsMap</code> for <code>docId</code>; and</li>
+<li>returns the <code>PostingsMap</code> for <code>docId</code>.</li>
 </ul>
 </section>
 
@@ -83,11 +83,11 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
-Future&lt;Postings&gt; indexJson(String docId, Map&lt;String, dynamic&gt; json) async {
+Future&lt;PostingsMap&gt; indexJson(String docId, Map&lt;String, dynamic&gt; json) async {
   &#47;&#47; get the terms using tokenizer
   final tokens = (await index.tokenizer.tokenizeJson(json, _zoneNames(json)));
   &#47;&#47; map the tokens to postings
-  final Postings postings = _tokensToPostings(docId, tokens);
+  final PostingsMap postings = _tokensToPostings(docId, tokens);
   &#47;&#47; update the indexes with the postings list for docId
   await updateIndexes(postings, tokens);
   return postings;

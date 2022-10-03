@@ -51,7 +51,7 @@
 
     
 <section class="desc markdown">
-  <p>Extensions on <a href="../text_indexing_type_definitions/DictionaryEntry.html">DictionaryEntry</a>.</p>
+  <p>Extensions on <a href="../type_definitions/DftMapEntry.html">DftMapEntry</a>.</p>
 </section>
 
     <section>
@@ -59,7 +59,7 @@
         <dt>on</dt>
         <dd>
           <ul class="comma-separated clazz-relationships">
-              <li><a href="../text_indexing_type_definitions/Dictionary.html">Dictionary</a></li>
+              <li><a href="../type_definitions/DftMap.html">DftMap</a></li>
           </ul>
         </dd>
       </dl>
@@ -92,66 +92,66 @@ sorted alphabetically.
     <h2>Methods</h2>
     <dl class="callables">
         <dt id="addEntry" class="callable">
-  <span class="name"><a href="../text_indexing_extensions/DictionaryExtensions/addEntry.html">addEntry</a></span><span class="signature">(<wbr><span class="parameter" id="addEntry-param-value"><span class="type-annotation"><a href="../text_indexing_type_definitions/DictionaryEntry.html">DictionaryEntry</a></span> <span class="parameter-name">value</span></span>)
+  <span class="name"><a href="../text_indexing_extensions/DictionaryExtensions/addEntry.html">addEntry</a></span><span class="signature">(<wbr><span class="parameter" id="addEntry-param-value"><span class="type-annotation"><a href="../type_definitions/DftMapEntry.html">DftMapEntry</a></span> <span class="parameter-name">value</span></span>)
     <span class="returntype parameter">&#8594; void</span>
   </span>
   
 
 </dt>
 <dd>
-  Inserts or replaces the <code>value</code> in the <a href="../text_indexing_type_definitions/Dictionary.html">Dictionary</a>.
+  Inserts or replaces the <code>value</code> in the <a href="../type_definitions/DftMap.html">DftMap</a>.
   
 
 </dd>
 
         <dt id="getFrequency" class="callable">
   <span class="name"><a href="../text_indexing_extensions/DictionaryExtensions/getFrequency.html">getFrequency</a></span><span class="signature">(<wbr><span class="parameter" id="getFrequency-param-term"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.14.0/type_definitions/Term.html">Term</a></span> <span class="parameter-name">term</span></span>)
-    <span class="returntype parameter">&#8594; <a href="../text_indexing_type_definitions/Ft.html">Ft</a></span>
+    <span class="returntype parameter">&#8594; <a href="../type_definitions/Ft.html">Ft</a></span>
   </span>
   
 
 </dt>
 <dd>
-  Returns the mapped value for the <code>term</code> key from the <a href="../text_indexing_type_definitions/Dictionary.html">Dictionary</a>.
+  Returns the mapped value for the <code>term</code> key from the <a href="../type_definitions/DftMap.html">DftMap</a>.
   
 
 </dd>
 
         <dt id="incrementFrequency" class="callable">
   <span class="name"><a href="../text_indexing_extensions/DictionaryExtensions/incrementFrequency.html">incrementFrequency</a></span><span class="signature">(<wbr><span class="parameter" id="incrementFrequency-param-term"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">term</span></span>)
-    <span class="returntype parameter">&#8594; <a href="../text_indexing_type_definitions/DictionaryEntry.html">DictionaryEntry</a></span>
+    <span class="returntype parameter">&#8594; <a href="../type_definitions/DftMapEntry.html">DftMapEntry</a></span>
   </span>
   
 
 </dt>
 <dd>
-  Returns a DictionaryEntry with the key set to <code>term</code>.
+  Returns a DftMapEntry with the key set to <code>term</code>.
   
 
 </dd>
 
         <dt id="setFrequency" class="callable">
-  <span class="name"><a href="../text_indexing_extensions/DictionaryExtensions/setFrequency.html">setFrequency</a></span><span class="signature">(<wbr><span class="parameter" id="setFrequency-param-term"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.14.0/type_definitions/Term.html">Term</a></span> <span class="parameter-name">term</span>, </span><span class="parameter" id="setFrequency-param-frequency"><span class="type-annotation"><a href="../text_indexing_type_definitions/Ft.html">Ft</a></span> <span class="parameter-name">frequency</span></span>)
-    <span class="returntype parameter">&#8594; <a href="../text_indexing_type_definitions/DictionaryEntry.html">DictionaryEntry</a></span>
+  <span class="name"><a href="../text_indexing_extensions/DictionaryExtensions/setFrequency.html">setFrequency</a></span><span class="signature">(<wbr><span class="parameter" id="setFrequency-param-term"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.14.0/type_definitions/Term.html">Term</a></span> <span class="parameter-name">term</span>, </span><span class="parameter" id="setFrequency-param-frequency"><span class="type-annotation"><a href="../type_definitions/Ft.html">Ft</a></span> <span class="parameter-name">frequency</span></span>)
+    <span class="returntype parameter">&#8594; <a href="../type_definitions/DftMapEntry.html">DftMapEntry</a></span>
   </span>
   
 
 </dt>
 <dd>
-  Returns a <a href="../text_indexing_type_definitions/DictionaryEntry.html">DictionaryEntry</a> with:
+  Returns a <a href="../type_definitions/DftMapEntry.html">DftMapEntry</a> with:
   
 
 </dd>
 
         <dt id="toList" class="callable">
   <span class="name"><a href="../text_indexing_extensions/DictionaryExtensions/toList.html">toList</a></span><span class="signature">(<wbr><span class="parameter" id="toList-param-sortBy">[<span class="type-annotation"><a href="../text_indexing/TermSortStrategy.html">TermSortStrategy</a></span> <span class="parameter-name">sortBy</span> = <span class="default-value">TermSortStrategy.byTerm</span>]</span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing_type_definitions/DictionaryEntry.html">DictionaryEntry</a></span>&gt;</span></span>
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/DftMapEntry.html">DftMapEntry</a></span>&gt;</span></span>
   </span>
   
 
 </dt>
 <dd>
-  Returns a list of <code>DictionaryEntry</code>s from the <a href="https://api.flutter.dev/flutter/dart-core/Map/entries.html">entries</a> in the <a href="../text_indexing_type_definitions/Dictionary.html">Dictionary</a>.
+  Returns a list of <code>DftMapEntry</code>s from the <a href="https://api.flutter.dev/flutter/dart-core/Map/entries.html">entries</a> in the <a href="../type_definitions/DftMap.html">DftMap</a>.
   
 
 </dd>

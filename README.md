@@ -6,7 +6,7 @@ Copyright (c) 2022, GM Consult Pty Ltd, All rights reserved.
 [![GM Consult Pty Ltd](https://raw.githubusercontent.com/GM-Consult-Pty-Ltd/text_indexing/main/assets/images/text_indexing_header.v2.png?raw=true "GM Consult Pty Ltd")](https://github.com/GM-Consult-Pty-Ltd)
 ## **Create an inverted index on a collection of text documents.**
 
-*THIS PACKAGE IS **PRE-RELEASE**, IN ACTIVE DEVELOPMENT AND SUBJECT TO DAILY BREAKING CHANGES.*
+*THIS PACKAGE IS **PRE-RELEASE** AND SUBJECT TO DAILY BREAKING CHANGES.*
 
 Skip to section:
 - [Overview](#overview)
@@ -35,37 +35,37 @@ Refer to the [references](#references) to learn more about information retrieval
 
 A sample data set consisting of stock data for the U.S. markets was used to benchmark performance of  [TextIndexer](#textindexer) and [InvertedIndex](#invertedindex) implementations. The data set contains 20,770 JSON documents with basic information on each stock and the JSON data file is 22MB in size.
 
-For the benchmarking tests we created an implementation [InvertedIndex](#invertedindex) class that uses [Hive](https://pub.dev/packages/hive) as local storage ([HiveIndex](https://github.com/GM-Consult-Pty-Ltd/text_indexing/tree/main/test)), and benchmarked that against [InMemoryIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html). Both indexes were given the same phrase length (2), k-gram length (3) and zones `('name', 'symbol', 'ticker', 'description', 'hashTag')`.
+For the benchmarking tests we created an implementation [InvertedIndex](#invertedindex) class that uses [Hive](https://pub.dev/packages/hive) as local storage and benchmarked that against [InMemoryIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html). Both indexes were given the same phrase length (2), k-gram length (2) and zones `('name', 'symbol', 'ticker', 'description', 'hashTag')`.
 
 Benchmarking was performed as part of unit tests in the VS Code IDE on a Windows 10 workstation with an Intel(R) Core(TM) i9-7900X CPU running at 3.30GHz and 64GB of DDR4-2666 RAM.
 
 ### Indexing the corpus
 
-The typical times taken by [TextIndexer](#textindexer) to index our sample dataset to 243,700 terms and 18,276 k-grams using [InMemoryIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html) vs [HiveIndex](https://github.com/GM-Consult-Pty-Ltd/text_indexing/tree/main/test) is shown below.
+The typical times taken by [TextIndexer](#textindexer) to index our sample dataset to 243,700 terms and 18,276 k-grams using [InMemoryIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html) vs the Hive-based index is shown below.
 
 | InvertedIndex                 |   Elapsed time | Per document | 
 |-------------------------------|----------------|--------------|
 | InMemoryIndex                 |    ~15 seconds |      0.68 mS |
-| HiveIndex                     |    ~41 minutes |       112 mS |
+| Hive-based Index              |    ~41 minutes |       112 mS |
 
 Building the index while holding all the index artifacts in memory is 165 times faster than placing them in a [Hive](https://pub.dev/packages/hive) box (a relatively fast local storage option).
 
-If memory and the size of the corpus allows, [InMemoryIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html) is a clear winner. The memory required for the `postings`, in particular, may not make this practical for larger document collections. The [AsyncCallbackIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/AsyncCallbackIndexclass.html) class provides the flexibility to access each of the three index hashmaps from a different data source, so implementing applications can, for example, hold the `dictionary` and `k-gram` index in memory, with the `postings` in local storage or implement in-memory caching.
+If memory and the size of the corpus allows, [InMemoryIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html) is a clear winner. The memory required for the `postings`, in particular, may not make this practical for larger document collections. The [AsyncCallbackIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/AsyncCallbackIndexclass.html) class provides the flexibility to access each of the three index hashmaps from a different data source, so implementing applications can, for example, hold the `dictionary` and `k-gram` indexes in memory, with the `postings` in local storage. Alternatively in-memory caching may also provide performance improvements for a corpus with many repeated terms.
 
-Regardless of the [InvertedIndex](#invertedindex) implementation, applications should avoid running the [TextIndexer](#textindexer) in the same thread as the the user interface to avoid UI "jank". 
+Regardless of the [InvertedIndex](#invertedindex) implementation, applications should avoid running the [TextIndexer](#textindexer) in the same thread as the user interface to avoid UI "jank". 
 
 The `dictionary`, `k-gram index` and `postings` are 8MB, 41MB and 362MB in size, respectively, for our sample index of 243,700 terms and 18,276 k-grams.
 
 ### Querying the indexes
 
-Having created a persisted index on our sample data set, we ran a query on a search phrase of 9 terms we know are present in the sample data. The query requires a few round trips to each of the three indexes to match the terms, calculate the `inverse document term frequencies` etc. The elapsed time for retrieving the data from the [InMemoryIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html) vs [HiveIndex](https://github.com/GM-Consult-Pty-Ltd/text_indexing/tree/main/test) is shown below.
+Having created a persisted index on our sample data set, we ran a query on a search phrase of 9 terms we know are present in the sample data. The query requires a few round trips to each of the three indexes to match the terms, calculate the `inverse document term frequencies` etc. The elapsed time for retrieving the data from the [InMemoryIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html) vs the Hive-based index is shown below.
 
 | InvertedIndex                 |   Elapsed time | 
 |-------------------------------|----------------|
 | InMemoryIndex                 |         ~22 mS |
-| HiveIndex                     |        ~205 mS |
+| Hive-based Index              |        ~205 mS |
 
-As expected, the [InMemoryIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html) is quicker, but the differences are unlikely to be material in a real-world application, even for predictive text or auto-correct applications.
+As expected, the [InMemoryIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html) is quicker than the Hive-based index, but the differences are unlikely to be material in a real-world application, even for predictive text or auto-correct applications.
 
 ## Usage
 
@@ -111,13 +111,21 @@ The [examples](https://pub.dev/packages/text_indexing/example) demonstrate the u
 
 The [API](https://pub.dev/documentation/text_indexing/latest/) exposes the [TextIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html) interface that builds and maintains an [InvertedIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex-class.html) for a collection of documents.
 
-To maximise performance of the indexers the API performs lookups in nested hashmaps of DART core types. To improve code legibility the API makes use of [type aliases](https://pub.dev/documentation/text_indexing/latest/text_indexing/text_indexing-library.html#typedefs) and extensions. The typedefs and extensions are not exported by the `text_indexer` library, but can be found in the `text_indexer_type_definitions` and `text_indexer_type_extensions`. Import these seperately to use. 
+Our API contains a fair amount of boiler-plate, but we aim to make the code as readable, extendable and re-usable as possible:
+
+* We use an `interface > implementation mixin > base-class > implementation class pattern`:
+  - the `interface` is an abstract class that exposes fields and methods but contains no implementation code. The `interface` may expose a factory constructor that returns an `implementation class` instance;
+  - the `implementation mixin` implements the `interface` class methods, but not the input fields;
+  - the `base-class` is an abstract class with the `implementation mixin` and exposes a default, unnamed generative const constructor for sub-classes. The intention is that `implementation classes` extend the `base class`, overriding the `interface` input fields with final properties passed in via a const generative constructor.
+* To maximise performance of the indexers the API performs lookups in nested hashmaps of DART core types. To improve code legibility the API makes use of type aliases, callback function definitions and extensions. The typedefs and extensions are not exported by the [text_indexing](https://pub.dev/documentation/text_indexing/latest/text_indexing/text_indexing-library.html) library, but can be found in the [type_definitions](https://pub.dev/documentation/text_indexing/latest/type_definitions/type_definitions-library.html) and [extensions](https://pub.dev/documentation/text_indexing/latest/extensions/extensions-library.html) mini-libraries. [Import these libraries seperately](#usage) if needed.
 
 ### InvertedIndex
 
 The [InvertedIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex-class.html) interface exposes properties and methods for working with [Dictionary](https://pub.dev/documentation/text_indexing/latest/text_indexing/Dictionary.html), [KGramIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/KGramIndex.html) and [Postings](https://pub.dev/documentation/text_indexing/latest/text_indexing/Postings.html) hashmaps.  
 
 A [mixin class](https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndexMixin-class.html) implements the [getTfIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex/getTfIndex.html), [getFtdPostings](https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex/getFtdPostings.html) and [getIdFtIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex/getIdFtIndex.html) methods.
+
+An [abstract base class](https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndexBase-class.html) mixies in [InvertedIndexMixin] https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndexMixin-class.html) and provides a default unnamed generative const constructor for sub-classes.
 
 Two implementation classes are provided: 
  * the [InMemoryIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html) class is intended for fast indexing of a smaller corpus using in-memory dictionary, k-gram and postings hashmaps; and

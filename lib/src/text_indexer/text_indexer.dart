@@ -7,7 +7,7 @@ import 'package:meta/meta.dart';
 import 'package:text_indexing/src/_index.dart';
 
 /// Interface for classes that construct and maintain an inverted, positional,
-/// zoned index ([InvertedIndex]) and k-gram index ([KGramIndex]) for a
+/// zoned index ([InvertedIndex]) and k-gram index ([KGramsMap]) for a
 /// collection of documents (`corpus`).
 ///
 /// Text or documents can be indexed by calling the following methods:
@@ -21,7 +21,7 @@ import 'package:text_indexing/src/_index.dart';
 ///
 /// Implementing classes override the following fields:
 /// - [index] is the [InvertedIndex] that provides access to the
-///   index [Dictionary] and [Postings] and a [TextTokenizer];
+///   index [DftMap] and [PostingsMap] and a [TextTokenizer];
 /// - [documentStream] is an input stream of 'Map<String, dynamic>' documents. The documents
 ///   updateIndexested by[documentStream] are passed to [indexJson] for indexing; and
 /// - [collectionStream] is an input stream of a collection of 'Map<String, dynamic>' documents.
@@ -33,7 +33,7 @@ import 'package:text_indexing/src/_index.dart';
 /// - [indexJson] indexes the fields in a Map<String, dynamic> document;
 /// - [indexCollection] indexes the fields of all the documents in a Map<String, dynamic>
 ///   document collection; and
-/// - [updateIndexes] updates the [Dictionary], [Postings] and [KGramIndex]
+/// - [updateIndexes] updates the [DftMap], [PostingsMap] and [KGramsMap]
 /// for this indexer.
 abstract class TextIndexer {
   //
@@ -66,24 +66,24 @@ abstract class TextIndexer {
   Stream<Map<String, Map<String, dynamic>>>? get collectionStream;
 
   /// The [updateIndexes] method is called by [index] and updates the
-  /// [Dictionary], [Postings] and [KGramIndex] for this indexer.
+  /// [DftMap], [PostingsMap] and [KGramsMap] for this indexer.
   ///
   /// Sub-classes override [updateIndexes] to perform additional actions whenever a
   /// document is indexed.
-  Future<void> updateIndexes(Postings event, Iterable<Token> tokens);
+  Future<void> updateIndexes(PostingsMap event, Iterable<Token> tokens);
 
-  /// Indexes a text document, returning a [Postings].
-  Future<Postings> indexText(String docId, SourceText docText);
+  /// Indexes a text document, returning a [PostingsMap].
+  Future<PostingsMap> indexText(String docId, SourceText docText);
 
   /// Indexes the [InvertedIndex.zones] in a [json] document, returning a list
-  /// of [DocumentPostingsEntry].
-  Future<Postings> indexJson(String docId, Map<String, dynamic> json);
+  /// of [DocPostingsMapEntry].
+  Future<PostingsMap> indexJson(String docId, Map<String, dynamic> json);
 
   /// Indexes the [InvertedIndex.zones] of all the documents in [collection].
   Future<void> indexCollection(Map<String, Map<String, dynamic>> collection);
 
   /// The [InvertedIndex] that provides access to the
-  /// index [Dictionary] and [Postings] and a [TextTokenizer].
+  /// index [DftMap] and [PostingsMap] and a [TextTokenizer].
   InvertedIndex get index;
 
   //
@@ -109,16 +109,16 @@ abstract class TextIndexerBase implements TextIndexer {
   /// Implementation of [TextIndexer.indexText] that:
   /// - parses [docText] to a collection of [Token]s;
   /// - maps the tokens to postings for [docId];
-  /// - maps the postings for [docId] to a [Postings];
-  /// - calls [updateIndexes], passing the [Postings] for [docId]; and
-  /// - returns the [Postings] for [docId].
+  /// - maps the postings for [docId] to a [PostingsMap];
+  /// - calls [updateIndexes], passing the [PostingsMap] for [docId]; and
+  /// - returns the [PostingsMap] for [docId].
   @override
-  Future<Postings> indexText(String docId, SourceText docText) async {
+  Future<PostingsMap> indexText(String docId, SourceText docText) async {
     // get the terms using tokenizer
     final tokens = (await index.tokenizer.tokenize(docText));
     // map the tokens to postings
-    final Postings postings = _tokensToPostings(docId, tokens);
-    // map postings to a list of DocumentPostingsEntry for docId.
+    final PostingsMap postings = _tokensToPostings(docId, tokens);
+    // map postings to a list of DocPostingsMapEntry for docId.
     // final event = _postingsToTermPositions(docId, postings);
     // updateIndexes the postings list for docId
     await updateIndexes(postings, tokens);
@@ -129,15 +129,15 @@ abstract class TextIndexerBase implements TextIndexer {
   /// - parses [json] to a collection of [Token]s in [index].zones. If
   ///   [index].zones is empty, tokenize all the fields in [json];
   /// - maps the tokens to postings for [docId];
-  /// - maps the postings for [docId] to a [Postings];
-  /// - calls [updateIndexes], passing the [Postings] for [docId]; and
-  /// - returns the [Postings] for [docId].
+  /// - maps the postings for [docId] to a [PostingsMap];
+  /// - calls [updateIndexes], passing the [PostingsMap] for [docId]; and
+  /// - returns the [PostingsMap] for [docId].
   @override
-  Future<Postings> indexJson(String docId, Map<String, dynamic> json) async {
+  Future<PostingsMap> indexJson(String docId, Map<String, dynamic> json) async {
     // get the terms using tokenizer
     final tokens = (await index.tokenizer.tokenizeJson(json, _zoneNames(json)));
     // map the tokens to postings
-    final Postings postings = _tokensToPostings(docId, tokens);
+    final PostingsMap postings = _tokensToPostings(docId, tokens);
     // update the indexes with the postings list for docId
     await updateIndexes(postings, tokens);
     return postings;
@@ -161,7 +161,7 @@ abstract class TextIndexerBase implements TextIndexer {
   }
 
   /// Implementation of [TextIndexer.indexCollection] that parses each Map<String, dynamic>
-  /// document in [collection] to [Token]s and maps the tokens to a [Postings]
+  /// document in [collection] to [Token]s and maps the tokens to a [PostingsMap]
   /// that is passed to [updateIndexes].
   @override
   Future<void> indexCollection(
@@ -174,13 +174,13 @@ abstract class TextIndexerBase implements TextIndexer {
     });
   }
 
-  /// Maps the [tokens] to a [Postings] by creating a [ZonePostings] for
+  /// Maps the [tokens] to a [PostingsMap] by creating a [ZonePostingsMap] for
   /// every element in [tokens].
   ///
-  /// Also adds a [ZonePostings] entry for term pairs in [tokens].
-  Postings _tokensToPostings(String docId, Iterable<Token> tokens) {
-    // initialize a Postings collection to hold the postings
-    final Postings postings = {};
+  /// Also adds a [ZonePostingsMap] entry for term pairs in [tokens].
+  PostingsMap _tokensToPostings(String docId, Iterable<Token> tokens) {
+    // initialize a PostingsMap collection to hold the postings
+    final PostingsMap postings = {};
     // initialize the term position index
     final phraseTerms = [];
     for (var token in tokens) {
@@ -224,47 +224,47 @@ abstract class TextIndexerBase implements TextIndexer {
 
   /// Implementation of [TextIndexer.updateIndexes] that:
   /// - maps [event] to a set of unique terms;
-  /// - loads the existing [PostingsEntry]s for the terms from the [index]
-  ///   [Postings];
-  /// - loads the existing [DictionaryEntry]s for the terms from the [index];
+  /// - loads the existing [PostingsMapEntry]s for the terms from the [index]
+  ///   [PostingsMap];
+  /// - loads the existing [DftMapEntry]s for the terms from the [index];
   /// - iterates through the [event] entries and:
-  /// - inserts or updates each [DocumentPostingsEntry] instance to the index
-  ///   [Postings];
-  /// - if a [DocumentPostingsEntry] instance did not exist previously,
+  /// - inserts or updates each [DocPostingsMapEntry] instance to the index
+  ///   [PostingsMap];
+  /// - if a [DocPostingsMapEntry] instance did not exist previously,
   ///   increments the document frequency of the associated term;
   /// - then:
-  /// - asynchronously updates the index [Dictionary]; and
-  /// - asynchronously updates the index [Postings].
+  /// - asynchronously updates the index [DftMap]; and
+  /// - asynchronously updates the index [PostingsMap].
   @override
   @mustCallSuper
-  Future<void> updateIndexes(Postings event, Iterable<Token> tokens) async {
+  Future<void> updateIndexes(PostingsMap event, Iterable<Token> tokens) async {
     // - maps [event] to a set of unique terms;
     final terms = Set<Term>.from(event.keys);
     await _upsertKgrams(tokens);
 
-    // - loads the existing [PostingsEntry]s for the terms from a [Postings] by calling [getPostings];
+    // - loads the existing [PostingsMapEntry]s for the terms from a [PostingsMap] by calling [getPostings];
     final postingsToUpdate = await index.getPostings(terms);
-// - loads the existing [DictionaryEntry]s for the terms from a [Dictionary] by calling [getDictionary];
-    final Dictionary termsToUpdate = await index.getDictionary(terms);
-    // - iterates through the [DocumentPostingsEntry] in [event];
-    await Future.forEach(event.entries, (PostingsEntry entry) {
+// - loads the existing [DftMapEntry]s for the terms from a [DftMap] by calling [getDictionary];
+    final DftMap termsToUpdate = await index.getDictionary(terms);
+    // - iterates through the [DocPostingsMapEntry] in [event];
+    await Future.forEach(event.entries, (PostingsMapEntry entry) {
       final term = entry.key;
       final postings = entry.value;
       for (final docEntry in postings.entries) {
         final docId = docEntry.key;
         final fieldPostings = docEntry.value;
-        // - inserts or updates each [DocumentPostingsEntry] instance to a collection of postings to update;
+        // - inserts or updates each [DocPostingsMapEntry] instance to a collection of postings to update;
         final increment =
             postingsToUpdate.addZonePostings(term, docId, fieldPostings);
-        // - if a [DocumentPostingsEntry] instance did not exist previously, also increments the document frequency of the associated term;
+        // - if a [DocPostingsMapEntry] instance did not exist previously, also increments the document frequency of the associated term;
         if (increment) {
           termsToUpdate.incrementFrequency(term);
         }
       }
     });
-    // - asynchronously updates the [Dictionary] by calling [upsertDictionary];
+    // - asynchronously updates the [DftMap] by calling [upsertDictionary];
     await index.upsertDictionary(termsToUpdate);
-    // - asynchronously updates the [Postings] by calling [upsertPostings]; and
+    // - asynchronously updates the [PostingsMap] by calling [upsertPostings]; and
     await index.upsertPostings(postingsToUpdate);
   }
 }

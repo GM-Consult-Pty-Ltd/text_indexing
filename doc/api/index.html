@@ -50,7 +50,7 @@ Copyright (c) 2022, GM Consult Pty Ltd, All rights reserved.
 -->
 <p><a href="https://github.com/GM-Consult-Pty-Ltd"><img src="https://raw.githubusercontent.com/GM-Consult-Pty-Ltd/text_indexing/main/assets/images/text_indexing_header.v2.png?raw=true" alt="GM Consult Pty Ltd" title="GM Consult Pty Ltd"></a></p>
 <h2 id="create-an-inverted-index-on-a-collection-of-text-documents"><strong>Create an inverted index on a collection of text documents.</strong></h2>
-<p><em>THIS PACKAGE IS <strong>PRE-RELEASE</strong>, IN ACTIVE DEVELOPMENT AND SUBJECT TO DAILY BREAKING CHANGES.</em></p>
+<p><em>THIS PACKAGE IS <strong>PRE-RELEASE</strong> AND SUBJECT TO DAILY BREAKING CHANGES.</em></p>
 <p>Skip to section:</p>
 <ul>
 <li><a href="#overview">Overview</a></li>
@@ -73,19 +73,19 @@ Copyright (c) 2022, GM Consult Pty Ltd, All rights reserved.
 <p>Refer to the <a href="#references">references</a> to learn more about information retrieval systems and the theory behind this library.</p>
 <h2 id="performance">Performance</h2>
 <p>A sample data set consisting of stock data for the U.S. markets was used to benchmark performance of  <a href="#textindexer">TextIndexer</a> and <a href="#invertedindex">InvertedIndex</a> implementations. The data set contains 20,770 JSON documents with basic information on each stock and the JSON data file is 22MB in size.</p>
-<p>For the benchmarking tests we created an implementation <a href="#invertedindex">InvertedIndex</a> class that uses <a href="https://pub.dev/packages/hive">Hive</a> as local storage (<a href="https://github.com/GM-Consult-Pty-Ltd/text_indexing/tree/main/test">HiveIndex</a>), and benchmarked that against <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html">InMemoryIndex</a>. Both indexes were given the same phrase length (2), k-gram length (3) and zones <code>('name', 'symbol', 'ticker', 'description', 'hashTag')</code>.</p>
+<p>For the benchmarking tests we created an implementation <a href="#invertedindex">InvertedIndex</a> class that uses <a href="https://pub.dev/packages/hive">Hive</a> as local storage and benchmarked that against <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html">InMemoryIndex</a>. Both indexes were given the same phrase length (2), k-gram length (2) and zones <code>('name', 'symbol', 'ticker', 'description', 'hashTag')</code>.</p>
 <p>Benchmarking was performed as part of unit tests in the VS Code IDE on a Windows 10 workstation with an Intel(R) Core(TM) i9-7900X CPU running at 3.30GHz and 64GB of DDR4-2666 RAM.</p>
 <h3 id="indexing-the-corpus">Indexing the corpus</h3>
-<p>The typical times taken by <a href="#textindexer">TextIndexer</a> to index our sample dataset to 243,700 terms and 18,276 k-grams using <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html">InMemoryIndex</a> vs <a href="https://github.com/GM-Consult-Pty-Ltd/text_indexing/tree/main/test">HiveIndex</a> is shown below.</p>
-<table><thead><tr><th>InvertedIndex</th><th>Elapsed time</th><th>Per document</th></tr></thead><tbody><tr><td>InMemoryIndex</td><td>~15 seconds</td><td>0.68 mS</td></tr><tr><td>HiveIndex</td><td>~41 minutes</td><td>112 mS</td></tr></tbody></table>
+<p>The typical times taken by <a href="#textindexer">TextIndexer</a> to index our sample dataset to 243,700 terms and 18,276 k-grams using <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html">InMemoryIndex</a> vs the Hive-based index is shown below.</p>
+<table><thead><tr><th>InvertedIndex</th><th>Elapsed time</th><th>Per document</th></tr></thead><tbody><tr><td>InMemoryIndex</td><td>~15 seconds</td><td>0.68 mS</td></tr><tr><td>Hive-based Index</td><td>~41 minutes</td><td>112 mS</td></tr></tbody></table>
 <p>Building the index while holding all the index artifacts in memory is 165 times faster than placing them in a <a href="https://pub.dev/packages/hive">Hive</a> box (a relatively fast local storage option).</p>
-<p>If memory and the size of the corpus allows, <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html">InMemoryIndex</a> is a clear winner. The memory required for the <code>postings</code>, in particular, may not make this practical for larger document collections. The <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/AsyncCallbackIndexclass.html">AsyncCallbackIndex</a> class provides the flexibility to access each of the three index hashmaps from a different data source, so implementing applications can, for example, hold the <code>dictionary</code> and <code>k-gram</code> index in memory, with the <code>postings</code> in local storage or implement in-memory caching.</p>
-<p>Regardless of the <a href="#invertedindex">InvertedIndex</a> implementation, applications should avoid running the <a href="#textindexer">TextIndexer</a> in the same thread as the the user interface to avoid UI "jank".</p>
+<p>If memory and the size of the corpus allows, <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html">InMemoryIndex</a> is a clear winner. The memory required for the <code>postings</code>, in particular, may not make this practical for larger document collections. The <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/AsyncCallbackIndexclass.html">AsyncCallbackIndex</a> class provides the flexibility to access each of the three index hashmaps from a different data source, so implementing applications can, for example, hold the <code>dictionary</code> and <code>k-gram</code> indexes in memory, with the <code>postings</code> in local storage. Alternatively in-memory caching may also provide performance improvements for a corpus with many repeated terms.</p>
+<p>Regardless of the <a href="#invertedindex">InvertedIndex</a> implementation, applications should avoid running the <a href="#textindexer">TextIndexer</a> in the same thread as the user interface to avoid UI "jank".</p>
 <p>The <code>dictionary</code>, <code>k-gram index</code> and <code>postings</code> are 8MB, 41MB and 362MB in size, respectively, for our sample index of 243,700 terms and 18,276 k-grams.</p>
 <h3 id="querying-the-indexes">Querying the indexes</h3>
-<p>Having created a persisted index on our sample data set, we ran a query on a search phrase of 9 terms we know are present in the sample data. The query requires a few round trips to each of the three indexes to match the terms, calculate the <code>inverse document term frequencies</code> etc. The elapsed time for retrieving the data from the <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html">InMemoryIndex</a> vs <a href="https://github.com/GM-Consult-Pty-Ltd/text_indexing/tree/main/test">HiveIndex</a> is shown below.</p>
-<table><thead><tr><th>InvertedIndex</th><th>Elapsed time</th></tr></thead><tbody><tr><td>InMemoryIndex</td><td>~22 mS</td></tr><tr><td>HiveIndex</td><td>~205 mS</td></tr></tbody></table>
-<p>As expected, the <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html">InMemoryIndex</a> is quicker, but the differences are unlikely to be material in a real-world application, even for predictive text or auto-correct applications.</p>
+<p>Having created a persisted index on our sample data set, we ran a query on a search phrase of 9 terms we know are present in the sample data. The query requires a few round trips to each of the three indexes to match the terms, calculate the <code>inverse document term frequencies</code> etc. The elapsed time for retrieving the data from the <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html">InMemoryIndex</a> vs the Hive-based index is shown below.</p>
+<table><thead><tr><th>InvertedIndex</th><th>Elapsed time</th></tr></thead><tbody><tr><td>InMemoryIndex</td><td>~22 mS</td></tr><tr><td>Hive-based Index</td><td>~205 mS</td></tr></tbody></table>
+<p>As expected, the <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html">InMemoryIndex</a> is quicker than the Hive-based index, but the differences are unlikely to be material in a real-world application, even for predictive text or auto-correct applications.</p>
 <h2 id="usage">Usage</h2>
 <p>In the <code>pubspec.yaml</code> of your flutter project, add the <code>text_indexing</code> dependency.</p>
 <pre class="language-yaml"><code class="language-yaml">dependencies:
@@ -116,10 +116,21 @@ import 'package:text_indexing/extensions.dart';
 <p>The <a href="https://pub.dev/packages/text_indexing/example">examples</a> demonstrate the use of the <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html">TextIndexer</a> with a <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html">InMemoryIndex</a> and <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/AsyncCallbackIndex-class.html">AsyncCallbackIndex</a>.</p>
 <h2 id="api">API</h2>
 <p>The <a href="https://pub.dev/documentation/text_indexing/latest/">API</a> exposes the <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html">TextIndexer</a> interface that builds and maintains an <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex-class.html">InvertedIndex</a> for a collection of documents.</p>
-<p>To maximise performance of the indexers the API performs lookups in nested hashmaps of DART core types. To improve code legibility the API makes use of <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/text_indexing-library.html#typedefs">type aliases</a> and extensions. The typedefs and extensions are not exported by the <code>text_indexer</code> library, but can be found in the <code>text_indexer_type_definitions</code> and <code>text_indexer_type_extensions</code>. Import these seperately to use.</p>
+<p>Our API contains a fair amount of boiler-plate, but we aim to make the code as readable, extendable and re-usable as possible:</p>
+<ul>
+<li>We use an <code>interface &gt; implementation mixin &gt; base-class &gt; implementation class pattern</code>:
+<ul>
+<li>the <code>interface</code> is an abstract class that exposes fields and methods but contains no implementation code. The <code>interface</code> may expose a factory constructor that returns an <code>implementation class</code> instance;</li>
+<li>the <code>implementation mixin</code> implements the <code>interface</code> class methods, but not the input fields;</li>
+<li>the <code>base-class</code> is an abstract class with the <code>implementation mixin</code> and exposes a default, unnamed generative const constructor for sub-classes. The intention is that <code>implementation classes</code> extend the <code>base class</code>, overriding the <code>interface</code> input fields with final properties passed in via a const generative constructor.</li>
+</ul>
+</li>
+<li>To maximise performance of the indexers the API performs lookups in nested hashmaps of DART core types. To improve code legibility the API makes use of type aliases, callback function definitions and extensions. The typedefs and extensions are not exported by the <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/text_indexing-library.html">text_indexing</a> library, but can be found in the <a href="https://pub.dev/documentation/text_indexing/latest/type_definitions/type_definitions-library.html">type_definitions</a> and <a href="https://pub.dev/documentation/text_indexing/latest/extensions/extensions-library.html">extensions</a> mini-libraries. <a href="#usage">Import these libraries seperately</a> if needed.</li>
+</ul>
 <h3 id="invertedindex">InvertedIndex</h3>
 <p>The <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex-class.html">InvertedIndex</a> interface exposes properties and methods for working with <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/Dictionary.html">Dictionary</a>, <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/KGramIndex.html">KGramIndex</a> and <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/Postings.html">Postings</a> hashmaps.</p>
 <p>A <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndexMixin-class.html">mixin class</a> implements the <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex/getTfIndex.html">getTfIndex</a>, <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex/getFtdPostings.html">getFtdPostings</a> and <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex/getIdFtIndex.html">getIdFtIndex</a> methods.</p>
+<p>An <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndexBase-class.html">abstract base class</a> mixies in <a href="text_indexing/InvertedIndexMixin-class.html">InvertedIndexMixin</a> <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndexMixin-class.html">https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndexMixin-class.html</a>) and provides a default unnamed generative const constructor for sub-classes.</p>
 <p>Two implementation classes are provided:</p>
 <ul>
 <li>the <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html">InMemoryIndex</a> class is intended for fast indexing of a smaller corpus using in-memory dictionary, k-gram and postings hashmaps; and</li>
@@ -159,7 +170,7 @@ import 'package:text_indexing/extensions.dart';
 <ul>
 <li><code>index</code> - an <a href="https://en.wikipedia.org/wiki/Inverted_index">inverted index</a> used to look up <code>document</code> references from the <code>corpus</code> against a <code>vocabulary</code> of <code>terms</code>.</li>
 <li><code>index-elimination</code> - selecting a subset of the entries in an index where the <code>term</code> is in the collection of <code>terms</code> in a search phrase.</li>
-<li><code>inverse document frequency</code> or <code>iDft</code> is equal to log (N / <code>dft</code>), where N is the total number of terms in the index. The <code>IdFt</code> of a rare term is high, whereas the <a href="text_indexing_type_definitions/IdFt.html">IdFt</a> of a frequent term is likely to be low.</li>
+<li><code>inverse document frequency</code> or <code>iDft</code> is equal to log (N / <code>dft</code>), where N is the total number of terms in the index. The <code>IdFt</code> of a rare term is high, whereas the <a href="type_definitions/IdFt.html">IdFt</a> of a frequent term is likely to be low.</li>
 <li><code>Jaccard index</code> measures similarity between finite sample sets, and is defined as the size of the intersection divided by the size of the union of the sample sets (from <a href="https://en.wikipedia.org/wiki/Jaccard_index">Wikipedia</a>).</li>
 <li><code>JSON</code> is an acronym for <code>"Java Script Object Notation"</code>, a common format for persisting data.</li>
 <li><code>k-gram</code> - a sequence of (any) k consecutive characters from a <code>term</code>. A <code>k-gram</code> can start with "$", denoting the start of the term, and end with "$", denoting the end of the term. The 3-grams for "castle" are { $ca, cas, ast, stl, tle, le$ }.</li>
@@ -210,14 +221,16 @@ import 'package:text_indexing/extensions.dart';
   <span class="name"><a href="text_indexing_extensions/text_indexing_extensions-library.html">text_indexing_extensions</a></span> 
 
 </dt>
-<dd>The typedefs used in text_indexing.
+<dd>A mini-lbrary of <code>text_indexing</code> that exports all the extensions in the
+<code>text_indexing</code> package.
 </dd>
 
-          <dt id="text_indexing_type_definitions">
-  <span class="name"><a href="text_indexing_type_definitions/text_indexing_type_definitions-library.html">text_indexing_type_definitions</a></span> 
+          <dt id="type_definitions">
+  <span class="name"><a href="type_definitions/type_definitions-library.html">type_definitions</a></span> 
 
 </dt>
-<dd>The typedefs used in text_indexing.
+<dd>A mini-lbrary of <code>text_indexing</code> that exports all the typedefs in the
+<code>text_indexing</code> package.
 </dd>
 
         </dl>
@@ -242,7 +255,7 @@ import 'package:text_indexing/extensions.dart';
       <li class="section-title">Libraries</li>
       <li><a href="text_indexing/text_indexing-library.html">text_indexing</a></li>
       <li><a href="text_indexing_extensions/text_indexing_extensions-library.html">text_indexing_extensions</a></li>
-      <li><a href="text_indexing_type_definitions/text_indexing_type_definitions-library.html">text_indexing_type_definitions</a></li>
+      <li><a href="type_definitions/type_definitions-library.html">type_definitions</a></li>
 </ol>
 
   </div>
