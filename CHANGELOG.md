@@ -6,29 +6,36 @@ All rights reserved.
 
 *THIS PACKAGE IS **PRE-RELEASE** AND SUBJECT TO DAILY BREAKING CHANGES.*
 
-### 0.16.0
+## 0.16.0+1
 
-#### Breaking Changes:
+### *Updated*
+* Dependencies.
+* License.
+* Documentation.
+
+## 0.16.0
+
+### *Breaking changes*
 * Default k-gram length changed from k =2 to k = 2 in `AsyncCallbackIndex` and `InMemoryIndex` constructors and 
 
-#### New:
+### *New*
 * Unnamed factory constructor `InvertedIndex` returns a [AsyncCallbackIndex] instance.
 * Factory constructor `InvertedIndex.inMemory` returns a [InMemoryIndex] instance.
 
+### *Updated*
+* Dependencies.
+* Tests.
+* Documentation.
 
-#### Updated
+## 0.15.0+1
+
+### *Updated*
 * Dependencies.
 * Documentation.
 
-### 0.15.0+1
+## 0.15.0
 
-#### Updated
-* Dependencies.
-* Documentation.
-
-### 0.15.0
-
-#### Breaking Changes:
+### *Breaking changes*
 * Renamed the following typedefs:
     - `Dictionary` to `DftMap`;
     - `DictionaryEntry` to `DftMapEntry`;
@@ -51,83 +58,83 @@ All rights reserved.
 * Renamed the `text_indexing_extensions` mini-library to `extensions`.
 * Renamed the `text_indexing_type_definitions` mini-library to `type_definitions`.
 
-#### Updated
+### *Updated*
 * Dependencies.
 * Tests.
 * Examples.
 * Documentation.    
 
-### 0.14.7
+## 0.14.7
 
-#### New:
+### *New*:
 * Added package exports from `text_analysis` to `type_definitions` and `extensions` libraries.
 
-#### Updated
+### *Updated*
 * Dependencies.
 * Tests.
 * Examples.
 * Documentation.  
 
-### 0.14.5+1
+## 0.14.5+1
 
-#### Updated
+### *Updated*
 * Dependencies.
 * Tests.
 * Examples.
 * Documentation.  
 
-### 0.14.5
+## 0.14.5
 
-#### Updated
+### *Updated*
 * Dependencies.
 
-### 0.14.4
+## 0.14.4
 
-#### Updated
+### *Updated*
 * Dependencies.
 
-### 0.14.3+1
+## 0.14.3+1
 
-#### Updated
+### *Updated*
 * Documentation.
 
-### 0.14.3
+## 0.14.3
 
-#### Updated
+### *Updated*
 * Dependencies.
 * Tests.
 * Examples.
 * Documentation.  
 
-### 0.14.2
+## 0.14.2
 
-#### Updated
+### *Updated*
 * Dependencies.
 * Tests.
 * Examples.
 * Documentation.  
 
-### 0.14.1+1
+## 0.14.1+1
 
-#### Updated
+### *Updated*
 * Documentation.
 
-### 0.14.1
+## 0.14.1
 
-#### New: 
+### *New*: 
 * Added extension property `KGramIndex.terms`.
 
-#### Updated
+### *Updated*
 * Documentation.
 
-### 0.14.0+1
+## 0.14.0+1
 
-#### Updated
+### *Updated*
 * Documentation.
 
-### 0.14.0
+## 0.14.0
 
-#### Breaking Changes:
+### *Breaking changes*
 * Removed class `TextSource`.
 * Removed class `Sentence`.
 * Removed class `TermPair`.
@@ -136,48 +143,48 @@ All rights reserved.
 * Changed `TextTokenizer.tokenizeJson` return value to `List<Token>`.
 * Re-structured codebase. \
 
-#### Updated
+### *Updated*
 * Dependencies.
 * Tests.
 * Examples.
 * Documentation.  
 
-### 0.13.0+3
+## 0.13.0+3
 
-#### Updated
+### *Updated*
 * Documentation.
 
-### 0.13.0+2
+## 0.13.0+2
 
-#### Updated
+### *Updated*
 * Documentation.
 
-### 0.13.0+1
+## 0.13.0+1
 
-#### Updated
+### *Updated*
 * Documentation.
 
-### 0.13.0 
+## 0.13.0 
 **BREAKING CHANGES**
 
-#### Breaking changes:
+### *Breaking changes*
 * Removed `TextIndexer.async`, `TextIndexer.index`  and `TextIndexer.inMemory` factory constructors.
 * Added a new unnamed factory constructor for `TextIndexer`.
 * Re-structured codebase.
-#### Updated
+### *Updated*
 * Dependencies.
 * Tests.
 * Examples.
 * Documentation.  
 
-### 0.12.0+1
+## 0.12.0+1
 
 Updated dependencies and documentation.
 
-### 0.12.0
+## 0.12.0
 **BREAKING CHANGES**
 
-#### Breaking changes:
+### *Breaking changes*
 * Added method `InvertedIndex.getKGramIndex` to `InvertedIndex` interface.
 * Added method `InvertedIndex.upsertKGramIndex` to `InvertedIndex` interface.
 * Added field `InvertedIndex.k` to `InvertedIndex` interface.
@@ -186,48 +193,48 @@ Updated dependencies and documentation.
 * Added `AsyncIndex.k`, `AsyncIndex.kGramIndexLoader` and `AsyncIndex.kGramIndexUpdater` final fields and parameters to `AsyncIndex` class.
 * Added `InMemoryIndex.k`, and `InMemoryIndex.kGramIndex` final fields and parameters to `InMemoryIndex` class.
 
-#### New:
+### *New*:
 * Type alias `KGramIndex`.
 * Type alias `KGramIndexLoader`.
 * Type alias `KGramIndexUpdater`.
 * Extension method `void KGramIndex.addTermKGrams(Term term, Iterable<KGram> kGrams)`.
 
-#### Updated
+### *Updated*
 * Dependencies.
 * Tests.
 * Examples.
 * Documentation.  
 
-### 0.11.0
+## 0.11.0
 
-#### New:
+### *New*:
 * Mixin class `AsyncCallbackIndexMixin`. 
 * Mixin class `InMemoryIndexMixin`. 
 
-#### Updated
+### *Updated*
 * Dependencies.
 * Tests.
 * Examples.
 * Documentation.  
 
-### 0.10.0
+## 0.10.0
 
-#### Breaking changes:
+### *Breaking changes*
 * `TextIndexerBase` default generative constructor is no longer marked `const` as it has a method body that initializes listeners to `TextIndexer.documentStream` and `TextIndexer.collectionStream`.
 
-#### New:
+### *New*:
 * Input stream fields `TextIndexer.documentStream` and `TextIndexer.collectionStream` added to `TextIndexer` interface.- 
 * Optional named parameter `Stream<Map<String, Map<String, dynamic>>>? collectionStream` added to added to `TextIndexer.async`, `TextIndexer.inMemory` and `TextIndexer.index` factory contructors.
 
-#### Updated
+### *Updated*
 * Dependencies.
 * Tests.
 * Examples.
 * Documentation.  
 
-### 0.9.0
+## 0.9.0
 
-#### Breaking changes:
+### *Breaking changes*
 * Renamed `InvertedPositionalZoneIndex` interface to `InvertedIndex`.
 * Renamed `TextIndexer.instance` factory to `TextIndexer.index`.
 * Parameter `dictionaryLengthLoader` added to `AsynCallbackIndex` constructor;
@@ -236,7 +243,7 @@ Updated dependencies and documentation.
 * Removed class `InMemoryIndexer`, use factory constructor `TextIndexer.inMemory` in stead.
 * Removed class `AsyncIndexer`, use factory constructor `TextIndexer.async` in stead.
 
-#### New:
+### *New*:
 * Type definition `FtdPostings`.
 * Type definition `IdFtIndex`.
 * Type definition `IdFt`.
@@ -251,60 +258,60 @@ Updated dependencies and documentation.
 * Method `Future<IdFtIndex> InvertedIndex.getIdFtIndex(Iterable<Term>)`.
 * Method `Future<Dictionary> InvertedIndex.getTfIndex(Iterable<Term>)`.
 
-#### Updated
+### *Updated*
 * Dependencies.
 * Tests.
 * Examples.
 * Documentation.  
 
-### 0.8.0+1
+## 0.8.0+1
 
 Updated dependencies
 
-### 0.8.0
+## 0.8.0
 **BREAKING CHANGES**
 
-#### Breaking changes:
+### *Breaking changes*
 * Implementation of `TextIndexer.indexText` changed to also insert postings for every pair of terms in the source text.
 
-#### Updated
+### *Updated*
 * Dependencies.
 * Tests.
 * Examples.
 * Documentation.  
 
-### 0.7.2+1
+## 0.7.2+1
 
 Updated dependencies
 
-### 0.7.2
+## 0.7.2
 
 Updated dependencies
 
-### 0.7.1
+## 0.7.1
 
 Updated dependencies
 
-### 0.7.0
+## 0.7.0
 **BREAKING CHANGES**
 
-#### Breaking changes:
+### *Breaking changes*
 * Renamed `Postings.documents` extension method to `Postings.docIds`.
 
-#### New:
+### *New*:
 * Extension method `Set<DocId> containsAll(Iterable<Term>)`
 * Extension method `Set<DocId> containsAny(Iterable<Term>)`
 
-#### Updated
+### *Updated*
 * Dependencies.
 * Tests.
 * Examples.
 * Documentation.  
 
-### 0.6.0
+## 0.6.0
 **BREAKING CHANGES**
 
-#### Breaking changes:
+### *Breaking changes*
 * Changed signature of extension method `Postings.termPostingsList(Term)` to `Postings.termPostingsList([Iterable<Term>?])`.
 * Removed field `InMemoryIndexer.dictionary`. Use `InMemoryIndexer.index.dictionary` instead.
 * Removed field `InMemoryIndexer.postings`. Use `InMemoryIndexer.index.postings` instead.
@@ -316,54 +323,54 @@ Updated dependencies
 * Removed field `InMemoryIndexer.postings`. Use `index.postings` instead.
 * Added new field `InvertedIndex.analyzer`, changing the signatures of factory constructors `TextIndexer.inMemory` and 'TextIndexer.async'.
 
-#### Updated
+### *Updated*
 * Dependencies.
 * Tests.
 * Examples.
 * Documentation.  
 
-### 0.6.0-2
+## 0.6.0-2
 **BREAKING CHANGES**
 
-#### Breaking changes:
+### *Breaking changes*
 * Changed signature of extension method `Postings.termPostingsList(Term)` to `Postings.termPostingsList([Iterable<Term>?])`.
 
-#### Updated
+### *Updated*
 * Dependencies.
 * Tests.
 * Examples.
 * Documentation.  
 
-### 0.6.0-1
+## 0.6.0-1
 **BREAKING CHANGES**
 
-#### Updated
+### *Updated*
 * Dependencies.
 * Tests.
 * Examples.
 * Documentation.  
 
-### 0.5.0
+## 0.5.0
 **BREAKING CHANGES**
 
 #### Deprecated:
 * Field `InMemoryIndexer.dictionary` is deprecated. Use `index.dictionary` instead.
 * Field `InMemoryIndexer.postings` is deprecated. Use `index.postings` instead.
 
-#### Updated
+### *Updated*
 * Dependencies.
 * Tests.
 * Examples.
 * Documentation.  
 
-### 0.4.0
+## 0.4.0
 **BREAKING CHANGES**
 
-#### Breaking changes:
+### *Breaking changes*
 * Renamed method `TextIndexer.index` to `TextIndexer.indexText`.
 * Renamed class `PersistedIndexer` to `AsyncIndexer`.
 
-#### New:
+### *New*:
 * `InvertedIndex` interface and implementation.
 * `TextIndexer.index` field getter.
 * `TextIndexer.index` factory constructor.
@@ -378,178 +385,178 @@ Updated dependencies
 * Field `InMemoryIndexer.dictionary` is deprecated. Use `index.dictionary` instead.
 * Field `InMemoryIndexer.postings` is deprecated. Use `index.postings` instead.
 
-#### Updated
+### *Updated*
 * Dependencies.
 * Tests.
 * Examples.
 * Documentation.  
 
-### 0.3.2
+## 0.3.2
 
-#### New:
+### *New*:
 * `JSON` and `JsonCollection` type aliases.
 * `TextIndexer.indexCollection` method.
 * `PostingsExtension.documents` getter.
 
-#### Updated
+### *Updated*
 * Dependencies.
 * Tests.
 * Examples.
 * Documentation.  
 
-### 0.3.1
+## 0.3.1
 
-#### New:
+### *New*:
 * `JSON` and `JsonCollection` type aliases.
 * implemented `TextIndexer.indexCollection` method.
 
-#### Updated
+### *Updated*
 * Dependencies.
 * Tests.
 * Examples.
 * Documentation.  
 
-### 0.3.0
+## 0.3.0
 **BREAKING CHANGES**
 
-#### Breaking changes:
+### *Breaking changes*
 * Removed interface `Document`.
 
-### 0.2.0
+## 0.2.0
 **BREAKING CHANGES**
 
-#### New:
+### *New*:
 * `ZonePostings`, `DocumentPostings`, and `FieldPostingsEntry`  type definitions.
 * `Ft`, `Pt`, `TermPositions` and `DocId` type aliases.
 * interface `Document`.
 
-#### Breaking changes:
+### *Breaking changes*
 * Replaced object-model class `PostingsEntry` with typedef `PostingsEntry`.
 * Replaced object-model class `DocumentPostingsEntry` with typedef `DocumentPostingsEntry`.
 * Replaced object-model class `DictionaryEntry` with typedef `DictionaryEntry`.
 
 Restructured and simplified the codebase.
 
-#### Updated
+### *Updated*
 * Dependencies.
 * Tests.
 * Examples.
 * Documentation.  
 
-### 0.1.0
+## 0.1.0
 
-#### New:
+### *New*:
 * `ITextIndexer.indexJson` method.
 
-#### Updated
+### *Updated*
 * Dependencies.
 * Tests.
 * Examples.
 * Documentation.  
 
-### 0.0.2+1
+## 0.0.2+1
 
-#### Updated
+### *Updated*
 * Dependencies.
 * Tests.
 * Examples.
 * Documentation.  
 
-### 0.0.2
+## 0.0.2
 
-#### New:
+### *New*:
 * `text_analysis` package to exports.
 
-#### Updated
+### *Updated*
 * Dependencies.
 * Tests.
 * Examples.
 * Documentation.  
 
-### 0.0.1+10
+## 0.0.1+10
 
-#### Updated
+### *Updated*
 * Dependencies.
 * Tests.
 * Examples.
 * Documentation.  
 
-### 0.0.1+9
+## 0.0.1+9
 
-#### Updated
+### *Updated*
 * Dependencies.
 * Tests.
 * Examples.
 * Documentation.  
 
-### 0.0.1+8
+## 0.0.1+8
 
-#### Updated
+### *Updated*
 * Dependencies.
 * Tests.
 * Examples.
 * Documentation.  
 
-### 0.0.1+7
+## 0.0.1+7
 
-#### Updated
+### *Updated*
 * Dependencies.
 * Tests.
 * Examples.
 * Documentation.  
 
-### 0.0.1+6
+## 0.0.1+6
 
-#### New:
+### *New*:
 * Re-worked private methods to suit changes in text_analysis package.
 
-#### Updated
+### *Updated*
 * Dependencies.
 * Tests.
 * Examples.
 * Documentation.  
 
-### 0.0.1+5
+## 0.0.1+5
 
-#### Updated
+### *Updated*
 * Dependencies.
 
-### 0.0.1+4
+## 0.0.1+4
 
-#### Updated
-* Dependencies.
-* Tests.
-* Examples.
-* Documentation.  
-
-### 0.0.1+3
-
-#### Updated
+### *Updated*
 * Dependencies.
 * Tests.
 * Examples.
 * Documentation.  
 
-### 0.0.1+2
+## 0.0.1+3
 
-#### Updated
+### *Updated*
+* Dependencies.
+* Tests.
+* Examples.
+* Documentation.  
+
+## 0.0.1+2
+
+### *Updated*
 * Documentation.
 
-### 0.0.1+1
+## 0.0.1+1
 
 
-#### Updated
+### *Updated*
 * Dependencies.
 * Tests.
 * Examples.
 * Documentation.  
 
-### 0.0.1
+## 0.0.1
 **BREAKING CHANGES**
 
 Interfaces finalized (see [breaking changes](#breaking-changes))
 
-#### Breaking changes:
+### *Breaking changes*
 * `TermDictionary` renamed `Dictionary`.
 * `DocumentPostingsEntry` renamed `Postings`.
 * `PostingsMapEntry` renamed `PostingsEntry`.
@@ -559,48 +566,48 @@ Interfaces finalized (see [breaking changes](#breaking-changes))
 * `TextIndexerBase` implementation.
 * `InMemoryIndexer` implementation.
 
-#### Updated
+### *Updated*
 * Dependencies.
 * Tests.
 * Examples.
 * Documentation.  
 
-### 0.0.1-beta.4
+## 0.0.1-beta.4
 
-#### Updated
+### *Updated*
 * Dependencies.
 * Tests.
 * Examples.
 * Documentation.  
 
-### 0.0.1-beta.3
+## 0.0.1-beta.3
 **BREAKING CHANGES**
 
-#### New:
+### *New*:
 * `AsyncIndexer` class.
 
-#### Breaking changes:
+### *Breaking changes*
 * `TextIndexerBase` implementation.
 * `InMemoryIndexer` implementation.
 
-#### Updated
+### *Updated*
 * Dependencies.
 * Tests.
 * Examples.
 * Documentation.  
 
-### 0.0.1-beta.2
+## 0.0.1-beta.2
 
-#### New:
+### *New*:
 * `TextIndexerBase`.
 * `InMemoryIndexer`.
 
-#### Updated
+### *Updated*
 * Dependencies.
 * Tests.
 * Examples.
 * Documentation.  
 
-### 0.0.1-beta.1
+## 0.0.1-beta.1
 
 Initial version.

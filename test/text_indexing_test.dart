@@ -21,6 +21,10 @@ void main() {
   group('Inverted Index', () {
     //
 
+    setUp(() {
+      // Additional setup goes here.
+    });
+
     const zones = {
       'name': 1.0,
       'description': 0.5,
@@ -37,10 +41,6 @@ void main() {
 
     const searchPrase =
         'AAPL google GOOG tesla apple, alphabet 3m intel semiconductor';
-
-    setUp(() {
-      // Additional setup goes here.
-    });
 
     test('kgrams for vocabulary', () async {
       // - initialize the [DftMap]
