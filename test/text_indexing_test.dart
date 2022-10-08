@@ -191,8 +191,8 @@ Future<void> _printTermFrequencyPostings(
     }
   }
 
-  Echo(title: 'TERM DOCUMENT FREQUENCY', results: results, minPrintWidth: 120)
-      .printResults();
+  Console.out(
+      title: 'TERM DOCUMENT FREQUENCY', results: results, minPrintWidth: 120);
 
   print('Retrieved ${tfPostings.length} Ftd postings for ${searchTerms.length} '
       'terms in $dT seconds.');
@@ -245,8 +245,8 @@ Future<void> _printTermStats(
     });
   }
 
-  Echo(title: 'DICTIONARY STATISTICS', results: results, minPrintWidth: 120)
-      .printResults();
+  Console.out(
+      title: 'DICTIONARY STATISTICS', results: results, minPrintWidth: 120);
 
   final stats = <Map<String, dynamic>>[];
   stats.add({
@@ -255,8 +255,7 @@ Future<void> _printTermStats(
     'Elapsed Time': dT
   });
 
-  Echo(title: 'READ PERFORMANCE', results: stats, minPrintWidth: 120)
-      .printResults();
+  Console.out(title: 'READ PERFORMANCE', results: stats, minPrintWidth: 120);
 }
 
 Future<void> saveKgramIndex(KGramsMap value) async {
