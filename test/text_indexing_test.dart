@@ -54,7 +54,7 @@ void main() {
 
       final index = await _getIndex(sampleNews);
       // InMemoryIndex(
-      //     tokenizer: TextTokenizer(),
+      //     tokenizer: TextTokenizer.english,
       //     dictionary: dictionary,
       //     postings: postings,
       //     kGramIndex: kGramIndex,
@@ -92,7 +92,7 @@ void main() {
       final KGramsMap kGramIndex = {};
 
       final index = InMemoryIndex(
-          tokenizer: TextTokenizer(),
+          tokenizer: TextTokenizer.english,
           dictionary: dictionary,
           postings: postings,
           kGramIndex: kGramIndex,
@@ -282,7 +282,7 @@ Future<InvertedIndex> _getIndex(JsonCollection documents,
       'name': 1,
       'descriptions': 0.5
     }]) async {
-  final index = InMemoryIndex(tokenizer: TextTokenizer(), zones: zones);
+  final index = InMemoryIndex(tokenizer: TextTokenizer.english, zones: zones);
   final indexer = TextIndexer(index: index);
   await indexer.indexCollection(documents);
   await saveKgramIndex(index.kGramIndex);

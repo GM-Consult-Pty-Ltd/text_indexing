@@ -44,7 +44,7 @@ Future<void> _inMemoryIndexerExample(Map<String, String> documents,
 
   // - initialize the index
   final index = InMemoryIndex(
-      tokenizer: TextTokenizer(),
+      tokenizer: TextTokenizer.english,
       dictionary: dictionary,
       postings: postings,
       kGramIndex: kGramIndex,

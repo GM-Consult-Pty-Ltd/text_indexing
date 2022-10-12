@@ -3,7 +3,7 @@ BSD 3-Clause License
 Copyright (c) 2022, GM Consult Pty Ltd, All rights reserved. 
 -->
 
-[![GM Consult Pty Ltd](https://raw.githubusercontent.com/GM-Consult-Pty-Ltd/text_indexing/main/assets/images/text_indexing_header.v2.png?raw=true "GM Consult Pty Ltd")](https://github.com/GM-Consult-Pty-Ltd)
+[![GM Consult Pty Ltd](https://raw.githubusercontent.com/GM-Consult-Pty-Ltd/text_indexing/main/dev/images/text_indexing_header.v2.png?raw=true "GM Consult Pty Ltd")](https://github.com/GM-Consult-Pty-Ltd)
 ## **Create an inverted index on a collection of text documents.**
 
 *THIS PACKAGE IS **PRE-RELEASE** AND SUBJECT TO DAILY BREAKING CHANGES.*
@@ -30,6 +30,8 @@ The [indexer](#textindexer) uses a `tokenizer` to construct three artifacts:
 ![Index artifacts](https://github.com/GM-Consult-Pty-Ltd/text_indexing/raw/main/assets/images/index_artifacts.png?raw=true?raw=true "Components of inverted positional index")
 
 Refer to the [references](#references) to learn more about information retrieval systems and the theory behind this library.
+
+(*[back to top](#)*)
 
 ## Performance
 
@@ -66,6 +68,8 @@ Having created a persisted index on our sample data set, we ran a query on a sea
 | Hive-based Index              |        ~205 mS |
 
 As expected, the [InMemoryIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html) is quicker than the Hive-based index, but the differences are unlikely to be material in a real-world application, even for predictive text or auto-correct applications.
+
+(*[back to top](#)*)
 
 ## Usage
 
@@ -106,6 +110,8 @@ Call the [TextIndexer.indexCollection](https://pub.dev/documentation/text_indexi
 ```
 
 The [examples](https://pub.dev/packages/text_indexing/example) demonstrate the use of the [TextIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html) with a [InMemoryIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html) and [AsyncCallbackIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/AsyncCallbackIndex-class.html).
+
+(*[back to top](#)*)
 
 ## API
 
@@ -162,6 +168,8 @@ Text or documents can be indexed by calling the following methods:
 
 Use the unnamed factory constructor to instantiate a [TextIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html) with the index of your choice, or extend [TextIndexerBase](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexerBase-class.html).
 
+(*[back to top](#)*)
+
 ## Definitions
 
 The following definitions are used throughout the [documentation](https://pub.dev/documentation/text_indexing/latest/):
@@ -194,6 +202,8 @@ The following definitions are used throughout the [documentation](https://pub.de
 * `vocabulary` - the collection of `terms` indexed from the `corpus`.
 * `zone` is the field or zone of a document that a term occurs in, used for parametric indexes or where scoring and ranking of search results attribute a higher score to documents that contain a term in a specific zone (e.g. the title rather that the body of a document).
 
+(*[back to top](#)*)
+
 ## References
 
 * [Manning, Raghavan and Schütze, "*Introduction to Information Retrieval*", Cambridge University Press, 2008](https://nlp.stanford.edu/IR-book/pdf/irbookprint.pdf)
@@ -210,6 +220,8 @@ The following definitions are used throughout the [documentation](https://pub.de
 If you find a bug please fill an [issue](https://github.com/GM-Consult-Pty-Ltd/text_indexing/issues).  
 
 This project is a supporting package for a revenue project that has priority call on resources, so please be patient if we don't respond immediately to issues or pull requests.
+
+(*[back to top](#)*)
 
 
 

@@ -48,7 +48,7 @@
 BSD 3-Clause License
 Copyright (c) 2022, GM Consult Pty Ltd, All rights reserved. 
 -->
-<p><a href="https://github.com/GM-Consult-Pty-Ltd"><img src="https://raw.githubusercontent.com/GM-Consult-Pty-Ltd/text_indexing/main/assets/images/text_indexing_header.v2.png?raw=true" alt="GM Consult Pty Ltd" title="GM Consult Pty Ltd"></a></p>
+<p><a href="https://github.com/GM-Consult-Pty-Ltd"><img src="https://raw.githubusercontent.com/GM-Consult-Pty-Ltd/text_indexing/main/dev/images/text_indexing_header.v2.png?raw=true" alt="GM Consult Pty Ltd" title="GM Consult Pty Ltd"></a></p>
 <h2 id="create-an-inverted-index-on-a-collection-of-text-documents"><strong>Create an inverted index on a collection of text documents.</strong></h2>
 <p><em>THIS PACKAGE IS <strong>PRE-RELEASE</strong> AND SUBJECT TO DAILY BREAKING CHANGES.</em></p>
 <p>Skip to section:</p>
@@ -71,6 +71,7 @@ Copyright (c) 2022, GM Consult Pty Ltd, All rights reserved.
 </ul>
 <p><img src="https://github.com/GM-Consult-Pty-Ltd/text_indexing/raw/main/assets/images/index_artifacts.png?raw=true?raw=true" alt="Index artifacts" title="Components of inverted positional index"></p>
 <p>Refer to the <a href="#references">references</a> to learn more about information retrieval systems and the theory behind this library.</p>
+<p>(<em><a href="#">back to top</a></em>)</p>
 <h2 id="performance">Performance</h2>
 <p>A sample data set consisting of stock data for the U.S. markets was used to benchmark performance of  <a href="#textindexer">TextIndexer</a> and <a href="#invertedindex">InvertedIndex</a> implementations. The data set contains 20,770 JSON documents with basic information on each stock and the JSON data file is 22MB in size.</p>
 <p>For the benchmarking tests we created an implementation <a href="#invertedindex">InvertedIndex</a> class that uses <a href="https://pub.dev/packages/hive">Hive</a> as local storage and benchmarked that against <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html">InMemoryIndex</a>. Both indexes were given the same phrase length (2), k-gram length (2) and zones <code>('name', 'symbol', 'ticker', 'description', 'hashTag')</code>.</p>
@@ -86,6 +87,7 @@ Copyright (c) 2022, GM Consult Pty Ltd, All rights reserved.
 <p>Having created a persisted index on our sample data set, we ran a query on a search phrase of 9 terms we know are present in the sample data. The query requires a few round trips to each of the three indexes to match the terms, calculate the <code>inverse document term frequencies</code> etc. The elapsed time for retrieving the data from the <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html">InMemoryIndex</a> vs the Hive-based index is shown below.</p>
 <table><thead><tr><th>InvertedIndex</th><th>Elapsed time</th></tr></thead><tbody><tr><td>InMemoryIndex</td><td>~22 mS</td></tr><tr><td>Hive-based Index</td><td>~205 mS</td></tr></tbody></table>
 <p>As expected, the <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html">InMemoryIndex</a> is quicker than the Hive-based index, but the differences are unlikely to be material in a real-world application, even for predictive text or auto-correct applications.</p>
+<p>(<em><a href="#">back to top</a></em>)</p>
 <h2 id="usage">Usage</h2>
 <p>In the <code>pubspec.yaml</code> of your flutter project, add the <code>text_indexing</code> dependency.</p>
 <pre class="language-yaml"><code class="language-yaml">dependencies:
@@ -114,6 +116,7 @@ import 'package:text_indexing/extensions.dart';
   
 </code></pre>
 <p>The <a href="https://pub.dev/packages/text_indexing/example">examples</a> demonstrate the use of the <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html">TextIndexer</a> with a <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html">InMemoryIndex</a> and <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/AsyncCallbackIndex-class.html">AsyncCallbackIndex</a>.</p>
+<p>(<em><a href="#">back to top</a></em>)</p>
 <h2 id="api">API</h2>
 <p>The <a href="https://pub.dev/documentation/text_indexing/latest/">API</a> exposes the <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html">TextIndexer</a> interface that builds and maintains an <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex-class.html">InvertedIndex</a> for a collection of documents.</p>
 <p>To maximise performance of the indexers the API performs lookups in nested hashmaps of DART core types.</p>
@@ -156,6 +159,7 @@ import 'package:text_indexing/extensions.dart';
 <li><a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer/indexCollection.html">indexCollection</a> indexes the fields of all the documents in a JSON document collection.</li>
 </ul>
 <p>Use the unnamed factory constructor to instantiate a <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html">TextIndexer</a> with the index of your choice, or extend <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexerBase-class.html">TextIndexerBase</a>.</p>
+<p>(<em><a href="#">back to top</a></em>)</p>
 <h2 id="definitions">Definitions</h2>
 <p>The following definitions are used throughout the <a href="https://pub.dev/documentation/text_indexing/latest/">documentation</a>:</p>
 <ul>
@@ -192,6 +196,7 @@ import 'package:text_indexing/extensions.dart';
 <li><code>vocabulary</code> - the collection of <code>terms</code> indexed from the <code>corpus</code>.</li>
 <li><code>zone</code> is the field or zone of a document that a term occurs in, used for parametric indexes or where scoring and ranking of search results attribute a higher score to documents that contain a term in a specific zone (e.g. the title rather that the body of a document).</li>
 </ul>
+<p>(<em><a href="#">back to top</a></em>)</p>
 <h2 id="references">References</h2>
 <ul>
 <li><a href="https://nlp.stanford.edu/IR-book/pdf/irbookprint.pdf">Manning, Raghavan and Schütze, "<em>Introduction to Information Retrieval</em>", Cambridge University Press, 2008</a></li>
@@ -206,6 +211,7 @@ import 'package:text_indexing/extensions.dart';
 <h2 id="issues">Issues</h2>
 <p>If you find a bug please fill an <a href="https://github.com/GM-Consult-Pty-Ltd/text_indexing/issues">issue</a>.</p>
 <p>This project is a supporting package for a revenue project that has priority call on resources, so please be patient if we don't respond immediately to issues or pull requests.</p>
+<p>(<em><a href="#">back to top</a></em>)</p>
 </section>
 
 
@@ -270,7 +276,7 @@ import 'package:text_indexing/extensions.dart';
 <footer>
   <span class="no-break">
     text_indexing
-      0.16.0+2
+      0.16.0+3
   </span>
 
   

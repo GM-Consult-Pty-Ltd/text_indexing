@@ -6,6 +6,15 @@ All rights reserved.
 
 *THIS PACKAGE IS **PRE-RELEASE** AND SUBJECT TO DAILY BREAKING CHANGES.*
 
+
+## 0.16.0+3
+
+### *Updated*
+* Dependencies.
+* Tests.
+* Examples.
+* Documentation.    
+
 ## 0.16.0+2
 
 ### *Updated*

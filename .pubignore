@@ -1,7 +1,26 @@
+<!-- 
+BSD 3-Clause License
+Copyright (c) 2022, GM Consult Pty Ltd
+All rights reserved. 
+-->
 
-# BSD 3-Clause License
-# Copyright (c) 2022, GM Consult Pty Ltd, All rights reserved. 
+<!-- # Secret keys -->
+keys/
+test/keys/
+lib/keys/
 
-# Omit Hive files as they are too big
+<!-- Folder with images used in documentation. -->
+doc/images/
+
+<!-- # Folder with implementation code for testing and examples. -->
+impl/
+
+<!-- Folder for dev resources not included in package -->
+dev/
+
+<!-- data used for testing -->
+test/data/
+
+<!-- HIVE files are too big for pub.dev -->
 *.hive
 *.lock
