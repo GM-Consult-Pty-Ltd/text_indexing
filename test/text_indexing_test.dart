@@ -258,9 +258,10 @@ Future<void> _printTermStats(
   Console.out(title: 'READ PERFORMANCE', results: stats, minPrintWidth: 120);
 }
 
-Future<void> saveKgramIndex(KGramsMap value) async {
+Future<void> saveKgramIndex(KGramsMap value,
+    [String fileName = 'kGramIndex']) async {
   final buffer = StringBuffer();
-  buffer.writeln('const vocabularykGrams = {');
+  buffer.writeln('const kGrams = {');
   for (final entry in value.entries) {
     buffer.write('r"${entry.key}": {');
     var i = 0;

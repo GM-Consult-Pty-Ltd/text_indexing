@@ -1,3 +1,9 @@
+// ;;;
+// ;;;   Based on several public domain books from Project Gutenberg
+// ;;;   and frequency lists from Wiktionary and the British National Corpus.
+// ;;;   http://norvig.com/big.txt
+// ;;;
+
 const vocabulary = [
   "the",
   "of",

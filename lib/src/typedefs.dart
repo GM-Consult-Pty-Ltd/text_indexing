@@ -75,12 +75,6 @@ typedef VocabularySize = Future<int> Function();
 /// Maps the vocabulary [Term] to [IdFt].
 typedef IdFtIndex = Map<Term, IdFt>;
 
-/// Alias for `Map<String, Set<String>>`.
-///
-/// A hashmap of [KGram] to Set<[Term]>, where the value is the set of unique
-/// [Term]s that contain the [KGram] in the key.
-typedef KGramsMap = Map<KGram, Set<Term>>;
-
 /// A callback that asynchronously retrieves a [KGramsMap] subset for a
 /// collection of [terms] from a [KGramsMap] data source,
 /// usually persisted storage.
