@@ -70,7 +70,7 @@
 <li><span class="parameter" id="-param-postingsUpdater"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span> <span class="parameter-name">postingsUpdater</span>(<ol class="parameter-list"><li><span class="parameter" id="param-"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>&gt;</span></span>&gt;</span></span>&gt;</span></span>&gt;</span></span></span></li>
 </ol>
 ), </span></li>
-<li><span class="parameter" id="-param-tokenizer"><span>required</span> <span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.17.0+1/text_analysis/TextTokenizer-class.html">TextTokenizer</a></span> <span class="parameter-name">tokenizer</span>, </span></li>
+<li><span class="parameter" id="-param-tokenizer"><span>required</span> <span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.17.1/text_analysis/TextTokenizer-class.html">TextTokenizer</a></span> <span class="parameter-name">tokenizer</span>, </span></li>
 <li><span class="parameter" id="-param-dictionary"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>&gt;</span>?</span> <span class="parameter-name">dictionary</span>, </span></li>
 <li><span class="parameter" id="-param-postings"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>&gt;</span></span>&gt;</span></span>&gt;</span></span>&gt;</span>?</span> <span class="parameter-name">postings</span>, </span></li>
 <li><span class="parameter" id="-param-kGramIndex"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>&gt;</span>?</span> <span class="parameter-name">kGramIndex</span>, </span></li>
@@ -84,7 +84,7 @@
 <section class="desc markdown">
   <p>/// A factory constructor that returns an <a href="../../text_indexing/AsyncCallbackIndex-class.html">AsyncCallbackIndex</a> instance:</p>
 <ul>
-<li><code>tokenizer</code> is the <a href="https://pub.dev/documentation/text_analysis/0.17.0+1/text_analysis/TextTokenizer-class.html">TextTokenizer</a> used to tokenize text for the index;</li>
+<li><code>tokenizer</code> is the <a href="https://pub.dev/documentation/text_analysis/0.17.1/text_analysis/TextTokenizer-class.html">TextTokenizer</a> used to tokenize text for the index;</li>
 <li><code>k</code> is the length of k-gram entries in the k-gram index;</li>
 <li><code>zones</code> is a hashmap of zone names to their relative weight in the
 index;</li>
@@ -96,9 +96,9 @@ in the vocabulary (N);</li>
 vocabulary from a index repository;</li>
 <li><code>dictionaryUpdater</code> is callback that passes a <a href="../../type_definitions/DftMap.html">DftMap</a> subset
  for persisting to a index repository;</li>
-<li><code>kGramIndexLoader</code> asynchronously retrieves a <a href="https://pub.dev/documentation/text_analysis/0.17.0+1/type_definitions/KGramsMap.html">KGramsMap</a> for a
+<li><code>kGramIndexLoader</code> asynchronously retrieves a <a href="https://pub.dev/documentation/text_analysis/0.17.1/type_definitions/KGramsMap.html">KGramsMap</a> for a
 vocabulary from a index repository;</li>
-<li><code>kGramIndexUpdater</code> is callback that passes a <a href="https://pub.dev/documentation/text_analysis/0.17.0+1/type_definitions/KGramsMap.html">KGramsMap</a> subset
+<li><code>kGramIndexUpdater</code> is callback that passes a <a href="https://pub.dev/documentation/text_analysis/0.17.1/type_definitions/KGramsMap.html">KGramsMap</a> subset
  for persisting to a index repository;</li>
 <li><code>postingsLoader</code> asynchronously retrieves a <a href="../../type_definitions/PostingsMap.html">PostingsMap</a> for a vocabulary
 from a index repository; and</li>
@@ -216,7 +216,7 @@ index repository.</li>
 <footer>
   <span class="no-break">
     text_indexing
-      0.17.0+1
+      0.17.1
   </span>
 
   

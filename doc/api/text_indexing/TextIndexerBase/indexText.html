@@ -59,7 +59,7 @@
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../type_definitions/PostingsMap.html">PostingsMap</a></span>&gt;</span></span>
 <span class="name ">indexText</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="indexText-param-docId"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">docId</span>, </span></li>
-<li><span class="parameter" id="indexText-param-docText"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.17.0+1/type_definitions/SourceText.html">SourceText</a></span> <span class="parameter-name">docText</span></span></li>
+<li><span class="parameter" id="indexText-param-docText"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.17.1/type_definitions/SourceText.html">SourceText</a></span> <span class="parameter-name">docText</span></span></li>
 </ol>)
 
       <div class="features">override</div>
@@ -69,7 +69,7 @@
 <section class="desc markdown">
   <p>Implementation of <a href="../../text_indexing/TextIndexer/indexText.html">TextIndexer.indexText</a> that:</p>
 <ul>
-<li>parses <code>docText</code> to a collection of <a href="https://pub.dev/documentation/text_analysis/0.17.0+1/text_analysis/Token-class.html">Token</a>s;</li>
+<li>parses <code>docText</code> to a collection of <a href="https://pub.dev/documentation/text_analysis/0.17.1/text_analysis/Token-class.html">Token</a>s;</li>
 <li>maps the tokens to postings for <code>docId</code>;</li>
 <li>maps the postings for <code>docId</code> to a <code>PostingsMap</code>;</li>
 <li>calls <a href="../../text_indexing/TextIndexerBase/updateIndexes.html">updateIndexes</a>, passing the <code>PostingsMap</code> for <code>docId</code>; and</li>
@@ -155,7 +155,7 @@ Future&lt;PostingsMap&gt; indexText(String docId, SourceText docText) async {
 <footer>
   <span class="no-break">
     text_indexing
-      0.17.0+1
+      0.17.1
   </span>
 
   
