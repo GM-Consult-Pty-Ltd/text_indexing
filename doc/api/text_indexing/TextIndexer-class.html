@@ -52,7 +52,7 @@
     
 <section class="desc markdown">
   <p>Interface for classes that construct and maintain an inverted, positional,
-zoned index (<a href="../text_indexing/InvertedIndex-class.html">InvertedIndex</a>) and k-gram index (<a href="https://pub.dev/documentation/text_analysis/0.17.1/type_definitions/KGramsMap.html">KGramsMap</a>) for a
+zoned index (<a href="../text_indexing/InvertedIndex-class.html">InvertedIndex</a>) and k-gram index (<a href="https://pub.dev/documentation/text_analysis/0.18.0/type_definitions/KGramsMap.html">KGramsMap</a>) for a
 collection of documents (<code>corpus</code>).</p>
 <p>Text or documents can be indexed by calling the following methods:</p>
 <ul>
@@ -66,7 +66,7 @@ whenever either of these streams updateIndexes (a) document(s).</p>
 <p>Implementing classes override the following fields:</p>
 <ul>
 <li><a href="../text_indexing/TextIndexer/index.html">index</a> is the <a href="../text_indexing/InvertedIndex-class.html">InvertedIndex</a> that provides access to the
-index <a href="../type_definitions/DftMap.html">DftMap</a> and <a href="../type_definitions/PostingsMap.html">PostingsMap</a> and a <a href="https://pub.dev/documentation/text_analysis/0.17.1/text_analysis/TextTokenizer-class.html">TextTokenizer</a>;</li>
+index <a href="../type_definitions/DftMap.html">DftMap</a> and <a href="../type_definitions/PostingsMap.html">PostingsMap</a> and a <a href="https://pub.dev/documentation/text_analysis/0.18.0/text_analysis/TextTokenizer-class.html">TextTokenizer</a>;</li>
 <li><a href="../text_indexing/TextIndexer/documentStream.html">documentStream</a> is an input stream of 'Map&lt;String, dynamic&gt;' documents. The documents
 updateIndexested by<a href="../text_indexing/TextIndexer/documentStream.html">documentStream</a> are passed to <a href="../text_indexing/TextIndexer/indexJson.html">indexJson</a> for indexing; and</li>
 <li><a href="../text_indexing/TextIndexer/collectionStream.html">collectionStream</a> is an input stream of a collection of 'Map&lt;String, dynamic&gt;' documents.
@@ -79,7 +79,7 @@ The documents updateIndexested by <a href="../text_indexing/TextIndexer/collecti
 <li><a href="../text_indexing/TextIndexer/indexJson.html">indexJson</a> indexes the fields in a Map&lt;String, dynamic&gt; document;</li>
 <li><a href="../text_indexing/TextIndexer/indexCollection.html">indexCollection</a> indexes the fields of all the documents in a Map&lt;String, dynamic&gt;
 document collection; and</li>
-<li><a href="../text_indexing/TextIndexer/updateIndexes.html">updateIndexes</a> updates the <a href="../type_definitions/DftMap.html">DftMap</a>, <a href="../type_definitions/PostingsMap.html">PostingsMap</a> and <a href="https://pub.dev/documentation/text_analysis/0.17.1/type_definitions/KGramsMap.html">KGramsMap</a>
+<li><a href="../text_indexing/TextIndexer/updateIndexes.html">updateIndexes</a> updates the <a href="../type_definitions/DftMap.html">DftMap</a>, <a href="../type_definitions/PostingsMap.html">PostingsMap</a> and <a href="https://pub.dev/documentation/text_analysis/0.18.0/type_definitions/KGramsMap.html">KGramsMap</a>
 for this indexer.</li>
 </ul>
 </section>
@@ -164,7 +164,7 @@ by <a href="../text_indexing/TextIndexer/documentStream.html">documentStream</a>
 </dt>
 <dd>
   The <a href="../text_indexing/InvertedIndex-class.html">InvertedIndex</a> that provides access to the
-index <a href="../type_definitions/DftMap.html">DftMap</a> and <a href="../type_definitions/PostingsMap.html">PostingsMap</a> and a <a href="https://pub.dev/documentation/text_analysis/0.17.1/text_analysis/TextTokenizer-class.html">TextTokenizer</a>.
+index <a href="../type_definitions/DftMap.html">DftMap</a> and <a href="../type_definitions/PostingsMap.html">PostingsMap</a> and a <a href="https://pub.dev/documentation/text_analysis/0.18.0/text_analysis/TextTokenizer-class.html">TextTokenizer</a>.
   <div class="features">read-only</div>
 
 </dd>
@@ -217,7 +217,7 @@ of <a href="../type_definitions/DocPostingsMapEntry.html">DocPostingsMapEntry</a
 </dd>
 
         <dt id="indexText" class="callable">
-  <span class="name"><a href="../text_indexing/TextIndexer/indexText.html">indexText</a></span><span class="signature">(<wbr><span class="parameter" id="indexText-param-docId"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">docId</span>, </span><span class="parameter" id="indexText-param-docText"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.17.1/type_definitions/SourceText.html">SourceText</a></span> <span class="parameter-name">docText</span></span>)
+  <span class="name"><a href="../text_indexing/TextIndexer/indexText.html">indexText</a></span><span class="signature">(<wbr><span class="parameter" id="indexText-param-docId"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">docId</span>, </span><span class="parameter" id="indexText-param-docText"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.18.0/type_definitions/SourceText.html">SourceText</a></span> <span class="parameter-name">docText</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/PostingsMap.html">PostingsMap</a></span>&gt;</span></span>
   </span>
   
@@ -256,7 +256,7 @@ of <a href="../type_definitions/DocPostingsMapEntry.html">DocPostingsMapEntry</a
 </dd>
 
         <dt id="updateIndexes" class="callable">
-  <span class="name"><a href="../text_indexing/TextIndexer/updateIndexes.html">updateIndexes</a></span><span class="signature">(<wbr><span class="parameter" id="updateIndexes-param-event"><span class="type-annotation"><a href="../type_definitions/PostingsMap.html">PostingsMap</a></span> <span class="parameter-name">event</span>, </span><span class="parameter" id="updateIndexes-param-tokens"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.17.1/text_analysis/Token-class.html">Token</a></span>&gt;</span></span> <span class="parameter-name">tokens</span></span>)
+  <span class="name"><a href="../text_indexing/TextIndexer/updateIndexes.html">updateIndexes</a></span><span class="signature">(<wbr><span class="parameter" id="updateIndexes-param-event"><span class="type-annotation"><a href="../type_definitions/PostingsMap.html">PostingsMap</a></span> <span class="parameter-name">event</span>, </span><span class="parameter" id="updateIndexes-param-tokens"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.18.0/text_analysis/Token-class.html">Token</a></span>&gt;</span></span> <span class="parameter-name">tokens</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
   </span>
   
@@ -264,7 +264,7 @@ of <a href="../type_definitions/DocPostingsMapEntry.html">DocPostingsMapEntry</a
 </dt>
 <dd>
   The <a href="../text_indexing/TextIndexer/updateIndexes.html">updateIndexes</a> method is called by <a href="../text_indexing/TextIndexer/index.html">index</a> and updates the
-<a href="../type_definitions/DftMap.html">DftMap</a>, <a href="../type_definitions/PostingsMap.html">PostingsMap</a> and <a href="https://pub.dev/documentation/text_analysis/0.17.1/type_definitions/KGramsMap.html">KGramsMap</a> for this indexer.
+<a href="../type_definitions/DftMap.html">DftMap</a>, <a href="../type_definitions/PostingsMap.html">PostingsMap</a> and <a href="https://pub.dev/documentation/text_analysis/0.18.0/type_definitions/KGramsMap.html">KGramsMap</a> for this indexer.
   
 
 </dd>
@@ -318,24 +318,26 @@ of <a href="../type_definitions/DocPostingsMapEntry.html">DocPostingsMapEntry</a
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#classes">Classes</a></li>
   <li><a href="../text_indexing/AsyncCallbackIndex-class.html">AsyncCallbackIndex</a></li>
   <li><a href="../text_indexing/AsyncCallbackIndexMixin-class.html">AsyncCallbackIndexMixin</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.17.1/text_analysis/English-class.html">English</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.18.0/text_analysis/English-class.html">English</a></li>
   <li><a href="../text_indexing/InMemoryIndex-class.html">InMemoryIndex</a></li>
   <li><a href="../text_indexing/InMemoryIndexMixin-class.html">InMemoryIndexMixin</a></li>
   <li><a href="../text_indexing/InvertedIndex-class.html">InvertedIndex</a></li>
   <li><a href="../text_indexing/InvertedIndexMixin-class.html">InvertedIndexMixin</a></li>
   <li><a href="https://pub.dev/documentation/porter_2_stemmer/3.0.1/porter_2_stemmer/Porter2Stemmer-class.html">Porter2Stemmer</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.17.1/text_analysis/SimilarityIndex-class.html">SimilarityIndex</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.17.1/text_analysis/TermSimilarity-class.html">TermSimilarity</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.17.1/text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.17.1/text_analysis/TextDocument-class.html">TextDocument</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.17.1/text_analysis/TextDocumentBase-class.html">TextDocumentBase</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.17.1/text_analysis/TextDocumentMixin-class.html">TextDocumentMixin</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.18.0/text_analysis/SimilarityIndex-class.html">SimilarityIndex</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.18.0/text_analysis/TermSimilarity-class.html">TermSimilarity</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.18.0/text_analysis/TermSimilarityBase-class.html">TermSimilarityBase</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.18.0/text_analysis/TermSimilarityMixin-class.html">TermSimilarityMixin</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.18.0/text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.18.0/text_analysis/TextDocument-class.html">TextDocument</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.18.0/text_analysis/TextDocumentBase-class.html">TextDocumentBase</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.18.0/text_analysis/TextDocumentMixin-class.html">TextDocumentMixin</a></li>
   <li><a href="../text_indexing/TextIndexer-class.html">TextIndexer</a></li>
   <li><a href="../text_indexing/TextIndexerBase-class.html">TextIndexerBase</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.17.1/text_analysis/TextTokenizer-class.html">TextTokenizer</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.17.1/text_analysis/TextTokenizerBase-class.html">TextTokenizerBase</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.17.1/text_analysis/TextTokenizerMixin-class.html">TextTokenizerMixin</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.17.1/text_analysis/Token-class.html">Token</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.18.0/text_analysis/TextTokenizer-class.html">TextTokenizer</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.18.0/text_analysis/TextTokenizerBase-class.html">TextTokenizerBase</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.18.0/text_analysis/TextTokenizerMixin-class.html">TextTokenizerMixin</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.18.0/text_analysis/Token-class.html">Token</a></li>
 
 
 
@@ -343,8 +345,8 @@ of <a href="../type_definitions/DocPostingsMapEntry.html">DocPostingsMapEntry</a
 
 
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#enums">Enums</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.17.1/text_analysis/PartOfSpeech.html">PartOfSpeech</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.17.1/text_analysis/PoSTag.html">PoSTag</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.18.0/text_analysis/PartOfSpeech.html">PartOfSpeech</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.18.0/text_analysis/PoSTag.html">PoSTag</a></li>
   <li><a href="../text_indexing/TermSortStrategy.html">TermSortStrategy</a></li>
 
 
@@ -391,7 +393,7 @@ of <a href="../type_definitions/DocPostingsMapEntry.html">DocPostingsMapEntry</a
 <footer>
   <span class="no-break">
     text_indexing
-      0.17.1
+      0.18.0
   </span>
 
   
