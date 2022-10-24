@@ -53,18 +53,7 @@ void main() {
       final KGramsMap kGramIndex = {};
 
       final index = await _getIndex(sampleNews);
-      // InMemoryIndex(
-      //     tokenizer: TextTokenizer.english,
-      //     dictionary: dictionary,
-      //     postings: postings,
-      //     kGramIndex: kGramIndex,
-      //     zones: stockZones,
-      //     phraseLength: 1,
-      //     k: 2);
 
-      // - initialize a [InMemoryIndexer] with the default tokenizer
-      // final indexer = TextIndexer(index: index);
-      // await indexer.indexCollection(TestData.stockData);
       await saveKgramIndex(kGramIndex);
     });
 
@@ -97,11 +86,11 @@ void main() {
           postings: postings,
           kGramIndex: kGramIndex,
           zones: stockZones,
-          phraseLength: 2,
+          nGramRange: NGramRange(1, 2),
           k: 3);
 
       // - initialize a [InMemoryIndexer] with the default tokenizer
-      final indexer = TextIndexer(index: index);
+      final indexer = TextIndexer(index);
 
       final searchTokens = (await index.tokenizer.tokenize(searchPrase));
 
@@ -127,6 +116,8 @@ void main() {
 
       // print the statistics for each term in [searchTerms].
       await _printTermStats(index, searchTokens);
+
+      _printKGrams(index: index.kGramIndex);
 
       print('[InMemoryIndex] indexed ${sampleStocks.length} documents to '
           '${index.dictionary.length} postings and '
@@ -163,6 +154,17 @@ void _progressReporter(int Function() termCount, int Function() kGramCount) {
     }
     termCountState = termCount();
   });
+}
+
+_printKGrams({required KGramsMap index, int limit = 25}) {
+  print('K-GRAMS');
+  final entries = index.length > limit
+      ? index.entries.toList().sublist(0, limit)
+      : index.entries.toList();
+
+  for (final e in entries) {
+    print('${e.key}: ${e.value.toString()}');
+  }
 }
 
 /// Print the document term frequencies for each term in [searchTerms].
@@ -284,7 +286,7 @@ Future<InvertedIndex> _getIndex(JsonCollection documents,
       'descriptions': 0.5
     }]) async {
   final index = InMemoryIndex(tokenizer: TextTokenizer.english, zones: zones);
-  final indexer = TextIndexer(index: index);
+  final indexer = TextIndexer(index);
   await indexer.indexCollection(documents);
   await saveKgramIndex(index.kGramIndex);
   return index;

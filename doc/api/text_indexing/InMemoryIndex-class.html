@@ -90,7 +90,7 @@ in-memory dictionary, k-gram and postings hashmaps.</p>
 
     <dl class="constructor-summary-list">
         <dt id="InMemoryIndex" class="callable">
-          <span class="name"><a href="../text_indexing/InMemoryIndex/InMemoryIndex.html">InMemoryIndex</a></span><span class="signature">(<span class="parameter" id="-param-tokenizer">{<span>required</span> <span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.18.0/text_analysis/TextTokenizer-class.html">TextTokenizer</a></span> <span class="parameter-name">tokenizer</span>, </span><span class="parameter" id="-param-dictionary"><span class="type-annotation"><a href="../type_definitions/DftMap.html">DftMap</a>?</span> <span class="parameter-name">dictionary</span>, </span><span class="parameter" id="-param-postings"><span class="type-annotation"><a href="../type_definitions/PostingsMap.html">PostingsMap</a>?</span> <span class="parameter-name">postings</span>, </span><span class="parameter" id="-param-kGramIndex"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.18.0/type_definitions/KGramsMap.html">KGramsMap</a>?</span> <span class="parameter-name">kGramIndex</span>, </span><span class="parameter" id="-param-k"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">2</span>, </span><span class="parameter" id="-param-zones"><span class="type-annotation"><a href="../type_definitions/ZoneWeightMap.html">ZoneWeightMap</a></span> <span class="parameter-name">zones</span> = <span class="default-value">const &lt;String, double&gt;{}</span>, </span><span class="parameter" id="-param-phraseLength"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">phraseLength</span> = <span class="default-value">1</span>}</span>)</span>
+          <span class="name"><a href="../text_indexing/InMemoryIndex/InMemoryIndex.html">InMemoryIndex</a></span><span class="signature">(<span class="parameter" id="-param-tokenizer">{<span>required</span> <span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.20.0/text_analysis/TextTokenizer-class.html">TextTokenizer</a></span> <span class="parameter-name">tokenizer</span>, </span><span class="parameter" id="-param-dictionary"><span class="type-annotation"><a href="../type_definitions/DftMap.html">DftMap</a>?</span> <span class="parameter-name">dictionary</span>, </span><span class="parameter" id="-param-postings"><span class="type-annotation"><a href="../type_definitions/PostingsMap.html">PostingsMap</a>?</span> <span class="parameter-name">postings</span>, </span><span class="parameter" id="-param-kGramIndex"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.20.0/type_definitions/KGramsMap.html">KGramsMap</a>?</span> <span class="parameter-name">kGramIndex</span>, </span><span class="parameter" id="-param-k"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">2</span>, </span><span class="parameter" id="-param-nGramRange"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.20.0/text_analysis/NGramRange-class.html">NGramRange</a></span> <span class="parameter-name">nGramRange</span> = <span class="default-value">const NGramRange(1, 2)</span>, </span><span class="parameter" id="-param-zones"><span class="type-annotation"><a href="../type_definitions/ZoneWeightMap.html">ZoneWeightMap</a></span> <span class="parameter-name">zones</span> = <span class="default-value">const &lt;String, double&gt;{}</span>}</span>)</span>
         </dt>
         <dd>
           Instantiates a <a href="../text_indexing/InMemoryIndex-class.html">InMemoryIndex</a> instance:
@@ -137,22 +137,22 @@ in-memory dictionary, k-gram and postings hashmaps.</p>
 
         <dt id="kGramIndex" class="property">
   <span class="name"><a href="../text_indexing/InMemoryIndex/kGramIndex.html">kGramIndex</a></span>
-  <span class="signature">&#8596; <a href="https://pub.dev/documentation/text_analysis/0.18.0/type_definitions/KGramsMap.html">KGramsMap</a></span> 
+  <span class="signature">&#8596; <a href="https://pub.dev/documentation/text_analysis/0.20.0/type_definitions/KGramsMap.html">KGramsMap</a></span> 
 
 </dt>
 <dd>
-  The in-memory <a href="https://pub.dev/documentation/text_analysis/0.18.0/type_definitions/KGramsMap.html">KGramsMap</a> for the index.
+  The in-memory <a href="https://pub.dev/documentation/text_analysis/0.20.0/type_definitions/KGramsMap.html">KGramsMap</a> for the index.
   <div class="features">read / write, override-getter</div>
 
 </dd>
 
-        <dt id="phraseLength" class="property">
-  <span class="name"><a href="../text_indexing/InMemoryIndex/phraseLength.html">phraseLength</a></span>
-  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> 
+        <dt id="nGramRange" class="property">
+  <span class="name"><a href="../text_indexing/InMemoryIndex/nGramRange.html">nGramRange</a></span>
+  <span class="signature">&#8594; <a href="https://pub.dev/documentation/text_analysis/0.20.0/text_analysis/NGramRange-class.html">NGramRange</a></span> 
 
 </dt>
 <dd>
-  The maximum length of phrases in the index vocabulary.
+  The minimum and maximum length of n-grams in the index.
   <div class="features">final</div>
 
 </dd>
@@ -181,7 +181,7 @@ in-memory dictionary, k-gram and postings hashmaps.</p>
 
         <dt id="tokenizer" class="property">
   <span class="name"><a href="../text_indexing/InMemoryIndex/tokenizer.html">tokenizer</a></span>
-  <span class="signature">&#8594; <a href="https://pub.dev/documentation/text_analysis/0.18.0/text_analysis/TextTokenizer-class.html">TextTokenizer</a></span> 
+  <span class="signature">&#8594; <a href="https://pub.dev/documentation/text_analysis/0.20.0/text_analysis/TextTokenizer-class.html">TextTokenizer</a></span> 
 
 </dt>
 <dd>
@@ -222,7 +222,7 @@ in-memory dictionary, k-gram and postings hashmaps.</p>
     <h2>Methods</h2>
     <dl class="callables">
         <dt id="getDictionary" class="callable inherited">
-  <span class="name"><a href="../text_indexing/InMemoryIndexMixin/getDictionary.html">getDictionary</a></span><span class="signature">(<wbr><span class="parameter" id="getDictionary-param-terms">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.18.0/type_definitions/Term.html">Term</a></span>&gt;</span>?</span> <span class="parameter-name">terms</span>]</span>)
+  <span class="name"><a href="../text_indexing/InMemoryIndexMixin/getDictionary.html">getDictionary</a></span><span class="signature">(<wbr><span class="parameter" id="getDictionary-param-terms">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.20.0/type_definitions/Term.html">Term</a></span>&gt;</span>?</span> <span class="parameter-name">terms</span>]</span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/DftMap.html">DftMap</a></span>&gt;</span></span>
   </span>
   
@@ -236,7 +236,7 @@ in-memory dictionary, k-gram and postings hashmaps.</p>
 </dd>
 
         <dt id="getFtdPostings" class="callable inherited">
-  <span class="name"><a href="../text_indexing/InvertedIndexMixin/getFtdPostings.html">getFtdPostings</a></span><span class="signature">(<wbr><span class="parameter" id="getFtdPostings-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.18.0/type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span>, </span><span class="parameter" id="getFtdPostings-param-minFtd">[<span class="type-annotation"><a href="../type_definitions/Ft.html">Ft</a></span> <span class="parameter-name">minFtd</span> = <span class="default-value">1</span>]</span>)
+  <span class="name"><a href="../text_indexing/InvertedIndexMixin/getFtdPostings.html">getFtdPostings</a></span><span class="signature">(<wbr><span class="parameter" id="getFtdPostings-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.20.0/type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span>, </span><span class="parameter" id="getFtdPostings-param-minFtd">[<span class="type-annotation"><a href="../type_definitions/Ft.html">Ft</a></span> <span class="parameter-name">minFtd</span> = <span class="default-value">1</span>]</span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/FtdPostings.html">FtdPostings</a></span>&gt;</span></span>
   </span>
   
@@ -249,7 +249,7 @@ in-memory dictionary, k-gram and postings hashmaps.</p>
 </dd>
 
         <dt id="getIdFtIndex" class="callable inherited">
-  <span class="name"><a href="../text_indexing/InvertedIndexMixin/getIdFtIndex.html">getIdFtIndex</a></span><span class="signature">(<wbr><span class="parameter" id="getIdFtIndex-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.18.0/type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
+  <span class="name"><a href="../text_indexing/InvertedIndexMixin/getIdFtIndex.html">getIdFtIndex</a></span><span class="signature">(<wbr><span class="parameter" id="getIdFtIndex-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.20.0/type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/IdFtIndex.html">IdFtIndex</a></span>&gt;</span></span>
   </span>
   
@@ -262,8 +262,8 @@ in-memory dictionary, k-gram and postings hashmaps.</p>
 </dd>
 
         <dt id="getKGramIndex" class="callable inherited">
-  <span class="name"><a href="../text_indexing/InMemoryIndexMixin/getKGramIndex.html">getKGramIndex</a></span><span class="signature">(<wbr><span class="parameter" id="getKGramIndex-param-kGrams"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.18.0/type_definitions/KGram.html">KGram</a></span>&gt;</span></span> <span class="parameter-name">kGrams</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.18.0/type_definitions/KGramsMap.html">KGramsMap</a></span>&gt;</span></span>
+  <span class="name"><a href="../text_indexing/InMemoryIndexMixin/getKGramIndex.html">getKGramIndex</a></span><span class="signature">(<wbr><span class="parameter" id="getKGramIndex-param-kGrams"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.20.0/type_definitions/KGram.html">KGram</a></span>&gt;</span></span> <span class="parameter-name">kGrams</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.20.0/type_definitions/KGramsMap.html">KGramsMap</a></span>&gt;</span></span>
   </span>
   
 
@@ -276,7 +276,7 @@ in-memory dictionary, k-gram and postings hashmaps.</p>
 </dd>
 
         <dt id="getPostings" class="callable inherited">
-  <span class="name"><a href="../text_indexing/InMemoryIndexMixin/getPostings.html">getPostings</a></span><span class="signature">(<wbr><span class="parameter" id="getPostings-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.18.0/type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
+  <span class="name"><a href="../text_indexing/InMemoryIndexMixin/getPostings.html">getPostings</a></span><span class="signature">(<wbr><span class="parameter" id="getPostings-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.20.0/type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/PostingsMap.html">PostingsMap</a></span>&gt;</span></span>
   </span>
   
@@ -290,7 +290,7 @@ in-memory dictionary, k-gram and postings hashmaps.</p>
 </dd>
 
         <dt id="getTfIndex" class="callable inherited">
-  <span class="name"><a href="../text_indexing/InvertedIndexMixin/getTfIndex.html">getTfIndex</a></span><span class="signature">(<wbr><span class="parameter" id="getTfIndex-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.18.0/type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
+  <span class="name"><a href="../text_indexing/InvertedIndexMixin/getTfIndex.html">getTfIndex</a></span><span class="signature">(<wbr><span class="parameter" id="getTfIndex-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.20.0/type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/DftMap.html">DftMap</a></span>&gt;</span></span>
   </span>
   
@@ -343,14 +343,14 @@ already exist.
 </dd>
 
         <dt id="upsertKGramIndex" class="callable inherited">
-  <span class="name"><a href="../text_indexing/InMemoryIndexMixin/upsertKGramIndex.html">upsertKGramIndex</a></span><span class="signature">(<wbr><span class="parameter" id="upsertKGramIndex-param-values"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.18.0/type_definitions/KGramsMap.html">KGramsMap</a></span> <span class="parameter-name">values</span></span>)
+  <span class="name"><a href="../text_indexing/InMemoryIndexMixin/upsertKGramIndex.html">upsertKGramIndex</a></span><span class="signature">(<wbr><span class="parameter" id="upsertKGramIndex-param-values"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.20.0/type_definitions/KGramsMap.html">KGramsMap</a></span> <span class="parameter-name">values</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
   </span>
   
 
 </dt>
 <dd class="inherited">
-  Inserts <code>values</code> into a <a href="https://pub.dev/documentation/text_analysis/0.18.0/type_definitions/KGramsMap.html">KGramsMap</a> repository, overwriting any existing
+  Inserts <code>values</code> into a <a href="https://pub.dev/documentation/text_analysis/0.20.0/type_definitions/KGramsMap.html">KGramsMap</a> repository, overwriting any existing
 entries.
   <div class="features">inherited</div>
 
@@ -419,26 +419,27 @@ already exist.
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#classes">Classes</a></li>
   <li><a href="../text_indexing/AsyncCallbackIndex-class.html">AsyncCallbackIndex</a></li>
   <li><a href="../text_indexing/AsyncCallbackIndexMixin-class.html">AsyncCallbackIndexMixin</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.18.0/text_analysis/English-class.html">English</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.20.0/text_analysis/English-class.html">English</a></li>
   <li><a href="../text_indexing/InMemoryIndex-class.html">InMemoryIndex</a></li>
   <li><a href="../text_indexing/InMemoryIndexMixin-class.html">InMemoryIndexMixin</a></li>
   <li><a href="../text_indexing/InvertedIndex-class.html">InvertedIndex</a></li>
   <li><a href="../text_indexing/InvertedIndexMixin-class.html">InvertedIndexMixin</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.20.0/text_analysis/NGramRange-class.html">NGramRange</a></li>
   <li><a href="https://pub.dev/documentation/porter_2_stemmer/3.0.1/porter_2_stemmer/Porter2Stemmer-class.html">Porter2Stemmer</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.18.0/text_analysis/SimilarityIndex-class.html">SimilarityIndex</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.18.0/text_analysis/TermSimilarity-class.html">TermSimilarity</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.18.0/text_analysis/TermSimilarityBase-class.html">TermSimilarityBase</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.18.0/text_analysis/TermSimilarityMixin-class.html">TermSimilarityMixin</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.18.0/text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.18.0/text_analysis/TextDocument-class.html">TextDocument</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.18.0/text_analysis/TextDocumentBase-class.html">TextDocumentBase</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.18.0/text_analysis/TextDocumentMixin-class.html">TextDocumentMixin</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.20.0/text_analysis/SimilarityIndex-class.html">SimilarityIndex</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.20.0/text_analysis/TermSimilarity-class.html">TermSimilarity</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.20.0/text_analysis/TermSimilarityBase-class.html">TermSimilarityBase</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.20.0/text_analysis/TermSimilarityMixin-class.html">TermSimilarityMixin</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.20.0/text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.20.0/text_analysis/TextDocument-class.html">TextDocument</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.20.0/text_analysis/TextDocumentBase-class.html">TextDocumentBase</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.20.0/text_analysis/TextDocumentMixin-class.html">TextDocumentMixin</a></li>
   <li><a href="../text_indexing/TextIndexer-class.html">TextIndexer</a></li>
   <li><a href="../text_indexing/TextIndexerBase-class.html">TextIndexerBase</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.18.0/text_analysis/TextTokenizer-class.html">TextTokenizer</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.18.0/text_analysis/TextTokenizerBase-class.html">TextTokenizerBase</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.18.0/text_analysis/TextTokenizerMixin-class.html">TextTokenizerMixin</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.18.0/text_analysis/Token-class.html">Token</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.20.0/text_analysis/TextTokenizer-class.html">TextTokenizer</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.20.0/text_analysis/TextTokenizerBase-class.html">TextTokenizerBase</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.20.0/text_analysis/TextTokenizerMixin-class.html">TextTokenizerMixin</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.20.0/text_analysis/Token-class.html">Token</a></li>
 
 
 
@@ -446,8 +447,8 @@ already exist.
 
 
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#enums">Enums</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.18.0/text_analysis/PartOfSpeech.html">PartOfSpeech</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.18.0/text_analysis/PoSTag.html">PoSTag</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.20.0/text_analysis/PartOfSpeech.html">PartOfSpeech</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.20.0/text_analysis/PoSTag.html">PoSTag</a></li>
   <li><a href="../text_indexing/TermSortStrategy.html">TermSortStrategy</a></li>
 
 
@@ -469,7 +470,7 @@ already exist.
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
     <li><a href="../text_indexing/InMemoryIndex/k.html">k</a></li>
     <li><a href="../text_indexing/InMemoryIndex/kGramIndex.html">kGramIndex</a></li>
-    <li><a href="../text_indexing/InMemoryIndex/phraseLength.html">phraseLength</a></li>
+    <li><a href="../text_indexing/InMemoryIndex/nGramRange.html">nGramRange</a></li>
     <li><a href="../text_indexing/InMemoryIndex/postings.html">postings</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
     <li><a href="../text_indexing/InMemoryIndex/tokenizer.html">tokenizer</a></li>
@@ -504,7 +505,7 @@ already exist.
 <footer>
   <span class="no-break">
     text_indexing
-      0.18.0
+      0.19.0
   </span>
 
   

@@ -58,7 +58,7 @@
 </div>
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../type_definitions/PostingsMap.html">PostingsMap</a></span>&gt;</span></span>
-<span class="name ">getPostings</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="getPostings-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.18.0/type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span></li>
+<span class="name ">getPostings</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="getPostings-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.20.0/type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span></li>
 </ol>)
 
       <div class="features">override</div>
@@ -69,7 +69,7 @@
   <p>Asynchronously retrieves <a href="../../type_definitions/PostingsMapEntry.html">PostingsMapEntry</a> entities for the <code>terms</code> from a
 <code>PostingsMap</code> repository.</p>
 <p>Used in <code>index-elimination</code>, to return a subset of the <code>PostingsMap</code>
-where the key (<a href="https://pub.dev/documentation/text_analysis/0.18.0/type_definitions/Term.html">Term</a>) is in <code>terms</code>.</p>
+where the key (<a href="https://pub.dev/documentation/text_analysis/0.20.0/type_definitions/Term.html">Term</a>) is in <code>terms</code>.</p>
 </section>
 
 
@@ -121,7 +121,7 @@ Future&lt;PostingsMap&gt; getPostings(Iterable&lt;Term&gt; terms) async {
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
     <li class="inherited"><a href="../../text_indexing/InvertedIndex/k.html">k</a></li>
     <li><a href="../../text_indexing/InMemoryIndexMixin/kGramIndex.html">kGramIndex</a></li>
-    <li class="inherited"><a href="../../text_indexing/InvertedIndex/phraseLength.html">phraseLength</a></li>
+    <li class="inherited"><a href="../../text_indexing/InvertedIndex/nGramRange.html">nGramRange</a></li>
     <li><a href="../../text_indexing/InMemoryIndexMixin/postings.html">postings</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
     <li class="inherited"><a href="../../text_indexing/InvertedIndex/tokenizer.html">tokenizer</a></li>
@@ -159,7 +159,7 @@ Future&lt;PostingsMap&gt; getPostings(Iterable&lt;Term&gt; terms) async {
 <footer>
   <span class="no-break">
     text_indexing
-      0.18.0
+      0.19.0
   </span>
 
   

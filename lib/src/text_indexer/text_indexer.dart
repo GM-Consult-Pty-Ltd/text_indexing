@@ -6,8 +6,7 @@ import 'dart:async';
 import 'package:meta/meta.dart';
 import 'package:text_indexing/src/_index.dart';
 
-/// Interface for classes that construct and maintain an inverted, positional,
-/// zoned index ([InvertedIndex]) and k-gram index ([KGramsMap]) for a
+/// Interface for classes that construct and maintain a [InvertedIndex] for a
 /// collection of documents (`corpus`).
 ///
 /// Text or documents can be indexed by calling the following methods:
@@ -16,25 +15,17 @@ import 'package:text_indexing/src/_index.dart';
 /// - [indexCollection] indexes the fields of all the documents in a Map<String, dynamic>
 ///   document collection.
 ///
-/// Alternatively, pass a [documentStream] or [collectionStream] for indexing
-/// whenever either of these streams updateIndexes (a) document(s).
-///
-/// Implementing classes override the following fields:
-/// - [index] is the [InvertedIndex] that provides access to the
-///   index [DftMap] and [PostingsMap] and a [TextTokenizer];
-/// - [documentStream] is an input stream of 'Map<String, dynamic>' documents. The documents
-///   updateIndexested by[documentStream] are passed to [indexJson] for indexing; and
-/// - [collectionStream] is an input stream of a collection of 'Map<String, dynamic>' documents.
-///   The documents updateIndexested by [collectionStream] are passed to
-///   [indexCollection] for indexing..
+/// Implementing classes must override the [index] field, the [InvertedIndex]
+/// that provides access to the index [DftMap] and [PostingsMap] and a
+/// [TextTokenizer].
 ///
 /// Implementing classes override the following asynchronous methods:
 /// - [indexText] indexes a text document;
 /// - [indexJson] indexes the fields in a Map<String, dynamic> document;
-/// - [indexCollection] indexes the fields of all the documents in a Map<String, dynamic>
+/// - [indexCollection] indexes the fields of all the documents in a JSON
 ///   document collection; and
 /// - [updateIndexes] updates the [DftMap], [PostingsMap] and [KGramsMap]
-/// for this indexer.
+///   for this indexer.
 abstract class TextIndexer {
   //
 
@@ -45,25 +36,27 @@ abstract class TextIndexer {
   /// - [collectionStream] is an input stream of a collection of 'Map<String, dynamic>'
   ///   documents. The documents updateIndexested by [collectionStream] are passed to
   ///   [indexCollection] for indexing.
-  factory TextIndexer(
-          {required InvertedIndex index,
-          Stream<MapEntry<String, Map<String, dynamic>>>? documentStream,
-          Stream<Map<String, Map<String, dynamic>>>? collectionStream}) =>
-      _TextIndexerImpl(index, collectionStream, documentStream);
+  factory TextIndexer(InvertedIndex index) => _TextIndexerImpl(index);
 
-  /// An input stream of 'Map<String, dynamic>' documents. The documents updateIndexested by
-  /// [documentStream] are passed to [indexJson] for indexing.
-  ///
-  /// The key of the MapEntry<String, Map<String, dynamic>> is the primary key reference of the
-  /// Map<String, dynamic> document.
-  Stream<MapEntry<String, Map<String, dynamic>>>? get documentStream;
+  /// Factory constructor initializes a [TextIndexer] instance, passing in a
+  /// [index] instance:
+  /// - [documentStream] is an input stream of 'Map<String, dynamic>' documents. The documents
+  ///   updateIndexested by[documentStream] are passed to [indexJson] for indexing; and
+  /// - [collectionStream] is an input stream of a collection of 'Map<String, dynamic>'
+  ///   documents. The documents updateIndexested by [collectionStream] are passed to
+  ///   [indexCollection] for indexing.
+  factory TextIndexer.stream(InvertedIndex index,
+          Stream<MapEntry<String, Map<String, dynamic>>> documentStream) =>
+      _TextIndexerImpl(index, documentStream: documentStream);
 
-  /// An input stream of a collection of 'Map<String, dynamic>' documents. The documents updateIndexested
-  /// by [documentStream] are passed to [indexCollection] for indexing.
-  ///
-  /// The key of the MapEntry<String, Map<String, dynamic>> is the primary key reference of the
-  /// Map<String, dynamic> document.
-  Stream<Map<String, Map<String, dynamic>>>? get collectionStream;
+  /// Factory constructor initializes a [TextIndexer] instance, passing in a
+  /// [index] instance:
+  /// - [collectionStream] is an input stream of a collection of 'Map<String, dynamic>'
+  ///   documents. The documents updateIndexested by [collectionStream] are passed to
+  ///   [indexCollection] for indexing.
+  factory TextIndexer.collectionStream(InvertedIndex index,
+          Stream<Map<String, Map<String, dynamic>>>? collectionStream) =>
+      _TextIndexerImpl(index, collectionStream: collectionStream);
 
   /// The [updateIndexes] method is called by [index] and updates the
   /// [DftMap], [PostingsMap] and [KGramsMap] for this indexer.
@@ -89,22 +82,19 @@ abstract class TextIndexer {
   //
 }
 
-/// Base class implementation of the [TextIndexer] interface.
-///
-/// Initializes listeners to [documentStream] and [collectionStream] at
-/// instantiation.
-///
-/// Sub-classes must implement the [index] field.
-abstract class TextIndexerBase implements TextIndexer {
+/// Abstract base class implementation of [TextIndexer] with [TextIndexerMixin].
+abstract class TextIndexerBase with TextIndexerMixin {
   //
 
   /// Default generative constructor.
-  ///
-  /// Initializes listeners to [documentStream] and [collectionStream].
-  TextIndexerBase() {
-    documentStream?.listen((event) => indexJson(event.key, event.value));
-    collectionStream?.listen((event) => indexCollection(event));
-  }
+  const TextIndexerBase();
+}
+
+/// Base class implementation of the [TextIndexer] interface.
+///
+/// Sub-classes must implement the [index] field.
+abstract class TextIndexerMixin implements TextIndexer {
+  //
 
   /// Implementation of [TextIndexer.indexText] that:
   /// - parses [docText] to a collection of [Token]s;
@@ -115,7 +105,8 @@ abstract class TextIndexerBase implements TextIndexer {
   @override
   Future<PostingsMap> indexText(String docId, SourceText docText) async {
     // get the terms using tokenizer
-    final tokens = (await index.tokenizer.tokenize(docText));
+    final tokens =
+        (await index.tokenizer.tokenize(docText, nGramRange: index.nGramRange));
     // map the tokens to postings
     final PostingsMap postings = _tokensToPostings(docId, tokens);
     // map postings to a list of DocPostingsMapEntry for docId.
@@ -135,7 +126,8 @@ abstract class TextIndexerBase implements TextIndexer {
   @override
   Future<PostingsMap> indexJson(String docId, Map<String, dynamic> json) async {
     // get the terms using tokenizer
-    final tokens = (await index.tokenizer.tokenizeJson(json, _zoneNames(json)));
+    final tokens =
+        (await index.tokenizer.tokenizeJson(json, zones: _zoneNames(json)));
     // map the tokens to postings
     final PostingsMap postings = _tokensToPostings(docId, tokens);
     // update the indexes with the postings list for docId
@@ -182,7 +174,7 @@ abstract class TextIndexerBase implements TextIndexer {
     // initialize a PostingsMap collection to hold the postings
     final PostingsMap postings = {};
     // initialize the term position index
-    final phraseTerms = [];
+    // final phraseTerms = [];
     for (var token in tokens) {
       final term = token.term;
       if (term.isNotEmpty) {
@@ -192,19 +184,6 @@ abstract class TextIndexerBase implements TextIndexer {
             docId: docId,
             zone: token.zone,
             position: token.termPosition);
-        phraseTerms.add(term);
-        if (phraseTerms.length > index.phraseLength) {
-          phraseTerms.removeAt(0);
-        }
-        if (phraseTerms.length > 1) {
-          final phrase = phraseTerms.join(' ');
-          // add the term
-          postings.addTermPosition(
-              term: phrase,
-              docId: docId,
-              zone: token.zone,
-              position: token.termPosition);
-        }
       }
     }
     return postings;
@@ -212,7 +191,11 @@ abstract class TextIndexerBase implements TextIndexer {
 
   Future<void> _upsertKgrams(Iterable<Token> tokens) async {
     // - get the new kGrams for the tokens;
-    final newkGrams = tokens.kGrams(index.k);
+    final terms = <String>{};
+    for (final token in tokens) {
+      terms.addAll(token.term.split(' '));
+    }
+    final newkGrams = terms.toKGramsMap(index.k);
     final persistedKgrams = await index.getKGramIndex(newkGrams.keys);
     newkGrams.forEach((key, value) {
       final kGramEntry = persistedKgrams[key] ?? {};
@@ -278,11 +261,21 @@ class _TextIndexerImpl extends TextIndexerBase {
   final InvertedIndex index;
 
   /// Default constructor
-  _TextIndexerImpl(this.index, this.collectionStream, this.documentStream);
+  _TextIndexerImpl(this.index, {this.collectionStream, this.documentStream}) {
+    documentStream?.listen((event) => indexJson(event.key, event.value));
+    collectionStream?.listen((event) => indexCollection(event));
+  }
 
-  @override
+  /// An input stream of a collection of 'Map<String, dynamic>'
+  /// documents. The documents updateIndexested by [collectionStream] are
+  /// passed to [indexJson for indexing.
+  ///
+  /// The key of the MapEntry<String, Map<String, dynamic>> is the primary key
+  /// reference of the JSON documents.
   final Stream<Map<String, Map<String, dynamic>>>? collectionStream;
 
-  @override
+  /// An input stream of 'Map<String, dynamic>' documents. The documents
+  /// updateIndexested by[documentStream] are passed to [indexText] for
+  /// indexing.
   final Stream<MapEntry<String, Map<String, dynamic>>>? documentStream;
 }

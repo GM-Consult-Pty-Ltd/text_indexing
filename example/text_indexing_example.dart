@@ -48,20 +48,24 @@ Future<void> _inMemoryIndexerExample(Map<String, String> documents,
       dictionary: dictionary,
       postings: postings,
       kGramIndex: kGramIndex,
+      nGramRange: NGramRange(1, 2),
       zones: zones,
-      phraseLength: 2,
       k: 3);
 
   // - initialize a TextIndexer with the index
-  final indexer = TextIndexer(index: index);
+  final indexer = TextIndexer(index);
 
   /// - tokenize a phrase into searh terms
-  final searchTerms = (await indexer.index.tokenizer.tokenize(searchPhrase));
+  final searchTerms = (await indexer.index.tokenizer
+      .tokenize(searchPhrase, nGramRange: NGramRange(1, 2)));
 
   // - iterate through the sample data
   await Future.forEach(documents.entries, (MapEntry<String, String> doc) async {
     // - index each document
-    await indexer.indexText(doc.key, doc.value);
+    await indexer.indexText(
+      doc.key,
+      doc.value,
+    );
   });
 
   // print the statistics for each term in [searchTerms].

@@ -18,6 +18,9 @@ class InMemoryIndex
   final int k;
 
   @override
+  final NGramRange nGramRange;
+
+  @override
   late DftMap dictionary;
 
   @override
@@ -29,10 +32,9 @@ class InMemoryIndex
   /// Instantiates a [InMemoryIndex] instance:
   /// - [tokenizer] is the [TextTokenizer] used to tokenize text for the index;
   /// - [k] is the length of k-gram entries in the k-gram index;
+  /// - [nGramRange] is the range of N-gram lengths to generate;
   /// - [zones] is a hashmap of zone names to their relative weight in the
   ///   index;
-  /// - [phraseLength] is the maximum length of phrases in the index vocabulary
-  ///   and must be greater than 0.
   /// - [dictionary] is the in-memory term dictionary for the indexer. Pass a
   ///   [DftMap] instance at instantiation, otherwise an empty [DftMap]
   ///   will be initialized;
@@ -48,9 +50,8 @@ class InMemoryIndex
       PostingsMap? postings,
       KGramsMap? kGramIndex,
       this.k = 2,
-      this.zones = const <String, double>{},
-      this.phraseLength = 1})
-      : assert(phraseLength > 0, 'The phrase length must be 1 or greater') {
+      this.nGramRange = const NGramRange(1, 2),
+      this.zones = const <String, double>{}}) {
     this.dictionary = dictionary ?? {};
     this.postings = postings ?? {};
     this.kGramIndex = kGramIndex ?? {};
@@ -61,9 +62,6 @@ class InMemoryIndex
 
   @override
   final ZoneWeightMap zones;
-
-  @override
-  final int phraseLength;
 }
 
 /// A mixin class that implements [InvertedIndex]. The mixin exposes in-memory

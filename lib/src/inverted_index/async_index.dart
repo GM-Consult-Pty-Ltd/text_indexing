@@ -20,7 +20,7 @@ class AsyncCallbackIndex
   final int k;
 
   @override
-  final int phraseLength;
+  final NGramRange nGramRange;
 
   @override
   final VocabularySize dictionaryLengthLoader;
@@ -46,10 +46,9 @@ class AsyncCallbackIndex
   /// Instantiates a [AsyncCallbackIndex] instance:
   /// - [tokenizer] is the [TextTokenizer] used to tokenize text for the index;
   /// - [k] is the length of k-gram entries in the k-gram index;
+  /// - [nGramRange] is the range of N-gram lengths to generate;
   /// - [zones] is a hashmap of zone names to their relative weight in the
   ///   index;
-  /// - [phraseLength] is the maximum length of phrases in the index vocabulary
-  ///   and must be greater than 0;
   /// - [dictionaryLengthLoader] asynchronously retrieves the number of terms
   ///   in the vocabulary (N);
   /// - [dictionaryLoader] asynchronously retrieves a [DftMap] for a
@@ -74,10 +73,8 @@ class AsyncCallbackIndex
       required this.postingsUpdater,
       required this.tokenizer,
       this.k = 2,
-      this.zones = const <String, double>{},
-      this.phraseLength = 1})
-      : assert(phraseLength > 0, 'The phrase length must be 1 or greater');
-
+      this.nGramRange = const NGramRange(1, 2),
+      this.zones = const <String, double>{}});
   @override
   final TextTokenizer tokenizer;
 

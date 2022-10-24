@@ -7,6 +7,30 @@ All rights reserved.
 *THIS PACKAGE IS **PRE-RELEASE** AND SUBJECT TO DAILY BREAKING CHANGES.*
 
 
+## 0.19.0
+
+### *Breaking changes*
+* Changed signature of `TextIndexer` default unnamed factory constructor.
+* Removed field `TextIndexer.documentStream`.
+* Removed field `TextIndexer.collectionStream`.
+* Added field `InvertedIndex.nGramRange`.
+* Changed the signature of `InvertedIndex` unnamed factory.
+* Changed the signature of `InvertedIndex.inMemory` factory.
+* Changed the signature of `AsyncCallbackIndex` default constructor.
+* Changed the signature of `InMemoryIndex` default constructor.
+* Removed field `InvertedIndex.phraseLength`.
+
+### *New*
+* Added factory constructor `TextIndexer.collectionStream`.
+* Added factory constructor `TextIndexer.stream`.
+* Changed `TextIndexer.indexText`
+
+### *Updated*
+* Dependencies.
+* Tests.
+* Examples.
+* Documentation.   
+
 ## 0.18.0
 
 ### *Updated*

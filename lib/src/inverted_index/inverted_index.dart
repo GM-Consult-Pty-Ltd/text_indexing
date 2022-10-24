@@ -7,16 +7,16 @@ import 'package:text_indexing/src/_index.dart';
 
 /// An interface that exposes methods for working with an inverted, positional
 /// zoned index on a collection of documents:
-/// - [phraseLength] is the maximum length of phrases in the index vocabulary.
-///   The minimum phrase length is 1. If phrase length is greater than 1, the
-///   index vocabulary also contains phrases up to [phraseLength] long,
-///   concatenated from consecutive terms. The index size is increased by a
-///   factor of [phraseLength];
 /// - [tokenizer] is the [TextTokenizer] used to index the corpus terms;
 /// - [vocabularyLength] is the number of unique terms in the corpus;
 /// - [zones] is a hashmap of zone names to their relative weight in the index.
 ///   If [zones] is empty, all the `JSON` fields will be indexed;
 /// - [k] is the length of k-gram entries in the k-gram index;
+/// - [nGramRange] is the range of N-gram lengths to generate. The minimum
+///   n-gram length is 1. If n-gram length is greater than 1, the
+///   index vocabulary also contains n-grams up to [nGramRange].max long,
+///   concatenated from consecutive terms. The index size is increased by a
+///   factor of [nGramRange].max;
 /// - [getDictionary] Asynchronously retrieves a [DftMap] for a collection
 ///   of [Term]s from a [DftMap] repository;
 /// - [upsertDictionary ] inserts entries into a [DftMap] repository,
@@ -44,8 +44,6 @@ abstract class InvertedIndex {
   /// - [k] is the length of k-gram entries in the k-gram index;
   /// - [zones] is a hashmap of zone names to their relative weight in the
   ///   index;
-  /// - [phraseLength] is the maximum length of phrases in the index vocabulary
-  ///   and must be greater than 0.
   /// - [dictionary] is the in-memory term dictionary for the indexer. Pass a
   ///   [DftMap] instance at instantiation, otherwise an empty [DftMap]
   ///   will be initialized;
@@ -61,24 +59,22 @@ abstract class InvertedIndex {
           Map<String, Map<String, Map<String, List<int>>>>? postings,
           Map<String, Set<String>>? kGramIndex,
           int k = 2,
-          Map<String, double> zones = const <String, double>{},
-          int phraseLength = 1}) =>
+          NGramRange nGramRange = const NGramRange(1, 2),
+          Map<String, double> zones = const <String, double>{}}) =>
       InMemoryIndex(
           tokenizer: tokenizer,
           dictionary: dictionary,
           postings: postings,
           kGramIndex: kGramIndex,
           k: k,
-          zones: zones,
-          phraseLength: phraseLength);
+          nGramRange: nGramRange,
+          zones: zones);
 
   /// /// A factory constructor that returns an [AsyncCallbackIndex] instance:
   /// - [tokenizer] is the [TextTokenizer] used to tokenize text for the index;
   /// - [k] is the length of k-gram entries in the k-gram index;
   /// - [zones] is a hashmap of zone names to their relative weight in the
   ///   index;
-  /// - [phraseLength] is the maximum length of phrases in the index vocabulary
-  ///   and must be greater than 0;
   /// - [dictionaryLengthLoader] asynchronously retrieves the number of terms
   ///   in the vocabulary (N);
   /// - [dictionaryLoader] asynchronously retrieves a [DftMap] for a
@@ -114,8 +110,8 @@ abstract class InvertedIndex {
           Map<String, Map<String, Map<String, List<int>>>>? postings,
           Map<String, Set<String>>? kGramIndex,
           int k = 2,
-          Map<String, double> zones = const <String, double>{},
-          int phraseLength = 1}) =>
+          NGramRange nGramRange = const NGramRange(1, 2),
+          Map<String, double> zones = const <String, double>{}}) =>
       AsyncCallbackIndex(
           dictionaryLoader: dictionaryLoader,
           dictionaryUpdater: dictionaryUpdater,
@@ -126,11 +122,14 @@ abstract class InvertedIndex {
           postingsUpdater: postingsUpdater,
           tokenizer: tokenizer,
           k: k,
-          zones: zones,
-          phraseLength: phraseLength);
+          nGramRange: nGramRange,
+          zones: zones);
 
   /// The length of k-gram entries in the k-gram index.
   int get k;
+
+  /// The minimum and maximum length of n-grams in the index.
+  NGramRange get nGramRange;
 
   /// Maps zone names to their relative weight in the index.
   ///
@@ -139,11 +138,6 @@ abstract class InvertedIndex {
 
   /// The text analyser that extracts tokens from text for the index.
   TextTokenizer get tokenizer;
-
-  /// The maximum length of phrases in the index vocabulary.
-  ///
-  /// Phrase length must be greater than 0.
-  int get phraseLength;
 
   /// Returns the number of terms in the vocabulary (N).
   Future<Ft> get vocabularyLength;
@@ -211,8 +205,12 @@ abstract class InvertedIndex {
 ///
 /// Provides a default unnamed generative const constructor for sub-classes.
 abstract class InvertedIndexBase with InvertedIndexMixin {
+  //
+
   /// Default unnamed generative const constructor for sub-classes.
   const InvertedIndexBase();
+
+  //
 }
 
 /// A mixin that implements the [InvertedIndex.getTfIndex],

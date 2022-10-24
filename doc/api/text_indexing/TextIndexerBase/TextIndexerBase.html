@@ -32,7 +32,7 @@
     <li><a href="../../index.html">text_indexing</a></li>
     <li><a href="../../text_indexing/text_indexing-library.html">text_indexing</a></li>
     <li><a href="../../text_indexing/TextIndexerBase-class.html">TextIndexerBase</a></li>
-    <li class="self-crumb">TextIndexerBase constructor</li>
+    <li class="self-crumb">TextIndexerBase const constructor</li>
   </ol>
   <div class="self-name">TextIndexerBase</div>
   <form class="search navbar-right" role="search">
@@ -49,24 +49,20 @@
     <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
 </h1></div>
 
-    <section class="multi-line-signature">
+    <section class="multi-line-signature">const
       <span class="name ">TextIndexerBase</span>(<wbr>)
     </section>
 
     
 <section class="desc markdown">
   <p>Default generative constructor.</p>
-<p>Initializes listeners to <a href="../../text_indexing/TextIndexer/documentStream.html">documentStream</a> and <a href="../../text_indexing/TextIndexer/collectionStream.html">collectionStream</a>.</p>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">TextIndexerBase() {
-  documentStream?.listen((event) =&gt; indexJson(event.key, event.value));
-  collectionStream?.listen((event) =&gt; indexCollection(event));
-}</code></pre>
+  <pre class="language-dart"><code class="language-dart">const TextIndexerBase();</code></pre>
 </section>
 
 
@@ -83,7 +79,7 @@
   <li><a href="../../index.html">text_indexing</a></li>
   <li><a href="../../text_indexing/text_indexing-library.html">text_indexing</a></li>
   <li><a href="../../text_indexing/TextIndexerBase-class.html">TextIndexerBase</a></li>
-  <li class="self-crumb">TextIndexerBase constructor</li>
+  <li class="self-crumb">TextIndexerBase const constructor</li>
 </ol>
 
 
@@ -97,19 +93,17 @@
     <li class="section-title inherited">
       <a href="../../text_indexing/TextIndexerBase-class.html#instance-properties">Properties</a>
     </li>
-    <li class="inherited"><a href="../../text_indexing/TextIndexer/collectionStream.html">collectionStream</a></li>
-    <li class="inherited"><a href="../../text_indexing/TextIndexer/documentStream.html">documentStream</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
     <li class="inherited"><a href="../../text_indexing/TextIndexer/index.html">index</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
 
-    <li class="section-title"><a href="../../text_indexing/TextIndexerBase-class.html#instance-methods">Methods</a></li>
-    <li><a href="../../text_indexing/TextIndexerBase/indexCollection.html">indexCollection</a></li>
-    <li><a href="../../text_indexing/TextIndexerBase/indexJson.html">indexJson</a></li>
-    <li><a href="../../text_indexing/TextIndexerBase/indexText.html">indexText</a></li>
+    <li class="section-title inherited"><a href="../../text_indexing/TextIndexerBase-class.html#instance-methods">Methods</a></li>
+    <li class="inherited"><a href="../../text_indexing/TextIndexerBase/indexCollection.html">indexCollection</a></li>
+    <li class="inherited"><a href="../../text_indexing/TextIndexerBase/indexJson.html">indexJson</a></li>
+    <li class="inherited"><a href="../../text_indexing/TextIndexerBase/indexText.html">indexText</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
-    <li><a href="../../text_indexing/TextIndexerBase/updateIndexes.html">updateIndexes</a></li>
+    <li class="inherited"><a href="../../text_indexing/TextIndexerBase/updateIndexes.html">updateIndexes</a></li>
 
     <li class="section-title inherited"><a href="../../text_indexing/TextIndexerBase-class.html#operators">Operators</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/operator_equals.html">operator ==</a></li>
@@ -129,7 +123,7 @@
 <footer>
   <span class="no-break">
     text_indexing
-      0.18.0
+      0.19.0
   </span>
 
   

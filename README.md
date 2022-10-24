@@ -99,7 +99,9 @@ Call the [TextIndexer.indexCollection](https://pub.dev/documentation/text_indexi
 
 ```dart
     // initialize an in=memory index for a JSON collection with two indexed fields
-    final myIndex = InMemoryIndex(zones: {'name': 1.0, 'description': 0.5}, phraseLength: 2);
+    final myIndex = InMemoryIndex(
+        zones: {'name': 1.0, 'description': 0.5}, 
+        nGramRange: NGramRange(1, 2));
 
     // - initialize a `TextIndexer`, passing in the index
     final indexer =TextIndexer(index: myIndex);
@@ -139,11 +141,11 @@ Two implementation classes are provided:
  * the [InMemoryIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html) class is intended for fast indexing of a smaller corpus using in-memory dictionary, k-gram and postings hashmaps; and
  * the [AsyncCallbackIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/AsyncCallbackIndex-class.html) is intended for working with a larger corpus.  It uses asynchronous callbacks to perform read and write operations on `dictionary`, `k-gram` and `postings` repositories.
 
-#### Phrase length
+#### N-Gram Range
 
-`InvertedIndex.phraseLength` is the maximum length of phrases in the index vocabulary.
+`InvertedIndex.nGramRange` is the range of N-gram lengths to generate. The minimum  n-gram length is 1.
 
-The minimum `phraseLength` is 1. If phrase length is greater than 1, the index also contains phrases up to `phraseLength` words long, concatenated from consecutive `terms`. The index size is increased by a factor of `phraseLength`. The `phraseLength` default is 1 for [InMemoryIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html) and [AsyncCallbackIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/AsyncCallbackIndex-class.html).
+If n-gram length is greater than 1, the  index vocabulary also contains n-grams up to `nGramRange.max` long, concatenated from consecutive terms. The index size is increased by a factor of`[nGramRange.max`. The `nGramRange` default is `NGramRange(1,2)` for [InMemoryIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html) and [AsyncCallbackIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/AsyncCallbackIndex-class.html).
 
 #### Zones
 

@@ -106,7 +106,9 @@ import 'package:text_indexing/extensions.dart';
 <p>For small collections, instantiate a <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html">TextIndexer</a>  with a <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html">InMemoryIndex</a>, (optionally passing empty <code>Dictionary</code> and <code>Postings</code> hashmaps).</p>
 <p>Call the <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer/indexCollection.html">TextIndexer.indexCollection</a> method to a a collection of documents to the index.</p>
 <pre class="language-dart"><code class="language-dart">    // initialize an in=memory index for a JSON collection with two indexed fields
-    final myIndex = InMemoryIndex(zones: {'name': 1.0, 'description': 0.5}, phraseLength: 2);
+    final myIndex = InMemoryIndex(
+        zones: {'name': 1.0, 'description': 0.5}, 
+        nGramRange: NGramRange(1, 2));
 
     // - initialize a `TextIndexer`, passing in the index
     final indexer =TextIndexer(index: myIndex);
@@ -141,9 +143,9 @@ import 'package:text_indexing/extensions.dart';
 <li>the <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html">InMemoryIndex</a> class is intended for fast indexing of a smaller corpus using in-memory dictionary, k-gram and postings hashmaps; and</li>
 <li>the <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/AsyncCallbackIndex-class.html">AsyncCallbackIndex</a> is intended for working with a larger corpus.  It uses asynchronous callbacks to perform read and write operations on <code>dictionary</code>, <code>k-gram</code> and <code>postings</code> repositories.</li>
 </ul>
-<h4 id="phrase-length">Phrase length</h4>
-<p><code>InvertedIndex.phraseLength</code> is the maximum length of phrases in the index vocabulary.</p>
-<p>The minimum <code>phraseLength</code> is 1. If phrase length is greater than 1, the index also contains phrases up to <code>phraseLength</code> words long, concatenated from consecutive <code>terms</code>. The index size is increased by a factor of <code>phraseLength</code>. The <code>phraseLength</code> default is 1 for <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html">InMemoryIndex</a> and <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/AsyncCallbackIndex-class.html">AsyncCallbackIndex</a>.</p>
+<h4 id="n-gram-range">N-Gram Range</h4>
+<p><code>InvertedIndex.nGramRange</code> is the range of N-gram lengths to generate. The minimum  n-gram length is 1.</p>
+<p>If n-gram length is greater than 1, the  index vocabulary also contains n-grams up to <code>nGramRange.max</code> long, concatenated from consecutive terms. The index size is increased by a factor of<code>[nGramRange.max</code>. The <code>nGramRange</code> default is <code>NGramRange(1,2)</code> for <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html">InMemoryIndex</a> and <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/AsyncCallbackIndex-class.html">AsyncCallbackIndex</a>.</p>
 <h4 id="zones">Zones</h4>
 <p><code>InvertedIndex.zones</code> is a hashmap of zone names to their relative weight in the index.</p>
 <p>If <code>zones</code> is empty, all the text fields of the collection will be indexed, which may increase the size of the index significantly.</p>
@@ -276,7 +278,7 @@ import 'package:text_indexing/extensions.dart';
 <footer>
   <span class="no-break">
     text_indexing
-      0.18.0
+      0.19.0
   </span>
 
   
