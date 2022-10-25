@@ -6,6 +6,11 @@ All rights reserved.
 
 *THIS PACKAGE IS **PRE-RELEASE** AND SUBJECT TO DAILY BREAKING CHANGES.*
 
+## 0.20.0
+
+### *Updated*
+* Dependency `text_analysis` to ver `0.21.0`.
+
 
 ## 0.19.0
 
