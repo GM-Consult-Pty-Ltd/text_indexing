@@ -48,7 +48,7 @@
 BSD 3-Clause License
 Copyright (c) 2022, GM Consult Pty Ltd, All rights reserved. 
 -->
-<p><a href="https://github.com/GM-Consult-Pty-Ltd"><img src="https://raw.githubusercontent.com/GM-Consult-Pty-Ltd/text_indexing/main/dev/images/text_indexing_header.v2.png?raw=true" alt="GM Consult Pty Ltd" title="GM Consult Pty Ltd"></a></p>
+<p><a href="https://github.com/GM-Consult-Pty-Ltd/text_indexing/"><img src="https://raw.githubusercontent.com/GM-Consult-Pty-Ltd/text_indexing/main/dev/images/text_indexing_header.v2.png?raw=true" alt="GM Consult Pty Ltd" title="GM Consult Pty Ltd"></a></p>
 <h2 id="create-an-inverted-index-on-a-collection-of-text-documents"><strong>Create an inverted index on a collection of text documents.</strong></h2>
 <p><em>THIS PACKAGE IS <strong>PRE-RELEASE</strong> AND SUBJECT TO DAILY BREAKING CHANGES.</em></p>
 <p>Skip to section:</p>
@@ -66,7 +66,8 @@ Copyright (c) 2022, GM Consult Pty Ltd, All rights reserved.
 <p>The <a href="#textindexer">indexer</a> uses a <code>tokenizer</code> to construct three artifacts:</p>
 <ul>
 <li>the <code>dictionary</code> holds the <code>vocabulary</code> of <code>terms</code> and the frequency of occurrence for each <code>term</code> in the <code>corpus</code>;</li>
-<li>the <code>k-gram index</code> maps <code>k-grams</code> to <code>terms</code> in the <code>dictionary</code>; and</li>
+<li>the <code>k-gram index</code> maps <code>k-grams</code> to <code>terms</code> in the <code>dictionary</code>;</li>
+<li>the <code>keyword postings</code> index maps the keywords in the corpus to document references with the keyword score for the keyword in that document; and</li>
 <li>the <code>postings</code> index holds a list of references to the <code>documents</code> for each <code>term</code> (<code>postings list</code>). The <code>postings list</code> includes the positions of the <code>term</code> in the document's <code>zones</code> (fields), making the <code>postings</code> a <code>positional, zoned inverted index</code>.</li>
 </ul>
 <p><img src="https://github.com/GM-Consult-Pty-Ltd/text_indexing/raw/main/assets/images/index_artifacts.png?raw=true?raw=true" alt="Index artifacts" title="Components of inverted positional index"></p>
@@ -152,6 +153,14 @@ import 'package:text_indexing/extensions.dart';
 <h4 id="k-gram-length-k">K-gram length (k)</h4>
 <p><code>InvertedIndex.k</code> is the length of k-gram entries in the k-gram index.</p>
 <p>The preferred k-gram length is <code>3, or a tri-gram</code>. This results in a good compromise between the length of the k-gram index and search efficiency.</p>
+<h4 id="tokenizing-strategy-k">Tokenizing Strategy (k)</h4>
+<p><code>InvertedIndex.strategy</code> is the tokenizing strategy to use when tokenizing documents for the postings index:</p>
+<ul>
+<li>select <code>TokenizingStrategy.terms</code> to minimize the index size;</li>
+<li>select <code>TokenizingStrategy.nGrams</code> to add n-grams (phrases) in the desired <a href="#n-gram-range">range</a>;</li>
+<li>select <code>TokenizingStrategy.keyWords</code> to add keyword phrases of unlimited length as well as n-grams;</li>
+<li>select <code>TokenizingStrategy.all</code> to add terms, n-grams and keyWords;</li>
+</ul>
 <h3 id="textindexer">TextIndexer</h3>
 <p><a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html">TextIndexer</a> is an interface for classes that construct and maintain a <a href="#invertedindex">InvertedIndex</a>.</p>
 <p>Text or documents can be indexed by calling the following methods:</p>
@@ -163,40 +172,45 @@ import 'package:text_indexing/extensions.dart';
 <p>Use the unnamed factory constructor to instantiate a <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html">TextIndexer</a> with the index of your choice, or extend <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexerBase-class.html">TextIndexerBase</a>.</p>
 <p>(<em><a href="#">back to top</a></em>)</p>
 <h2 id="definitions">Definitions</h2>
-<p>The following definitions are used throughout the <a href="https://pub.dev/documentation/text_indexing/latest/">documentation</a>:</p>
+<p>The following definitions are used throughout the <a href="https://pub.dev/documentation/text_analysis/latest/">documentation</a>:</p>
 <ul>
 <li><code>corpus</code>- the collection of <code>documents</code> for which an <code>index</code> is maintained.</li>
 <li><code>character filter</code> - filters characters from text in preparation of tokenization.</li>
-<li><code>dictionary</code> - is a hash of <code>terms</code> (<code>vocabulary</code>) to the frequency of occurence in the <code>corpus</code> documents.</li>
+<li><code>Damerau–Levenshtein distance</code> - a metric for measuring the <code>edit distance</code> between two <code>terms</code> by counting the minimum number of operations (insertions, deletions or substitutions of a single character, or transposition of two adjacent characters) required to change one <code>term</code> into the other (from <a href="https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance">Wikipedia</a>).</li>
+<li><code>dictionary (in an index)</code> - a hash of <code>terms</code> (<code>vocabulary</code>) to the frequency of occurence in the <code>corpus</code> documents.</li>
 <li><code>document</code> - a record in the <code>corpus</code>, that has a unique identifier (<code>docId</code>) in the <code>corpus</code>'s primary key and that contains one or more text fields that are indexed.</li>
-<li><code>document frequency (dFt)</code> is number of documents in the <code>corpus</code> that contain a term.</li>
-</ul>
-<ul>
-<li><code>Flesch reading ease score</code> - a readibility measure calculated from  sentence length and word length on a 100-point scale. The higher the score, the easier it is to understand the document (<a href="https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests">Wikipedia(6)</a>).</li>
-<li><code>Flesch-Kincaid grade level</code> - a readibility measure relative to U.S. school grade level.  It is also calculated from sentence length and word length (<a href="https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests">Wikipedia(6)</a>).</li>
-</ul>
-<ul>
+<li><code>document frequency (dFt)</code> - the number of documents in the <code>corpus</code> that contain a term.</li>
+<li><code>edit distance</code> - a measure of how dissimilar two terms are by counting the minimum number of operations required to transform one string into the other (from <a href="https://en.wikipedia.org/wiki/Edit_distance">Wikipedia</a>).</li>
+<li><code>etymology</code> - the study of the history of the form of words and, by extension, the origin and evolution of their semantic meaning across time (from <a href="https://en.wikipedia.org/wiki/Etymology">Wikipedia</a>).</li>
+<li><code>Flesch reading ease score</code> - a readibility measure calculated from  sentence length and word length on a 100-point scale. The higher the score, the easier it is to understand the document (from <a href="https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests">Wikipedia</a>).</li>
+<li><code>Flesch-Kincaid grade level</code> - a readibility measure relative to U.S. school grade level.  It is also calculated from sentence length and word length (from <a href="https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests">Wikipedia</a>).</li>
+<li><code>IETF language tag</code> - a standardized code or tag that is used to identify human languages in the Internet. (from <a href="https://en.wikipedia.org/wiki/IETF_language_tag">Wikepedia</a>).</li>
 <li><code>index</code> - an <a href="https://en.wikipedia.org/wiki/Inverted_index">inverted index</a> used to look up <code>document</code> references from the <code>corpus</code> against a <code>vocabulary</code> of <code>terms</code>.</li>
 <li><code>index-elimination</code> - selecting a subset of the entries in an index where the <code>term</code> is in the collection of <code>terms</code> in a search phrase.</li>
-<li><code>inverse document frequency</code> or <code>iDft</code> is equal to log (N / <code>dft</code>), where N is the total number of terms in the index. The <code>IdFt</code> of a rare term is high, whereas the <a href="type_definitions/IdFt.html">IdFt</a> of a frequent term is likely to be low.</li>
+<li><code>inverse document frequency (iDft)</code> - a normalized measure of how rare a <code>term</code> is in the corpus. It is defined as <code>log (N / dft)</code>, where N is the total number of terms in the index. The <code>iDft</code> of a rare term is high, whereas the <code>iDft</code> of a frequent term is likely to be low.</li>
 <li><code>Jaccard index</code> measures similarity between finite sample sets, and is defined as the size of the intersection divided by the size of the union of the sample sets (from <a href="https://en.wikipedia.org/wiki/Jaccard_index">Wikipedia</a>).</li>
-<li><code>JSON</code> is an acronym for <code>"Java Script Object Notation"</code>, a common format for persisting data.</li>
+<li><code>Map&lt;String, dynamic&gt;</code> is an acronym for <code>"Java Script Object Notation"</code>, a common format for persisting data.</li>
 <li><code>k-gram</code> - a sequence of (any) k consecutive characters from a <code>term</code>. A <code>k-gram</code> can start with "$", denoting the start of the term, and end with "$", denoting the end of the term. The 3-grams for "castle" are { $ca, cas, ast, stl, tle, le$ }.</li>
-<li><code>lemmatizer</code> - lemmatisation (or lemmatization) in linguistics is the process of grouping together the inflected forms of a word so they can be analysed as a single item, identified by the word's lemma, or dictionary form (from <a href="https://en.wikipedia.org/wiki/Lemmatisation">Wikipedia</a>).</li>
+<li><code>lemma  or lemmatizer</code> - lemmatisation (or lemmatization) in linguistics is the process of grouping together the inflected forms of a word so they can be analysed as a single item, identified by the word's lemma, or dictionary form (from <a href="https://en.wikipedia.org/wiki/Lemmatisation">Wikipedia</a>).</li>
+<li><code>n-gram</code> (sometimes also called Q-gram) is a contiguous sequence of <code>n</code> items from a given sample of text or speech. The items can be phonemes, syllables, letters, words or base pairs according to the application. The <code>n-grams</code> typically are collected from a text or speech <code>corpus</code>. When the items are words, <code>n-grams</code> may also be called shingles (from <a href="https://en.wikipedia.org/wiki/N-gram">Wikipedia</a>).</li>
+<li><code>Natural language processing (NLP)</code> is a subfield of linguistics, computer science, and artificial intelligence concerned with the interactions between computers and human language, in particular how to program computers to process and analyze large amounts of natural language data (from <a href="https://en.wikipedia.org/wiki/Natural_language_processing">Wikipedia</a>).</li>
+<li><code>Part-of-Speech (PoS) tagging</code> is the task of labelling every word in a sequence of words with a tag indicating what lexical syntactic category it assumes in the given sequence (from <a href="https://en.wikipedia.org/wiki/Part-of-speech_tagging">Wikipedia</a>).</li>
+<li><code>Phonetic transcription</code> - the visual representation of speech sounds (or phones) by means of symbols. The most common type of phonetic transcription uses a phonetic alphabet, such as the International Phonetic Alphabet (from <a href="https://en.wikipedia.org/wiki/Phonetic_transcription">Wikipedia</a>).</li>
 <li><code>postings</code> - a separate index that records which <code>documents</code> the <code>vocabulary</code> occurs in.  In a positional <code>index</code>, the postings also records the positions of each <code>term</code> in the <code>text</code> to create a positional inverted <code>index</code>.</li>
 <li><code>postings list</code> - a record of the positions of a <code>term</code> in a <code>document</code>. A position of a <code>term</code> refers to the index of the <code>term</code> in an array that contains all the <code>terms</code> in the <code>text</code>. In a zoned <code>index</code>, the <code>postings lists</code> records the positions of each <code>term</code> in the <code>text</code> a <code>zone</code>.</li>
+<li><code>stem or stemmer</code> -  stemming is the process of reducing inflected (or sometimes derived) words to their word stem, base or root form (generally a written word form) (from <a href="https://en.wikipedia.org/wiki/Stemming">Wikipedia</a>).</li>
+<li><code>stopwords</code> - common words in a language that are excluded from indexing.</li>
 <li><code>term</code> - a word or phrase that is indexed from the <code>corpus</code>. The <code>term</code> may differ from the actual word used in the corpus depending on the <code>tokenizer</code> used.</li>
 <li><code>term filter</code> - filters unwanted terms from a collection of terms (e.g. stopwords), breaks compound terms into separate terms and / or manipulates terms by invoking a <code>stemmer</code> and / or <code>lemmatizer</code>.</li>
-<li><code>stemmer</code> -  stemming is the process of reducing inflected (or sometimes derived) words to their word stem, base or root form—generally a written word form (from <a href="https://en.wikipedia.org/wiki/Stemming">Wikipedia</a>).</li>
-<li><code>stopwords</code> - common words in a language that are excluded from indexing.</li>
-<li><code>term frequency (Ft)</code> is the frequency of a <code>term</code> in an index or indexed object.</li>
-<li><code>term position</code> is the zero-based index of a <code>term</code> in an ordered array of <code>terms</code> tokenized from the <code>corpus</code>.</li>
+<li><code>term expansion</code> - finding terms with similar spelling (e.g. spelling correction) or synonyms for a term.</li>
+<li><code>term frequency (Ft)</code> - the frequency of a <code>term</code> in an index or indexed object.</li>
+<li><code>term position</code> - the zero-based index of a <code>term</code> in an ordered array of <code>terms</code> tokenized from the <code>corpus</code>.</li>
 <li><code>text</code> - the indexable content of a <code>document</code>.</li>
 <li><code>token</code> - representation of a <code>term</code> in a text source returned by a <code>tokenizer</code>. The token may include information about the <code>term</code> such as its position(s) (<code>term position</code>) in the text or frequency of occurrence (<code>term frequency</code>).</li>
 <li><code>token filter</code> - returns a subset of <code>tokens</code> from the tokenizer output.</li>
 <li><code>tokenizer</code> - a function that returns a collection of <code>token</code>s from <code>text</code>, after applying a character filter, <code>term</code> filter, <a href="https://en.wikipedia.org/wiki/Stemming">stemmer</a> and / or <a href="https://en.wikipedia.org/wiki/Lemmatisation">lemmatizer</a>.</li>
 <li><code>vocabulary</code> - the collection of <code>terms</code> indexed from the <code>corpus</code>.</li>
-<li><code>zone</code> is the field or zone of a document that a term occurs in, used for parametric indexes or where scoring and ranking of search results attribute a higher score to documents that contain a term in a specific zone (e.g. the title rather that the body of a document).</li>
+<li><code>zone</code> - the field or zone of a document that a term occurs in, used for parametric indexes or where scoring and ranking of search results attribute a higher score to documents that contain a term in a specific zone (e.g. the title rather that the body of a document).</li>
 </ul>
 <p>(<em><a href="#">back to top</a></em>)</p>
 <h2 id="references">References</h2>
@@ -209,7 +223,17 @@ import 'package:text_indexing/extensions.dart';
 <li><a href="https://en.wikipedia.org/wiki/Synonym">Wikipedia (4), "<em>Synonym</em>", from Wikipedia, the free encyclopedia</a></li>
 <li><a href="https://en.wikipedia.org/wiki/Jaccard_index">Wikipedia (5), "<em>Jaccard Index</em>", from Wikipedia, the free encyclopedia</a></li>
 <li><a href="https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests">Wikipedia (6), "<em>Flesch–Kincaid readability tests</em>", from Wikipedia, the free encyclopedia</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Edit_distance">Wikipedia (7), "<em>Edit distance</em>", from Wikipedia, the free encyclopedia</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance">Wikipedia (8), "<em>Damerau–Levenshtein distance</em>", from Wikipedia, the free encyclopedia</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Natural_language_processing">Wikipedia (9), "<em>Natural language processing</em>", from Wikipedia, the free encyclopedia</a></li>
+<li><a href="https://en.wikipedia.org/wiki/IETF_language_tag">Wikipedia (10), "<em>IETF language tag</em>", from Wikipedia, the free encyclopedia</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Phonetic_transcription">Wikipedia (11), "<em>Phonetic transcription</em>", from Wikipedia, the free encyclopedia</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Etymology">Wikipedia (12), "<em>Etymology</em>", from Wikipedia, the free encyclopedia</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Part-of-speech_tagging">Wikipedia (13), "<em>Part-of-speech tagging</em>", from Wikipedia, the free encyclopedia</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance">Wikipedia (14), "<em>Damerau–Levenshtein distance</em>", from Wikipedia, the free encyclopedia</a></li>
+<li><a href="https://en.wikipedia.org/wiki/N-gram">Wikipedia (14), "<em>n-gram</em>", from Wikipedia, the free encyclopedia</a></li>
 </ul>
+<p>(<em><a href="#">back to top</a></em>)</p>
 <h2 id="issues">Issues</h2>
 <p>If you find a bug please fill an <a href="https://github.com/GM-Consult-Pty-Ltd/text_indexing/issues">issue</a>.</p>
 <p>This project is a supporting package for a revenue project that has priority call on resources, so please be patient if we don't respond immediately to issues or pull requests.</p>
@@ -278,7 +302,7 @@ import 'package:text_indexing/extensions.dart';
 <footer>
   <span class="no-break">
     text_indexing
-      0.20.0
+      0.21.0
   </span>
 
   

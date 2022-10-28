@@ -6,11 +6,45 @@ All rights reserved.
 
 *THIS PACKAGE IS **PRE-RELEASE** AND SUBJECT TO DAILY BREAKING CHANGES.*
 
+
+## 0.21.0
+
+### *Breaking changes*
+* Added field `TokenizingStrategy InvertedIndex.strategy`.
+* Added field `InvertedIndex.keywordExtractor`.
+* Added method `InvertedIndex.getKeywordPostings`.
+* Added method `InvertedIndex.upsertKeywordPostings`.
+* Changed signature of method `TextIndexer.updateIndexes`.
+* Changed signature of default `InMemoryIndex` constructor.
+* Changed signature of default `AsyncCallbackIndex` constructor.
+* Changed signature of default `InvertedIndex` factory constructor.
+* Changed signature of default `InvertedIndex.inMemory` factory constructor.
+
+### *New*
+* Added typedef `KeywordPostingsMap`.
+* Added typedef `KeyWordPostings`.
+* Added function definition `KeywordPostingsMapLoader`.
+* Added function definition `KeywordPostingsMapUpdater`.
+* Added base class `InMemoryIndexBase`.
+* Implemented field `AsyncCallbackIndex.strategy`.
+* Implemented field `InMemoryIndex.strategy`.
+* Implemented `InMemoryIndex.getKeywordPostings`.
+* Implemented `InMemoryIndex.upsertKeywordPostings`.
+* Implemented `InMemoryIndex.keywordExtractor`.
+* Implemented `AsyncCallbackIndex.getKeywordPostings`.
+* Implemented `AsyncCallbackIndex.upsertKeywordPostings`.
+* Implemented `AsyncCallbackIndex.keywordExtractor`.
+
+### *Updated*
+* Dependencies.
+* Tests.
+* Examples.
+* Documentation.   
+
 ## 0.20.0
 
 ### *Updated*
 * Dependency `text_analysis` to ver `0.21.0`.
-
 
 ## 0.19.0
 

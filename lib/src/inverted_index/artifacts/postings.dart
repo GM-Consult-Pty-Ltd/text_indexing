@@ -4,8 +4,8 @@
 
 import 'package:text_indexing/src/_index.dart';
 
-/// The [PostingsMapEntry] class enumerates the properties of an entry in a
-/// [PostingsMap] collection:
+/// The [PostingsMapEntry] type definition enumerates the properties of an
+/// entry in a [PostingsMap] collection:
 /// - [term] is the word/term that is indexed; and
 /// - [postings] is a hashmap of the [DocPostingsMapEntry] for [term].
 extension PostingsEntryExtension on PostingsMapEntry {

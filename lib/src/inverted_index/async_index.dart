@@ -5,19 +5,20 @@
 import 'package:text_indexing/src/_index.dart';
 
 /// The [AsyncCallbackIndex] is a [InvertedIndex] implementation class that
-/// mixes in [InvertedIndexMixin] and [AsyncCallbackIndexMixin].
+/// extends [AsyncCallbackIndexBase].
 ///
 /// The InMemoryIndex is intended for working with a larger corpus and an
 /// asynchronous index repository in persisted storage.  It uses asynchronous
 /// callbacks to perform read and write operations on [DftMap], [KGramsMap]
 /// and [PostingsMap] repositories.
-class AsyncCallbackIndex
-    with InvertedIndexMixin, AsyncCallbackIndexMixin
-    implements InvertedIndex {
+class AsyncCallbackIndex extends AsyncCallbackIndexBase {
   //
 
   @override
   final int k;
+
+  @override
+  final TokenizingStrategy strategy;
 
   @override
   final NGramRange nGramRange;
@@ -43,8 +44,28 @@ class AsyncCallbackIndex
   @override
   final PostingsMapUpdater postingsUpdater;
 
+  @override
+  final TextTokenizer tokenizer;
+
+  @override
+  final KeywordExtractor keywordExtractor;
+
+  @override
+  final ZoneWeightMap zones;
+
+  @override
+  Future<Ft> get vocabularyLength => dictionaryLengthLoader();
+
+  @override
+  final KeywordPostingsMapLoader keywordPostingsLoader;
+
+  @override
+  final KeywordPostingsMapUpdater keywordPostingsUpdater;
+
   /// Instantiates a [AsyncCallbackIndex] instance:
   /// - [tokenizer] is the [TextTokenizer] used to tokenize text for the index;
+  /// - [keywordExtractor] is a splitter function that returns an ordered
+  ///   collection of keyword phrasesfrom text.
   /// - [k] is the length of k-gram entries in the k-gram index;
   /// - [nGramRange] is the range of N-gram lengths to generate;
   /// - [zones] is a hashmap of zone names to their relative weight in the
@@ -60,9 +81,13 @@ class AsyncCallbackIndex
   /// - [kGramIndexUpdater] is callback that passes a [KGramsMap] subset
   ///    for persisting to a index repository;
   /// - [postingsLoader] asynchronously retrieves a [PostingsMap] for a vocabulary
-  ///   from a index repository; and
+  ///   from a index repository;
   /// - [postingsUpdater] passes a [PostingsMap] subset for persisting to a
-  ///   index repository.
+  ///   index repository;
+  /// - [keywordPostingsLoader] asynchronously retrieves a [KeywordPostingsMap]
+  ///   for a collection of keywords from a index repository; and
+  /// - [keywordPostingsUpdater] passes a [KeywordPostingsMap] subset for
+  ///   persisting to a index repository.
   const AsyncCallbackIndex(
       {required this.dictionaryLoader,
       required this.dictionaryUpdater,
@@ -71,18 +96,28 @@ class AsyncCallbackIndex
       required this.kGramIndexUpdater,
       required this.postingsLoader,
       required this.postingsUpdater,
+      required this.keywordPostingsLoader,
+      required this.keywordPostingsUpdater,
       required this.tokenizer,
+      required this.keywordExtractor,
       this.k = 2,
       this.nGramRange = const NGramRange(1, 2),
+      this.strategy = TokenizingStrategy.terms,
       this.zones = const <String, double>{}});
-  @override
-  final TextTokenizer tokenizer;
+}
 
-  @override
-  final ZoneWeightMap zones;
+/// Base class implementation of [InvertedIndex] with [AsyncCallbackIndexMixin]
+/// and [InvertedIndexMixin].
+///
+/// Provides a const default generative constructor for sub-classes.
+abstract class AsyncCallbackIndexBase
+    with InvertedIndexMixin, AsyncCallbackIndexMixin
+    implements InvertedIndex {
+  //
 
-  @override
-  Future<Ft> get vocabularyLength => dictionaryLengthLoader();
+  /// Const default generative constructor for sub-classes.
+  const AsyncCallbackIndexBase();
+  //
 }
 
 /// A mixin class that implements [InvertedIndex]. The mixin exposes five
@@ -142,6 +177,14 @@ abstract class AsyncCallbackIndexMixin implements InvertedIndex {
   /// [PostingsMapEntry] instances to the [PostingsMap] index repository.
   PostingsMapUpdater get postingsUpdater;
 
+  /// Asynchronously retrieves a [PostingsMap] subset for a vocabulary from a
+  /// [PostingsMap] index repository, usually persisted storage.
+  KeywordPostingsMapLoader get keywordPostingsLoader;
+
+  /// A callback that passes a subset of a [PostingsMap] containing new or changed
+  /// [PostingsMapEntry] instances to the [PostingsMap] index repository.
+  KeywordPostingsMapUpdater get keywordPostingsUpdater;
+
   @override
   Future<DftMap> getDictionary([Iterable<Term>? terms]) =>
       dictionaryLoader(terms);
@@ -162,4 +205,12 @@ abstract class AsyncCallbackIndexMixin implements InvertedIndex {
 
   @override
   Future<void> upsertPostings(PostingsMap values) => postingsUpdater(values);
+
+  @override
+  Future<KeywordPostingsMap> getKeywordPostings(Iterable<Term> keywords) =>
+      keywordPostingsLoader(keywords);
+
+  @override
+  Future<void> upsertKeywordPostings(KeywordPostingsMap values) =>
+      keywordPostingsUpdater(values);
 }

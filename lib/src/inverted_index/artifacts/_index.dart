@@ -7,3 +7,4 @@
 export 'dictionary.dart';
 export 'k_gram_index.dart';
 export 'postings.dart';
+export 'keyword_postings.dart';

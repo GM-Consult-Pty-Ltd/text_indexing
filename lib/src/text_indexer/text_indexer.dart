@@ -30,40 +30,29 @@ abstract class TextIndexer {
   //
 
   /// Factory constructor initializes a [TextIndexer] instance, passing in a
-  /// [index] instance:
-  /// - [documentStream] is an input stream of 'Map<String, dynamic>' documents. The documents
-  ///   updateIndexested by[documentStream] are passed to [indexJson] for indexing; and
-  /// - [collectionStream] is an input stream of a collection of 'Map<String, dynamic>'
-  ///   documents. The documents updateIndexested by [collectionStream] are passed to
-  ///   [indexCollection] for indexing.
+  /// [index] instance.
   factory TextIndexer(InvertedIndex index) => _TextIndexerImpl(index);
 
   /// Factory constructor initializes a [TextIndexer] instance, passing in a
-  /// [index] instance:
-  /// - [documentStream] is an input stream of 'Map<String, dynamic>' documents. The documents
-  ///   updateIndexested by[documentStream] are passed to [indexJson] for indexing; and
-  /// - [collectionStream] is an input stream of a collection of 'Map<String, dynamic>'
-  ///   documents. The documents updateIndexested by [collectionStream] are passed to
-  ///   [indexCollection] for indexing.
+  /// [index] instance and a [documentStream] for indexing.
   factory TextIndexer.stream(InvertedIndex index,
           Stream<MapEntry<String, Map<String, dynamic>>> documentStream) =>
       _TextIndexerImpl(index, documentStream: documentStream);
 
   /// Factory constructor initializes a [TextIndexer] instance, passing in a
-  /// [index] instance:
-  /// - [collectionStream] is an input stream of a collection of 'Map<String, dynamic>'
-  ///   documents. The documents updateIndexested by [collectionStream] are passed to
-  ///   [indexCollection] for indexing.
+  /// [index] instance and a [collectionStream] for indexing.
   factory TextIndexer.collectionStream(InvertedIndex index,
           Stream<Map<String, Map<String, dynamic>>>? collectionStream) =>
       _TextIndexerImpl(index, collectionStream: collectionStream);
 
   /// The [updateIndexes] method is called by [index] and updates the
-  /// [DftMap], [PostingsMap] and [KGramsMap] for this indexer.
+  /// [DftMap], [PostingsMap], [KeywordPostingsMap] and [KGramsMap] for this
+  /// indexer.
   ///
   /// Sub-classes override [updateIndexes] to perform additional actions whenever a
   /// document is indexed.
-  Future<void> updateIndexes(PostingsMap event, Iterable<Token> tokens);
+  Future<void> updateIndexes(PostingsMap postings,
+      KeywordPostingsMap keywordPostings, Iterable<Token> tokens);
 
   /// Indexes a text document, returning a [PostingsMap].
   Future<PostingsMap> indexText(String docId, SourceText docText);
@@ -107,12 +96,13 @@ abstract class TextIndexerMixin implements TextIndexer {
     // get the terms using tokenizer
     final tokens =
         (await index.tokenizer.tokenize(docText, nGramRange: index.nGramRange));
+    final KeywordPostingsMap keyWords = _keywordsToPostings(docId, docText);
     // map the tokens to postings
     final PostingsMap postings = _tokensToPostings(docId, tokens);
     // map postings to a list of DocPostingsMapEntry for docId.
     // final event = _postingsToTermPositions(docId, postings);
     // updateIndexes the postings list for docId
-    await updateIndexes(postings, tokens);
+    await updateIndexes(postings, keyWords, tokens);
     return postings;
   }
 
@@ -126,12 +116,14 @@ abstract class TextIndexerMixin implements TextIndexer {
   @override
   Future<PostingsMap> indexJson(String docId, Map<String, dynamic> json) async {
     // get the terms using tokenizer
-    final tokens =
-        (await index.tokenizer.tokenizeJson(json, zones: _zoneNames(json)));
+    final zones = _zoneNames(json);
+    final tokens = (await index.tokenizer.tokenizeJson(json, zones: zones));
+    final sourceText = json.toSourceText(zones);
+    final KeywordPostingsMap keyWords = _keywordsToPostings(docId, sourceText);
     // map the tokens to postings
     final PostingsMap postings = _tokensToPostings(docId, tokens);
     // update the indexes with the postings list for docId
-    await updateIndexes(postings, tokens);
+    await updateIndexes(postings, keyWords, tokens);
     return postings;
   }
 
@@ -164,6 +156,25 @@ abstract class TextIndexerMixin implements TextIndexer {
       final json = e.value;
       await indexJson(docId, json);
     });
+  }
+
+  /// Maps the [tokens] to a [PostingsMap] by creating a [ZonePostingsMap] for
+  /// every element in [tokens].
+  ///
+  /// Also adds a [ZonePostingsMap] entry for term pairs in [tokens].
+  KeywordPostingsMap _keywordsToPostings(String docId, String sourceText) {
+    final keywords = index.keywordExtractor(sourceText);
+    final graph = TermCoOccurrenceGraph(keywords);
+    final keyWordsMap = graph.keywordScores;
+    // initialize a KeywordPostingsMap collection to hold the postings
+    final KeywordPostingsMap postings = {};
+    // initialize the term position index
+    // final phraseTerms = [];
+    for (var entry in keyWordsMap.entries) {
+      // add a term position to postings
+      postings.addDocKeywordScore(entry.key, docId, entry.value);
+    }
+    return postings;
   }
 
   /// Maps the [tokens] to a [PostingsMap] by creating a [ZonePostingsMap] for
@@ -220,17 +231,38 @@ abstract class TextIndexerMixin implements TextIndexer {
   /// - asynchronously updates the index [PostingsMap].
   @override
   @mustCallSuper
-  Future<void> updateIndexes(PostingsMap event, Iterable<Token> tokens) async {
+  Future<void> updateIndexes(PostingsMap postings,
+      KeywordPostingsMap keywordPostings, Iterable<Token> tokens) async {
+    // update the k-gram index
+    await _upsertKgrams(tokens);
+    // update the document term frequency index and postings index
+    await _updatePostings(postings);
+    // update the keywords index
+    await _updateKeywordsIndex(keywordPostings);
+  }
+
+  Future<void> _updateKeywordsIndex(KeywordPostingsMap keywordPostings) async {
+    final keyWordsToUpdate =
+        await index.getKeywordPostings(keywordPostings.keys);
+    for (final entry in keywordPostings.entries) {
+      final keyword = entry.key;
+      final scores = entry.value;
+      final existingEntry = keyWordsToUpdate[keyword] ?? {};
+      existingEntry.addAll(scores);
+      keyWordsToUpdate[keyword] = existingEntry;
+    }
+    await index.upsertKeywordPostings(keyWordsToUpdate);
+  }
+
+  Future<void> _updatePostings(PostingsMap event) async {
     // - maps [event] to a set of unique terms;
     final terms = Set<Term>.from(event.keys);
-    await _upsertKgrams(tokens);
-
     // - loads the existing [PostingsMapEntry]s for the terms from a [PostingsMap] by calling [getPostings];
     final postingsToUpdate = await index.getPostings(terms);
-// - loads the existing [DftMapEntry]s for the terms from a [DftMap] by calling [getDictionary];
+    // - loads the existing [DftMapEntry]s for the terms from a [DftMap] by calling [getDictionary];
     final DftMap termsToUpdate = await index.getDictionary(terms);
     // - iterates through the [DocPostingsMapEntry] in [event];
-    await Future.forEach(event.entries, (PostingsMapEntry entry) {
+    for (final entry in event.entries) {
       final term = entry.key;
       final postings = entry.value;
       for (final docEntry in postings.entries) {
@@ -244,7 +276,7 @@ abstract class TextIndexerMixin implements TextIndexer {
           termsToUpdate.incrementFrequency(term);
         }
       }
-    });
+    }
     // - asynchronously updates the [DftMap] by calling [upsertDictionary];
     await index.upsertDictionary(termsToUpdate);
     // - asynchronously updates the [PostingsMap] by calling [upsertPostings]; and

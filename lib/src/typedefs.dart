@@ -93,27 +93,51 @@ typedef PostingsMap = Map<Term, DocPostingsMap>;
 
 /// Type definition for a hashmap entry of [Term] to [DocPostingsMap] in a
 /// [PostingsMap] hashmap.
+///
+/// Alias for `MapEntry<String, Map<String, Map<String, List<int>>>>`.
 typedef PostingsMapEntry = MapEntry<Term, DocPostingsMap>;
+
+/// Type definition for a hashmap of keywords to a map of document ids to
+/// keyword scores for that keyword in each document.
+///
+/// Alias for `Map<String, Map<String, double>>`.
+typedef KeywordPostingsMap = Map<Term, KeyWordPostings>;
+
+/// Type definition for a hashmap of document ids to keyword scores for a
+/// keyword in each document.
+///
+/// Alias for `Map<String, double>`.
+typedef KeyWordPostings = Map<DocId, double>;
 
 /// An alias for [int], used to denote the position of a [Term] in [SourceText]
 /// indexed object (the term position).
+///
+/// Alias for `int`;
 typedef Pt = int;
 
 /// An alias for [String], used whenever a document id is referenced.
 typedef DocId = String;
 
 /// Type definition for a hashmap of [DocId] to [ZonePostingsMap].
+///
+/// Alias for `Map<String, List<int>>`.
 typedef DocPostingsMap = Map<DocId, ZonePostingsMap>;
 
 /// Type definition for a hashmap entry of [DocId] to [ZonePostingsMap] in a
 /// [DocPostingsMap] hashmap.
+///
+/// Alias for `MapEntry<String, Map<String, List<int>>>`.
 typedef DocPostingsMapEntry = MapEntry<DocId, ZonePostingsMap>;
 
 /// Type definition for a hashmap of [Zone]s to [TermPositions].
+///
+/// Alias for `Map<String, List<int>>`.
 typedef ZonePostingsMap = Map<Zone, TermPositions>;
 
 /// Type definition for a hashmap entry of [Zone] to [TermPositions] in a
 /// [ZonePostingsMap] hashmap.
+///
+/// Alias for `MapEntry<String, List<int>>`.
 typedef ZonePostingsMapEntry = MapEntry<Zone, TermPositions>;
 
 /// Type definition for an ordered [Set] of unique zero-based term
@@ -129,3 +153,15 @@ typedef PostingsMapLoader = Future<PostingsMap> Function(Iterable<Term> terms);
 /// Parameter [values] is a subset of a [PostingsMap] containing new or changed
 /// [PostingsMapEntry] instances.
 typedef PostingsMapUpdater = Future<void> Function(PostingsMap values);
+
+/// Asynchronously retrieves a [KeywordPostingsMap] subset for a collection of
+/// [keywords] from a [KeywordPostingsMap] data source, usually persisted storage.
+typedef KeywordPostingsMapLoader = Future<KeywordPostingsMap> Function(
+    Iterable<Term> keywords);
+
+/// A callback that [values] for persisting to a [KeywordPostingsMap].
+///
+/// Parameter [values] is a subset of a [KeywordPostingsMap] containing new or changed
+/// [PostingsMapEntry] instances.
+typedef KeywordPostingsMapUpdater = Future<void> Function(
+    KeywordPostingsMap values);

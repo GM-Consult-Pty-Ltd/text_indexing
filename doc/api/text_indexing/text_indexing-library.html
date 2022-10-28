@@ -64,7 +64,7 @@
 </dt>
 <dd>
   The <a href="../text_indexing/AsyncCallbackIndex-class.html">AsyncCallbackIndex</a> is a <a href="../text_indexing/InvertedIndex-class.html">InvertedIndex</a> implementation class that
-mixes in <a href="../text_indexing/InvertedIndexMixin-class.html">InvertedIndexMixin</a> and <a href="../text_indexing/AsyncCallbackIndexMixin-class.html">AsyncCallbackIndexMixin</a>.
+extends <code>AsyncCallbackIndexBase</code>.
 </dd>
 
         <dt id="AsyncCallbackIndexMixin">
@@ -77,11 +77,11 @@ callback function fields that must be overriden:
 </dd>
 
         <dt id="English">
-  <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/English-class.html">English</a></span> 
+  <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.23.1/text_analysis/English-class.html">English</a></span> 
 
 </dt>
 <dd>
-  A <a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/TextAnalyzer-class.html">TextAnalyzer</a> implementation for <a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/English-class.html">English</a> language analysis.
+  A <a href="https://pub.dev/documentation/text_analysis/0.23.1/text_analysis/TextAnalyzer-class.html">TextAnalyzer</a> implementation for <a href="https://pub.dev/documentation/text_analysis/0.23.1/text_analysis/English-class.html">English</a> language analysis.
 </dd>
 
         <dt id="InMemoryIndex">
@@ -90,7 +90,7 @@ callback function fields that must be overriden:
 </dt>
 <dd>
   The InMemoryIndex is an implementation of the <a href="../text_indexing/InvertedIndex-class.html">InvertedIndex</a> interface
-that mixes in <a href="../text_indexing/InvertedIndexMixin-class.html">InvertedIndexMixin</a> and <a href="../text_indexing/InMemoryIndexMixin-class.html">InMemoryIndexMixin</a>.
+that extends <code>InMemoryIndexBase</code>.
 </dd>
 
         <dt id="InMemoryIndexMixin">
@@ -99,9 +99,7 @@ that mixes in <a href="../text_indexing/InvertedIndexMixin-class.html">InvertedI
 </dt>
 <dd>
   A mixin class that implements <a href="../text_indexing/InvertedIndex-class.html">InvertedIndex</a>. The mixin exposes in-memory
-<a href="../text_indexing/InMemoryIndexMixin/dictionary.html">dictionary</a> and <a href="../text_indexing/InMemoryIndexMixin/postings.html">postings</a> fields that must be overriden. Provides
-implementation of the following methods for operations on the in-memory
-<a href="../text_indexing/InMemoryIndexMixin/postings.html">postings</a> and <a href="../text_indexing/InMemoryIndexMixin/dictionary.html">dictionary</a> maps:
+<a href="../text_indexing/InMemoryIndexMixin/dictionary.html">dictionary</a> and <a href="../text_indexing/InMemoryIndexMixin/postings.html">postings</a> fields that must be overriden.
 </dd>
 
         <dt id="InvertedIndex">
@@ -110,7 +108,7 @@ implementation of the following methods for operations on the in-memory
 </dt>
 <dd>
   An interface that exposes methods for working with an inverted, positional
-zoned index on a collection of documents:
+zoned index on a collection of documents.
 </dd>
 
         <dt id="InvertedIndexMixin">
@@ -123,7 +121,7 @@ zoned index on a collection of documents:
 </dd>
 
         <dt id="NGramRange">
-  <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/NGramRange-class.html">NGramRange</a></span> 
+  <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.23.1/text_analysis/NGramRange-class.html">NGramRange</a></span> 
 
 </dt>
 <dd>
@@ -141,7 +139,7 @@ its word stem, base or root form.
 </dd>
 
         <dt id="SimilarityIndex">
-  <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/SimilarityIndex-class.html">SimilarityIndex</a></span> 
+  <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.23.1/text_analysis/SimilarityIndex-class.html">SimilarityIndex</a></span> 
 
 </dt>
 <dd>
@@ -149,8 +147,17 @@ its word stem, base or root form.
 correction and term expansion.
 </dd>
 
+        <dt id="TermCoOccurrenceGraph">
+  <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.23.1/text_analysis/TermCoOccurrenceGraph-class.html">TermCoOccurrenceGraph</a></span> 
+
+</dt>
+<dd>
+  A RAKE co-occurrence graph for evaluating the score of keywords extracted
+from text.
+</dd>
+
         <dt id="TermSimilarity">
-  <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/TermSimilarity-class.html">TermSimilarity</a></span> 
+  <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.23.1/text_analysis/TermSimilarity-class.html">TermSimilarity</a></span> 
 
 </dt>
 <dd>
@@ -158,58 +165,22 @@ correction and term expansion.
 terms.
 </dd>
 
-        <dt id="TermSimilarityBase">
-  <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/TermSimilarityBase-class.html">TermSimilarityBase</a></span> 
-
-</dt>
-<dd>
-  Implementation class for TermSimilarity unnamed factory constructor.
-</dd>
-
-        <dt id="TermSimilarityMixin">
-  <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/TermSimilarityMixin-class.html">TermSimilarityMixin</a></span> 
-
-</dt>
-<dd>
-  Mixin class that implements the <code>==</code> operator, <a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/TermSimilarityMixin/compareTo.html">compareTo</a>, <a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/TermSimilarityMixin/hashCode.html">hashCode</a> and
-<a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/TermSimilarityMixin/toJson.html">toJson</a>.
-</dd>
-
         <dt id="TextAnalyzer">
-  <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></span> 
+  <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.23.1/text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></span> 
 
 </dt>
 <dd>
   An interface exposes language-specific properties and methods used in
-text analysis:
+text analysis.
 </dd>
 
         <dt id="TextDocument">
-  <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/TextDocument-class.html">TextDocument</a></span> 
+  <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.23.1/text_analysis/TextDocument-class.html">TextDocument</a></span> 
 
 </dt>
 <dd>
-  The <a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/TextDocument-class.html">TextDocument</a> object model enumerates properties for analysing a text
+  The <a href="https://pub.dev/documentation/text_analysis/0.23.1/text_analysis/TextDocument-class.html">TextDocument</a> object model enumerates properties for analysing a text
 document:
-</dd>
-
-        <dt id="TextDocumentBase">
-  <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/TextDocumentBase-class.html">TextDocumentBase</a></span> 
-
-</dt>
-<dd>
-  An abstract implementation of <a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/TextDocument-class.html">TextDocument</a> that uses <a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/TextDocumentMixin-class.html">TextDocumentMixin</a>.
-</dd>
-
-        <dt id="TextDocumentMixin">
-  <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/TextDocumentMixin-class.html">TextDocumentMixin</a></span> 
-
-</dt>
-<dd>
-  The <a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/TextDocumentMixin-class.html">TextDocumentMixin</a> provides implementations of the
-<a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/TextDocument/averageSentenceLength.html">TextDocument.averageSentenceLength</a>, <a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/TextDocument/averageSyllableCount.html">TextDocument.averageSyllableCount</a>,
-<a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/TextDocument/wordCount.html">TextDocument.wordCount</a>, <a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/TextDocument/fleschReadingEaseScore.html">TextDocument.fleschReadingEaseScore</a> and
-<a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/TextDocument/fleschKincaidGradeLevel.html">TextDocument.fleschKincaidGradeLevel</a> methods.
 </dd>
 
         <dt id="TextIndexer">
@@ -230,7 +201,7 @@ collection of documents (<code>corpus</code>).
 </dd>
 
         <dt id="TextTokenizer">
-  <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/TextTokenizer-class.html">TextTokenizer</a></span> 
+  <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.23.1/text_analysis/TextTokenizer-class.html">TextTokenizer</a></span> 
 
 </dt>
 <dd>
@@ -238,30 +209,12 @@ collection of documents (<code>corpus</code>).
 in full-text search queries and indexes:
 </dd>
 
-        <dt id="TextTokenizerBase">
-  <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/TextTokenizerBase-class.html">TextTokenizerBase</a></span> 
-
-</dt>
-<dd>
-  A <a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/TextTokenizer-class.html">TextTokenizer</a> implementation that mixes in <a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/TextTokenizerMixin-class.html">TextTokenizerMixin</a>, which
-implements <a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/TextTokenizer/tokenize.html">TextTokenizer.tokenize</a> and <a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/TextTokenizer/tokenizeJson.html">TextTokenizer.tokenizeJson</a>.
-</dd>
-
-        <dt id="TextTokenizerMixin">
-  <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/TextTokenizerMixin-class.html">TextTokenizerMixin</a></span> 
-
-</dt>
-<dd>
-  A mixin class that implements <a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/TextTokenizer/tokenize.html">TextTokenizer.tokenize</a> and
- <a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/TextTokenizer/tokenizeJson.html">TextTokenizer.tokenizeJson</a>.
-</dd>
-
         <dt id="Token">
-  <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/Token-class.html">Token</a></span> 
+  <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.23.1/text_analysis/Token-class.html">Token</a></span> 
 
 </dt>
 <dd>
-  A <a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/Token-class.html">Token</a> represents a <a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/Token/term.html">term</a> (word) present in a text source:
+  A <a href="https://pub.dev/documentation/text_analysis/0.23.1/text_analysis/Token-class.html">Token</a> represents a <a href="https://pub.dev/documentation/text_analysis/0.23.1/text_analysis/Token/term.html">term</a> (word) present in a text source:
 </dd>
 
       </dl>
@@ -277,7 +230,7 @@ implements <a href="https://pub.dev/documentation/text_analysis/0.21.0/text_anal
 
       <dl>
         <dt id="PartOfSpeech">
-  <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/PartOfSpeech.html">PartOfSpeech</a></span> 
+  <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.23.1/text_analysis/PartOfSpeech.html">PartOfSpeech</a></span> 
 
 </dt>
 <dd>
@@ -286,7 +239,7 @@ grammatical properties.
 </dd>
 
         <dt id="PoSTag">
-  <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/PoSTag.html">PoSTag</a></span> 
+  <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.23.1/text_analysis/PoSTag.html">PoSTag</a></span> 
 
 </dt>
 <dd>
@@ -300,6 +253,14 @@ grammatical properties.
 </dt>
 <dd>
   Enumerates the sorting strategy for <a href="../type_definitions/DftMap.html">DftMap</a>'s <a href="../type_definitions/DftMapEntry.html">DftMapEntry</a>s.
+</dd>
+
+        <dt id="TokenizingStrategy">
+  <span class="name "><a href="https://pub.dev/documentation/text_analysis/0.23.1/text_analysis/TokenizingStrategy.html">TokenizingStrategy</a></span> 
+
+</dt>
+<dd>
+  The strategy to apply when splitting text to <a href="https://pub.dev/documentation/text_analysis/0.23.1/text_analysis/Token-class.html">Token</a>s.
 </dd>
 
       </dl>
@@ -338,27 +299,22 @@ grammatical properties.
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#classes">Classes</a></li>
   <li><a href="../text_indexing/AsyncCallbackIndex-class.html">AsyncCallbackIndex</a></li>
   <li><a href="../text_indexing/AsyncCallbackIndexMixin-class.html">AsyncCallbackIndexMixin</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/English-class.html">English</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.23.1/text_analysis/English-class.html">English</a></li>
   <li><a href="../text_indexing/InMemoryIndex-class.html">InMemoryIndex</a></li>
   <li><a href="../text_indexing/InMemoryIndexMixin-class.html">InMemoryIndexMixin</a></li>
   <li><a href="../text_indexing/InvertedIndex-class.html">InvertedIndex</a></li>
   <li><a href="../text_indexing/InvertedIndexMixin-class.html">InvertedIndexMixin</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/NGramRange-class.html">NGramRange</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.23.1/text_analysis/NGramRange-class.html">NGramRange</a></li>
   <li><a href="https://pub.dev/documentation/porter_2_stemmer/3.0.1/porter_2_stemmer/Porter2Stemmer-class.html">Porter2Stemmer</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/SimilarityIndex-class.html">SimilarityIndex</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/TermSimilarity-class.html">TermSimilarity</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/TermSimilarityBase-class.html">TermSimilarityBase</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/TermSimilarityMixin-class.html">TermSimilarityMixin</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/TextDocument-class.html">TextDocument</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/TextDocumentBase-class.html">TextDocumentBase</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/TextDocumentMixin-class.html">TextDocumentMixin</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.23.1/text_analysis/SimilarityIndex-class.html">SimilarityIndex</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.23.1/text_analysis/TermCoOccurrenceGraph-class.html">TermCoOccurrenceGraph</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.23.1/text_analysis/TermSimilarity-class.html">TermSimilarity</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.23.1/text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.23.1/text_analysis/TextDocument-class.html">TextDocument</a></li>
   <li><a href="../text_indexing/TextIndexer-class.html">TextIndexer</a></li>
   <li><a href="../text_indexing/TextIndexerBase-class.html">TextIndexerBase</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/TextTokenizer-class.html">TextTokenizer</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/TextTokenizerBase-class.html">TextTokenizerBase</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/TextTokenizerMixin-class.html">TextTokenizerMixin</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/Token-class.html">Token</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.23.1/text_analysis/TextTokenizer-class.html">TextTokenizer</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.23.1/text_analysis/Token-class.html">Token</a></li>
 
 
 
@@ -366,9 +322,10 @@ grammatical properties.
 
 
   <li class="section-title"><a href="../text_indexing/text_indexing-library.html#enums">Enums</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/PartOfSpeech.html">PartOfSpeech</a></li>
-  <li><a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/PoSTag.html">PoSTag</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.23.1/text_analysis/PartOfSpeech.html">PartOfSpeech</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.23.1/text_analysis/PoSTag.html">PoSTag</a></li>
   <li><a href="../text_indexing/TermSortStrategy.html">TermSortStrategy</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.23.1/text_analysis/TokenizingStrategy.html">TokenizingStrategy</a></li>
 
 
 </ol>
@@ -380,7 +337,7 @@ grammatical properties.
 <footer>
   <span class="no-break">
     text_indexing
-      0.20.0
+      0.21.0
   </span>
 
   

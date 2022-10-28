@@ -59,8 +59,9 @@
 </div>
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
-<span class="name ">updateIndexes</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="updateIndexes-param-event"><span class="type-annotation"><a href="../../type_definitions/PostingsMap.html">PostingsMap</a></span> <span class="parameter-name">event</span>, </span></li>
-<li><span class="parameter" id="updateIndexes-param-tokens"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.21.0/text_analysis/Token-class.html">Token</a></span>&gt;</span></span> <span class="parameter-name">tokens</span></span></li>
+<span class="name ">updateIndexes</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="updateIndexes-param-postings"><span class="type-annotation"><a href="../../type_definitions/PostingsMap.html">PostingsMap</a></span> <span class="parameter-name">postings</span>, </span></li>
+<li><span class="parameter" id="updateIndexes-param-keywordPostings"><span class="type-annotation"><a href="../../type_definitions/KeywordPostingsMap.html">KeywordPostingsMap</a></span> <span class="parameter-name">keywordPostings</span>, </span></li>
+<li><span class="parameter" id="updateIndexes-param-tokens"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.23.1/text_analysis/Token-class.html">Token</a></span>&gt;</span></span> <span class="parameter-name">tokens</span></span></li>
 </ol>)
 
       <div class="features">@<a href="https://pub.dev/documentation/meta/1.8.0/meta/mustCallSuper-constant.html">mustCallSuper</a>, inherited</div>
@@ -91,35 +92,14 @@ increments the document frequency of the associated term;</li>
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
 @mustCallSuper
-Future&lt;void&gt; updateIndexes(PostingsMap event, Iterable&lt;Token&gt; tokens) async {
-  &#47;&#47; - maps [event] to a set of unique terms;
-  final terms = Set&lt;Term&gt;.from(event.keys);
+Future&lt;void&gt; updateIndexes(PostingsMap postings,
+    KeywordPostingsMap keywordPostings, Iterable&lt;Token&gt; tokens) async {
+  &#47;&#47; update the k-gram index
   await _upsertKgrams(tokens);
-
-  &#47;&#47; - loads the existing [PostingsMapEntry]s for the terms from a [PostingsMap] by calling [getPostings];
-  final postingsToUpdate = await index.getPostings(terms);
-&#47;&#47; - loads the existing [DftMapEntry]s for the terms from a [DftMap] by calling [getDictionary];
-  final DftMap termsToUpdate = await index.getDictionary(terms);
-  &#47;&#47; - iterates through the [DocPostingsMapEntry] in [event];
-  await Future.forEach(event.entries, (PostingsMapEntry entry) {
-    final term = entry.key;
-    final postings = entry.value;
-    for (final docEntry in postings.entries) {
-      final docId = docEntry.key;
-      final fieldPostings = docEntry.value;
-      &#47;&#47; - inserts or updates each [DocPostingsMapEntry] instance to a collection of postings to update;
-      final increment =
-          postingsToUpdate.addZonePostings(term, docId, fieldPostings);
-      &#47;&#47; - if a [DocPostingsMapEntry] instance did not exist previously, also increments the document frequency of the associated term;
-      if (increment) {
-        termsToUpdate.incrementFrequency(term);
-      }
-    }
-  });
-  &#47;&#47; - asynchronously updates the [DftMap] by calling [upsertDictionary];
-  await index.upsertDictionary(termsToUpdate);
-  &#47;&#47; - asynchronously updates the [PostingsMap] by calling [upsertPostings]; and
-  await index.upsertPostings(postingsToUpdate);
+  &#47;&#47; update the document term frequency index and postings index
+  await _updatePostings(postings);
+  &#47;&#47; update the keywords index
+  await _updateKeywordsIndex(keywordPostings);
 }</code></pre>
 </section>
 
@@ -181,7 +161,7 @@ Future&lt;void&gt; updateIndexes(PostingsMap event, Iterable&lt;Token&gt; tokens
 <footer>
   <span class="no-break">
     text_indexing
-      0.20.0
+      0.21.0
   </span>
 
   

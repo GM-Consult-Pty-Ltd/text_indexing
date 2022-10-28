@@ -40,9 +40,10 @@ void main() {
     };
 
     const searchPrase =
-        'AAPL google GOOG tesla apple, alphabet 3m intel semiconductor';
+        'AAPL, google, GOOG, tesla, apple inc, alphabet, 3m, intel, semiconductor';
 
-    test('kgrams for vocabulary', () async {
+    test('Index on sampleNews', () async {
+      final data = TestData.stockNews;
       // - initialize the [DftMap]
       final DftMap dictionary = {};
 
@@ -52,9 +53,36 @@ void main() {
       // - initialize the [KGramsMap]
       final KGramsMap kGramIndex = {};
 
-      final index = await _getIndex(sampleNews);
+      final index = await _getIndex(data,
+          //
+          {'name': 1.0}
+          //
+          );
 
-      await saveKgramIndex(kGramIndex);
+      final searchTokens = (await index.tokenizer.tokenize(searchPrase,
+          nGramRange: index.nGramRange, strategy: index.strategy));
+
+      final terms = searchTokens.terms;
+
+      final kGrams = terms.toKGramsMap().keys;
+
+      final dftSearch = await index.getDictionary(terms);
+
+      final postingsSearch = await index.getPostings(terms);
+
+      final keyWordsSearch = await index.getKeywordPostings(terms);
+
+      final kGramsSearch = await index.getKGramIndex(kGrams);
+
+      _printKeywords(index: keyWordsSearch, data: data);
+
+      // print the document term frequencies for each term in searchTerms
+      // await _printTermFrequencyPostings(index, searchTokens);
+
+      // print the statistics for each term in [searchTerms].
+      // await _printTermStats(index, searchTokens);
+
+      // await saveKgramIndex(kGramIndex);
     });
 
     /// A simple test of the [InMemoryIndexer] on a small dataset:
@@ -82,6 +110,7 @@ void main() {
 
       final index = InMemoryIndex(
           tokenizer: TextTokenizer.english,
+          keywordExtractor: English.analyzer.keywordExtractor,
           dictionary: dictionary,
           postings: postings,
           kGramIndex: kGramIndex,
@@ -156,7 +185,7 @@ void _progressReporter(int Function() termCount, int Function() kGramCount) {
   });
 }
 
-_printKGrams({required KGramsMap index, int limit = 25}) {
+void _printKGrams({required KGramsMap index, int limit = 25}) {
   print('K-GRAMS');
   final entries = index.length > limit
       ? index.entries.toList().sublist(0, limit)
@@ -164,6 +193,35 @@ _printKGrams({required KGramsMap index, int limit = 25}) {
 
   for (final e in entries) {
     print('${e.key}: ${e.value.toString()}');
+  }
+}
+
+void _printKeywords(
+    {required KeywordPostingsMap index,
+    required Map<String, Map<String, dynamic>> data,
+    int limit = 25}) {
+  print('KEYWORDS');
+  var entries = index.entries.toList();
+  entries.sort(((a, b) => b.value.length.compareTo(a.value.length)));
+  entries = entries.length > limit
+      ? entries.toList().sublist(0, limit)
+      : entries.toList();
+
+  for (final e in entries) {
+    var value = e.value.entries.toList();
+    value.sort(((a, b) => b.value.compareTo(a.value)));
+    value = value.length > 3 ? value.sublist(0, 3) : value;
+    print('${e.key}: ${value.length.toString()} hits');
+    var i = 0;
+    for (final hit in value) {
+      i++;
+      final doc = data[hit.key];
+      if (doc != null) {
+        final title = doc['name'].toString();
+        final score = hit.value;
+        print('  $i. $title (${score.toStringAsFixed(1)})');
+      }
+    }
   }
 }
 
@@ -280,12 +338,17 @@ Future<void> saveKgramIndex(KGramsMap value,
   await out.close();
 }
 
-Future<InvertedIndex> _getIndex(JsonCollection documents,
+Future<InMemoryIndex> _getIndex(JsonCollection documents,
     [Map<String, double> zones = const {
       'name': 1,
       'descriptions': 0.5
     }]) async {
-  final index = InMemoryIndex(tokenizer: TextTokenizer.english, zones: zones);
+  final index = InMemoryIndex(
+      tokenizer: TextTokenizer.english,
+      strategy: TokenizingStrategy.all,
+      nGramRange: NGramRange(1, 2),
+      keywordExtractor: English.analyzer.keywordExtractor,
+      zones: zones);
   final indexer = TextIndexer(index);
   await indexer.indexCollection(documents);
   await saveKgramIndex(index.kGramIndex);
