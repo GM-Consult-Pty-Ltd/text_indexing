@@ -6,6 +6,21 @@ All rights reserved.
 
 *THIS PACKAGE IS **PRE-RELEASE** AND SUBJECT TO DAILY BREAKING CHANGES.*
 
+## 0.22.0
+
+### *Breaking changes*
+* Added method `InvertedIndex.getCollectionSize`.
+* Implemented `InvertedIndex.getCollectionSize`.
+* Implemented `AsyncCallbackIndex.getCollectionSize`.
+* Renamed function definition `VocabularyLength` to `CollectionSizeCallback`.
+* Changed signature of factory `InvertedIndex.inMemory`.
+* Changed signature of unnamed factory constructor `InvertedIndex`.
+
+### *Updated*
+* Dependencies.
+* Tests.
+* Examples.
+* Documentation.   
 
 ## 0.21.1
 

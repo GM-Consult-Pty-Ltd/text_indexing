@@ -68,7 +68,7 @@ typedef DftMapUpdater = Future<void> Function(DftMap values);
 
 /// A callback that asynchronously retrieves the number of terms in the
 /// vocabulary (N).
-typedef VocabularySize = Future<int> Function();
+typedef CollectionSizeCallback = Future<int> Function();
 
 /// Alias for `Map<String, double>`.
 ///

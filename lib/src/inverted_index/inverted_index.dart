@@ -65,6 +65,7 @@ abstract class InvertedIndex {
   factory InvertedIndex.inMemory(
           {required TextTokenizer tokenizer,
           required KeywordExtractor keywordExtractor,
+          required int collectionSize,
           Map<String, int>? dictionary,
           Map<String, Map<String, Map<String, List<int>>>>? postings,
           KeywordPostingsMap? keywordPostings,
@@ -74,6 +75,7 @@ abstract class InvertedIndex {
           TokenizingStrategy strategy = TokenizingStrategy.terms,
           Map<String, double> zones = const <String, double>{}}) =>
       InMemoryIndex(
+          collectionSize: collectionSize,
           tokenizer: tokenizer,
           keywordExtractor: keywordExtractor,
           dictionary: dictionary,
@@ -110,9 +112,10 @@ abstract class InvertedIndex {
   /// - [postingsUpdater] passes a [PostingsMap] subset for persisting to a
   ///   index repository.
   factory InvertedIndex(
-          {required DftMapLoader dictionaryLoader,
+          {required CollectionSizeCallback collectionSizeLoader,
+          required DftMapLoader dictionaryLoader,
           required DftMapUpdater dictionaryUpdater,
-          required VocabularySize dictionaryLengthLoader,
+          required CollectionSizeCallback dictionaryLengthLoader,
           required KGramsMapLoader kGramIndexLoader,
           required KGramsMapUpdater kGramIndexUpdater,
           required PostingsMapLoader postingsLoader,
@@ -129,6 +132,7 @@ abstract class InvertedIndex {
           TokenizingStrategy strategy = TokenizingStrategy.terms,
           Map<String, double> zones = const <String, double>{}}) =>
       AsyncCallbackIndex(
+          collectionSizeLoader: collectionSizeLoader,
           dictionaryLoader: dictionaryLoader,
           dictionaryUpdater: dictionaryUpdater,
           dictionaryLengthLoader: dictionaryLengthLoader,
@@ -237,6 +241,10 @@ abstract class InvertedIndex {
   /// Inserts [values] into a [PostingsMap] repository, overwriting them if they
   /// already exist.
   Future<void> upsertKeywordPostings(KeywordPostingsMap values);
+
+  /// Asynchronously returns the total number of documents in the indexed
+  /// collection.
+  Future<int> getCollectionSize();
 }
 
 /// An abstract [InvertedIndex] base class that mixies in [InvertedIndexMixin].

@@ -50,9 +50,10 @@
 </h1></div>
 
     <section class="multi-line-signature">
-      <span class="name ">InvertedIndex</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="-param-dictionaryLoader">{<span>required</span> <span class="type-annotation"><a href="../../type_definitions/DftMapLoader.html">DftMapLoader</a></span> <span class="parameter-name">dictionaryLoader</span>, </span></li>
+      <span class="name ">InvertedIndex</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="-param-collectionSizeLoader">{<span>required</span> <span class="type-annotation"><a href="../../type_definitions/CollectionSizeCallback.html">CollectionSizeCallback</a></span> <span class="parameter-name">collectionSizeLoader</span>, </span></li>
+<li><span class="parameter" id="-param-dictionaryLoader"><span>required</span> <span class="type-annotation"><a href="../../type_definitions/DftMapLoader.html">DftMapLoader</a></span> <span class="parameter-name">dictionaryLoader</span>, </span></li>
 <li><span class="parameter" id="-param-dictionaryUpdater"><span>required</span> <span class="type-annotation"><a href="../../type_definitions/DftMapUpdater.html">DftMapUpdater</a></span> <span class="parameter-name">dictionaryUpdater</span>, </span></li>
-<li><span class="parameter" id="-param-dictionaryLengthLoader"><span>required</span> <span class="type-annotation"><a href="../../type_definitions/VocabularySize.html">VocabularySize</a></span> <span class="parameter-name">dictionaryLengthLoader</span>, </span></li>
+<li><span class="parameter" id="-param-dictionaryLengthLoader"><span>required</span> <span class="type-annotation"><a href="../../type_definitions/CollectionSizeCallback.html">CollectionSizeCallback</a></span> <span class="parameter-name">dictionaryLengthLoader</span>, </span></li>
 <li><span class="parameter" id="-param-kGramIndexLoader"><span>required</span> <span class="type-annotation"><a href="../../type_definitions/KGramsMapLoader.html">KGramsMapLoader</a></span> <span class="parameter-name">kGramIndexLoader</span>, </span></li>
 <li><span class="parameter" id="-param-kGramIndexUpdater"><span>required</span> <span class="type-annotation"><a href="../../type_definitions/KGramsMapUpdater.html">KGramsMapUpdater</a></span> <span class="parameter-name">kGramIndexUpdater</span>, </span></li>
 <li><span class="parameter" id="-param-postingsLoader"><span>required</span> <span class="type-annotation"><a href="../../type_definitions/PostingsMapLoader.html">PostingsMapLoader</a></span> <span class="parameter-name">postingsLoader</span>, </span></li>
@@ -106,9 +107,10 @@ index repository.</li>
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">factory InvertedIndex(
-        {required DftMapLoader dictionaryLoader,
+        {required CollectionSizeCallback collectionSizeLoader,
+          required DftMapLoader dictionaryLoader,
         required DftMapUpdater dictionaryUpdater,
-        required VocabularySize dictionaryLengthLoader,
+        required CollectionSizeCallback dictionaryLengthLoader,
         required KGramsMapLoader kGramIndexLoader,
         required KGramsMapUpdater kGramIndexUpdater,
         required PostingsMapLoader postingsLoader,
@@ -125,6 +127,7 @@ index repository.</li>
         TokenizingStrategy strategy = TokenizingStrategy.terms,
         Map&lt;String, double&gt; zones = const &lt;String, double&gt;{}}) =&gt;
     AsyncCallbackIndex(
+      collectionSizeLoader: collectionSizeLoader,
         dictionaryLoader: dictionaryLoader,
         dictionaryUpdater: dictionaryUpdater,
         dictionaryLengthLoader: dictionaryLengthLoader,
@@ -182,6 +185,7 @@ index repository.</li>
     <li><a href="../../text_indexing/InvertedIndex/zones.html">zones</a></li>
 
     <li class="section-title"><a href="../../text_indexing/InvertedIndex-class.html#instance-methods">Methods</a></li>
+    <li><a href="../../text_indexing/InvertedIndex/getCollectionSize.html">getCollectionSize</a></li>
     <li><a href="../../text_indexing/InvertedIndex/getDictionary.html">getDictionary</a></li>
     <li><a href="../../text_indexing/InvertedIndex/getFtdPostings.html">getFtdPostings</a></li>
     <li><a href="../../text_indexing/InvertedIndex/getIdFtIndex.html">getIdFtIndex</a></li>
@@ -214,7 +218,7 @@ index repository.</li>
 <footer>
   <span class="no-break">
     text_indexing
-      0.21.1
+      0.22.0
   </span>
 
   

@@ -98,6 +98,7 @@ void main() {
     /// - print the top 5 most popular [DftMap.terms].
     test('InMemoryIndexer.index', () async {
       //
+      final collection = sampleStocks;
 
       // - initialize the [DftMap]
       final DftMap dictionary = {};
@@ -110,6 +111,7 @@ void main() {
 
       final index = InMemoryIndex(
           tokenizer: TextTokenizer.english,
+          collectionSize: collection.length,
           keywordExtractor: English.analyzer.keywordExtractor,
           dictionary: dictionary,
           postings: postings,
@@ -129,7 +131,7 @@ void main() {
       _progressReporter(() => dictionary.length, () => kGramIndex.length);
 
       // - iterate through the sample data
-      await indexer.indexCollection(sampleStocks);
+      await indexer.indexCollection(collection);
 
       // get the end time in milliseconds
       final end = DateTime.now().millisecondsSinceEpoch;
@@ -345,6 +347,7 @@ Future<InMemoryIndex> _getIndex(JsonCollection documents,
     }]) async {
   final index = InMemoryIndex(
       tokenizer: TextTokenizer.english,
+      collectionSize: documents.length,
       strategy: TokenizingStrategy.all,
       nGramRange: NGramRange(1, 2),
       keywordExtractor: English.analyzer.keywordExtractor,

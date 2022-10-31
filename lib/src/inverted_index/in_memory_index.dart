@@ -10,6 +10,11 @@ import 'package:text_indexing/src/_index.dart';
 /// The InMemoryIndex is intended for fast indexing of a smaller corpus using
 /// in-memory dictionary, k-gram and postings hashmaps.
 class InMemoryIndex extends InMemoryIndexBase {
+  //
+
+  @override
+  final int collectionSize;
+
   @override
   final int k;
 
@@ -65,6 +70,7 @@ class InMemoryIndex extends InMemoryIndexBase {
   InMemoryIndex(
       {required this.tokenizer,
       required this.keywordExtractor,
+      required this.collectionSize,
       DftMap? dictionary,
       PostingsMap? postings,
       KeywordPostingsMap? keywordPostings,
@@ -122,6 +128,12 @@ abstract class InMemoryIndexBase
 ///   overwriting any existing entries.
 abstract class InMemoryIndexMixin implements InvertedIndex {
   //
+
+  /// Returns  the size of the indexed collection.
+  int get collectionSize;
+
+  @override
+  Future<int> getCollectionSize() async => collectionSize;
 
   /// The in-memory term dictionary for the index.
   DftMap get dictionary;

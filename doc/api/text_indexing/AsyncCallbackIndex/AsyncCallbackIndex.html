@@ -50,9 +50,10 @@
 </h1></div>
 
     <section class="multi-line-signature">const
-      <span class="name ">AsyncCallbackIndex</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="-param-dictionaryLoader">{<span>required</span> <span class="type-annotation"><a href="../../type_definitions/DftMapLoader.html">DftMapLoader</a></span> <span class="parameter-name">dictionaryLoader</span>, </span></li>
+      <span class="name ">AsyncCallbackIndex</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="-param-collectionSizeLoader">{<span>required</span> <span class="type-annotation"><a href="../../type_definitions/CollectionSizeCallback.html">CollectionSizeCallback</a></span> <span class="parameter-name">collectionSizeLoader</span>, </span></li>
+<li><span class="parameter" id="-param-dictionaryLoader"><span>required</span> <span class="type-annotation"><a href="../../type_definitions/DftMapLoader.html">DftMapLoader</a></span> <span class="parameter-name">dictionaryLoader</span>, </span></li>
 <li><span class="parameter" id="-param-dictionaryUpdater"><span>required</span> <span class="type-annotation"><a href="../../type_definitions/DftMapUpdater.html">DftMapUpdater</a></span> <span class="parameter-name">dictionaryUpdater</span>, </span></li>
-<li><span class="parameter" id="-param-dictionaryLengthLoader"><span>required</span> <span class="type-annotation"><a href="../../type_definitions/VocabularySize.html">VocabularySize</a></span> <span class="parameter-name">dictionaryLengthLoader</span>, </span></li>
+<li><span class="parameter" id="-param-dictionaryLengthLoader"><span>required</span> <span class="type-annotation"><a href="../../type_definitions/CollectionSizeCallback.html">CollectionSizeCallback</a></span> <span class="parameter-name">dictionaryLengthLoader</span>, </span></li>
 <li><span class="parameter" id="-param-kGramIndexLoader"><span>required</span> <span class="type-annotation"><a href="../../type_definitions/KGramsMapLoader.html">KGramsMapLoader</a></span> <span class="parameter-name">kGramIndexLoader</span>, </span></li>
 <li><span class="parameter" id="-param-kGramIndexUpdater"><span>required</span> <span class="type-annotation"><a href="../../type_definitions/KGramsMapUpdater.html">KGramsMapUpdater</a></span> <span class="parameter-name">kGramIndexUpdater</span>, </span></li>
 <li><span class="parameter" id="-param-postingsLoader"><span>required</span> <span class="type-annotation"><a href="../../type_definitions/PostingsMapLoader.html">PostingsMapLoader</a></span> <span class="parameter-name">postingsLoader</span>, </span></li>
@@ -72,6 +73,8 @@
 <section class="desc markdown">
   <p>Instantiates a <a href="../../text_indexing/AsyncCallbackIndex-class.html">AsyncCallbackIndex</a> instance:</p>
 <ul>
+<li><a href="../../text_indexing/AsyncCallbackIndex/collectionSizeLoader.html">collectionSizeLoader</a> asynchronously retrieves the number of documents
+in the indexed collection;</li>
 <li><a href="../../text_indexing/AsyncCallbackIndex/tokenizer.html">tokenizer</a> is the <a href="https://pub.dev/documentation/text_analysis/0.23.1/text_analysis/TextTokenizer-class.html">TextTokenizer</a> used to tokenize text for the index;</li>
 <li><a href="../../text_indexing/AsyncCallbackIndex/keywordExtractor.html">keywordExtractor</a> is a splitter function that returns an ordered
 collection of keyword phrasesfrom text.</li>
@@ -105,7 +108,8 @@ persisting to a index repository.</li>
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">const AsyncCallbackIndex(
-    {required this.dictionaryLoader,
+    {required this.collectionSizeLoader,
+    required this.dictionaryLoader,
     required this.dictionaryUpdater,
     required this.dictionaryLengthLoader,
     required this.kGramIndexLoader,
@@ -150,6 +154,7 @@ persisting to a index repository.</li>
     <li class="section-title">
       <a href="../../text_indexing/AsyncCallbackIndex-class.html#instance-properties">Properties</a>
     </li>
+    <li><a href="../../text_indexing/AsyncCallbackIndex/collectionSizeLoader.html">collectionSizeLoader</a></li>
     <li><a href="../../text_indexing/AsyncCallbackIndex/dictionaryLengthLoader.html">dictionaryLengthLoader</a></li>
     <li><a href="../../text_indexing/AsyncCallbackIndex/dictionaryLoader.html">dictionaryLoader</a></li>
     <li><a href="../../text_indexing/AsyncCallbackIndex/dictionaryUpdater.html">dictionaryUpdater</a></li>
@@ -170,6 +175,7 @@ persisting to a index repository.</li>
     <li><a href="../../text_indexing/AsyncCallbackIndex/zones.html">zones</a></li>
 
     <li class="section-title inherited"><a href="../../text_indexing/AsyncCallbackIndex-class.html#instance-methods">Methods</a></li>
+    <li class="inherited"><a href="../../text_indexing/AsyncCallbackIndexMixin/getCollectionSize.html">getCollectionSize</a></li>
     <li class="inherited"><a href="../../text_indexing/AsyncCallbackIndexMixin/getDictionary.html">getDictionary</a></li>
     <li class="inherited"><a href="../../text_indexing/InvertedIndexMixin/getFtdPostings.html">getFtdPostings</a></li>
     <li class="inherited"><a href="../../text_indexing/InvertedIndexMixin/getIdFtIndex.html">getIdFtIndex</a></li>
@@ -202,7 +208,7 @@ persisting to a index repository.</li>
 <footer>
   <span class="no-break">
     text_indexing
-      0.21.1
+      0.22.0
   </span>
 
   

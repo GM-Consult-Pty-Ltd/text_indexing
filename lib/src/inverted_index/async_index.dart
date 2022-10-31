@@ -24,7 +24,10 @@ class AsyncCallbackIndex extends AsyncCallbackIndexBase {
   final NGramRange nGramRange;
 
   @override
-  final VocabularySize dictionaryLengthLoader;
+  final CollectionSizeCallback dictionaryLengthLoader;
+
+  @override
+  final CollectionSizeCallback collectionSizeLoader;
 
   @override
   final DftMapLoader dictionaryLoader;
@@ -63,6 +66,8 @@ class AsyncCallbackIndex extends AsyncCallbackIndexBase {
   final KeywordPostingsMapUpdater keywordPostingsUpdater;
 
   /// Instantiates a [AsyncCallbackIndex] instance:
+  /// - [collectionSizeLoader] asynchronously retrieves the number of documents
+  ///   in the indexed collection;
   /// - [tokenizer] is the [TextTokenizer] used to tokenize text for the index;
   /// - [keywordExtractor] is a splitter function that returns an ordered
   ///   collection of keyword phrasesfrom text.
@@ -89,7 +94,8 @@ class AsyncCallbackIndex extends AsyncCallbackIndexBase {
   /// - [keywordPostingsUpdater] passes a [KeywordPostingsMap] subset for
   ///   persisting to a index repository.
   const AsyncCallbackIndex(
-      {required this.dictionaryLoader,
+      {required this.collectionSizeLoader,
+      required this.dictionaryLoader,
       required this.dictionaryUpdater,
       required this.dictionaryLengthLoader,
       required this.kGramIndexLoader,
@@ -122,6 +128,8 @@ abstract class AsyncCallbackIndexBase
 
 /// A mixin class that implements [InvertedIndex]. The mixin exposes five
 /// callback function fields that must be overriden:
+/// - [collectionSizeLoader] asynchronously retrieves the number of documents
+///   in the indexed collection;
 /// - [dictionaryLengthLoader] asynchronously retrieves the number of terms
 ///   in the vocabulary (N);
 /// - [dictionaryLoader] asynchronously retrieves a [DftMap] for a vocabulary
@@ -149,8 +157,12 @@ abstract class AsyncCallbackIndexBase
 abstract class AsyncCallbackIndexMixin implements InvertedIndex {
   //
 
-  /// Asynchronously retrieves the number of terms in the vocabulary (N).
-  VocabularySize get dictionaryLengthLoader;
+  /// Asynchronously retrieves the number of terms in the vocabulary.
+  CollectionSizeCallback get dictionaryLengthLoader;
+
+  /// Asynchronously retrieves the number of documents in the indexed
+  /// collection.
+  CollectionSizeCallback get collectionSizeLoader;
 
   /// Asynchronously retrieves a [DftMap] subset for a vocabulary from a
   /// [DftMap] index repository, usually persisted storage.
@@ -184,6 +196,9 @@ abstract class AsyncCallbackIndexMixin implements InvertedIndex {
   /// A callback that passes a subset of a [PostingsMap] containing new or changed
   /// [PostingsMapEntry] instances to the [PostingsMap] index repository.
   KeywordPostingsMapUpdater get keywordPostingsUpdater;
+
+  @override
+  Future<int> getCollectionSize() => collectionSizeLoader();
 
   @override
   Future<DftMap> getDictionary([Iterable<Term>? terms]) =>

@@ -83,6 +83,21 @@ text in preparation of tokenization.
   </dd>
 
           
+  <dt id="CollectionSizeCallback" class="callable">
+    <span class="name"><a href="../type_definitions/CollectionSizeCallback.html">CollectionSizeCallback</a></span><span class="signature">
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>&gt;</span> Function<span class="signature">()</span></span>
+    </span>
+    
+
+  </dt>
+  <dd>
+    A callback that asynchronously retrieves the number of terms in the
+vocabulary (N).
+    
+
+  </dd>
+
+          
   <dt id="DftMap" class="">
   <span class="name"><a href="../type_definitions/DftMap.html">DftMap</a></span>
     = <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.23.1/type_definitions/Term.html">Term</a></span>, <span class="type-parameter"><a href="../type_definitions/Ft.html">Ft</a></span>&gt;</span>
@@ -730,21 +745,6 @@ the <code>source</code> text.
   </dd>
 
           
-  <dt id="VocabularySize" class="callable">
-    <span class="name"><a href="../type_definitions/VocabularySize.html">VocabularySize</a></span><span class="signature">
-      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>&gt;</span> Function<span class="signature">()</span></span>
-    </span>
-    
-
-  </dt>
-  <dd>
-    A callback that asynchronously retrieves the number of terms in the
-vocabulary (N).
-    
-
-  </dd>
-
-          
   <dt id="Zone" class="">
   <span class="name"><a href="https://pub.dev/documentation/text_analysis/0.23.1/type_definitions/Zone.html">Zone</a></span>
     = <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>
@@ -847,6 +847,7 @@ in the <code>corpus</code>. Represents the name of the field/zone.
 
   <li class="section-title"><a href="../type_definitions/type_definitions-library.html#typedefs">Typedefs</a></li>
   <li><a href="https://pub.dev/documentation/text_analysis/0.23.1/type_definitions/CharacterFilter.html">CharacterFilter</a></li>
+  <li><a href="../type_definitions/CollectionSizeCallback.html">CollectionSizeCallback</a></li>
   <li><a href="../type_definitions/DftMap.html">DftMap</a></li>
   <li><a href="../type_definitions/DftMapEntry.html">DftMapEntry</a></li>
   <li><a href="../type_definitions/DftMapLoader.html">DftMapLoader</a></li>
@@ -890,7 +891,6 @@ in the <code>corpus</code>. Represents the name of the field/zone.
   <li><a href="https://pub.dev/documentation/text_analysis/0.23.1/type_definitions/TermSplitter.html">TermSplitter</a></li>
   <li><a href="https://pub.dev/documentation/text_analysis/0.23.1/type_definitions/TokenFilter.html">TokenFilter</a></li>
   <li><a href="https://pub.dev/documentation/text_analysis/0.23.1/type_definitions/Tokenizer.html">Tokenizer</a></li>
-  <li><a href="../type_definitions/VocabularySize.html">VocabularySize</a></li>
   <li><a href="https://pub.dev/documentation/text_analysis/0.23.1/type_definitions/Zone.html">Zone</a></li>
   <li><a href="../type_definitions/ZonePostingsMap.html">ZonePostingsMap</a></li>
   <li><a href="../type_definitions/ZonePostingsMapEntry.html">ZonePostingsMapEntry</a></li>
@@ -905,7 +905,7 @@ in the <code>corpus</code>. Represents the name of the field/zone.
 <footer>
   <span class="no-break">
     text_indexing
-      0.21.1
+      0.22.0
   </span>
 
   

@@ -129,8 +129,11 @@ extension DictionaryExtensions on DftMap {
   double getIdFt(String term, int n) => log(n / getFrequency(term));
 
   /// Returns a hashmap of term to inverse document frequency of the term.
-  Map<String, double> getIdFtMap(int n) =>
-      map((key, value) => MapEntry(key, log(n / value)));
+  ///
+  /// The parameter [collectionSize] is the total number of documents in the
+  /// collection.
+  Map<String, double> getIdFtMap(int collectionSize) =>
+      map((key, value) => MapEntry(key, log(collectionSize / value)));
 
   /// Returns a list of [DftMapEntry]s from the [entries] in the [DftMap].
   ///
