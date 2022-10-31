@@ -71,13 +71,9 @@ entires with a key in the <code>keywords</code> collection.</p>
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">KeywordPostingsMap getKeywordsPostings(Iterable&lt;String&gt; keywords) {
-  final KeywordPostingsMap retVal = {};
-  for (final keyword in keywords) {
-    final posting = this[keyword];
-    if (posting != null) {
-      retVal[keyword] = posting;
-    }
-  }
+  final newEntries =
+      entries.where((element) =&gt; keywords.contains(element.key));
+  final KeywordPostingsMap retVal = {}..addEntries(newEntries);
   return retVal;
 }</code></pre>
 </section>
@@ -136,7 +132,7 @@ entires with a key in the <code>keywords</code> collection.</p>
 <footer>
   <span class="no-break">
     text_indexing
-      0.21.0
+      0.21.1
   </span>
 
   

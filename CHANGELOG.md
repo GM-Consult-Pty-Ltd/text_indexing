@@ -7,6 +7,19 @@ All rights reserved.
 *THIS PACKAGE IS **PRE-RELEASE** AND SUBJECT TO DAILY BREAKING CHANGES.*
 
 
+## 0.21.1
+
+### *New*
+* Extension method `double getIdFt(String term, int n)` on `DftMap`.
+* Extension method `DftMap getEntries(Iterable<Term> terms)` on `DftMap`.
+
+### *Updated*
+* Dependencies.
+* Tests.
+* Examples.
+* Documentation.   
+
+
 ## 0.21.0
 
 ### *Breaking changes*

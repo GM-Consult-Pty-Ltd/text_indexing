@@ -12,6 +12,8 @@ extension KeywordPostingsEntryExtension
     on MapEntry<String, Map<String, double>> {
   //
 
+
+
   /// Returns [key], the indexed [String].
   String get keyword => key;
 
@@ -89,13 +91,9 @@ extension KeywordPostingsExtension on KeywordPostingsMap {
   /// Returns a subset of the [KeywordPostingsMap] instance that only contains
   /// entires with a key in the [keywords] collection.
   KeywordPostingsMap getKeywordsPostings(Iterable<String> keywords) {
-    final KeywordPostingsMap retVal = {};
-    for (final keyword in keywords) {
-      final posting = this[keyword];
-      if (posting != null) {
-        retVal[keyword] = posting;
-      }
-    }
+    final newEntries =
+        entries.where((element) => keywords.contains(element.key));
+    final KeywordPostingsMap retVal = {}..addEntries(newEntries);
     return retVal;
   }
 

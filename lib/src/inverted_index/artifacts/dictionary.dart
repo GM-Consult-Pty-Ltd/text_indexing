@@ -2,6 +2,7 @@
 // BSD 3-Clause License
 // All rights reserved
 
+import 'dart:math';
 import 'package:text_indexing/src/_index.dart';
 
 /// A [DftMapEntry] is a unit of entry in the [DftMap] of an inverted
@@ -111,7 +112,25 @@ extension IdFtIndexExtensions on Map<String, double> {
 
 /// Extensions on [DftMapEntry].
 extension DictionaryExtensions on DftMap {
-  //
+//
+
+  /// Filters the [DftMap] by terms.
+  ///
+  /// Returns a subset of the [DftMap] instance that only contains
+  /// entires with a key in the [terms] collection.
+  DftMap getEntries(Iterable<Term> terms) {
+    final DftMap retVal = {}
+      ..addEntries(entries.where((element) => terms.contains(element.key)));
+    return retVal;
+  }
+
+  /// Returns the inverse document frequency of the [term] for a corpus of size
+  /// [n].
+  double getIdFt(String term, int n) => log(n / getFrequency(term));
+
+  /// Returns a hashmap of term to inverse document frequency of the term.
+  Map<String, double> getIdFtMap(int n) =>
+      map((key, value) => MapEntry(key, log(n / value)));
 
   /// Returns a list of [DftMapEntry]s from the [entries] in the [DftMap].
   ///
