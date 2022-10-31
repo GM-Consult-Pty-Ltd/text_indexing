@@ -12,8 +12,6 @@ extension KeywordPostingsEntryExtension
     on MapEntry<String, Map<String, double>> {
   //
 
-
-
   /// Returns [key], the indexed [String].
   String get keyword => key;
 
