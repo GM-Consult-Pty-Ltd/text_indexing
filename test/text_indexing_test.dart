@@ -46,7 +46,7 @@ void main() {
 
       final index = await _getIndex(data,
           //
-          {'name': 1.0}
+          {'name': 1.0, 'description': 1.0}
           //
           );
 
