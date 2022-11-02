@@ -95,7 +95,8 @@ abstract class TextIndexerMixin implements TextIndexer {
   Future<PostingsMap> indexText(String docId, SourceText docText) async {
     // get the terms using tokenizer
     final tokens =
-        (await index.tokenizer.tokenize(docText, nGramRange: index.nGramRange));
+        (await index.tokenizer.tokenize(docText,
+        nGramRange: index.nGramRange, strategy: index.strategy));
     final KeywordPostingsMap keyWords = _keywordsToPostings(docId, docText);
     // map the tokens to postings
     final PostingsMap postings = _tokensToPostings(docId, tokens);
@@ -117,7 +118,8 @@ abstract class TextIndexerMixin implements TextIndexer {
   Future<PostingsMap> indexJson(String docId, Map<String, dynamic> json) async {
     // get the terms using tokenizer
     final zones = _zoneNames(json);
-    final tokens = (await index.tokenizer.tokenizeJson(json, zones: zones));
+    final tokens = (await index.tokenizer.tokenizeJson(json,
+        zones: zones, nGramRange: index.nGramRange, strategy: index.strategy));
     final sourceText = json.toSourceText(zones);
     final KeywordPostingsMap keyWords = _keywordsToPostings(docId, sourceText);
     // map the tokens to postings
@@ -202,10 +204,7 @@ abstract class TextIndexerMixin implements TextIndexer {
 
   Future<void> _upsertKgrams(Iterable<Token> tokens) async {
     // - get the new kGrams for the tokens;
-    final terms = <String>{};
-    for (final token in tokens) {
-      terms.addAll(token.term.split(' '));
-    }
+    final terms = <String>{}..addAll(tokens.map((e) => e.term));
     final newkGrams = terms.toKGramsMap(index.k);
     final persistedKgrams = await index.getKGramIndex(newkGrams.keys);
     newkGrams.forEach((key, value) {

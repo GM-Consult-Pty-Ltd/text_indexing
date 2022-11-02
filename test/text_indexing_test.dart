@@ -39,19 +39,10 @@ void main() {
       'hashTag': 2.0,
     };
 
-    const searchPrase =
-        'AAPL, google, GOOG, tesla, apple inc, alphabet, 3m, intel, semiconductor';
+    const searchPrase = 'AAPL google 5G modem 3m, intel, semiconductor';
 
     test('Index on sampleNews', () async {
       final data = TestData.stockNews;
-      // - initialize the [DftMap]
-      final DftMap dictionary = {};
-
-      // - initialize the [PostingsMap]
-      final PostingsMap postings = {};
-
-      // - initialize the [KGramsMap]
-      final KGramsMap kGramIndex = {};
 
       final index = await _getIndex(data,
           //
@@ -59,8 +50,8 @@ void main() {
           //
           );
 
-      final searchTokens = (await index.tokenizer.tokenize(searchPrase,
-          nGramRange: index.nGramRange, strategy: index.strategy));
+      final searchTokens = (await index.tokenizer.tokenize('5g modem chip',
+          nGramRange: NGramRange(3, 3), strategy: TokenizingStrategy.all));
 
       final terms = searchTokens.terms;
 
@@ -73,6 +64,8 @@ void main() {
       final keyWordsSearch = await index.getKeywordPostings(terms);
 
       final kGramsSearch = await index.getKGramIndex(kGrams);
+
+      final searchResults = '5g modem chip'.getSuggestions(kGramsSearch.terms);
 
       _printKeywords(index: keyWordsSearch, data: data);
 
@@ -203,11 +196,11 @@ void _printKeywords(
     required Map<String, Map<String, dynamic>> data,
     int limit = 25}) {
   print('KEYWORDS');
-  var entries = index.entries.toList();
+  final entries = index.entries.toList();
   entries.sort(((a, b) => b.value.length.compareTo(a.value.length)));
-  entries = entries.length > limit
-      ? entries.toList().sublist(0, limit)
-      : entries.toList();
+  // entries = entries.length > limit
+  //     ? entries.toList().sublist(0, limit)
+  //     : entries.toList();
 
   for (final e in entries) {
     var value = e.value.entries.toList();
@@ -349,11 +342,11 @@ Future<InMemoryIndex> _getIndex(JsonCollection documents,
       tokenizer: TextTokenizer.english,
       collectionSize: documents.length,
       strategy: TokenizingStrategy.all,
-      nGramRange: NGramRange(1, 2),
+      nGramRange: NGramRange(1, 3),
       keywordExtractor: English.analyzer.keywordExtractor,
       zones: zones);
   final indexer = TextIndexer(index);
   await indexer.indexCollection(documents);
-  await saveKgramIndex(index.kGramIndex);
+  // await saveKgramIndex(index.kGramIndex);
   return index;
 }

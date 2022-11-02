@@ -14,12 +14,12 @@ environment:
 
 dependencies:
   # -----PubDev Packages (in alphabetic order) -----
-  collection: ^1.16.0
+  collection: ^1.17.0
   meta: ^1.8.0
-  rxdart: ^0.27.1 
-  text_analysis: ^0.23.2
+  rxdart: ^0.27.5 
+  text_analysis: ^0.23.5
 
 dev_dependencies:
   gmconsult_dev: ^0.0.7
-  lints: ^2.0.0
-  test: ^1.21.1
+  lints: ^2.0.1
+  test: ^1.22.0

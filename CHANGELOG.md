@@ -6,6 +6,19 @@ All rights reserved.
 
 *THIS PACKAGE IS **PRE-RELEASE** AND SUBJECT TO DAILY BREAKING CHANGES.*
 
+## 0.22.2
+
+### *Bug fixes*
+* Changed `TextIndexer.indexText` to use index strategy.
+
+### *Updated*
+* Dependencies.
+* Tests.
+* Examples.
+* Documentation.   
+
+### *Updated*
+* Dependency `text_analysis` to ver `0.23.5`.
 
 ## 0.22.1
 

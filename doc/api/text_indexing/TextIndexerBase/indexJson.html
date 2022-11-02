@@ -21,8 +21,7 @@
 </head>
 
 
-<body data-base-href="../../"
-      data-using-base-href="false">
+<body data-base-href="../../" data-using-base-href="false">
 
 <div id="overlay-under-drawer"></div>
 
@@ -69,7 +68,7 @@
 <section class="desc markdown">
   <p>Implementation of <a href="../../text_indexing/TextIndexer/indexJson.html">TextIndexer.indexJson</a> that:</p>
 <ul>
-<li>parses <code>json</code> to a collection of <a href="https://pub.dev/documentation/text_analysis/0.23.2/text_analysis/Token-class.html">Token</a>s in <a href="../../text_indexing/TextIndexer/index.html">index</a>.zones. If
+<li>parses <code>json</code> to a collection of <a href="https://pub.dev/documentation/text_analysis/0.23.5/text_analysis/Token-class.html">Token</a>s in <a href="../../text_indexing/TextIndexer/index.html">index</a>.zones. If
 <a href="../../text_indexing/TextIndexer/index.html">index</a>.zones is empty, tokenize all the fields in <code>json</code>;</li>
 <li>maps the tokens to postings for <code>docId</code>;</li>
 <li>maps the postings for <code>docId</code> to a <code>PostingsMap</code>;</li>
@@ -86,7 +85,8 @@
 Future&lt;PostingsMap&gt; indexJson(String docId, Map&lt;String, dynamic&gt; json) async {
   &#47;&#47; get the terms using tokenizer
   final zones = _zoneNames(json);
-  final tokens = (await index.tokenizer.tokenizeJson(json, zones: zones));
+  final tokens = (await index.tokenizer.tokenizeJson(json,
+      zones: zones, nGramRange: index.nGramRange, strategy: index.strategy));
   final sourceText = json.toSourceText(zones);
   final KeywordPostingsMap keyWords = _keywordsToPostings(docId, sourceText);
   &#47;&#47; map the tokens to postings
@@ -164,7 +164,7 @@ Future&lt;PostingsMap&gt; indexJson(String docId, Map&lt;String, dynamic&gt; jso
 
 
 <script src="../../static-assets/highlight.pack.js?v1"></script>
-<script src="../../static-assets/script.js?v1"></script>
+<script src="../../static-assets/docs.dart.js"></script>
 
 
 
