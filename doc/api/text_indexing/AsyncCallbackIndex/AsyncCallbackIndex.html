@@ -59,11 +59,11 @@
 <li><span class="parameter" id="-param-postingsUpdater"><span>required</span> <span class="type-annotation"><a href="../../type_definitions/PostingsMapUpdater.html">PostingsMapUpdater</a></span> <span class="parameter-name">postingsUpdater</span>, </span></li>
 <li><span class="parameter" id="-param-keywordPostingsLoader"><span>required</span> <span class="type-annotation"><a href="../../type_definitions/KeywordPostingsMapLoader.html">KeywordPostingsMapLoader</a></span> <span class="parameter-name">keywordPostingsLoader</span>, </span></li>
 <li><span class="parameter" id="-param-keywordPostingsUpdater"><span>required</span> <span class="type-annotation"><a href="../../type_definitions/KeywordPostingsMapUpdater.html">KeywordPostingsMapUpdater</a></span> <span class="parameter-name">keywordPostingsUpdater</span>, </span></li>
-<li><span class="parameter" id="-param-tokenizer"><span>required</span> <span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.23.6/text_analysis/TextTokenizer-class.html">TextTokenizer</a></span> <span class="parameter-name">tokenizer</span>, </span></li>
-<li><span class="parameter" id="-param-keywordExtractor"><span>required</span> <span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.23.6/type_definitions/KeywordExtractor.html">KeywordExtractor</a></span> <span class="parameter-name">keywordExtractor</span>, </span></li>
+<li><span class="parameter" id="-param-tokenizer"><span>required</span> <span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.23.7+1/text_analysis/TextTokenizer-class.html">TextTokenizer</a></span> <span class="parameter-name">tokenizer</span>, </span></li>
+<li><span class="parameter" id="-param-keywordExtractor"><span>required</span> <span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.23.7+1/type_definitions/KeywordExtractor.html">KeywordExtractor</a></span> <span class="parameter-name">keywordExtractor</span>, </span></li>
 <li><span class="parameter" id="-param-k"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">2</span>, </span></li>
-<li><span class="parameter" id="-param-nGramRange"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.23.6/text_analysis/NGramRange-class.html">NGramRange</a></span> <span class="parameter-name">nGramRange</span> = <span class="default-value">const NGramRange(1, 2)</span>, </span></li>
-<li><span class="parameter" id="-param-strategy"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.23.6/text_analysis/TokenizingStrategy.html">TokenizingStrategy</a></span> <span class="parameter-name">strategy</span> = <span class="default-value">TokenizingStrategy.terms</span>, </span></li>
+<li><span class="parameter" id="-param-nGramRange"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.23.7+1/text_analysis/NGramRange-class.html">NGramRange</a></span> <span class="parameter-name">nGramRange</span> = <span class="default-value">const NGramRange(1, 2)</span>, </span></li>
+<li><span class="parameter" id="-param-strategy"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.23.7+1/text_analysis/TokenizingStrategy.html">TokenizingStrategy</a></span> <span class="parameter-name">strategy</span> = <span class="default-value">TokenizingStrategy.terms</span>, </span></li>
 <li><span class="parameter" id="-param-zones"><span class="type-annotation"><a href="../../type_definitions/ZoneWeightMap.html">ZoneWeightMap</a></span> <span class="parameter-name">zones</span> = <span class="default-value">const &lt;String, double&gt;{}</span>}</span></li>
 </ol>)
     </section>
@@ -74,7 +74,7 @@
 <ul>
 <li><a href="../../text_indexing/AsyncCallbackIndex/collectionSizeLoader.html">collectionSizeLoader</a> asynchronously retrieves the number of documents
 in the indexed collection;</li>
-<li><a href="../../text_indexing/AsyncCallbackIndex/tokenizer.html">tokenizer</a> is the <a href="https://pub.dev/documentation/text_analysis/0.23.6/text_analysis/TextTokenizer-class.html">TextTokenizer</a> used to tokenize text for the index;</li>
+<li><a href="../../text_indexing/AsyncCallbackIndex/tokenizer.html">tokenizer</a> is the <a href="https://pub.dev/documentation/text_analysis/0.23.7+1/text_analysis/TextTokenizer-class.html">TextTokenizer</a> used to tokenize text for the index;</li>
 <li><a href="../../text_indexing/AsyncCallbackIndex/keywordExtractor.html">keywordExtractor</a> is a splitter function that returns an ordered
 collection of keyword phrasesfrom text.</li>
 <li><a href="../../text_indexing/AsyncCallbackIndex/k.html">k</a> is the length of k-gram entries in the k-gram index;</li>
@@ -87,9 +87,9 @@ in the vocabulary (N);</li>
 vocabulary from a index repository;</li>
 <li><a href="../../text_indexing/AsyncCallbackIndex/dictionaryUpdater.html">dictionaryUpdater</a> is callback that passes a <a href="../../type_definitions/DftMap.html">DftMap</a> subset
  for persisting to a index repository;</li>
-<li><a href="../../text_indexing/AsyncCallbackIndex/kGramIndexLoader.html">kGramIndexLoader</a> asynchronously retrieves a <a href="https://pub.dev/documentation/text_analysis/0.23.6/type_definitions/KGramsMap.html">KGramsMap</a> for a
+<li><a href="../../text_indexing/AsyncCallbackIndex/kGramIndexLoader.html">kGramIndexLoader</a> asynchronously retrieves a <a href="https://pub.dev/documentation/text_analysis/0.23.7+1/type_definitions/KGramsMap.html">KGramsMap</a> for a
 vocabulary from a index repository;</li>
-<li><a href="../../text_indexing/AsyncCallbackIndex/kGramIndexUpdater.html">kGramIndexUpdater</a> is callback that passes a <a href="https://pub.dev/documentation/text_analysis/0.23.6/type_definitions/KGramsMap.html">KGramsMap</a> subset
+<li><a href="../../text_indexing/AsyncCallbackIndex/kGramIndexUpdater.html">kGramIndexUpdater</a> is callback that passes a <a href="https://pub.dev/documentation/text_analysis/0.23.7+1/type_definitions/KGramsMap.html">KGramsMap</a> subset
  for persisting to a index repository;</li>
 <li><a href="../../text_indexing/AsyncCallbackIndex/postingsLoader.html">postingsLoader</a> asynchronously retrieves a <a href="../../type_definitions/PostingsMap.html">PostingsMap</a> for a vocabulary
 from a index repository;</li>
@@ -207,7 +207,7 @@ persisting to a index repository.</li>
 <footer>
   <span class="no-break">
     text_indexing
-      0.22.3
+      0.22.4+1
   </span>
 
   

@@ -94,8 +94,7 @@ abstract class TextIndexerMixin implements TextIndexer {
   @override
   Future<PostingsMap> indexText(String docId, SourceText docText) async {
     // get the terms using tokenizer
-    final tokens =
-        (await index.tokenizer.tokenize(docText,
+    final tokens = (await index.tokenizer.tokenize(docText,
         nGramRange: index.nGramRange, strategy: index.strategy));
     final KeywordPostingsMap keyWords = _keywordsToPostings(docId, docText);
     // map the tokens to postings

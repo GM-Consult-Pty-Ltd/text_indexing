@@ -186,7 +186,8 @@ Use the unnamed factory constructor to instantiate a [TextIndexer](https://pub.d
 The following definitions are used throughout the [documentation](https://pub.dev/documentation/text_analysis/latest/):
 
 * `corpus`- the collection of `documents` for which an `index` is maintained.
-* `character filter` - filters characters from text in preparation of tokenization.  
+* `cosine similarity` - similarity of two vectors measured as the cosine of the angle between them, that is, the dot product of the vectors divided by the product of their euclidian lengths (from [Wikipedia](https://en.wikipedia.org/wiki/Cosine_similarity)).
+* `character filter` - filters characters from text in preparation of tokenization .  
 * `Damerau–Levenshtein distance` - a metric for measuring the `edit distance` between two `terms` by counting the minimum number of operations (insertions, deletions or substitutions of a single character, or transposition of two adjacent characters) required to change one `term` into the other (from [Wikipedia](https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance)).
 * `dictionary (in an index)` - a hash of `terms` (`vocabulary`) to the frequency of occurence in the `corpus` documents.
 * `document` - a record in the `corpus`, that has a unique identifier (`docId`) in the `corpus`'s primary key and that contains one or more text fields that are indexed.
@@ -242,11 +243,10 @@ The following definitions are used throughout the [documentation](https://pub.de
 * [Wikipedia (11), "*Phonetic transcription*", from Wikipedia, the free encyclopedia](https://en.wikipedia.org/wiki/Phonetic_transcription)
 * [Wikipedia (12), "*Etymology*", from Wikipedia, the free encyclopedia](https://en.wikipedia.org/wiki/Etymology)
 * [Wikipedia (13), "*Part-of-speech tagging*", from Wikipedia, the free encyclopedia](https://en.wikipedia.org/wiki/Part-of-speech_tagging)
-* [Wikipedia (14), "*Damerau–Levenshtein distance*", from Wikipedia, the free encyclopedia](https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance)
-* [Wikipedia (14), "*n-gram*", from Wikipedia, the free encyclopedia](https://en.wikipedia.org/wiki/N-gram)
+* [Wikipedia (14), "*N-gram*", from Wikipedia, the free encyclopedia](https://en.wikipedia.org/wiki/N-gram)
+* [Wikipedia (15), "*Cosine similarity*", from Wikipedia, the free encyclopedia](https://en.wikipedia.org/wiki/Cosine_similarity)
 
 (*[back to top](#)*)
-
 ## Issues
 
 If you find a bug please fill an [issue](https://github.com/GM-Consult-Pty-Ltd/text_indexing/issues).  
