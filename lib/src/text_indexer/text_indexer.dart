@@ -164,7 +164,8 @@ abstract class TextIndexerMixin implements TextIndexer {
   ///
   /// Also adds a [ZonePostingsMap] entry for term pairs in [tokens].
   KeywordPostingsMap _keywordsToPostings(String docId, String sourceText) {
-    final keywords = index.keywordExtractor(sourceText);
+    final keywords =
+        index.keywordExtractor(sourceText, nGramRange: index.nGramRange);
     final graph = TermCoOccurrenceGraph(keywords);
     final keyWordsMap = graph.keywordScores;
     // initialize a KeywordPostingsMap collection to hold the postings

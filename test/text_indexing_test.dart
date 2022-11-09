@@ -44,16 +44,27 @@ void main() {
     test('Index on sampleNews', () async {
       final data = TestData.stockNews;
 
+      final phrase = '5g modem chip';
+
       final index = await _getIndex(data,
           //
           {'name': 1.0, 'description': 1.0}
           //
           );
 
-      final searchTokens = (await index.tokenizer.tokenize('5g modem chip',
-          nGramRange: NGramRange(3, 3), strategy: TokenizingStrategy.all));
+      final searchTokens = (await index.tokenizer.tokenize(phrase,
+          nGramRange: NGramRange(1, 3), strategy: TokenizingStrategy.all));
 
       final terms = searchTokens.terms;
+
+      for (final key in index.keywordPostings.keys) {
+        print('Keyword: $key');
+      }
+
+      for (final key in index.dictionary.keys) {
+        print('Term: $key');
+      }
+
 
       final kGrams = terms.toKGramsMap().keys;
 
@@ -65,7 +76,7 @@ void main() {
 
       final kGramsSearch = await index.getKGramIndex(kGrams);
 
-      final searchResults = '5g modem chip'.getSuggestions(kGramsSearch.terms);
+      final searchResults = phrase.getSuggestions(kGramsSearch.terms);
 
       _printKeywords(index: keyWordsSearch, data: data);
 
