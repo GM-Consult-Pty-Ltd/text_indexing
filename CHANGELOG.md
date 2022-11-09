@@ -7,6 +7,11 @@ All rights reserved.
 *THIS PACKAGE IS **PRE-RELEASE** AND SUBJECT TO DAILY BREAKING CHANGES.*
 
 
+## 0.22.4+7
+
+### *Updated*
+* Bumped dependency `text_analysis` to ver `0.23.7+6`.
+
 ## 0.22.4+6
 
 ### *Updated*
