@@ -6,6 +6,12 @@ All rights reserved.
 
 *THIS PACKAGE IS **PRE-RELEASE** AND SUBJECT TO DAILY BREAKING CHANGES.*
 
+## 0.22.4+12
+
+### *Updated*
+* Bumped dependency `text_analysis` to ver `0.23.7+11`.
+* Changed algo for extension method `JSON.toSourceText`.
+
 ## 0.22.4+11
 
 ### *Updated*
