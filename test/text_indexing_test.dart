@@ -65,7 +65,6 @@ void main() {
         print('Term: $key');
       }
 
-
       final kGrams = terms.toKGramsMap().keys;
 
       final dftSearch = await index.getDictionary(terms);
