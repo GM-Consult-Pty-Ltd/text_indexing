@@ -22,7 +22,7 @@ class InMemoryIndex extends InMemoryIndexBase {
   final TokenizingStrategy strategy;
 
   @override
-  final NGramRange nGramRange;
+  final NGramRange? nGramRange;
 
   @override
   late DftMap dictionary;
@@ -71,13 +71,13 @@ class InMemoryIndex extends InMemoryIndexBase {
       {required this.tokenizer,
       required this.keywordExtractor,
       required this.collectionSize,
+      required this.strategy,
       DftMap? dictionary,
       PostingsMap? postings,
       KeywordPostingsMap? keywordPostings,
       KGramsMap? kGramIndex,
       this.k = 2,
-      this.nGramRange = const NGramRange(1, 2),
-      this.strategy = TokenizingStrategy.terms,
+      this.nGramRange,
       this.zones = const <String, double>{}}) {
     this.dictionary = dictionary ?? {};
     this.postings = postings ?? {};

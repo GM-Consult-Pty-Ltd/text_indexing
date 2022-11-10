@@ -156,7 +156,7 @@ abstract class InvertedIndex {
   TokenizingStrategy get strategy;
 
   /// The minimum and maximum length of n-grams in the index.
-  NGramRange get nGramRange;
+  NGramRange? get nGramRange;
 
   /// Maps zone names to their relative weight in the index.
   ///

@@ -21,7 +21,7 @@ class AsyncCallbackIndex extends AsyncCallbackIndexBase {
   final TokenizingStrategy strategy;
 
   @override
-  final NGramRange nGramRange;
+  final NGramRange? nGramRange;
 
   @override
   final CollectionSizeCallback dictionaryLengthLoader;
@@ -106,9 +106,9 @@ class AsyncCallbackIndex extends AsyncCallbackIndexBase {
       required this.keywordPostingsUpdater,
       required this.tokenizer,
       required this.keywordExtractor,
+      required this.strategy,
       this.k = 2,
-      this.nGramRange = const NGramRange(1, 2),
-      this.strategy = TokenizingStrategy.terms,
+      this.nGramRange,
       this.zones = const <String, double>{}});
 }
 

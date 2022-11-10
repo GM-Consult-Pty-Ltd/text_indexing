@@ -53,7 +53,7 @@ void main() {
           );
 
       final searchTokens = (await index.tokenizer.tokenize(phrase,
-          nGramRange: NGramRange(1, 3), strategy: TokenizingStrategy.all));
+          nGramRange: NGramRange(1, 3), strategy: TokenizingStrategy.keyWords));
 
       final terms = searchTokens.terms;
 
@@ -118,6 +118,7 @@ void main() {
           collectionSize: collection.length,
           keywordExtractor: English.analyzer.keywordExtractor,
           dictionary: dictionary,
+          strategy: TokenizingStrategy.all,
           postings: postings,
           kGramIndex: kGramIndex,
           zones: stockZones,
@@ -353,7 +354,7 @@ Future<InMemoryIndex> _getIndex(JsonCollection documents,
       tokenizer: TextTokenizer.english,
       collectionSize: documents.length,
       strategy: TokenizingStrategy.all,
-      nGramRange: NGramRange(1, 3),
+      // nGramRange: NGramRange(1, 3),
       keywordExtractor: English.analyzer.keywordExtractor,
       zones: zones);
   final indexer = TextIndexer(index);
