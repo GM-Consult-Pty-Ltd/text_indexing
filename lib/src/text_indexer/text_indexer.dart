@@ -168,6 +168,12 @@ abstract class TextIndexerMixin implements TextIndexer {
         index.keywordExtractor(sourceText, nGramRange: index.nGramRange);
     final graph = TermCoOccurrenceGraph(keywords);
     final keyWordsMap = graph.keywordScores;
+    final emptyKeywords = keyWordsMap.keys
+        .map((e) => e.trim())
+        .where((element) => element.isEmpty);
+    if (emptyKeywords.isNotEmpty) {
+      print('Found ${emptyKeywords.length} empty keywords');
+    }
     // initialize a KeywordPostingsMap collection to hold the postings
     final KeywordPostingsMap postings = {};
     // initialize the term position index

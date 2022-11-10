@@ -6,6 +6,11 @@ All rights reserved.
 
 *THIS PACKAGE IS **PRE-RELEASE** AND SUBJECT TO DAILY BREAKING CHANGES.*
 
+## 0.22.4+14
+
+### *Updated*
+* Bumped dependency `text_analysis` to ver `0.23.7+13`.
+* Changed `InvertedIndex.nGramRange` to nullable.
 
 ## 0.22.4+13
 
