@@ -43,8 +43,6 @@ abstract class InvertedIndex {
 
   /// A factory constructor that returns an [InMemoryIndex] instance.
   /// - [analyzer] is the [TextAnalyzer] used to tokenize text for the index.
-  /// - [keywordExtractor] is a splitter function that returns an ordered
-  ///   collection of keyword phrasesfrom text.
   /// - [collectionSize] is the size of the indexed collection.
   /// - [tokenFilter] is a filter function that returns a subset of a
   ///   collection of [Token]s.

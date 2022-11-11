@@ -50,7 +50,6 @@
 
     <section class="multi-line-signature">
       <span class="name ">InMemoryIndex</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="-param-analyzer">{<span>required</span> <span class="type-annotation"><a href="../../text_indexing/TextAnalyzer-class.html">TextAnalyzer</a></span> <span class="parameter-name">analyzer</span>, </span></li>
-<li><span class="parameter" id="-param-keywordExtractor"><span>required</span> <span class="type-annotation"><a href="../../type_definitions/KeywordExtractor.html">KeywordExtractor</a></span> <span class="parameter-name">keywordExtractor</span>, </span></li>
 <li><span class="parameter" id="-param-collectionSize"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">collectionSize</span>, </span></li>
 <li><span class="parameter" id="-param-strategy"><span>required</span> <span class="type-annotation"><a href="../../text_indexing/TokenizingStrategy.html">TokenizingStrategy</a></span> <span class="parameter-name">strategy</span>, </span></li>
 <li><span class="parameter" id="-param-tokenFilter"><span class="type-annotation"><a href="../../type_definitions/TokenFilter.html">TokenFilter</a>?</span> <span class="parameter-name">tokenFilter</span>, </span></li>
@@ -69,13 +68,11 @@
   <p>Instantiates a <a href="../../text_indexing/InMemoryIndex-class.html">InMemoryIndex</a> instance.</p>
 <ul>
 <li><a href="../../text_indexing/InMemoryIndex/analyzer.html">analyzer</a> is the <a href="../../text_indexing/TextAnalyzer-class.html">TextAnalyzer</a> used to tokenize text for the index;</li>
-<li><a href="../../text_indexing/InMemoryIndex/keywordExtractor.html">keywordExtractor</a> is a splitter function that returns an ordered
-collection of keyword phrasesfrom text.</li>
 <li><a href="../../text_indexing/InMemoryIndex/collectionSize.html">collectionSize</a> is the size of the indexed collection.</li>
 <li><a href="../../text_indexing/InMemoryIndex/tokenFilter.html">tokenFilter</a> is a filter function that returns a subset of a
 collection of <a href="../../text_indexing/Token-class.html">Token</a>s.</li>
 <li><a href="../../text_indexing/InMemoryIndex/k.html">k</a> is the length of k-gram entries in the k-gram index.</li>
-<li><code>nGramRange</code> is the range of N-gram lengths to generate.</li>
+<li><a href="../../text_indexing/InMemoryIndex/nGramRange.html">nGramRange</a> is the range of N-gram lengths to generate.</li>
 <li><a href="../../text_indexing/InMemoryIndex/strategy.html">strategy</a> is the tokenizing strategy to use when tokenizing documents
 for indexing.</li>
 <li><a href="../../text_indexing/InMemoryIndex/zones.html">zones</a> is a hashmap of zone names to their relative weight in the
@@ -101,7 +98,6 @@ will be initialized.</li>
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">InMemoryIndex(
     {required this.analyzer,
-    required this.keywordExtractor,
     required this.collectionSize,
     required this.strategy,
     this.tokenFilter,
@@ -152,7 +148,6 @@ will be initialized.</li>
     <li><a href="../../text_indexing/InMemoryIndex/dictionary.html">dictionary</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
     <li><a href="../../text_indexing/InMemoryIndex/k.html">k</a></li>
-    <li><a href="../../text_indexing/InMemoryIndex/keywordExtractor.html">keywordExtractor</a></li>
     <li><a href="../../text_indexing/InMemoryIndex/keywordPostings.html">keywordPostings</a></li>
     <li><a href="../../text_indexing/InMemoryIndex/kGramIndex.html">kGramIndex</a></li>
     <li><a href="../../text_indexing/InMemoryIndex/nGramRange.html">nGramRange</a></li>

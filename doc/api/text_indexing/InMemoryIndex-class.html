@@ -64,7 +64,7 @@ in-memory dictionary, k-gram and postings hashmaps.</p>
 
     <dl class="constructor-summary-list">
         <dt id="InMemoryIndex" class="callable">
-          <span class="name"><a href="../text_indexing/InMemoryIndex/InMemoryIndex.html">InMemoryIndex</a></span><span class="signature">(<span class="parameter" id="-param-analyzer">{<span>required</span> <span class="type-annotation"><a href="../text_indexing/TextAnalyzer-class.html">TextAnalyzer</a></span> <span class="parameter-name">analyzer</span>, </span><span class="parameter" id="-param-keywordExtractor"><span>required</span> <span class="type-annotation"><a href="../type_definitions/KeywordExtractor.html">KeywordExtractor</a></span> <span class="parameter-name">keywordExtractor</span>, </span><span class="parameter" id="-param-collectionSize"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">collectionSize</span>, </span><span class="parameter" id="-param-strategy"><span>required</span> <span class="type-annotation"><a href="../text_indexing/TokenizingStrategy.html">TokenizingStrategy</a></span> <span class="parameter-name">strategy</span>, </span><span class="parameter" id="-param-tokenFilter"><span class="type-annotation"><a href="../type_definitions/TokenFilter.html">TokenFilter</a>?</span> <span class="parameter-name">tokenFilter</span>, </span><span class="parameter" id="-param-dictionary"><span class="type-annotation"><a href="../type_definitions/DftMap.html">DftMap</a>?</span> <span class="parameter-name">dictionary</span>, </span><span class="parameter" id="-param-postings"><span class="type-annotation"><a href="../type_definitions/PostingsMap.html">PostingsMap</a>?</span> <span class="parameter-name">postings</span>, </span><span class="parameter" id="-param-keywordPostings"><span class="type-annotation"><a href="../type_definitions/KeywordPostingsMap.html">KeywordPostingsMap</a>?</span> <span class="parameter-name">keywordPostings</span>, </span><span class="parameter" id="-param-kGramIndex"><span class="type-annotation"><a href="../type_definitions/KGramsMap.html">KGramsMap</a>?</span> <span class="parameter-name">kGramIndex</span>, </span><span class="parameter" id="-param-k"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">2</span>, </span><span class="parameter" id="-param-nGramRange"><span class="type-annotation"><a href="../text_indexing/NGramRange-class.html">NGramRange</a>?</span> <span class="parameter-name">nGramRange</span>, </span><span class="parameter" id="-param-zones"><span class="type-annotation"><a href="../type_definitions/ZoneWeightMap.html">ZoneWeightMap</a></span> <span class="parameter-name">zones</span> = <span class="default-value">const &lt;String, double&gt;{}</span>}</span>)</span>
+          <span class="name"><a href="../text_indexing/InMemoryIndex/InMemoryIndex.html">InMemoryIndex</a></span><span class="signature">(<span class="parameter" id="-param-analyzer">{<span>required</span> <span class="type-annotation"><a href="../text_indexing/TextAnalyzer-class.html">TextAnalyzer</a></span> <span class="parameter-name">analyzer</span>, </span><span class="parameter" id="-param-collectionSize"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">collectionSize</span>, </span><span class="parameter" id="-param-strategy"><span>required</span> <span class="type-annotation"><a href="../text_indexing/TokenizingStrategy.html">TokenizingStrategy</a></span> <span class="parameter-name">strategy</span>, </span><span class="parameter" id="-param-tokenFilter"><span class="type-annotation"><a href="../type_definitions/TokenFilter.html">TokenFilter</a>?</span> <span class="parameter-name">tokenFilter</span>, </span><span class="parameter" id="-param-dictionary"><span class="type-annotation"><a href="../type_definitions/DftMap.html">DftMap</a>?</span> <span class="parameter-name">dictionary</span>, </span><span class="parameter" id="-param-postings"><span class="type-annotation"><a href="../type_definitions/PostingsMap.html">PostingsMap</a>?</span> <span class="parameter-name">postings</span>, </span><span class="parameter" id="-param-keywordPostings"><span class="type-annotation"><a href="../type_definitions/KeywordPostingsMap.html">KeywordPostingsMap</a>?</span> <span class="parameter-name">keywordPostings</span>, </span><span class="parameter" id="-param-kGramIndex"><span class="type-annotation"><a href="../type_definitions/KGramsMap.html">KGramsMap</a>?</span> <span class="parameter-name">kGramIndex</span>, </span><span class="parameter" id="-param-k"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">2</span>, </span><span class="parameter" id="-param-nGramRange"><span class="type-annotation"><a href="../text_indexing/NGramRange-class.html">NGramRange</a>?</span> <span class="parameter-name">nGramRange</span>, </span><span class="parameter" id="-param-zones"><span class="type-annotation"><a href="../type_definitions/ZoneWeightMap.html">ZoneWeightMap</a></span> <span class="parameter-name">zones</span> = <span class="default-value">const &lt;String, double&gt;{}</span>}</span>)</span>
         </dt>
         <dd>
           Instantiates a <a href="../text_indexing/InMemoryIndex-class.html">InMemoryIndex</a> instance.
@@ -127,18 +127,6 @@ in-memory dictionary, k-gram and postings hashmaps.</p>
 </dt>
 <dd>
   The length of k-gram entries in the k-gram index.
-  <div class="features">final</div>
-
-</dd>
-
-        <dt id="keywordExtractor" class="property">
-  <span class="name"><a href="../text_indexing/InMemoryIndex/keywordExtractor.html">keywordExtractor</a></span>
-  <span class="signature">&#8594; <a href="../type_definitions/KeywordExtractor.html">KeywordExtractor</a></span> 
-
-</dt>
-<dd>
-  A splitter function that returns an ordered collection of keyword phrases
-from text.
   <div class="features">final</div>
 
 </dd>
@@ -540,7 +528,6 @@ already exist.
     <li><a href="../text_indexing/InMemoryIndex/dictionary.html">dictionary</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
     <li><a href="../text_indexing/InMemoryIndex/k.html">k</a></li>
-    <li><a href="../text_indexing/InMemoryIndex/keywordExtractor.html">keywordExtractor</a></li>
     <li><a href="../text_indexing/InMemoryIndex/keywordPostings.html">keywordPostings</a></li>
     <li><a href="../text_indexing/InMemoryIndex/kGramIndex.html">kGramIndex</a></li>
     <li><a href="../text_indexing/InMemoryIndex/nGramRange.html">nGramRange</a></li>

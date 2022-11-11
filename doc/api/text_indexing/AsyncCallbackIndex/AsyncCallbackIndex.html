@@ -60,7 +60,6 @@
 <li><span class="parameter" id="-param-keywordPostingsLoader"><span>required</span> <span class="type-annotation"><a href="../../type_definitions/KeywordPostingsMapLoader.html">KeywordPostingsMapLoader</a></span> <span class="parameter-name">keywordPostingsLoader</span>, </span></li>
 <li><span class="parameter" id="-param-keywordPostingsUpdater"><span>required</span> <span class="type-annotation"><a href="../../type_definitions/KeywordPostingsMapUpdater.html">KeywordPostingsMapUpdater</a></span> <span class="parameter-name">keywordPostingsUpdater</span>, </span></li>
 <li><span class="parameter" id="-param-analyzer"><span>required</span> <span class="type-annotation"><a href="../../text_indexing/TextAnalyzer-class.html">TextAnalyzer</a></span> <span class="parameter-name">analyzer</span>, </span></li>
-<li><span class="parameter" id="-param-keywordExtractor"><span>required</span> <span class="type-annotation"><a href="../../type_definitions/KeywordExtractor.html">KeywordExtractor</a></span> <span class="parameter-name">keywordExtractor</span>, </span></li>
 <li><span class="parameter" id="-param-strategy"><span>required</span> <span class="type-annotation"><a href="../../text_indexing/TokenizingStrategy.html">TokenizingStrategy</a></span> <span class="parameter-name">strategy</span>, </span></li>
 <li><span class="parameter" id="-param-tokenFilter"><span class="type-annotation"><a href="../../type_definitions/TokenFilter.html">TokenFilter</a>?</span> <span class="parameter-name">tokenFilter</span>, </span></li>
 <li><span class="parameter" id="-param-k"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">2</span>, </span></li>
@@ -76,12 +75,10 @@
 <li><a href="../../text_indexing/AsyncCallbackIndex/collectionSizeLoader.html">collectionSizeLoader</a> asynchronously retrieves the number of documents
 in the indexed collection;</li>
 <li><a href="../../text_indexing/AsyncCallbackIndex/analyzer.html">analyzer</a> is the <a href="../../text_indexing/TextAnalyzer-class.html">TextAnalyzer</a> used to tokenize text for the index;</li>
-<li><a href="../../text_indexing/AsyncCallbackIndex/keywordExtractor.html">keywordExtractor</a> is a splitter function that returns an ordered
-collection of keyword phrasesfrom text.</li>
 <li><a href="../../text_indexing/AsyncCallbackIndex/tokenFilter.html">tokenFilter</a> is a filter function that returns a subset of a
 collection of <a href="../../text_indexing/Token-class.html">Token</a>s.</li>
 <li><a href="../../text_indexing/AsyncCallbackIndex/k.html">k</a> is the length of k-gram entries in the k-gram index;</li>
-<li><code>nGramRange</code> is the range of N-gram lengths to generate;</li>
+<li><a href="../../text_indexing/AsyncCallbackIndex/nGramRange.html">nGramRange</a> is the range of N-gram lengths to generate;</li>
 <li><a href="../../text_indexing/AsyncCallbackIndex/zones.html">zones</a> is a hashmap of zone names to their relative weight in the
 index;</li>
 <li><a href="../../text_indexing/AsyncCallbackIndex/dictionaryLengthLoader.html">dictionaryLengthLoader</a> asynchronously retrieves the number of terms
@@ -121,7 +118,6 @@ persisting to a index repository.</li>
     required this.keywordPostingsLoader,
     required this.keywordPostingsUpdater,
     required this.analyzer,
-    required this.keywordExtractor,
     required this.strategy,
     this.tokenFilter,
     this.k = 2,
@@ -164,7 +160,6 @@ persisting to a index repository.</li>
     <li><a href="../../text_indexing/AsyncCallbackIndex/dictionaryUpdater.html">dictionaryUpdater</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
     <li><a href="../../text_indexing/AsyncCallbackIndex/k.html">k</a></li>
-    <li><a href="../../text_indexing/AsyncCallbackIndex/keywordExtractor.html">keywordExtractor</a></li>
     <li><a href="../../text_indexing/AsyncCallbackIndex/keywordPostingsLoader.html">keywordPostingsLoader</a></li>
     <li><a href="../../text_indexing/AsyncCallbackIndex/keywordPostingsUpdater.html">keywordPostingsUpdater</a></li>
     <li><a href="../../text_indexing/AsyncCallbackIndex/kGramIndexLoader.html">kGramIndexLoader</a></li>
