@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the TermSimilarityExtensions extension from the text_indexing_extensions library, for the Dart programming language.">
+  <title>TermSimilarityExtensions extension - text_indexing_extensions library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../static-assets/styles.css?v1">
+  <link rel="icon" href="../static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="../" data-using-base-href="false">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../index.html">text_indexing</a></li>
+    <li><a href="../text_indexing_extensions/text_indexing_extensions-library.html">text_indexing_extensions</a></li>
+    <li class="self-crumb">TermSimilarityExtensions extension</li>
+  </ol>
+  <div class="self-name">TermSimilarityExtensions</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+
+<div id="dartdoc-main-content" class="main-content">
+    <div>
+<h1><span class="kind-class">TermSimilarityExtensions</span> extension 
+    <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
+ 
+</h1></div>
+
+    
+<section class="desc markdown">
+  <p>Extension methods on <a href="../type_definitions/Term.html">Term</a> that exposes methods for computing similarity.</p>
+</section>
+
+    <section>
+      <dl class="dl-horizontal">
+        <dt>on</dt>
+        <dd>
+          <ul class="comma-separated clazz-relationships">
+              <li><a href="../type_definitions/Term.html">Term</a></li>
+          </ul>
+        </dd>
+      </dl>
+      
+    </section>
+
+
+    
+  <section
+      class="summary offset-anchor"
+      id="instance-methods">
+    <h2>Methods</h2>
+    <dl class="callables">
+        <dt id="characterSimilarities" class="callable">
+  <span class="name"><a href="../text_indexing_extensions/TermSimilarityExtensions/characterSimilarities.html">characterSimilarities</a></span><span class="signature">(<wbr><span class="parameter" id="characterSimilarities-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/SimilarityIndex-class.html">SimilarityIndex</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns a ordered list of <code>SimilarityIndex</code> values for the <code>terms</code>, in
+descending order of <a href="../text_indexing/SimilarityIndex/similarity.html">SimilarityIndex.similarity</a>.
+  
+
+</dd>
+
+        <dt id="characterSimilarity" class="callable">
+  <span class="name"><a href="../text_indexing_extensions/TermSimilarityExtensions/characterSimilarity.html">characterSimilarity</a></span><span class="signature">(<wbr><span class="parameter" id="characterSimilarity-param-other"><span class="type-annotation"><a href="../type_definitions/Term.html">Term</a></span> <span class="parameter-name">other</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns the similarity between the collection of letters of this String and
+<code>other</code> on a scale of 0.0 to 1.0.
+  
+
+</dd>
+
+        <dt id="characterSimilarityMap" class="callable">
+  <span class="name"><a href="../text_indexing_extensions/TermSimilarityExtensions/characterSimilarityMap.html">characterSimilarityMap</a></span><span class="signature">(<wbr><span class="parameter" id="characterSimilarityMap-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns a hashmap of <code>terms</code> to their <a href="../text_indexing_extensions/TermSimilarityExtensions/lengthSimilarity.html">lengthSimilarity</a> with this.
+  
+
+</dd>
+
+        <dt id="editDistance" class="callable">
+  <span class="name"><a href="../text_indexing_extensions/TermSimilarityExtensions/editDistance.html">editDistance</a></span><span class="signature">(<wbr><span class="parameter" id="editDistance-param-other"><span class="type-annotation"><a href="../type_definitions/Term.html">Term</a></span> <span class="parameter-name">other</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns the <code>Damerau–Levenshtein distance</code>, the minimum number of
+single-character edits (transpositions, insertions, deletions or
+substitutions) required to change one word into another <code>other</code>.
+  
+
+</dd>
+
+        <dt id="editDistanceMap" class="callable">
+  <span class="name"><a href="../text_indexing_extensions/TermSimilarityExtensions/editDistanceMap.html">editDistanceMap</a></span><span class="signature">(<wbr><span class="parameter" id="editDistanceMap-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns a hashmap of <code>terms</code> to their <a href="../text_indexing_extensions/TermSimilarityExtensions/editDistance.html">editDistance</a> with this.
+  
+
+</dd>
+
+        <dt id="editSimilarities" class="callable">
+  <span class="name"><a href="../text_indexing_extensions/TermSimilarityExtensions/editSimilarities.html">editSimilarities</a></span><span class="signature">(<wbr><span class="parameter" id="editSimilarities-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/SimilarityIndex-class.html">SimilarityIndex</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns an ordered list of <code>SimilarityIndex</code> values for the terms, in
+descending order of <a href="../text_indexing/SimilarityIndex/similarity.html">SimilarityIndex.similarity</a>.
+  
+
+</dd>
+
+        <dt id="editSimilarity" class="callable">
+  <span class="name"><a href="../text_indexing_extensions/TermSimilarityExtensions/editSimilarity.html">editSimilarity</a></span><span class="signature">(<wbr><span class="parameter" id="editSimilarity-param-other"><span class="type-annotation"><a href="../type_definitions/Term.html">Term</a></span> <span class="parameter-name">other</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  A normalized measure of <a href="../text_indexing_extensions/TermSimilarityExtensions/editDistance.html">editDistance</a> on a scale of 0.0 to 1.0.
+  
+
+</dd>
+
+        <dt id="editSimilarityMap" class="callable">
+  <span class="name"><a href="../text_indexing_extensions/TermSimilarityExtensions/editSimilarityMap.html">editSimilarityMap</a></span><span class="signature">(<wbr><span class="parameter" id="editSimilarityMap-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns a hashmap of <code>terms</code> to their <a href="../text_indexing_extensions/TermSimilarityExtensions/editSimilarity.html">editSimilarity</a> with this.
+  
+
+</dd>
+
+        <dt id="getSuggestions" class="callable">
+  <span class="name"><a href="../text_indexing_extensions/TermSimilarityExtensions/getSuggestions.html">getSuggestions</a></span><span class="signature">(<wbr><span class="parameter" id="getSuggestions-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span>, </span><span class="parameter" id="getSuggestions-param-limit">{<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">limit</span> = <span class="default-value">10</span>, </span><span class="parameter" id="getSuggestions-param-k"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">2</span>, </span><span class="parameter" id="getSuggestions-param-greaterThan"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> <span class="parameter-name">greaterThan</span> = <span class="default-value">0.10</span>, </span><span class="parameter" id="getSuggestions-param-roundTo"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">roundTo</span> = <span class="default-value">3</span>}</span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/SimilarityIndex-class.html">SimilarityIndex</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns a collection of <code>SimilarityIndex</code>s for this String from <code>terms</code>.
+  
+
+</dd>
+
+        <dt id="jaccardSimilarities" class="callable">
+  <span class="name"><a href="../text_indexing_extensions/TermSimilarityExtensions/jaccardSimilarities.html">jaccardSimilarities</a></span><span class="signature">(<wbr><span class="parameter" id="jaccardSimilarities-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span>, </span><span class="parameter" id="jaccardSimilarities-param-k">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">2</span>]</span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/SimilarityIndex-class.html">SimilarityIndex</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns a ordered list of <code>SimilarityIndex</code> values for the <code>terms</code>, in
+descending order of <a href="../text_indexing/SimilarityIndex/similarity.html">SimilarityIndex.similarity</a> using a
+<code>k</code>-gram length of <code>k</code>. <code>k</code> defaults to 2.
+  
+
+</dd>
+
+        <dt id="jaccardSimilarity" class="callable">
+  <span class="name"><a href="../text_indexing_extensions/TermSimilarityExtensions/jaccardSimilarity.html">jaccardSimilarity</a></span><span class="signature">(<wbr><span class="parameter" id="jaccardSimilarity-param-other"><span class="type-annotation"><a href="../type_definitions/Term.html">Term</a></span> <span class="parameter-name">other</span>, </span><span class="parameter" id="jaccardSimilarity-param-k">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">2</span>]</span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns the Jaccard Similarity Index between this term and <code>other</code>
+using a <code>k</code>-gram length of <code>k</code>.
+  
+
+</dd>
+
+        <dt id="jaccardSimilarityMap" class="callable">
+  <span class="name"><a href="../text_indexing_extensions/TermSimilarityExtensions/jaccardSimilarityMap.html">jaccardSimilarityMap</a></span><span class="signature">(<wbr><span class="parameter" id="jaccardSimilarityMap-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span>, </span><span class="parameter" id="jaccardSimilarityMap-param-k">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">2</span>]</span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns a hashmap of <code>terms</code> to Jaccard Similarity Index with this term
+using a <code>k</code>-gram length of <code>k</code>.
+  
+
+</dd>
+
+        <dt id="kGrams" class="callable">
+  <span class="name"><a href="../text_indexing_extensions/TermSimilarityExtensions/kGrams.html">kGrams</a></span><span class="signature">(<wbr><span class="parameter" id="kGrams-param-k">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">2</span>, </span><span class="parameter" id="kGrams-param-lowerCase"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">lowerCase</span> = <span class="default-value">true</span>]</span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/KGram.html">KGram</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns a set of k-grams in the term.
+  
+
+</dd>
+
+        <dt id="lengthDistance" class="callable">
+  <span class="name"><a href="../text_indexing_extensions/TermSimilarityExtensions/lengthDistance.html">lengthDistance</a></span><span class="signature">(<wbr><span class="parameter" id="lengthDistance-param-other"><span class="type-annotation"><a href="../type_definitions/Term.html">Term</a></span> <span class="parameter-name">other</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns the absolute value of the difference in length between two terms.
+  
+
+</dd>
+
+        <dt id="lengthSimilarities" class="callable">
+  <span class="name"><a href="../text_indexing_extensions/TermSimilarityExtensions/lengthSimilarities.html">lengthSimilarities</a></span><span class="signature">(<wbr><span class="parameter" id="lengthSimilarities-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/SimilarityIndex-class.html">SimilarityIndex</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns a ordered list of <code>SimilarityIndex</code> values for the <code>terms</code>, in
+descending order of <a href="../text_indexing/SimilarityIndex/similarity.html">SimilarityIndex.similarity</a>.
+  
+
+</dd>
+
+        <dt id="lengthSimilarity" class="callable">
+  <span class="name"><a href="../text_indexing_extensions/TermSimilarityExtensions/lengthSimilarity.html">lengthSimilarity</a></span><span class="signature">(<wbr><span class="parameter" id="lengthSimilarity-param-other"><span class="type-annotation"><a href="../type_definitions/Term.html">Term</a></span> <span class="parameter-name">other</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns the similarity in length between two terms, defined as:
+lengthSimilarity = 1 minus the log of the ratio between the term lengths,
+with a floor at 0.0:
+<code>1-(log(this.length/other.length))</code>
+  
+
+</dd>
+
+        <dt id="lengthSimilarityMap" class="callable">
+  <span class="name"><a href="../text_indexing_extensions/TermSimilarityExtensions/lengthSimilarityMap.html">lengthSimilarityMap</a></span><span class="signature">(<wbr><span class="parameter" id="lengthSimilarityMap-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns a hashmap of <code>terms</code> to their <a href="../text_indexing_extensions/TermSimilarityExtensions/lengthSimilarity.html">lengthSimilarity</a> with this.
+  
+
+</dd>
+
+        <dt id="matches" class="callable">
+  <span class="name"><a href="../text_indexing_extensions/TermSimilarityExtensions/matches.html">matches</a></span><span class="signature">(<wbr><span class="parameter" id="matches-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span>, </span><span class="parameter" id="matches-param-limit">{<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">limit</span> = <span class="default-value">10</span>, </span><span class="parameter" id="matches-param-k"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">2</span>, </span><span class="parameter" id="matches-param-greaterThan"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> <span class="parameter-name">greaterThan</span> = <span class="default-value">0.10</span>}</span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns the best matches for a term from <code>terms</code>, in descending
+order of term similarity (best match first).
+  
+
+</dd>
+
+        <dt id="startsWith" class="callable">
+  <span class="name"><a href="../text_indexing_extensions/TermSimilarityExtensions/startsWith.html">startsWith</a></span><span class="signature">(<wbr><span class="parameter" id="startsWith-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">terms</span>, </span><span class="parameter" id="startsWith-param-limit">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">limit</span> = <span class="default-value">10</span>]</span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns a subset of candidates that starts with the same characters
+as the String.
+  
+
+</dd>
+
+        <dt id="startsWithSimilarities" class="callable">
+  <span class="name"><a href="../text_indexing_extensions/TermSimilarityExtensions/startsWithSimilarities.html">startsWithSimilarities</a></span><span class="signature">(<wbr><span class="parameter" id="startsWithSimilarities-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/SimilarityIndex-class.html">SimilarityIndex</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns an ordered list of starts-with similarity values for the terms, in
+descending order of <a href="../text_indexing/SimilarityIndex/similarity.html">SimilarityIndex.similarity</a>.
+  
+
+</dd>
+
+        <dt id="startsWithSimilarity" class="callable">
+  <span class="name"><a href="../text_indexing_extensions/TermSimilarityExtensions/startsWithSimilarity.html">startsWithSimilarity</a></span><span class="signature">(<wbr><span class="parameter" id="startsWithSimilarity-param-other"><span class="type-annotation"><a href="../type_definitions/Term.html">Term</a></span> <span class="parameter-name">other</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Compares the starting charcters of the String with that of <code>other</code>,
+limiting the comparison to a substring of this or <code>other</code> that is
+the shorter of this.length or other.length.
+  
+
+</dd>
+
+        <dt id="startsWithSimilarityMap" class="callable">
+  <span class="name"><a href="../text_indexing_extensions/TermSimilarityExtensions/startsWithSimilarityMap.html">startsWithSimilarityMap</a></span><span class="signature">(<wbr><span class="parameter" id="startsWithSimilarityMap-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns a hashmap of cadidate tems to their starts-with similarity with
+this string.
+  
+
+</dd>
+
+        <dt id="termSimilarities" class="callable">
+  <span class="name"><a href="../text_indexing_extensions/TermSimilarityExtensions/termSimilarities.html">termSimilarities</a></span><span class="signature">(<wbr><span class="parameter" id="termSimilarities-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span>, </span><span class="parameter" id="termSimilarities-param-k">{<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">2</span>}</span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/TermSimilarity-class.html">TermSimilarity</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns a ordered list of <a href="../text_indexing/SimilarityIndex-class.html">SimilarityIndex</a> values for the <code>terms</code>, in
+descending order of <a href="../text_indexing/SimilarityIndex/similarity.html">SimilarityIndex.similarity</a>.
+  
+
+</dd>
+
+        <dt id="termSimilarityMap" class="callable">
+  <span class="name"><a href="../text_indexing_extensions/TermSimilarityExtensions/termSimilarityMap.html">termSimilarityMap</a></span><span class="signature">(<wbr><span class="parameter" id="termSimilarityMap-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span>, </span><span class="parameter" id="termSimilarityMap-param-k">{<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">2</span>}</span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>, <span class="type-parameter"><a href="../text_indexing/TermSimilarity-class.html">TermSimilarity</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns an hashmap of <code>terms</code> to <code>TermSimilarity</code> with this term.
+  
+
+</dd>
+
+    </dl>
+  </section>
+    
+    
+    
+    
+
+
+</div> <!-- /.main-content -->
+
+<div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+  <li><a href="../index.html">text_indexing</a></li>
+  <li><a href="../text_indexing_extensions/text_indexing_extensions-library.html">text_indexing_extensions</a></li>
+  <li class="self-crumb">TermSimilarityExtensions extension</li>
+</ol>
+
+
+    <h5>text_indexing_extensions library</h5>
+    <ol>
+
+  <li class="section-title"><a href="../text_indexing_extensions/text_indexing_extensions-library.html#extensions">Extensions</a></li>
+  <li><a href="../text_indexing_extensions/DictionaryEntryCollectionExtension.html">DictionaryEntryCollectionExtension</a></li>
+  <li><a href="../text_indexing_extensions/DictionaryEntryExtension.html">DictionaryEntryExtension</a></li>
+  <li><a href="../text_indexing_extensions/DictionaryExtensions.html">DictionaryExtensions</a></li>
+  <li><a href="../text_indexing_extensions/DocumentPostingsEntryExtension.html">DocumentPostingsEntryExtension</a></li>
+  <li><a href="../text_indexing_extensions/IDftDictionaryEntryExtension.html">IDftDictionaryEntryExtension</a></li>
+  <li><a href="../text_indexing_extensions/IdFtIndexExtensions.html">IdFtIndexExtensions</a></li>
+  <li><a href="../text_indexing_extensions/KeywordDocumentPostingsEntryExtension.html">KeywordDocumentPostingsEntryExtension</a></li>
+  <li><a href="../text_indexing_extensions/KeywordPostingsEntryExtension.html">KeywordPostingsEntryExtension</a></li>
+  <li><a href="../text_indexing_extensions/KeywordPostingsExtension.html">KeywordPostingsExtension</a></li>
+  <li><a href="../text_indexing_extensions/KGramExtensionOnTermCollection.html">KGramExtensionOnTermCollection</a></li>
+  <li><a href="../text_indexing_extensions/KGramIndexExtension.html">KGramIndexExtension</a></li>
+  <li><a href="https://pub.dev/documentation/porter_2_stemmer/3.0.2/porter_2_stemmer/Porter2StemmerExtension.html">Porter2StemmerExtension</a></li>
+  <li><a href="../text_indexing_extensions/PostingsEntryExtension.html">PostingsEntryExtension</a></li>
+  <li><a href="../text_indexing_extensions/PostingsExtension.html">PostingsExtension</a></li>
+  <li><a href="../text_indexing_extensions/SimilarityIndexCollectionExtension.html">SimilarityIndexCollectionExtension</a></li>
+  <li><a href="../text_indexing_extensions/StringCollectionCollectionExtension.html">StringCollectionCollectionExtension</a></li>
+  <li><a href="../text_indexing_extensions/TermSimilarityCollectionExtension.html">TermSimilarityCollectionExtension</a></li>
+  <li><a href="../text_indexing_extensions/TermSimilarityExtensions.html">TermSimilarityExtensions</a></li>
+  <li><a href="../text_indexing_extensions/TextAnalysisExtensionsOnJSON.html">TextAnalysisExtensionsOnJSON</a></li>
+  <li><a href="../text_indexing_extensions/TextAnalysisExtensionsOnString.html">TextAnalysisExtensionsOnString</a></li>
+  <li><a href="../text_indexing_extensions/TextAnalysisExtensionsOnStringList.html">TextAnalysisExtensionsOnStringList</a></li>
+  <li><a href="../text_indexing_extensions/TokenCollectionExtension.html">TokenCollectionExtension</a></li>
+  <li><a href="../text_indexing_extensions/VectorSpaceMapExtensions.html">VectorSpaceMapExtensions</a></li>
+
+
+
+
+
+
+
+</ol>
+
+</div>
+
+<div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+    <ol>
+
+
+
+
+
+    <li class="section-title"><a href="../text_indexing_extensions/TermSimilarityExtensions.html#instance-methods">Methods</a></li>
+    <li><a href="../text_indexing_extensions/TermSimilarityExtensions/characterSimilarities.html">characterSimilarities</a></li>
+    <li><a href="../text_indexing_extensions/TermSimilarityExtensions/characterSimilarity.html">characterSimilarity</a></li>
+    <li><a href="../text_indexing_extensions/TermSimilarityExtensions/characterSimilarityMap.html">characterSimilarityMap</a></li>
+    <li><a href="../text_indexing_extensions/TermSimilarityExtensions/editDistance.html">editDistance</a></li>
+    <li><a href="../text_indexing_extensions/TermSimilarityExtensions/editDistanceMap.html">editDistanceMap</a></li>
+    <li><a href="../text_indexing_extensions/TermSimilarityExtensions/editSimilarities.html">editSimilarities</a></li>
+    <li><a href="../text_indexing_extensions/TermSimilarityExtensions/editSimilarity.html">editSimilarity</a></li>
+    <li><a href="../text_indexing_extensions/TermSimilarityExtensions/editSimilarityMap.html">editSimilarityMap</a></li>
+    <li><a href="../text_indexing_extensions/TermSimilarityExtensions/getSuggestions.html">getSuggestions</a></li>
+    <li><a href="../text_indexing_extensions/TermSimilarityExtensions/jaccardSimilarities.html">jaccardSimilarities</a></li>
+    <li><a href="../text_indexing_extensions/TermSimilarityExtensions/jaccardSimilarity.html">jaccardSimilarity</a></li>
+    <li><a href="../text_indexing_extensions/TermSimilarityExtensions/jaccardSimilarityMap.html">jaccardSimilarityMap</a></li>
+    <li><a href="../text_indexing_extensions/TermSimilarityExtensions/kGrams.html">kGrams</a></li>
+    <li><a href="../text_indexing_extensions/TermSimilarityExtensions/lengthDistance.html">lengthDistance</a></li>
+    <li><a href="../text_indexing_extensions/TermSimilarityExtensions/lengthSimilarities.html">lengthSimilarities</a></li>
+    <li><a href="../text_indexing_extensions/TermSimilarityExtensions/lengthSimilarity.html">lengthSimilarity</a></li>
+    <li><a href="../text_indexing_extensions/TermSimilarityExtensions/lengthSimilarityMap.html">lengthSimilarityMap</a></li>
+    <li><a href="../text_indexing_extensions/TermSimilarityExtensions/matches.html">matches</a></li>
+    <li><a href="../text_indexing_extensions/TermSimilarityExtensions/startsWith.html">startsWith</a></li>
+    <li><a href="../text_indexing_extensions/TermSimilarityExtensions/startsWithSimilarities.html">startsWithSimilarities</a></li>
+    <li><a href="../text_indexing_extensions/TermSimilarityExtensions/startsWithSimilarity.html">startsWithSimilarity</a></li>
+    <li><a href="../text_indexing_extensions/TermSimilarityExtensions/startsWithSimilarityMap.html">startsWithSimilarityMap</a></li>
+    <li><a href="../text_indexing_extensions/TermSimilarityExtensions/termSimilarities.html">termSimilarities</a></li>
+    <li><a href="../text_indexing_extensions/TermSimilarityExtensions/termSimilarityMap.html">termSimilarityMap</a></li>
+
+
+
+
+</ol>
+
+</div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    text_indexing
+      0.23.0-1
+  </span>
+
+  
+</footer>
+
+
+
+<script src="../static-assets/highlight.pack.js?v1"></script>
+<script src="../static-assets/docs.dart.js"></script>
+
+
+
+</body>
+
+</html>
+
+

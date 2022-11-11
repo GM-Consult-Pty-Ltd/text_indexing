@@ -7,6 +7,18 @@ All rights reserved.
 *THIS PACKAGE IS **PRE-RELEASE** AND SUBJECT TO DAILY BREAKING CHANGES.*
 
 
+## 0.23.0-1
+**BREAKING CHANGES**
+
+### *Breaking changes*
+* Interface `TextTokenizer` removed. Use `TextAnalyzer.tokenize` and `TextAnalyzer.tokenizeJson` in stead.
+
+### *Updated*
+* Dependencies.
+* Tests.
+* Documentation
+* Examples.
+
 ## 0.22.4+15
 
 ### *Deprecated*

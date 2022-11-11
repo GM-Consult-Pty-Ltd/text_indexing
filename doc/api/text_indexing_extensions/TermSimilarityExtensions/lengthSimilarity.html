@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the lengthSimilarity method from the TermSimilarityExtensions extension, for the Dart programming language.">
+  <title>lengthSimilarity method - TermSimilarityExtensions extension - text_indexing_extensions library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../../static-assets/styles.css?v1">
+  <link rel="icon" href="../../static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="../../" data-using-base-href="false">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../../index.html">text_indexing</a></li>
+    <li><a href="../../text_indexing_extensions/text_indexing_extensions-library.html">text_indexing_extensions</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions.html">TermSimilarityExtensions</a></li>
+    <li class="self-crumb">lengthSimilarity method</li>
+  </ol>
+  <div class="self-name">lengthSimilarity</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+
+  <div id="dartdoc-main-content" class="main-content">
+      <div>
+<h1><span class="kind-method">lengthSimilarity</span> method 
+    <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
+</h1></div>
+
+    <section class="multi-line-signature">
+      
+
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span>
+<span class="name ">lengthSimilarity</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="lengthSimilarity-param-other"><span class="type-annotation"><a href="../../type_definitions/Term.html">Term</a></span> <span class="parameter-name">other</span></span></li>
+</ol>)
+
+      
+
+    </section>
+    
+<section class="desc markdown">
+  <p>Returns the similarity in length between two terms, defined as:
+lengthSimilarity = 1 minus the log of the ratio between the term lengths,
+with a floor at 0.0:
+<code>1-(log(this.length/other.length))</code></p>
+<p>Returns:</p>
+<ul>
+<li>1.0 if this and <code>other</code> are the same length; and</li>
+<li>0.0 if the ratio between term lengths is more than 10 or less than 0.1.</li>
+</ul>
+<p>The String and <code>other</code> are converted to lower-case and trimmed for the
+comparison.</p>
+</section>
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">double lengthSimilarity(Term other) {
+  final term = trim().toLowerCase();
+  other = other.trim().toLowerCase();
+  final logRatio = term.isEmpty
+      ? other.isEmpty
+          ? 0
+          : 1
+      : other.isEmpty
+          ? 1
+          : (log(other.length &#47; term.length)).abs();
+  final similarity = logRatio &gt; 1 ? 0.0 : 1.0 - logRatio;
+  if (similarity &gt; 1.0) {
+    return 1.0;
+  }
+  return similarity;
+}</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+  <li><a href="../../index.html">text_indexing</a></li>
+  <li><a href="../../text_indexing_extensions/text_indexing_extensions-library.html">text_indexing_extensions</a></li>
+  <li><a href="../../text_indexing_extensions/TermSimilarityExtensions.html">TermSimilarityExtensions</a></li>
+  <li class="self-crumb">lengthSimilarity method</li>
+</ol>
+
+
+    <h5>TermSimilarityExtensions extension</h5>
+    <ol>
+
+
+
+
+
+    <li class="section-title"><a href="../../text_indexing_extensions/TermSimilarityExtensions.html#instance-methods">Methods</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/characterSimilarities.html">characterSimilarities</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/characterSimilarity.html">characterSimilarity</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/characterSimilarityMap.html">characterSimilarityMap</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/editDistance.html">editDistance</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/editDistanceMap.html">editDistanceMap</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/editSimilarities.html">editSimilarities</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/editSimilarity.html">editSimilarity</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/editSimilarityMap.html">editSimilarityMap</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/getSuggestions.html">getSuggestions</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/jaccardSimilarities.html">jaccardSimilarities</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/jaccardSimilarity.html">jaccardSimilarity</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/jaccardSimilarityMap.html">jaccardSimilarityMap</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/kGrams.html">kGrams</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/lengthDistance.html">lengthDistance</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/lengthSimilarities.html">lengthSimilarities</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/lengthSimilarity.html">lengthSimilarity</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/lengthSimilarityMap.html">lengthSimilarityMap</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/matches.html">matches</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/startsWith.html">startsWith</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/startsWithSimilarities.html">startsWithSimilarities</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/startsWithSimilarity.html">startsWithSimilarity</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/startsWithSimilarityMap.html">startsWithSimilarityMap</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/termSimilarities.html">termSimilarities</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/termSimilarityMap.html">termSimilarityMap</a></li>
+
+
+
+
+</ol>
+
+  </div><!--/.sidebar-offcanvas-->
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    text_indexing
+      0.23.0-1
+  </span>
+
+  
+</footer>
+
+
+
+<script src="../../static-assets/highlight.pack.js?v1"></script>
+<script src="../../static-assets/docs.dart.js"></script>
+
+
+
+</body>
+
+</html>
+

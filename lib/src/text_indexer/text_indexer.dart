@@ -17,7 +17,7 @@ import 'package:text_indexing/src/_index.dart';
 ///
 /// Implementing classes must override the [index] field, the [InvertedIndex]
 /// that provides access to the index [DftMap] and [PostingsMap] and a
-/// [TextTokenizer].
+/// [TextAnalyzer].
 ///
 /// Implementing classes override the following asynchronous methods:
 /// - [indexText] indexes a text document;
@@ -65,7 +65,7 @@ abstract class TextIndexer {
   Future<void> indexCollection(Map<String, Map<String, dynamic>> collection);
 
   /// The [InvertedIndex] that provides access to the
-  /// index [DftMap] and [PostingsMap] and a [TextTokenizer].
+  /// index [DftMap] and [PostingsMap] and a [TextAnalyzer].
   InvertedIndex get index;
 
   //

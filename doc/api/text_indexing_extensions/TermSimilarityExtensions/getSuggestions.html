@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the getSuggestions method from the TermSimilarityExtensions extension, for the Dart programming language.">
+  <title>getSuggestions method - TermSimilarityExtensions extension - text_indexing_extensions library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../../static-assets/styles.css?v1">
+  <link rel="icon" href="../../static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="../../" data-using-base-href="false">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../../index.html">text_indexing</a></li>
+    <li><a href="../../text_indexing_extensions/text_indexing_extensions-library.html">text_indexing_extensions</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions.html">TermSimilarityExtensions</a></li>
+    <li class="self-crumb">getSuggestions method</li>
+  </ol>
+  <div class="self-name">getSuggestions</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+
+  <div id="dartdoc-main-content" class="main-content">
+      <div>
+<h1><span class="kind-method">getSuggestions</span> method 
+    <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
+</h1></div>
+
+    <section class="multi-line-signature">
+      
+
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_indexing/SimilarityIndex-class.html">SimilarityIndex</a></span>&gt;</span></span>
+<span class="name ">getSuggestions</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="getSuggestions-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span>, </span></li>
+<li><span class="parameter" id="getSuggestions-param-limit">{<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">limit</span> = <span class="default-value">10</span>, </span></li>
+<li><span class="parameter" id="getSuggestions-param-k"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">2</span>, </span></li>
+<li><span class="parameter" id="getSuggestions-param-greaterThan"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> <span class="parameter-name">greaterThan</span> = <span class="default-value">0.10</span>, </span></li>
+<li><span class="parameter" id="getSuggestions-param-roundTo"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">roundTo</span> = <span class="default-value">3</span>}</span></li>
+</ol>)
+
+      
+
+    </section>
+    
+<section class="desc markdown">
+  <p>Returns a collection of <code>SimilarityIndex</code>s for this String from <code>terms</code>.</p>
+<p>Similarity is calculated for each term in <code>terms</code> by starting with 1.0
+and iteratively multiplying by <a href="../../text_indexing_extensions/TermSimilarityExtensions/lengthSimilarity.html">lengthSimilarity</a>, <a href="../../text_indexing_extensions/TermSimilarityExtensions/characterSimilarity.html">characterSimilarity</a>,
+<a href="../../text_indexing_extensions/TermSimilarityExtensions/jaccardSimilarity.html">jaccardSimilarity</a> and <a href="../../text_indexing_extensions/TermSimilarityExtensions/editSimilarity.html">editSimilarity</a>, terminating the iteration as
+soon as the <code>greaterThan</code> threshold is reached.</p>
+<p>The default <code>greaterThan</code> is 0.10. A higher value for <code>greaterThan</code> can
+improve performance as candidates with different lengths to this term
+are not evaluated, avoiding costly computation of edit distance and or
+Jaccard similarity.</p>
+<p>Suggestions are returned in descending order of similarity.</p>
+<p>The top returned matches will be limited to <code>limit</code> if more than <code>limit</code>
+matches are found.</p>
+<p>Not case-sensitive.</p>
+</section>
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">List&lt;SimilarityIndex&gt; getSuggestions(Iterable&lt;Term&gt; terms,
+    {int limit = 10, int k = 2, double greaterThan = 0.10, int roundTo = 3}) {
+  final retVal = &lt;SimilarityIndex&gt;[];
+  for (final other in terms.toSet()) {
+    var similarity = lengthSimilarity(other);
+    similarity = similarity &lt;= greaterThan
+        ? similarity
+        : similarity * characterSimilarity(other);
+    similarity = similarity &lt;= greaterThan
+        ? similarity
+        : similarity * startsWithSimilarity(other);
+    similarity = similarity &lt;= greaterThan
+        ? similarity
+        : similarity * jaccardSimilarity(other);
+    similarity = similarity &lt;= greaterThan
+        ? similarity
+        : similarity * editSimilarity(other);
+    final f = pow(10, roundTo);
+    similarity = (similarity * f).roundToDouble() &#47; f;
+    if (similarity &gt; greaterThan) {
+      retVal.add(SimilarityIndex(other, similarity));
+    }
+  }
+  &#47;&#47; sort in descending order of similarity and return only the first [limit]
+  &#47;&#47; results
+  return retVal.sortBySimilarity().limit(limit);
+}</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+  <li><a href="../../index.html">text_indexing</a></li>
+  <li><a href="../../text_indexing_extensions/text_indexing_extensions-library.html">text_indexing_extensions</a></li>
+  <li><a href="../../text_indexing_extensions/TermSimilarityExtensions.html">TermSimilarityExtensions</a></li>
+  <li class="self-crumb">getSuggestions method</li>
+</ol>
+
+
+    <h5>TermSimilarityExtensions extension</h5>
+    <ol>
+
+
+
+
+
+    <li class="section-title"><a href="../../text_indexing_extensions/TermSimilarityExtensions.html#instance-methods">Methods</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/characterSimilarities.html">characterSimilarities</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/characterSimilarity.html">characterSimilarity</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/characterSimilarityMap.html">characterSimilarityMap</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/editDistance.html">editDistance</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/editDistanceMap.html">editDistanceMap</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/editSimilarities.html">editSimilarities</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/editSimilarity.html">editSimilarity</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/editSimilarityMap.html">editSimilarityMap</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/getSuggestions.html">getSuggestions</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/jaccardSimilarities.html">jaccardSimilarities</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/jaccardSimilarity.html">jaccardSimilarity</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/jaccardSimilarityMap.html">jaccardSimilarityMap</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/kGrams.html">kGrams</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/lengthDistance.html">lengthDistance</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/lengthSimilarities.html">lengthSimilarities</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/lengthSimilarity.html">lengthSimilarity</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/lengthSimilarityMap.html">lengthSimilarityMap</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/matches.html">matches</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/startsWith.html">startsWith</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/startsWithSimilarities.html">startsWithSimilarities</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/startsWithSimilarity.html">startsWithSimilarity</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/startsWithSimilarityMap.html">startsWithSimilarityMap</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/termSimilarities.html">termSimilarities</a></li>
+    <li><a href="../../text_indexing_extensions/TermSimilarityExtensions/termSimilarityMap.html">termSimilarityMap</a></li>
+
+
+
+
+</ol>
+
+  </div><!--/.sidebar-offcanvas-->
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    text_indexing
+      0.23.0-1
+  </span>
+
+  
+</footer>
+
+
+
+<script src="../../static-assets/highlight.pack.js?v1"></script>
+<script src="../../static-assets/docs.dart.js"></script>
+
+
+
+</body>
+
+</html>
+
