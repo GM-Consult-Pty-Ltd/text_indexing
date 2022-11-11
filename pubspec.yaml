@@ -17,7 +17,7 @@ dependencies:
   collection: ^1.17.0
   meta: ^1.8.0
   rxdart: ^0.27.5 
-  text_analysis: ^0.23.7
+  text_analysis: 0.23.7+13
 
 dev_dependencies:
   gmconsult_dev: ^0.0.7

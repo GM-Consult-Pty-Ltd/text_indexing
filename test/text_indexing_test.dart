@@ -77,7 +77,7 @@ void main() {
 
       final searchResults = phrase.getSuggestions(kGramsSearch.terms);
 
-      _printKeywords(index: keyWordsSearch, data: data);
+      _printKeywords(index: keyWordsSearch, data: data, limit: 25);
 
       // print the document term frequencies for each term in searchTerms
       // await _printTermFrequencyPostings(index, searchTokens);
