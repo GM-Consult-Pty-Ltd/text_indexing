@@ -115,7 +115,6 @@ void main() {
       final index = InMemoryIndex(
           analyzer: English.analyzer,
           collectionSize: collection.length,
-          keywordExtractor: English.analyzer.keywordExtractor,
           dictionary: dictionary,
           strategy: TokenizingStrategy.all,
           postings: postings,
@@ -354,7 +353,6 @@ Future<InMemoryIndex> _getIndex(JsonCollection documents,
       collectionSize: documents.length,
       strategy: TokenizingStrategy.all,
       nGramRange: NGramRange(1, 2),
-      keywordExtractor: English.analyzer.keywordExtractor,
       zones: zones);
   final indexer = TextIndexer(index);
   await indexer.indexCollection(documents);

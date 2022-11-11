@@ -42,8 +42,8 @@ class InMemoryIndex extends InMemoryIndexBase {
   @override
   final TokenFilter? tokenFilter;
 
-  @override
-  final KeywordExtractor keywordExtractor;
+  // @override
+  // final KeywordExtractor keywordExtractor;
 
   @override
   final ZoneWeightMap zones;
@@ -51,7 +51,7 @@ class InMemoryIndex extends InMemoryIndexBase {
   /// Instantiates a [InMemoryIndex] instance.
   /// - [analyzer] is the [TextAnalyzer] used to tokenize text for the index;
   /// - [keywordExtractor] is a splitter function that returns an ordered
-  ///   collection of keyword phrasesfrom text.
+  ///   collection of keyword phrases from text.
   /// - [collectionSize] is the size of the indexed collection.
   /// - [tokenFilter] is a filter function that returns a subset of a
   ///   collection of [Token]s.
@@ -75,7 +75,7 @@ class InMemoryIndex extends InMemoryIndexBase {
   ///   will be initialized.
   InMemoryIndex(
       {required this.analyzer,
-      required this.keywordExtractor,
+      // required this.keywordExtractor,
       required this.collectionSize,
       required this.strategy,
       this.tokenFilter,

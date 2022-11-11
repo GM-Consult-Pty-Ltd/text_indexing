@@ -8,8 +8,6 @@ import 'package:text_indexing/src/_index.dart';
 /// An interface that exposes methods for working with an inverted, positional
 /// zoned index on a collection of documents.
 /// - [analyzer] is the [TextAnalyzer] used to index the corpus terms.
-/// - [keywordExtractor] is a splitter function that returns an ordered
-///   collection of keyword phrasesfrom text.
 /// - [vocabularyLength] is the number of unique terms in the corpus.
 /// - [zones] is a hashmap of zone names to their relative weight in the index.
 ///   If [zones] is empty, all the `JSON` fields will be indexed.
@@ -67,7 +65,6 @@ abstract class InvertedIndex {
   ///   will be initialized.
   factory InvertedIndex.inMemory(
           {required TextAnalyzer analyzer,
-          required KeywordExtractor keywordExtractor,
           required int collectionSize,
           TokenFilter? tokenFilter,
           Map<String, int>? dictionary,
@@ -82,7 +79,7 @@ abstract class InvertedIndex {
           collectionSize: collectionSize,
           analyzer: analyzer,
           tokenFilter: tokenFilter,
-          keywordExtractor: keywordExtractor,
+          // keywordExtractor: keywordExtractor,
           dictionary: dictionary,
           postings: postings,
           keywordPostings: keywordPostings,
@@ -94,8 +91,6 @@ abstract class InvertedIndex {
 
   /// /// A factory constructor that returns an [AsyncCallbackIndex] instance.
   /// - [analyzer] is the [TextAnalyzer] used to tokenize text for the index.
-  /// - [keywordExtractor] is a splitter function that returns an ordered
-  ///   collection of keyword phrasesfrom text.
   /// - [tokenFilter] is a filter function that returns a subset of a
   ///   collection of [Token]s.
   /// - [k] is the length of k-gram entries in the k-gram index.
@@ -130,7 +125,6 @@ abstract class InvertedIndex {
           required KeywordPostingsMapLoader keywordPostingsLoader,
           required KeywordPostingsMapUpdater keywordPostingsUpdater,
           required TextAnalyzer analyzer,
-          required KeywordExtractor keywordExtractor,
           TokenFilter? tokenFilter,
           Map<String, int>? dictionary,
           Map<String, Map<String, Map<String, List<int>>>>? postings,
@@ -152,7 +146,6 @@ abstract class InvertedIndex {
           keywordPostingsUpdater: keywordPostingsUpdater,
           analyzer: analyzer,
           tokenFilter: tokenFilter,
-          keywordExtractor: keywordExtractor,
           k: k,
           nGramRange: nGramRange,
           strategy: strategy,
@@ -180,9 +173,9 @@ abstract class InvertedIndex {
   /// The text analyser that extracts tokens from text for the index.
   TextAnalyzer get analyzer;
 
-  /// A splitter function that returns an ordered collection of keyword phrases
-  /// from text.
-  KeywordExtractor get keywordExtractor;
+  // /// A splitter function that returns an ordered collection of keyword phrases
+  // /// from text.
+  // KeywordExtractor get keywordExtractor;
 
   /// Returns the number of terms in the vocabulary (N).
   Future<Ft> get vocabularyLength;
@@ -322,7 +315,7 @@ abstract class InvertedIndexMixin implements InvertedIndex {
 
   /// Implements [InvertedIndex.getTfIndex] method:
   /// - loads a subset of [PostingsMap] for [terms] by calling [getPostings].
-  /// - iterates over the loaded [PostingsMap] to map aggregate the postings for
+  /// - iterates over the loaded [PostingsMap] to aggregate the postings for
   ///  the term.
   @override
   Future<DftMap> getTfIndex(Iterable<Term> terms) async {

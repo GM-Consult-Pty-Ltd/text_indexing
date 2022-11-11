@@ -54,9 +54,6 @@ class AsyncCallbackIndex extends AsyncCallbackIndexBase {
   final TokenFilter? tokenFilter;
 
   @override
-  final KeywordExtractor keywordExtractor;
-
-  @override
   final ZoneWeightMap zones;
 
   @override
@@ -72,8 +69,6 @@ class AsyncCallbackIndex extends AsyncCallbackIndexBase {
   /// - [collectionSizeLoader] asynchronously retrieves the number of documents
   ///   in the indexed collection;
   /// - [analyzer] is the [TextAnalyzer] used to tokenize text for the index;
-  /// - [keywordExtractor] is a splitter function that returns an ordered
-  ///   collection of keyword phrasesfrom text.
   /// - [tokenFilter] is a filter function that returns a subset of a
   ///   collection of [Token]s.
   /// - [k] is the length of k-gram entries in the k-gram index;
@@ -110,7 +105,6 @@ class AsyncCallbackIndex extends AsyncCallbackIndexBase {
       required this.keywordPostingsLoader,
       required this.keywordPostingsUpdater,
       required this.analyzer,
-      required this.keywordExtractor,
       required this.strategy,
       this.tokenFilter,
       this.k = 2,
