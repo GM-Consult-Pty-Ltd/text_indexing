@@ -6,6 +6,19 @@ All rights reserved.
 
 *THIS PACKAGE IS **PRE-RELEASE** AND SUBJECT TO DAILY BREAKING CHANGES.*
 
+
+## 0.22.4+15
+
+### *Deprecated*
+* Interface `TextTokenizer` is deprecated and will be removed from the next stable version of `text_analysis` library. At that time `text_indexer` will be updated to accomodate the change and issued as version 0.23.0.
+
+## 0.22.4+14
+
+### *Updated*
+* Bumped dependency `text_analysis` to ver `0.23.7+13`.
+* Changed `InvertedIndex.nGramRange` to nullable.
+
+
 ## 0.22.4+14
 
 ### *Updated*
