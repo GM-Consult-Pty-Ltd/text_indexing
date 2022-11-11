@@ -52,7 +52,7 @@ void main() {
           //
           );
 
-      final searchTokens = (await index.tokenizer.tokenize(phrase,
+      final searchTokens = (await index.analyzer.tokenizer(phrase,
           nGramRange: NGramRange(1, 3), strategy: TokenizingStrategy.keyWords));
 
       final terms = searchTokens.terms;
@@ -113,7 +113,7 @@ void main() {
       final KGramsMap kGramIndex = {};
 
       final index = InMemoryIndex(
-          tokenizer: TextTokenizer.english,
+          analyzer: English.analyzer,
           collectionSize: collection.length,
           keywordExtractor: English.analyzer.keywordExtractor,
           dictionary: dictionary,
@@ -127,7 +127,7 @@ void main() {
       // - initialize a [InMemoryIndexer] with the default tokenizer
       final indexer = TextIndexer(index);
 
-      final searchTokens = (await index.tokenizer.tokenize(searchPrase));
+      final searchTokens = (await index.analyzer.tokenizer(searchPrase));
 
       // get the start time in milliseconds
       final start = DateTime.now().millisecondsSinceEpoch;
@@ -350,7 +350,7 @@ Future<InMemoryIndex> _getIndex(JsonCollection documents,
       'descriptions': 0.5
     }]) async {
   final index = InMemoryIndex(
-      tokenizer: TextTokenizer.english,
+      analyzer: English.analyzer,
       collectionSize: documents.length,
       strategy: TokenizingStrategy.all,
       // nGramRange: NGramRange(1, 3),

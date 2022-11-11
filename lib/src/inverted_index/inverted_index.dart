@@ -7,7 +7,7 @@ import 'package:text_indexing/src/_index.dart';
 
 /// An interface that exposes methods for working with an inverted, positional
 /// zoned index on a collection of documents.
-/// - [tokenizer] is the [TextTokenizer] used to index the corpus terms.
+/// - [analyzer] is the [TextAnalyzer] used to index the corpus terms.
 /// - [keywordExtractor] is a splitter function that returns an ordered
 ///   collection of keyword phrasesfrom text.
 /// - [vocabularyLength] is the number of unique terms in the corpus.
@@ -44,9 +44,12 @@ abstract class InvertedIndex {
   //
 
   /// A factory constructor that returns an [InMemoryIndex] instance.
-  /// - [tokenizer] is the [TextTokenizer] used to tokenize text for the index.
+  /// - [analyzer] is the [TextAnalyzer] used to tokenize text for the index.
   /// - [keywordExtractor] is a splitter function that returns an ordered
   ///   collection of keyword phrasesfrom text.
+  /// - [collectionSize] is the size of the indexed collection.
+  /// - [tokenFilter] is a filter function that returns a subset of a
+  ///   collection of [Token]s.
   /// - [k] is the length of k-gram entries in the k-gram index.
   /// - [strategy] is the tokenizing strategy to use when tokenizing documents
   ///   for indexing.
@@ -63,9 +66,10 @@ abstract class InvertedIndex {
   ///   [PostingsMap] instance at instantiation, otherwise an empty [PostingsMap]
   ///   will be initialized.
   factory InvertedIndex.inMemory(
-          {required TextTokenizer tokenizer,
+          {required TextAnalyzer analyzer,
           required KeywordExtractor keywordExtractor,
           required int collectionSize,
+          TokenFilter? tokenFilter,
           Map<String, int>? dictionary,
           Map<String, Map<String, Map<String, List<int>>>>? postings,
           KeywordPostingsMap? keywordPostings,
@@ -76,7 +80,8 @@ abstract class InvertedIndex {
           Map<String, double> zones = const <String, double>{}}) =>
       InMemoryIndex(
           collectionSize: collectionSize,
-          tokenizer: tokenizer,
+          analyzer: analyzer,
+          tokenFilter: tokenFilter,
           keywordExtractor: keywordExtractor,
           dictionary: dictionary,
           postings: postings,
@@ -88,9 +93,11 @@ abstract class InvertedIndex {
           zones: zones);
 
   /// /// A factory constructor that returns an [AsyncCallbackIndex] instance.
-  /// - [tokenizer] is the [TextTokenizer] used to tokenize text for the index.
+  /// - [analyzer] is the [TextAnalyzer] used to tokenize text for the index.
   /// - [keywordExtractor] is a splitter function that returns an ordered
   ///   collection of keyword phrasesfrom text.
+  /// - [tokenFilter] is a filter function that returns a subset of a
+  ///   collection of [Token]s.
   /// - [k] is the length of k-gram entries in the k-gram index.
   /// - [strategy] is the tokenizing strategy to use when tokenizing documents
   ///   for indexing.
@@ -122,8 +129,9 @@ abstract class InvertedIndex {
           required PostingsMapUpdater postingsUpdater,
           required KeywordPostingsMapLoader keywordPostingsLoader,
           required KeywordPostingsMapUpdater keywordPostingsUpdater,
-          required TextTokenizer tokenizer,
+          required TextAnalyzer analyzer,
           required KeywordExtractor keywordExtractor,
+          TokenFilter? tokenFilter,
           Map<String, int>? dictionary,
           Map<String, Map<String, Map<String, List<int>>>>? postings,
           Map<String, Set<String>>? kGramIndex,
@@ -142,7 +150,8 @@ abstract class InvertedIndex {
           postingsUpdater: postingsUpdater,
           keywordPostingsLoader: keywordPostingsLoader,
           keywordPostingsUpdater: keywordPostingsUpdater,
-          tokenizer: tokenizer,
+          analyzer: analyzer,
+          tokenFilter: tokenFilter,
           keywordExtractor: keywordExtractor,
           k: k,
           nGramRange: nGramRange,
@@ -151,6 +160,11 @@ abstract class InvertedIndex {
 
   /// The length of k-gram entries in the k-gram index.
   int get k;
+
+  /// A filter function that returns a subset of a collection of [Token]s.
+  ///
+  /// Used to manipulate the [analyzer]'s tokenizer output.
+  TokenFilter? get tokenFilter;
 
   ///The strategy to apply when splitting text to [Token]s.
   TokenizingStrategy get strategy;
@@ -164,7 +178,7 @@ abstract class InvertedIndex {
   ZoneWeightMap get zones;
 
   /// The text analyser that extracts tokens from text for the index.
-  TextTokenizer get tokenizer;
+  TextAnalyzer get analyzer;
 
   /// A splitter function that returns an ordered collection of keyword phrases
   /// from text.

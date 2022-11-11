@@ -94,7 +94,7 @@ abstract class TextIndexerMixin implements TextIndexer {
   @override
   Future<PostingsMap> indexText(String docId, SourceText docText) async {
     // get the terms using tokenizer
-    final tokens = (await index.tokenizer.tokenize(docText,
+    final tokens = (await index.analyzer.tokenizer(docText,
         nGramRange: index.nGramRange, strategy: index.strategy));
     final KeywordPostingsMap keyWords = _keywordsToPostings(docId, docText);
     // map the tokens to postings
@@ -117,7 +117,7 @@ abstract class TextIndexerMixin implements TextIndexer {
   Future<PostingsMap> indexJson(String docId, Map<String, dynamic> json) async {
     // get the terms using tokenizer
     final zones = _zoneNames(json);
-    final tokens = (await index.tokenizer.tokenizeJson(json,
+    final tokens = (await index.analyzer.jsonTokenizer(json,
         zones: zones, nGramRange: index.nGramRange, strategy: index.strategy));
     final sourceText = json.toSourceText(zones);
     final KeywordPostingsMap keyWords = _keywordsToPostings(docId, sourceText);

@@ -44,7 +44,7 @@ Future<void> _inMemoryIndexerExample(Map<String, String> documents,
 
   // - initialize the index
   final index = InMemoryIndex(
-      tokenizer: TextTokenizer.english,
+      analyzer: English.analyzer,
       collectionSize: documents.length,
       keywordExtractor: English.analyzer.keywordExtractor,
       strategy: TokenizingStrategy.all,
@@ -59,8 +59,8 @@ Future<void> _inMemoryIndexerExample(Map<String, String> documents,
   final indexer = TextIndexer(index);
 
   /// - tokenize a phrase into searh terms
-  final searchTerms = (await indexer.index.tokenizer
-      .tokenize(searchPhrase, nGramRange: NGramRange(1, 2)));
+  final searchTerms = (await indexer.index.analyzer
+      .tokenizer(searchPhrase, nGramRange: NGramRange(1, 2)));
 
   // - iterate through the sample data
   await Future.forEach(documents.entries, (MapEntry<String, String> doc) async {

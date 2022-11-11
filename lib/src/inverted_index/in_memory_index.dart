@@ -37,7 +37,10 @@ class InMemoryIndex extends InMemoryIndexBase {
   late KeywordPostingsMap keywordPostings;
 
   @override
-  final TextTokenizer tokenizer;
+  final TextAnalyzer analyzer;
+
+  @override
+  final TokenFilter? tokenFilter;
 
   @override
   final KeywordExtractor keywordExtractor;
@@ -46,9 +49,12 @@ class InMemoryIndex extends InMemoryIndexBase {
   final ZoneWeightMap zones;
 
   /// Instantiates a [InMemoryIndex] instance.
-  /// - [tokenizer] is the [TextTokenizer] used to tokenize text for the index;
+  /// - [analyzer] is the [TextAnalyzer] used to tokenize text for the index;
   /// - [keywordExtractor] is a splitter function that returns an ordered
   ///   collection of keyword phrasesfrom text.
+  /// - [collectionSize] is the size of the indexed collection.
+  /// - [tokenFilter] is a filter function that returns a subset of a
+  ///   collection of [Token]s.
   /// - [k] is the length of k-gram entries in the k-gram index.
   /// - [nGramRange] is the range of N-gram lengths to generate.
   /// - [strategy] is the tokenizing strategy to use when tokenizing documents
@@ -68,10 +74,11 @@ class InMemoryIndex extends InMemoryIndexBase {
   ///   [PostingsMap] instance at instantiation, otherwise an empty [PostingsMap]
   ///   will be initialized.
   InMemoryIndex(
-      {required this.tokenizer,
+      {required this.analyzer,
       required this.keywordExtractor,
       required this.collectionSize,
       required this.strategy,
+      this.tokenFilter,
       DftMap? dictionary,
       PostingsMap? postings,
       KeywordPostingsMap? keywordPostings,
@@ -106,8 +113,8 @@ abstract class InMemoryIndexBase
 /// A mixin class that implements [InvertedIndex]. The mixin exposes in-memory
 /// [dictionary] and [postings] fields that must be overriden.
 ///
-/// Providesimplementation of the following methods for operations on the
-/// in-memory [postings], [keywordPostings] and [dictionary] maps:
+/// Implements the following methods for operations on the in-memory [postings],
+/// [keywordPostings] and [dictionary] maps:
 /// - [vocabularyLength] returns the number of entries in the in-memory
 ///   [dictionary].
 /// - [getDictionary] retrieves a [DftMap] for a collection of [Term]s from
@@ -129,7 +136,7 @@ abstract class InMemoryIndexBase
 abstract class InMemoryIndexMixin implements InvertedIndex {
   //
 
-  /// Returns  the size of the indexed collection.
+  /// Returns the size of the indexed collection.
   int get collectionSize;
 
   @override
