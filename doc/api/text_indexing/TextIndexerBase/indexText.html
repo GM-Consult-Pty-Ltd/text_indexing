@@ -84,7 +84,9 @@
 Future&lt;PostingsMap&gt; indexText(String docId, SourceText docText) async {
   &#47;&#47; get the terms using tokenizer
   final tokens = (await index.analyzer.tokenizer(docText,
-      nGramRange: index.nGramRange, strategy: index.strategy));
+      tokenFilter: index.tokenFilter,
+      nGramRange: index.nGramRange,
+      strategy: index.strategy));
   final KeywordPostingsMap keyWords = _keywordsToPostings(docId, docText);
   &#47;&#47; map the tokens to postings
   final PostingsMap postings = _tokensToPostings(docId, tokens);

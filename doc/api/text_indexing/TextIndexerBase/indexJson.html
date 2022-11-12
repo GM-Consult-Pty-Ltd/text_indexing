@@ -86,7 +86,10 @@ Future&lt;PostingsMap&gt; indexJson(String docId, Map&lt;String, dynamic&gt; jso
   &#47;&#47; get the terms using tokenizer
   final zones = _zoneNames(json);
   final tokens = (await index.analyzer.jsonTokenizer(json,
-      zones: zones, nGramRange: index.nGramRange, strategy: index.strategy));
+      tokenFilter: index.tokenFilter,
+      zones: zones,
+      nGramRange: index.nGramRange,
+      strategy: index.strategy));
   final sourceText = json.toSourceText(zones);
   final KeywordPostingsMap keyWords = _keywordsToPostings(docId, sourceText);
   &#47;&#47; map the tokens to postings

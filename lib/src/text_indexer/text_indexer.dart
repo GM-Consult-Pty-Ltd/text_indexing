@@ -95,7 +95,9 @@ abstract class TextIndexerMixin implements TextIndexer {
   Future<PostingsMap> indexText(String docId, SourceText docText) async {
     // get the terms using tokenizer
     final tokens = (await index.analyzer.tokenizer(docText,
-        nGramRange: index.nGramRange, strategy: index.strategy));
+        tokenFilter: index.tokenFilter,
+        nGramRange: index.nGramRange,
+        strategy: index.strategy));
     final KeywordPostingsMap keyWords = _keywordsToPostings(docId, docText);
     // map the tokens to postings
     final PostingsMap postings = _tokensToPostings(docId, tokens);
@@ -118,7 +120,10 @@ abstract class TextIndexerMixin implements TextIndexer {
     // get the terms using tokenizer
     final zones = _zoneNames(json);
     final tokens = (await index.analyzer.jsonTokenizer(json,
-        zones: zones, nGramRange: index.nGramRange, strategy: index.strategy));
+        tokenFilter: index.tokenFilter,
+        zones: zones,
+        nGramRange: index.nGramRange,
+        strategy: index.strategy));
     final sourceText = json.toSourceText(zones);
     final KeywordPostingsMap keyWords = _keywordsToPostings(docId, sourceText);
     // map the tokens to postings
@@ -164,8 +169,8 @@ abstract class TextIndexerMixin implements TextIndexer {
   ///
   /// Also adds a [ZonePostingsMap] entry for term pairs in [tokens].
   KeywordPostingsMap _keywordsToPostings(String docId, String sourceText) {
-    final keywords =
-        index.analyzer.keywordExtractor(sourceText, nGramRange: index.nGramRange);
+    final keywords = index.analyzer
+        .keywordExtractor(sourceText, nGramRange: index.nGramRange);
     final graph = TermCoOccurrenceGraph(keywords);
     final keyWordsMap = graph.keywordScores;
     final emptyKeywords = keyWordsMap.keys

@@ -112,7 +112,7 @@ Future<void> _printTermStats(
   final n = await index.vocabularyLength;
 
   // get the inverse term frequency index for the searchTerms
-  final iDftIndex = InvertedIndex.idFtIndexFromDictionary(dictionary, n);
+  final iDftIndex = dictionary.idFtMap(n);
 
   // get the term frequency in the corpus of the searchTerms
   final tFtIndex = InvertedIndex.tfIndexFromPostings(postings);
