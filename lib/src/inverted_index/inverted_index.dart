@@ -272,28 +272,19 @@ abstract class InvertedIndex {
     return dictionary.map((key, value) => MapEntry(key, log(n / value)));
   }
 
-  // /// Returns a map of terms to inverse document frequency (double) from the
-  // /// [postings].
-  // ///
-  // /// Applies the weighting in [zones] if not null.
-  // static IdFtIndex idFtIndexFromPostings(PostingsMap postings, int n,
-  //     [ZoneWeightMap? zones]) {
-  //   final Map<String, double> dictionary = {};
-  //   for (final termPosting in postings.entries) {
-  //     var tF = 0.0;
-  //     for (final docPosting in termPosting.value.entries) {
-  //       var dTf = 0;
-  //       for (final fieldPositions in docPosting.value.values) {
-  //         dTf += fieldPositions.length;
-  //       }
-  //       tF += dTf;
-  //     }
-  //     if (tF > 0) {
-  //       dictionary[termPosting.key] = tF;
-  //     }
-  //   }
-  //   return dictionary.map((key, value) => MapEntry(key, log(n / value)));
-  // }
+  // /// Returns the inverse document frequency of the [term] for a corpus of size
+  // /// [n] from [dictionary].
+  // static double idFt(String term, int n, DftMap dictionary) =>
+  //     log(n / (dictionary[term] ?? 0));
+
+  // /// Returns a hashmap of term to Tf-idf weight for a document from
+  // /// [dictionary].
+  // static Map<String, double> tfIdfMap(
+  //         Map<String, double> weightedTermFrequencies,
+  //         int n,
+  //         DftMap dictionary) =>
+  //     weightedTermFrequencies
+  //         .map((term, tF) => MapEntry(term, tF * idFt(term, n, dictionary)));
 
   /// Returns a hashmap of term to weighted document term frequency by iterating
   /// over the [postings] to aggregate the document frequency for the term.
