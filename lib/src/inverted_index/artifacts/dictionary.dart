@@ -116,11 +116,23 @@ extension DictionaryExtensions on DftMap {
 
   /// Returns the inverse document frequency of the [term] for a corpus of size
   /// [n].
-  double idFt(String term, int n) => log(n / getFrequency(term));
+  double? idFt(String term, int n) {
+    final dFt = getFrequency(term);
+    return (dFt > 0.0) ? log(n / getFrequency(term)) : null;
+  }
 
   /// Returns a hashmap of term to Tf-idf weight for a document.
-  Map<String, double> tfIdfMap(Map<String, num> termFrequencies, int n) =>
-      termFrequencies.map((term, tF) => MapEntry(term, tF * idFt(term, n)));
+  Map<String, double> tfIdfMap(Map<String, num> termFrequencies, int n) {
+    final retVal = <String, double>{};
+    for (final e in termFrequencies.entries) {
+      final f = idFt(e.key, n);
+      if (f != null) {
+        retVal[e.key] = f;
+      }
+    }
+    return retVal;
+  }
+  // termFrequencies.map((term, tF) => MapEntry(term, tF * idFt(term, n)));
 
   /// Filters the [DftMap] by terms.
   ///

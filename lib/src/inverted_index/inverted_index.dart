@@ -39,8 +39,6 @@ import 'package:text_indexing/src/_index.dart';
 /// - [ftdPostingsFromPostings] returns a [FtdPostings] for a collection of
 ///   [Term]s from a [PostingsMap], optionally filtered by minimum term
 ///   frequency.
-/// - [idFtIndexFromDictionary] returns a [IdFtIndex] for a collection of
-///   [Term]s from a [DftMap].
 abstract class InvertedIndex {
   //
 

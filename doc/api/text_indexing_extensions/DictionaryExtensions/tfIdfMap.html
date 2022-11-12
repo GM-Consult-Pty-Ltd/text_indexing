@@ -68,8 +68,16 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Map&lt;String, double&gt; tfIdfMap(Map&lt;String, num&gt; termFrequencies, int n) =&gt;
-    termFrequencies.map((term, tF) =&gt; MapEntry(term, tF * idFt(term, n)));</code></pre>
+  <pre class="language-dart"><code class="language-dart">Map&lt;String, double&gt; tfIdfMap(Map&lt;String, num&gt; termFrequencies, int n) {
+  final retVal = &lt;String, double&gt;{};
+  for (final e in termFrequencies.entries) {
+    final f = idFt(e.key, n);
+    if (f != null) {
+      retVal[e.key] = f;
+    }
+  }
+  return retVal;
+}</code></pre>
 </section>
 
 
