@@ -124,23 +124,19 @@ extension DictionaryExtensions on DftMap {
 
   /// Filters the [DftMap] by terms.
   ///
-  /// Returns a subset of the [DftMap] instance that only contains
-  /// entires with a key in the [terms] collection.
+  /// Returns a subset of the [DftMap] instance that only contains entries with
+  /// a key in the [terms] collection.
   DftMap getEntries(Iterable<Term> terms) {
     final DftMap retVal = {}
       ..addEntries(entries.where((element) => terms.contains(element.key)));
     return retVal;
   }
 
-  /// Returns the inverse document frequency of the [term] for a corpus of size
-  /// [n].
-  double getIdFt(String term, int n) => log(n / getFrequency(term));
-
   /// Returns a hashmap of term to inverse document frequency of the term.
   ///
   /// The parameter [collectionSize] is the total number of documents in the
   /// collection.
-  Map<String, double> getIdFtMap(int collectionSize) =>
+  Map<String, double> idFtMap(int collectionSize) =>
       map((key, value) => MapEntry(key, log(collectionSize / value)));
 
   /// Returns a list of [DftMapEntry]s from the [entries] in the [DftMap].

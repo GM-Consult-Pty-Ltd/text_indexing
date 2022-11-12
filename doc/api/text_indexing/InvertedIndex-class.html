@@ -85,7 +85,7 @@ occurs in the <code>corpus</code>.</li>
 <li><a href="../text_indexing/InvertedIndex/ftdPostingsFromPostings.html">ftdPostingsFromPostings</a> returns a <a href="../type_definitions/FtdPostings.html">FtdPostings</a> for a collection of
 <a href="../type_definitions/Term.html">Term</a>s from a <a href="../type_definitions/PostingsMap.html">PostingsMap</a>, optionally filtered by minimum term
 frequency.</li>
-<li><a href="../text_indexing/InvertedIndex/idFtIndexFromDictionary.html">idFtIndexFromDictionary</a> returns a <a href="../type_definitions/IdFtIndex.html">IdFtIndex</a> for a collection of
+<li><code>idFtIndexFromDictionary</code> returns a <a href="../type_definitions/IdFtIndex.html">IdFtIndex</a> for a collection of
 <a href="../type_definitions/Term.html">Term</a>s from a <a href="../type_definitions/DftMap.html">DftMap</a>.</li>
 </ul>
 </section>
@@ -452,20 +452,6 @@ over the <code>postings</code> to aggregate the document frequency for the term.
 
 </dd>
 
-        <dt id="idFtIndexFromDictionary" class="callable">
-  <span class="name"><a href="../text_indexing/InvertedIndex/idFtIndexFromDictionary.html">idFtIndexFromDictionary</a></span><span class="signature">(<wbr><span class="parameter" id="idFtIndexFromDictionary-param-dictionary"><span class="type-annotation"><a href="../type_definitions/DftMap.html">DftMap</a></span> <span class="parameter-name">dictionary</span>, </span><span class="parameter" id="idFtIndexFromDictionary-param-n"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">n</span></span>)
-    <span class="returntype parameter">&#8594; <a href="../type_definitions/IdFtIndex.html">IdFtIndex</a></span>
-  </span>
-  
-
-</dt>
-<dd>
-  Returns a map of terms to inverse document frequency (double) from the
-<code>dictionary</code>.
-  
-
-</dd>
-
         <dt id="tfIndexFromPostings" class="callable">
   <span class="name"><a href="../text_indexing/InvertedIndex/tfIndexFromPostings.html">tfIndexFromPostings</a></span><span class="signature">(<wbr><span class="parameter" id="tfIndexFromPostings-param-postings"><span class="type-annotation"><a href="../type_definitions/PostingsMap.html">PostingsMap</a></span> <span class="parameter-name">postings</span></span>)
     <span class="returntype parameter">&#8594; <a href="../type_definitions/DftMap.html">DftMap</a></span>
@@ -581,7 +567,6 @@ document frequency for the term.
         <li class="section-title"><a href="../text_indexing/InvertedIndex-class.html#static-methods">Static methods</a></li>
           <li><a href="../text_indexing/InvertedIndex/docTermFrequencies.html">docTermFrequencies</a></li>
           <li><a href="../text_indexing/InvertedIndex/ftdPostingsFromPostings.html">ftdPostingsFromPostings</a></li>
-          <li><a href="../text_indexing/InvertedIndex/idFtIndexFromDictionary.html">idFtIndexFromDictionary</a></li>
           <li><a href="../text_indexing/InvertedIndex/tfIndexFromPostings.html">tfIndexFromPostings</a></li>
 
 </ol>

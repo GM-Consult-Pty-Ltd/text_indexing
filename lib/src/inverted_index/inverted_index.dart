@@ -266,11 +266,11 @@ abstract class InvertedIndex {
     return ftdPostings;
   }
 
-  /// Returns a map of terms to inverse document frequency (double) from the
-  /// [dictionary].
-  static IdFtIndex idFtIndexFromDictionary(DftMap dictionary, int n) {
-    return dictionary.map((key, value) => MapEntry(key, log(n / value)));
-  }
+  // /// Returns a map of terms to inverse document frequency (double) from the
+  // /// [dictionary].
+  // static IdFtIndex idFtIndexFromDictionary(DftMap dictionary, int n) {
+  //   return dictionary.map((key, value) => MapEntry(key, log(n / value)));
+  // }
 
   // /// Returns the inverse document frequency of the [term] for a corpus of size
   // /// [n] from [dictionary].
