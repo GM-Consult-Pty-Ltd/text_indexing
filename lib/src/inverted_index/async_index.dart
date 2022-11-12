@@ -112,12 +112,11 @@ class AsyncCallbackIndex extends AsyncCallbackIndexBase {
       this.zones = const <String, double>{}});
 }
 
-/// Base class implementation of [InvertedIndex] with [AsyncCallbackIndexMixin]
-/// and [InvertedIndexMixin].
+/// Base class implementation of [InvertedIndex] with [AsyncCallbackIndexMixin].
 ///
 /// Provides a const default generative constructor for sub-classes.
 abstract class AsyncCallbackIndexBase
-    with InvertedIndexMixin, AsyncCallbackIndexMixin
+    with AsyncCallbackIndexMixin
     implements InvertedIndex {
   //
 

@@ -134,10 +134,6 @@ The API contains a fair amount of boiler-plate, but we aim to make the code as r
 
 The [InvertedIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex-class.html) interface exposes properties and methods for working with [Dictionary](https://pub.dev/documentation/text_indexing/latest/text_indexing/Dictionary.html), [KGramIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/KGramIndex.html) and [Postings](https://pub.dev/documentation/text_indexing/latest/text_indexing/Postings.html) hashmaps.  
 
-A [mixin class](https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndexMixin-class.html) implements the [getTfIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex/getTfIndex.html), [getFtdPostings](https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex/getFtdPostings.html) and [getIdFtIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndex/getIdFtIndex.html) methods.
-
-An [abstract base class](https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndexBase-class.html) mixies in [InvertedIndexMixin] https://pub.dev/documentation/text_indexing/latest/text_indexing/InvertedIndexMixin-class.html) and provides a default unnamed generative const constructor for sub-classes.
-
 Two implementation classes are provided: 
  * the [InMemoryIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/InMemoryIndex-class.html) class is intended for fast indexing of a smaller corpus using in-memory dictionary, k-gram and postings hashmaps; and
  * the [AsyncCallbackIndex](https://pub.dev/documentation/text_indexing/latest/text_indexing/AsyncCallbackIndex-class.html) is intended for working with a larger corpus.  It uses asynchronous callbacks to perform read and write operations on `dictionary`, `k-gram` and `postings` repositories.

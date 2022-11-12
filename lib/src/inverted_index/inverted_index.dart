@@ -31,13 +31,16 @@ import 'package:text_indexing/src/_index.dart';
 ///   of [Term]s from a [PostingsMap] repository.
 /// - [upsertPostings] inserts entries into a [PostingsMap] repository,
 ///   overwriting any existing entries.
-/// - [getTfIndex] returns hashmap of [Term] to [Ft] for a collection of
-///   [Term]s, where [Ft] is the number of times each of the terms occurs in
-///   the `corpus`.
-/// - [getFtdPostings] return a [FtdPostings] for a collection of [Term]s from
-///   the [PostingsMap], optionally filtered by minimum term frequency.
-/// - [getIdFtIndex] returns a [IdFtIndex] for a collection of [Term]s from
-///   the [DftMap].
+/// The following static methods are used to work with [PostingsMap] and
+/// [DftMap] objects.
+/// - [tfIndexFromPostings] returns a hashmap of [Term] to [Ft] for the terms
+///   in a [PostingsMap], where [Ft] is the number of times each of the terms
+///   occurs in the `corpus`.
+/// - [ftdPostingsFromPostings] returns a [FtdPostings] for a collection of
+///   [Term]s from a [PostingsMap], optionally filtered by minimum term
+///   frequency.
+/// - [idFtIndexFromDictionary] returns a [IdFtIndex] for a collection of
+///   [Term]s from a [DftMap].
 abstract class InvertedIndex {
   //
 
@@ -178,27 +181,6 @@ abstract class InvertedIndex {
   /// Returns the number of terms in the vocabulary (N).
   Future<Ft> get vocabularyLength;
 
-  /// Returns a map of [terms] to hashmaps of [DocId] to [Ft]
-  ///
-  /// Used in `index-elimination` to return a [FtdPostings] for [terms] from
-  /// the [PostingsMap].
-  ///
-  /// Filters the [FtdPostings] by [minFtd], the minimum term frequency in the
-  /// document. The default [minFtd] is 1 and it cannot be less than 1. Provide
-  /// [minFtd] greater than 1 for more agressive index-elimination in tiered
-  /// indexes.
-  Future<FtdPostings> getFtdPostings(Iterable<Term> terms, [Ft minFtd = 1]);
-
-  /// Returns a map of [terms] to hashmaps of [DocId] to [Ft].
-  ///
-  /// Used in `index-elimination`, to return a [IdFtIndex] for [terms] from
-  /// the [DftMap].
-  Future<IdFtIndex> getIdFtIndex(Iterable<Term> terms);
-
-  /// Returns a hashmap of [Term] to [Ft] for the [terms], where [Ft] is
-  /// the number of times each of [terms] occurs in the `corpus`.
-  Future<DftMap> getTfIndex(Iterable<Term> terms);
-
   /// Asynchronously retrieves a [DftMap] for the [terms] from a
   /// [DftMap] repository.
   ///
@@ -250,35 +232,20 @@ abstract class InvertedIndex {
   /// Asynchronously returns the total number of documents in the indexed
   /// collection.
   Future<int> getCollectionSize();
-}
 
-/// An abstract [InvertedIndex] base class that mixies in [InvertedIndexMixin].
-///
-/// Provides a default unnamed generative const constructor for sub-classes.
-abstract class InvertedIndexBase with InvertedIndexMixin {
-  //
-
-  /// Default unnamed generative const constructor for sub-classes.
-  const InvertedIndexBase();
-
-  //
-}
-
-/// A mixin that implements the [InvertedIndex.getTfIndex],
-/// [InvertedIndex.getFtdPostings] and [InvertedIndex.getIdFtIndex] methods.
-abstract class InvertedIndexMixin implements InvertedIndex {
-//
-
-  /// Implements [InvertedIndex.getFtdPostings] method:
-  /// - loads a subset of [PostingsMap] for [terms] by calling [getPostings].
-  /// - iterates over the loaded [PostingsMap] to map the document ids to the
-  ///   document term frequency for the document.
-  @override
-  Future<FtdPostings> getFtdPostings(Iterable<Term> terms,
-      [Ft minFtd = 1]) async {
+  /// Returns a map of terms to hashmaps of [DocId] to [Ft].
+  ///
+  /// Iterates over the [postings] to map the document ids to the document term
+  /// frequency for the document.
+  ///
+  /// Filters the [postings] by [minFtd], the minimum term frequency in the
+  /// document. The default [minFtd] is 1 and it cannot be less than 1. Provide
+  /// [minFtd] greater than 1 for more agressive index-elimination in tiered
+  /// indexes.
+  static FtdPostings ftdPostingsFromPostings(PostingsMap postings,
+      [Ft minFtd = 1]) {
     assert(minFtd > 0, '[minFtd] must be greater than zero.');
     final FtdPostings ftdPostings = {};
-    final postings = await getPostings(terms);
     for (final termPosting in postings.entries) {
       final docPostings = <DocId, int>{};
       for (final docPosting in termPosting.value.entries) {
@@ -299,26 +266,17 @@ abstract class InvertedIndexMixin implements InvertedIndex {
     return ftdPostings;
   }
 
-  /// Implements [InvertedIndex.getFtdPostings] method:
-  /// - gets the [vocabularyLength] (N);
-  /// - gets the [DftMap] for [terms] by calling [getDictionary]; then
-  /// - maps the [DftMap] values (dTf) to inverse document frequency by
-  ///   calculating log(N/dTf).
-  @override
-  Future<IdFtIndex> getIdFtIndex(Iterable<Term> terms) async {
-    final dictionary = await getDictionary(terms);
-    final n = await vocabularyLength;
+  /// Returns a map of terms to inverse document frequency (double) from the
+  /// [dictionary].
+  static IdFtIndex idFtIndexFromDictionary(DftMap dictionary, int n) {
     return dictionary.map((key, value) => MapEntry(key, log(n / value)));
   }
 
-  /// Implements [InvertedIndex.getTfIndex] method:
-  /// - loads a subset of [PostingsMap] for [terms] by calling [getPostings].
-  /// - iterates over the loaded [PostingsMap] to aggregate the postings for
-  ///  the term.
-  @override
-  Future<DftMap> getTfIndex(Iterable<Term> terms) async {
+  /// Returns a [DftMap] by iterating over the [postings] to aggregate the
+  /// document frequency for the term.
+  static DftMap tfIndexFromPostings(PostingsMap postings) {
     final Map<String, Ft> tfIndex = {};
-    final postings = await getPostings(terms);
+    // final postings = await getPostings(terms);
     for (final termPosting in postings.entries) {
       var tF = 0;
       for (final docPosting in termPosting.value.entries) {

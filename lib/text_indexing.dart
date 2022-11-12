@@ -6,7 +6,7 @@
 library text_indexing;
 
 export 'src/inverted_index/inverted_index.dart'
-    show InvertedIndex, InvertedIndexMixin;
+    show InvertedIndex;
 export 'src/inverted_index/in_memory_index.dart'
     show InMemoryIndex, InMemoryIndexMixin;
 export 'src/inverted_index/async_index.dart'

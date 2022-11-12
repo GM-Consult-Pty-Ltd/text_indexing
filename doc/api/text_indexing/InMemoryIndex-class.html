@@ -267,32 +267,6 @@ collection.
 
 </dd>
 
-        <dt id="getFtdPostings" class="callable inherited">
-  <span class="name"><a href="../text_indexing/InvertedIndexMixin/getFtdPostings.html">getFtdPostings</a></span><span class="signature">(<wbr><span class="parameter" id="getFtdPostings-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span>, </span><span class="parameter" id="getFtdPostings-param-minFtd">[<span class="type-annotation"><a href="../type_definitions/Ft.html">Ft</a></span> <span class="parameter-name">minFtd</span> = <span class="default-value">1</span>]</span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/FtdPostings.html">FtdPostings</a></span>&gt;</span></span>
-  </span>
-  
-
-</dt>
-<dd class="inherited">
-  Implements <a href="../text_indexing/InvertedIndex/getFtdPostings.html">InvertedIndex.getFtdPostings</a> method:
-  <div class="features">inherited</div>
-
-</dd>
-
-        <dt id="getIdFtIndex" class="callable inherited">
-  <span class="name"><a href="../text_indexing/InvertedIndexMixin/getIdFtIndex.html">getIdFtIndex</a></span><span class="signature">(<wbr><span class="parameter" id="getIdFtIndex-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/IdFtIndex.html">IdFtIndex</a></span>&gt;</span></span>
-  </span>
-  
-
-</dt>
-<dd class="inherited">
-  Implements <a href="../text_indexing/InvertedIndex/getFtdPostings.html">InvertedIndex.getFtdPostings</a> method:
-  <div class="features">inherited</div>
-
-</dd>
-
         <dt id="getKeywordPostings" class="callable inherited">
   <span class="name"><a href="../text_indexing/InMemoryIndexMixin/getKeywordPostings.html">getKeywordPostings</a></span><span class="signature">(<wbr><span class="parameter" id="getKeywordPostings-param-keywords"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">keywords</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/KeywordPostingsMap.html">KeywordPostingsMap</a></span>&gt;</span></span>
@@ -331,19 +305,6 @@ collection.
 <dd class="inherited">
   Asynchronously retrieves <a href="../type_definitions/PostingsMapEntry.html">PostingsMapEntry</a> entities for the <code>terms</code> from a
 <code>PostingsMap</code> repository.
-  <div class="features">inherited</div>
-
-</dd>
-
-        <dt id="getTfIndex" class="callable inherited">
-  <span class="name"><a href="../text_indexing/InvertedIndexMixin/getTfIndex.html">getTfIndex</a></span><span class="signature">(<wbr><span class="parameter" id="getTfIndex-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/DftMap.html">DftMap</a></span>&gt;</span></span>
-  </span>
-  
-
-</dt>
-<dd class="inherited">
-  Implements <a href="../text_indexing/InvertedIndex/getTfIndex.html">InvertedIndex.getTfIndex</a> method:
   <div class="features">inherited</div>
 
 </dd>
@@ -483,7 +444,6 @@ already exist.
   <li><a href="../text_indexing/InMemoryIndex-class.html">InMemoryIndex</a></li>
   <li><a href="../text_indexing/InMemoryIndexMixin-class.html">InMemoryIndexMixin</a></li>
   <li><a href="../text_indexing/InvertedIndex-class.html">InvertedIndex</a></li>
-  <li><a href="../text_indexing/InvertedIndexMixin-class.html">InvertedIndexMixin</a></li>
   <li><a href="../text_indexing/LatinLanguageAnalyzer-class.html">LatinLanguageAnalyzer</a></li>
   <li><a href="../text_indexing/NGramRange-class.html">NGramRange</a></li>
   <li><a href="https://pub.dev/documentation/porter_2_stemmer/3.0.2/porter_2_stemmer/Porter2Stemmer-class.html">Porter2Stemmer</a></li>
@@ -541,12 +501,9 @@ already exist.
     <li class="section-title inherited"><a href="../text_indexing/InMemoryIndex-class.html#instance-methods">Methods</a></li>
     <li class="inherited"><a href="../text_indexing/InMemoryIndexMixin/getCollectionSize.html">getCollectionSize</a></li>
     <li class="inherited"><a href="../text_indexing/InMemoryIndexMixin/getDictionary.html">getDictionary</a></li>
-    <li class="inherited"><a href="../text_indexing/InvertedIndexMixin/getFtdPostings.html">getFtdPostings</a></li>
-    <li class="inherited"><a href="../text_indexing/InvertedIndexMixin/getIdFtIndex.html">getIdFtIndex</a></li>
     <li class="inherited"><a href="../text_indexing/InMemoryIndexMixin/getKeywordPostings.html">getKeywordPostings</a></li>
     <li class="inherited"><a href="../text_indexing/InMemoryIndexMixin/getKGramIndex.html">getKGramIndex</a></li>
     <li class="inherited"><a href="../text_indexing/InMemoryIndexMixin/getPostings.html">getPostings</a></li>
-    <li class="inherited"><a href="../text_indexing/InvertedIndexMixin/getTfIndex.html">getTfIndex</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
     <li class="inherited"><a href="../text_indexing/InMemoryIndexMixin/upsertDictionary.html">upsertDictionary</a></li>

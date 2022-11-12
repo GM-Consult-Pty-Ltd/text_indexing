@@ -12,6 +12,12 @@ All rights reserved.
 
 ### *Breaking changes*
 * Interface `TextTokenizer` removed. Use `TextAnalyzer.tokenize` and `TextAnalyzer.tokenizeJson` in stead.
+* Mixin `InvertedIndexMixin` removed.
+* Instance method `InvertedIndex.getFtdPostings` removed, use static method `InvertedIndex.ftdPostingsFromPostings` in stead.
+* Instance method `InvertedIndex.getIdFtIndex` removed, use static method `InvertedIndex.idFtIndexFromDictionary` in stead.
+* Instance method `InvertedIndex.getTfIndex` removed, use static method `InvertedIndex.tfIndexFromPostings` in stead.
+* Instance method `InvertedIndex.` removed, use static method `InvertedIndex.` in stead.
+
 
 ### *Updated*
 * Dependencies.

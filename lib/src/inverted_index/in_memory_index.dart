@@ -89,12 +89,11 @@ class InMemoryIndex extends InMemoryIndexBase {
   //
 }
 
-/// Base class implementation of [InvertedIndex] with [InMemoryIndexMixin] and
-/// [InvertedIndexMixin].
+/// Base class implementation of [InvertedIndex] with [InMemoryIndexMixin].
 ///
 /// Provides a const default generative constructor for sub-classes.
 abstract class InMemoryIndexBase
-    with InMemoryIndexMixin, InvertedIndexMixin
+    with InMemoryIndexMixin
     implements InvertedIndex {
   //
 

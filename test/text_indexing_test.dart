@@ -239,8 +239,8 @@ Future<void> _printTermFrequencyPostings(
   final searchKgrams = tokens.kGrams(3);
   final startTime = DateTime.now();
   final start = startTime.millisecondsSinceEpoch;
-
-  final tfPostings = await index.getFtdPostings(searchTerms, 1);
+  final postings = await index.getPostings(searchTerms);
+  final tfPostings = InvertedIndex.ftdPostingsFromPostings(postings, 1);
 
   // get the end time in milliseconds
   final end = DateTime.now().millisecondsSinceEpoch;
@@ -274,13 +274,6 @@ Future<void> _printTermStats(
 
   final startTime = DateTime.now();
   final start = startTime.millisecondsSinceEpoch;
-
-  // get the inverse term frequency index for the searchTerms
-  final iDftIndex = await index.getIdFtIndex(searchTerms);
-
-  // get the term frequency in the corpus of the searchTerms
-  final tFtIndex = await index.getTfIndex(searchTerms);
-
   // get the dictionary for searchTerms
   final dictionary = await index.getDictionary(searchTerms);
 
@@ -289,6 +282,14 @@ Future<void> _printTermStats(
   final kGramTerms = kGramMap.terms;
 
   final kGramPostings = await index.getPostings(kGramTerms);
+
+  final n = await index.vocabularyLength;
+
+  // get the inverse term frequency index for the searchTerms
+  final iDftIndex = InvertedIndex.idFtIndexFromDictionary(dictionary, n);
+
+  // get the term frequency in the corpus of the searchTerms
+  final tFtIndex = InvertedIndex.tfIndexFromPostings(kGramPostings);
 
   // get the end time in milliseconds
   final end = DateTime.now().millisecondsSinceEpoch;

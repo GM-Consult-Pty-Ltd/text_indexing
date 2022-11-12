@@ -88,8 +88,12 @@ Future<void> _printTermStats(
   // get the start time in milliseconds
   final start = DateTime.now().millisecondsSinceEpoch;
 
+
+
   // retrieve the k-gram index for searchKgrams.keys from the index
   final kGramMap = await index.getKGramIndex(searchKgrams.keys);
+
+
 
   // map all the terms for the k-grams
   final kGramTerms = <String>{};
@@ -100,14 +104,19 @@ Future<void> _printTermStats(
   // add the k-gram terms to the searchTerms
   searchTerms.addAll(kGramTerms);
 
-  // get the inverse term frequency index for the searchTerms
-  final iDftIndex = await index.getIdFtIndex(searchTerms);
-
-  // get the term frequency in the corpus of the searchTerms
-  final tFtIndex = await index.getTfIndex(searchTerms);
-
   // get the dictionary for searchTerms
   final dictionary = await index.getDictionary(searchTerms);
+
+  final postings = await index.getPostings(searchTerms);
+
+  final n = await index.vocabularyLength;
+
+  // get the inverse term frequency index for the searchTerms
+  final iDftIndex = InvertedIndex.idFtIndexFromDictionary(dictionary, n);
+
+  // get the term frequency in the corpus of the searchTerms
+  final tFtIndex = InvertedIndex.tfIndexFromPostings(postings);
+
 
   // get the end time in milliseconds
   final end = DateTime.now().millisecondsSinceEpoch;

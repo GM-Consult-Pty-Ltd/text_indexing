@@ -76,14 +76,17 @@ overwriting any existing entries.</li>
 <li><a href="../text_indexing/InvertedIndex/getPostings.html">getPostings</a> asynchronously retrieves <a href="../type_definitions/PostingsMap.html">PostingsMap</a> for a collection
 of <a href="../type_definitions/Term.html">Term</a>s from a <a href="../type_definitions/PostingsMap.html">PostingsMap</a> repository.</li>
 <li><a href="../text_indexing/InvertedIndex/upsertPostings.html">upsertPostings</a> inserts entries into a <a href="../type_definitions/PostingsMap.html">PostingsMap</a> repository,
-overwriting any existing entries.</li>
-<li><a href="../text_indexing/InvertedIndex/getTfIndex.html">getTfIndex</a> returns hashmap of <a href="../type_definitions/Term.html">Term</a> to <a href="../type_definitions/Ft.html">Ft</a> for a collection of
-<a href="../type_definitions/Term.html">Term</a>s, where <a href="../type_definitions/Ft.html">Ft</a> is the number of times each of the terms occurs in
-the <code>corpus</code>.</li>
-<li><a href="../text_indexing/InvertedIndex/getFtdPostings.html">getFtdPostings</a> return a <a href="../type_definitions/FtdPostings.html">FtdPostings</a> for a collection of <a href="../type_definitions/Term.html">Term</a>s from
-the <a href="../type_definitions/PostingsMap.html">PostingsMap</a>, optionally filtered by minimum term frequency.</li>
-<li><a href="../text_indexing/InvertedIndex/getIdFtIndex.html">getIdFtIndex</a> returns a <a href="../type_definitions/IdFtIndex.html">IdFtIndex</a> for a collection of <a href="../type_definitions/Term.html">Term</a>s from
-the <a href="../type_definitions/DftMap.html">DftMap</a>.</li>
+overwriting any existing entries.
+The following static methods are used to work with <a href="../type_definitions/PostingsMap.html">PostingsMap</a> and
+<a href="../type_definitions/DftMap.html">DftMap</a> objects.</li>
+<li><a href="../text_indexing/InvertedIndex/tfIndexFromPostings.html">tfIndexFromPostings</a> returns a hashmap of <a href="../type_definitions/Term.html">Term</a> to <a href="../type_definitions/Ft.html">Ft</a> for the terms
+in a <a href="../type_definitions/PostingsMap.html">PostingsMap</a>, where <a href="../type_definitions/Ft.html">Ft</a> is the number of times each of the terms
+occurs in the <code>corpus</code>.</li>
+<li><a href="../text_indexing/InvertedIndex/ftdPostingsFromPostings.html">ftdPostingsFromPostings</a> returns a <a href="../type_definitions/FtdPostings.html">FtdPostings</a> for a collection of
+<a href="../type_definitions/Term.html">Term</a>s from a <a href="../type_definitions/PostingsMap.html">PostingsMap</a>, optionally filtered by minimum term
+frequency.</li>
+<li><a href="../text_indexing/InvertedIndex/idFtIndexFromDictionary.html">idFtIndexFromDictionary</a> returns a <a href="../type_definitions/IdFtIndex.html">IdFtIndex</a> for a collection of
+<a href="../type_definitions/Term.html">Term</a>s from a <a href="../type_definitions/DftMap.html">DftMap</a>.</li>
 </ul>
 </section>
 
@@ -101,7 +104,6 @@ the <a href="../type_definitions/DftMap.html">DftMap</a>.</li>
           <li><a href="../text_indexing/AsyncCallbackIndexMixin-class.html">AsyncCallbackIndexMixin</a></li>
           <li><a href="../text_indexing/InMemoryIndex-class.html">InMemoryIndex</a></li>
           <li><a href="../text_indexing/InMemoryIndexMixin-class.html">InMemoryIndexMixin</a></li>
-          <li><a href="../text_indexing/InvertedIndexMixin-class.html">InvertedIndexMixin</a></li>
         </ul></dd>
 
 
@@ -271,32 +273,6 @@ collection.
 
 </dd>
 
-        <dt id="getFtdPostings" class="callable">
-  <span class="name"><a href="../text_indexing/InvertedIndex/getFtdPostings.html">getFtdPostings</a></span><span class="signature">(<wbr><span class="parameter" id="getFtdPostings-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span>, </span><span class="parameter" id="getFtdPostings-param-minFtd">[<span class="type-annotation"><a href="../type_definitions/Ft.html">Ft</a></span> <span class="parameter-name">minFtd</span> = <span class="default-value">1</span>]</span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/FtdPostings.html">FtdPostings</a></span>&gt;</span></span>
-  </span>
-  
-
-</dt>
-<dd>
-  Returns a map of <code>terms</code> to hashmaps of <a href="../type_definitions/DocId.html">DocId</a> to <a href="../type_definitions/Ft.html">Ft</a>
-  
-
-</dd>
-
-        <dt id="getIdFtIndex" class="callable">
-  <span class="name"><a href="../text_indexing/InvertedIndex/getIdFtIndex.html">getIdFtIndex</a></span><span class="signature">(<wbr><span class="parameter" id="getIdFtIndex-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/IdFtIndex.html">IdFtIndex</a></span>&gt;</span></span>
-  </span>
-  
-
-</dt>
-<dd>
-  Returns a map of <code>terms</code> to hashmaps of <a href="../type_definitions/DocId.html">DocId</a> to <a href="../type_definitions/Ft.html">Ft</a>.
-  
-
-</dd>
-
         <dt id="getKeywordPostings" class="callable">
   <span class="name"><a href="../text_indexing/InvertedIndex/getKeywordPostings.html">getKeywordPostings</a></span><span class="signature">(<wbr><span class="parameter" id="getKeywordPostings-param-keywords"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">keywords</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/KeywordPostingsMap.html">KeywordPostingsMap</a></span>&gt;</span></span>
@@ -335,20 +311,6 @@ collection.
 <dd>
   Asynchronously retrieves <a href="../type_definitions/PostingsMapEntry.html">PostingsMapEntry</a> entities for the <code>terms</code> from a
 <code>PostingsMap</code> repository.
-  
-
-</dd>
-
-        <dt id="getTfIndex" class="callable">
-  <span class="name"><a href="../text_indexing/InvertedIndex/getTfIndex.html">getTfIndex</a></span><span class="signature">(<wbr><span class="parameter" id="getTfIndex-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/DftMap.html">DftMap</a></span>&gt;</span></span>
-  </span>
-  
-
-</dt>
-<dd>
-  Returns a hashmap of <a href="../type_definitions/Term.html">Term</a> to <a href="../type_definitions/Ft.html">Ft</a> for the <code>terms</code>, where <a href="../type_definitions/Ft.html">Ft</a> is
-the number of times each of <code>terms</code> occurs in the <code>corpus</code>.
   
 
 </dd>
@@ -460,6 +422,52 @@ already exist.
   </section>
     
     
+  <section class="summary offset-anchor" id="static-methods">
+    <h2>Static Methods</h2>
+    <dl class="callables">
+        <dt id="ftdPostingsFromPostings" class="callable">
+  <span class="name"><a href="../text_indexing/InvertedIndex/ftdPostingsFromPostings.html">ftdPostingsFromPostings</a></span><span class="signature">(<wbr><span class="parameter" id="ftdPostingsFromPostings-param-postings"><span class="type-annotation"><a href="../type_definitions/PostingsMap.html">PostingsMap</a></span> <span class="parameter-name">postings</span>, </span><span class="parameter" id="ftdPostingsFromPostings-param-minFtd">[<span class="type-annotation"><a href="../type_definitions/Ft.html">Ft</a></span> <span class="parameter-name">minFtd</span> = <span class="default-value">1</span>]</span>)
+    <span class="returntype parameter">&#8594; <a href="../type_definitions/FtdPostings.html">FtdPostings</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns a map of terms to hashmaps of <a href="../type_definitions/DocId.html">DocId</a> to <a href="../type_definitions/Ft.html">Ft</a>.
+  
+
+</dd>
+
+        <dt id="idFtIndexFromDictionary" class="callable">
+  <span class="name"><a href="../text_indexing/InvertedIndex/idFtIndexFromDictionary.html">idFtIndexFromDictionary</a></span><span class="signature">(<wbr><span class="parameter" id="idFtIndexFromDictionary-param-dictionary"><span class="type-annotation"><a href="../type_definitions/DftMap.html">DftMap</a></span> <span class="parameter-name">dictionary</span>, </span><span class="parameter" id="idFtIndexFromDictionary-param-n"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">n</span></span>)
+    <span class="returntype parameter">&#8594; <a href="../type_definitions/IdFtIndex.html">IdFtIndex</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns a map of terms to inverse document frequency (double) from the
+<code>dictionary</code>.
+  
+
+</dd>
+
+        <dt id="tfIndexFromPostings" class="callable">
+  <span class="name"><a href="../text_indexing/InvertedIndex/tfIndexFromPostings.html">tfIndexFromPostings</a></span><span class="signature">(<wbr><span class="parameter" id="tfIndexFromPostings-param-postings"><span class="type-annotation"><a href="../type_definitions/PostingsMap.html">PostingsMap</a></span> <span class="parameter-name">postings</span></span>)
+    <span class="returntype parameter">&#8594; <a href="../type_definitions/DftMap.html">DftMap</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns a <a href="../type_definitions/DftMap.html">DftMap</a> by iterating over the <code>postings</code> to aggregate the
+document frequency for the term.
+  
+
+</dd>
+
+    </dl>
+  </section>
     
 
 
@@ -488,7 +496,6 @@ already exist.
   <li><a href="../text_indexing/InMemoryIndex-class.html">InMemoryIndex</a></li>
   <li><a href="../text_indexing/InMemoryIndexMixin-class.html">InMemoryIndexMixin</a></li>
   <li><a href="../text_indexing/InvertedIndex-class.html">InvertedIndex</a></li>
-  <li><a href="../text_indexing/InvertedIndexMixin-class.html">InvertedIndexMixin</a></li>
   <li><a href="../text_indexing/LatinLanguageAnalyzer-class.html">LatinLanguageAnalyzer</a></li>
   <li><a href="../text_indexing/NGramRange-class.html">NGramRange</a></li>
   <li><a href="https://pub.dev/documentation/porter_2_stemmer/3.0.2/porter_2_stemmer/Porter2Stemmer-class.html">Porter2Stemmer</a></li>
@@ -542,12 +549,9 @@ already exist.
     <li class="section-title"><a href="../text_indexing/InvertedIndex-class.html#instance-methods">Methods</a></li>
     <li><a href="../text_indexing/InvertedIndex/getCollectionSize.html">getCollectionSize</a></li>
     <li><a href="../text_indexing/InvertedIndex/getDictionary.html">getDictionary</a></li>
-    <li><a href="../text_indexing/InvertedIndex/getFtdPostings.html">getFtdPostings</a></li>
-    <li><a href="../text_indexing/InvertedIndex/getIdFtIndex.html">getIdFtIndex</a></li>
     <li><a href="../text_indexing/InvertedIndex/getKeywordPostings.html">getKeywordPostings</a></li>
     <li><a href="../text_indexing/InvertedIndex/getKGramIndex.html">getKGramIndex</a></li>
     <li><a href="../text_indexing/InvertedIndex/getPostings.html">getPostings</a></li>
-    <li><a href="../text_indexing/InvertedIndex/getTfIndex.html">getTfIndex</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
     <li><a href="../text_indexing/InvertedIndex/upsertDictionary.html">upsertDictionary</a></li>
@@ -560,6 +564,10 @@ already exist.
 
 
 
+        <li class="section-title"><a href="../text_indexing/InvertedIndex-class.html#static-methods">Static methods</a></li>
+          <li><a href="../text_indexing/InvertedIndex/ftdPostingsFromPostings.html">ftdPostingsFromPostings</a></li>
+          <li><a href="../text_indexing/InvertedIndex/idFtIndexFromDictionary.html">idFtIndexFromDictionary</a></li>
+          <li><a href="../text_indexing/InvertedIndex/tfIndexFromPostings.html">tfIndexFromPostings</a></li>
 
 </ol>
 

@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the getCollectionSize method from the InvertedIndex class, for the Dart programming language.">
-  <title>getCollectionSize method - InvertedIndex class - text_indexing library - Dart API</title>
+  <meta name="description" content="API docs for the tfIndexFromPostings method from the InvertedIndex class, for the Dart programming language.">
+  <title>tfIndexFromPostings method - InvertedIndex class - text_indexing library - Dart API</title>
 
 
   
@@ -31,9 +31,9 @@
     <li><a href="../../index.html">text_indexing</a></li>
     <li><a href="../../text_indexing/text_indexing-library.html">text_indexing</a></li>
     <li><a href="../../text_indexing/InvertedIndex-class.html">InvertedIndex</a></li>
-    <li class="self-crumb">getCollectionSize abstract method</li>
+    <li class="self-crumb">tfIndexFromPostings method</li>
   </ol>
-  <div class="self-name">getCollectionSize</div>
+  <div class="self-name">tfIndexFromPostings</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -44,30 +44,48 @@
 
   <div id="dartdoc-main-content" class="main-content">
       <div>
-<h1><span class="kind-method">getCollectionSize</span> method 
+<h1><span class="kind-method">tfIndexFromPostings</span> method 
     <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
 </h1></div>
 
     <section class="multi-line-signature">
       
 
-<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>&gt;</span></span>
-<span class="name ">getCollectionSize</span>(<wbr>)
+<span class="returntype"><a href="../../type_definitions/DftMap.html">DftMap</a></span>
+<span class="name ">tfIndexFromPostings</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="tfIndexFromPostings-param-postings"><span class="type-annotation"><a href="../../type_definitions/PostingsMap.html">PostingsMap</a></span> <span class="parameter-name">postings</span></span></li>
+</ol>)
 
       
 
     </section>
     
 <section class="desc markdown">
-  <p>Asynchronously returns the total number of documents in the indexed
-collection.</p>
+  <p>Returns a <a href="../../type_definitions/DftMap.html">DftMap</a> by iterating over the <code>postings</code> to aggregate the
+document frequency for the term.</p>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Future&lt;int&gt; getCollectionSize();</code></pre>
+  <pre class="language-dart"><code class="language-dart">static DftMap tfIndexFromPostings(PostingsMap postings) {
+  final Map&lt;String, Ft&gt; tfIndex = {};
+  &#47;&#47; final postings = await getPostings(terms);
+  for (final termPosting in postings.entries) {
+    var tF = 0;
+    for (final docPosting in termPosting.value.entries) {
+      var dTf = 0;
+      for (final fieldPositions in docPosting.value.values) {
+        dTf += fieldPositions.length;
+      }
+      tF += dTf;
+    }
+    if (tF &gt; 0) {
+      tfIndex[termPosting.key] = tF;
+    }
+  }
+  return tfIndex;
+}</code></pre>
 </section>
 
 
@@ -84,7 +102,7 @@ collection.</p>
   <li><a href="../../index.html">text_indexing</a></li>
   <li><a href="../../text_indexing/text_indexing-library.html">text_indexing</a></li>
   <li><a href="../../text_indexing/InvertedIndex-class.html">InvertedIndex</a></li>
-  <li class="self-crumb">getCollectionSize abstract method</li>
+  <li class="self-crumb">tfIndexFromPostings method</li>
 </ol>
 
 
