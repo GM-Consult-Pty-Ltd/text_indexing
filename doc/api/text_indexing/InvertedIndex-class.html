@@ -425,6 +425,20 @@ already exist.
   <section class="summary offset-anchor" id="static-methods">
     <h2>Static Methods</h2>
     <dl class="callables">
+        <dt id="docTermFrequencies" class="callable">
+  <span class="name"><a href="../text_indexing/InvertedIndex/docTermFrequencies.html">docTermFrequencies</a></span><span class="signature">(<wbr><span class="parameter" id="docTermFrequencies-param-postings"><span class="type-annotation"><a href="../type_definitions/PostingsMap.html">PostingsMap</a></span> <span class="parameter-name">postings</span>, </span><span class="parameter" id="docTermFrequencies-param-zones">[<span class="type-annotation"><a href="../type_definitions/ZoneWeightMap.html">ZoneWeightMap</a>?</span> <span class="parameter-name">zones</span>]</span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns a hashmap of term to weighted document term frequency by iterating
+over the <code>postings</code> to aggregate the document frequency for the term.
+  
+
+</dd>
+
         <dt id="ftdPostingsFromPostings" class="callable">
   <span class="name"><a href="../text_indexing/InvertedIndex/ftdPostingsFromPostings.html">ftdPostingsFromPostings</a></span><span class="signature">(<wbr><span class="parameter" id="ftdPostingsFromPostings-param-postings"><span class="type-annotation"><a href="../type_definitions/PostingsMap.html">PostingsMap</a></span> <span class="parameter-name">postings</span>, </span><span class="parameter" id="ftdPostingsFromPostings-param-minFtd">[<span class="type-annotation"><a href="../type_definitions/Ft.html">Ft</a></span> <span class="parameter-name">minFtd</span> = <span class="default-value">1</span>]</span>)
     <span class="returntype parameter">&#8594; <a href="../type_definitions/FtdPostings.html">FtdPostings</a></span>
@@ -565,6 +579,7 @@ document frequency for the term.
 
 
         <li class="section-title"><a href="../text_indexing/InvertedIndex-class.html#static-methods">Static methods</a></li>
+          <li><a href="../text_indexing/InvertedIndex/docTermFrequencies.html">docTermFrequencies</a></li>
           <li><a href="../text_indexing/InvertedIndex/ftdPostingsFromPostings.html">ftdPostingsFromPostings</a></li>
           <li><a href="../text_indexing/InvertedIndex/idFtIndexFromDictionary.html">idFtIndexFromDictionary</a></li>
           <li><a href="../text_indexing/InvertedIndex/tfIndexFromPostings.html">tfIndexFromPostings</a></li>

@@ -272,11 +272,63 @@ abstract class InvertedIndex {
     return dictionary.map((key, value) => MapEntry(key, log(n / value)));
   }
 
+  // /// Returns a map of terms to inverse document frequency (double) from the
+  // /// [postings].
+  // ///
+  // /// Applies the weighting in [zones] if not null.
+  // static IdFtIndex idFtIndexFromPostings(PostingsMap postings, int n,
+  //     [ZoneWeightMap? zones]) {
+  //   final Map<String, double> dictionary = {};
+  //   for (final termPosting in postings.entries) {
+  //     var tF = 0.0;
+  //     for (final docPosting in termPosting.value.entries) {
+  //       var dTf = 0;
+  //       for (final fieldPositions in docPosting.value.values) {
+  //         dTf += fieldPositions.length;
+  //       }
+  //       tF += dTf;
+  //     }
+  //     if (tF > 0) {
+  //       dictionary[termPosting.key] = tF;
+  //     }
+  //   }
+  //   return dictionary.map((key, value) => MapEntry(key, log(n / value)));
+  // }
+
+  /// Returns a hashmap of term to weighted document term frequency by iterating
+  /// over the [postings] to aggregate the document frequency for the term.
+  ///
+  /// If [zones] is null, all occurrences of term will be weighted as 1.0.
+  ///
+  /// If [zones] is not null, the term frequency in a zone is multiplied by
+  /// the weight for the zone.  If a zone is not present in the keys in [zones]
+  /// then the term frequency in that zone will be excluded.
+  static Map<String, double> docTermFrequencies(PostingsMap postings,
+      [ZoneWeightMap? zones]) {
+    final Map<String, double> tfIndex = {};
+    for (final termPosting in postings.entries) {
+      var tF = 0.0;
+      for (final docPosting in termPosting.value.entries) {
+        var dTf = 0.0;
+        for (final zonePostings in docPosting.value.entries) {
+          final fieldPositions = zonePostings.value;
+          final zone = zonePostings.key;
+          final wZ = zones == null ? 1.0 : zones[zone] ?? 0.0;
+          dTf += fieldPositions.length * wZ;
+        }
+        tF += dTf;
+      }
+      if (tF > 0) {
+        tfIndex[termPosting.key] = tF;
+      }
+    }
+    return tfIndex;
+  }
+
   /// Returns a [DftMap] by iterating over the [postings] to aggregate the
   /// document frequency for the term.
   static DftMap tfIndexFromPostings(PostingsMap postings) {
     final Map<String, Ft> tfIndex = {};
-    // final postings = await getPostings(terms);
     for (final termPosting in postings.entries) {
       var tF = 0;
       for (final docPosting in termPosting.value.entries) {
