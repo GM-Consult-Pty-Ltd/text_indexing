@@ -351,7 +351,7 @@ Future<InMemoryIndex> _getIndex(JsonCollection documents,
   final index = InMemoryIndex(
       analyzer: English.analyzer,
       collectionSize: documents.length,
-      nGramRange: NGramRange(1, 4),
+      // nGramRange: NGramRange(1, 4),
       zones: zones);
   final indexer = TextIndexer(index);
   await indexer.indexCollection(documents);

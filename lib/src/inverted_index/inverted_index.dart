@@ -16,8 +16,6 @@ import 'package:text_indexing/src/_index.dart';
 ///   index vocabulary also contains n-grams up to [nGramRange].max long,
 ///   concatenated from consecutive terms. The index size is increased by a
 ///   factor of [nGramRange].max.
-/// - [strategy] is the tokenizing strategy to use when tokenizing documents
-///   for indexing.
 /// - [getDictionary] Asynchronously retrieves a [DftMap] for a collection
 ///   of [Term]s from a [DftMap] repository.
 /// - [upsertDictionary ] inserts entries into a [DftMap] repository,
@@ -47,7 +45,8 @@ abstract class InvertedIndex {
   /// - [tokenFilter] is a filter function that returns a subset of a
   ///   collection of [Token]s.
   /// - [k] is the length of k-gram entries in the k-gram index.
-  /// - [nGramRange] is the range of N-gram lengths to generate.
+  /// - [nGramRange] is the range of N-gram lengths to generate. If [nGramRange]
+  ///   is null, only keyword phrases are generated.
   /// - [zones] is a hashmap of zone names to their relative weight in the
   ///   index.
   /// - [dictionary] is the in-memory term dictionary for the indexer. Pass a
@@ -68,7 +67,7 @@ abstract class InvertedIndex {
           KeywordPostingsMap? keywordPostings,
           Map<String, Set<String>>? kGramIndex,
           int k = 2,
-          NGramRange nGramRange = const NGramRange(1, 2),
+          NGramRange? nGramRange,
           Map<String, double> zones = const <String, double>{}}) =>
       InMemoryIndex(
           collectionSize: collectionSize,
@@ -122,7 +121,7 @@ abstract class InvertedIndex {
           Map<String, Map<String, Map<String, List<int>>>>? postings,
           Map<String, Set<String>>? kGramIndex,
           int k = 2,
-          NGramRange nGramRange = const NGramRange(1, 2),
+          NGramRange? nGramRange,
           Map<String, double> zones = const <String, double>{}}) =>
       AsyncCallbackIndex(
           collectionSizeLoader: collectionSizeLoader,
@@ -251,26 +250,6 @@ abstract class InvertedIndex {
 
     return ftdPostings;
   }
-
-  // /// Returns a map of terms to inverse document frequency (double) from the
-  // /// [dictionary].
-  // static IdFtIndex idFtIndexFromDictionary(DftMap dictionary, int n) {
-  //   return dictionary.map((key, value) => MapEntry(key, log(n / value)));
-  // }
-
-  // /// Returns the inverse document frequency of the [term] for a corpus of size
-  // /// [n] from [dictionary].
-  // static double idFt(String term, int n, DftMap dictionary) =>
-  //     log(n / (dictionary[term] ?? 0));
-
-  // /// Returns a hashmap of term to Tf-idf weight for a document from
-  // /// [dictionary].
-  // static Map<String, double> tfIdfMap(
-  //         Map<String, double> weightedTermFrequencies,
-  //         int n,
-  //         DftMap dictionary) =>
-  //     weightedTermFrequencies
-  //         .map((term, tF) => MapEntry(term, tF * idFt(term, n, dictionary)));
 
   /// Returns a hashmap of term to weighted document term frequency by iterating
   /// over the [postings] to aggregate the document frequency for the term.

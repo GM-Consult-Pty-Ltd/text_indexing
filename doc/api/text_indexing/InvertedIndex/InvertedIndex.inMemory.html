@@ -57,7 +57,7 @@
 <li><span class="parameter" id="inMemory-param-keywordPostings"><span class="type-annotation"><a href="../../type_definitions/KeywordPostingsMap.html">KeywordPostingsMap</a>?</span> <span class="parameter-name">keywordPostings</span>, </span></li>
 <li><span class="parameter" id="inMemory-param-kGramIndex"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>&gt;</span>?</span> <span class="parameter-name">kGramIndex</span>, </span></li>
 <li><span class="parameter" id="inMemory-param-k"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">2</span>, </span></li>
-<li><span class="parameter" id="inMemory-param-nGramRange"><span class="type-annotation"><a href="../../text_indexing/NGramRange-class.html">NGramRange</a></span> <span class="parameter-name">nGramRange</span> = <span class="default-value">const NGramRange(1, 2)</span>, </span></li>
+<li><span class="parameter" id="inMemory-param-nGramRange"><span class="type-annotation"><a href="../../text_indexing/NGramRange-class.html">NGramRange</a>?</span> <span class="parameter-name">nGramRange</span>, </span></li>
 <li><span class="parameter" id="inMemory-param-zones"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span>&gt;</span></span> <span class="parameter-name">zones</span> = <span class="default-value">const &lt;String, double&gt;{}</span>}</span></li>
 </ol>)
     </section>
@@ -71,7 +71,8 @@
 <li><code>tokenFilter</code> is a filter function that returns a subset of a
 collection of <a href="../../text_indexing/Token-class.html">Token</a>s.</li>
 <li><code>k</code> is the length of k-gram entries in the k-gram index.</li>
-<li><code>nGramRange</code> is the range of N-gram lengths to generate.</li>
+<li><code>nGramRange</code> is the range of N-gram lengths to generate. If <code>nGramRange</code>
+is null, only keyword phrases are generated.</li>
 <li><code>zones</code> is a hashmap of zone names to their relative weight in the
 index.</li>
 <li><code>dictionary</code> is the in-memory term dictionary for the indexer. Pass a
@@ -99,7 +100,7 @@ will be initialized.</li>
         KeywordPostingsMap? keywordPostings,
         Map&lt;String, Set&lt;String&gt;&gt;? kGramIndex,
         int k = 2,
-        NGramRange nGramRange = const NGramRange(1, 2),
+        NGramRange? nGramRange,
         Map&lt;String, double&gt; zones = const &lt;String, double&gt;{}}) =&gt;
     InMemoryIndex(
         collectionSize: collectionSize,
