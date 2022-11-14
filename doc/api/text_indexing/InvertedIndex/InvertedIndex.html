@@ -78,7 +78,8 @@
 <li><code>tokenFilter</code> is a filter function that returns a subset of a
 collection of <a href="../../text_indexing/Token-class.html">Token</a>s.</li>
 <li><code>k</code> is the length of k-gram entries in the k-gram index.</li>
-<li><code>nGramRange</code> is the range of N-gram lengths to generate.</li>
+<li><code>nGramRange</code> is the range of N-gram lengths to generate. If <code>nGramRange</code>
+is null, only keyword phrases are generated.</li>
 <li><code>zones</code> is a hashmap of zone names to their relative weight in the
 index.</li>
 <li><code>dictionaryLengthLoader</code> asynchronously retrieves the number of terms
