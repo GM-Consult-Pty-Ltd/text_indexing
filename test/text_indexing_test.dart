@@ -44,7 +44,7 @@ void main() {
     test('Index on sampleNews', () async {
       final data = TestData.stockNews;
 
-      final phrase = '5g modem chip';
+      final phrase = '5G modem chip';
 
       final index = await _getIndex(data,
           //
@@ -53,7 +53,7 @@ void main() {
           );
 
       final searchTokens = (await index.analyzer.tokenizer(phrase,
-          nGramRange: index.nGramRange, strategy: index.strategy));
+          nGramRange: index.nGramRange));
 
       final terms = searchTokens.terms;
 
@@ -116,7 +116,6 @@ void main() {
           analyzer: English.analyzer,
           collectionSize: collection.length,
           dictionary: dictionary,
-          strategy: TokenizingStrategy.all,
           postings: postings,
           kGramIndex: kGramIndex,
           zones: stockZones,
@@ -352,8 +351,7 @@ Future<InMemoryIndex> _getIndex(JsonCollection documents,
   final index = InMemoryIndex(
       analyzer: English.analyzer,
       collectionSize: documents.length,
-      strategy: TokenizingStrategy.all,
-      nGramRange: NGramRange(1, 2),
+      nGramRange: NGramRange(1, 4),
       zones: zones);
   final indexer = TextIndexer(index);
   await indexer.indexCollection(documents);

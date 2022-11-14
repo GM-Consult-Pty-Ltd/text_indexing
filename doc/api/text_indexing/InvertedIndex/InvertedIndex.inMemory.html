@@ -58,7 +58,6 @@
 <li><span class="parameter" id="inMemory-param-kGramIndex"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>&gt;</span>?</span> <span class="parameter-name">kGramIndex</span>, </span></li>
 <li><span class="parameter" id="inMemory-param-k"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">2</span>, </span></li>
 <li><span class="parameter" id="inMemory-param-nGramRange"><span class="type-annotation"><a href="../../text_indexing/NGramRange-class.html">NGramRange</a></span> <span class="parameter-name">nGramRange</span> = <span class="default-value">const NGramRange(1, 2)</span>, </span></li>
-<li><span class="parameter" id="inMemory-param-strategy"><span class="type-annotation"><a href="../../text_indexing/TokenizingStrategy.html">TokenizingStrategy</a></span> <span class="parameter-name">strategy</span> = <span class="default-value">TokenizingStrategy.terms</span>, </span></li>
 <li><span class="parameter" id="inMemory-param-zones"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span>&gt;</span></span> <span class="parameter-name">zones</span> = <span class="default-value">const &lt;String, double&gt;{}</span>}</span></li>
 </ol>)
     </section>
@@ -72,8 +71,6 @@
 <li><code>tokenFilter</code> is a filter function that returns a subset of a
 collection of <a href="../../text_indexing/Token-class.html">Token</a>s.</li>
 <li><code>k</code> is the length of k-gram entries in the k-gram index.</li>
-<li><code>strategy</code> is the tokenizing strategy to use when tokenizing documents
-for indexing.</li>
 <li><code>nGramRange</code> is the range of N-gram lengths to generate.</li>
 <li><code>zones</code> is a hashmap of zone names to their relative weight in the
 index.</li>
@@ -103,7 +100,6 @@ will be initialized.</li>
         Map&lt;String, Set&lt;String&gt;&gt;? kGramIndex,
         int k = 2,
         NGramRange nGramRange = const NGramRange(1, 2),
-        TokenizingStrategy strategy = TokenizingStrategy.terms,
         Map&lt;String, double&gt; zones = const &lt;String, double&gt;{}}) =&gt;
     InMemoryIndex(
         collectionSize: collectionSize,
@@ -115,7 +111,6 @@ will be initialized.</li>
         keywordPostings: keywordPostings,
         kGramIndex: kGramIndex,
         k: k,
-        strategy: strategy,
         nGramRange: nGramRange,
         zones: zones);</code></pre>
 </section>
@@ -154,7 +149,6 @@ will be initialized.</li>
     <li><a href="../../text_indexing/InvertedIndex/k.html">k</a></li>
     <li><a href="../../text_indexing/InvertedIndex/nGramRange.html">nGramRange</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
-    <li><a href="../../text_indexing/InvertedIndex/strategy.html">strategy</a></li>
     <li><a href="../../text_indexing/InvertedIndex/tokenFilter.html">tokenFilter</a></li>
     <li><a href="../../text_indexing/InvertedIndex/vocabularyLength.html">vocabularyLength</a></li>
     <li><a href="../../text_indexing/InvertedIndex/zones.html">zones</a></li>

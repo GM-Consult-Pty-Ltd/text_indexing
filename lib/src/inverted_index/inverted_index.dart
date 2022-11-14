@@ -2,7 +2,6 @@
 // BSD 3-Clause License
 // All rights reserved
 
-import 'dart:math';
 import 'package:text_indexing/src/_index.dart';
 
 /// An interface that exposes methods for working with an inverted, positional
@@ -48,8 +47,6 @@ abstract class InvertedIndex {
   /// - [tokenFilter] is a filter function that returns a subset of a
   ///   collection of [Token]s.
   /// - [k] is the length of k-gram entries in the k-gram index.
-  /// - [strategy] is the tokenizing strategy to use when tokenizing documents
-  ///   for indexing.
   /// - [nGramRange] is the range of N-gram lengths to generate.
   /// - [zones] is a hashmap of zone names to their relative weight in the
   ///   index.
@@ -72,7 +69,6 @@ abstract class InvertedIndex {
           Map<String, Set<String>>? kGramIndex,
           int k = 2,
           NGramRange nGramRange = const NGramRange(1, 2),
-          TokenizingStrategy strategy = TokenizingStrategy.terms,
           Map<String, double> zones = const <String, double>{}}) =>
       InMemoryIndex(
           collectionSize: collectionSize,
@@ -84,7 +80,6 @@ abstract class InvertedIndex {
           keywordPostings: keywordPostings,
           kGramIndex: kGramIndex,
           k: k,
-          strategy: strategy,
           nGramRange: nGramRange,
           zones: zones);
 
@@ -93,8 +88,6 @@ abstract class InvertedIndex {
   /// - [tokenFilter] is a filter function that returns a subset of a
   ///   collection of [Token]s.
   /// - [k] is the length of k-gram entries in the k-gram index.
-  /// - [strategy] is the tokenizing strategy to use when tokenizing documents
-  ///   for indexing.
   /// - [nGramRange] is the range of N-gram lengths to generate.
   /// - [zones] is a hashmap of zone names to their relative weight in the
   ///   index.
@@ -130,7 +123,6 @@ abstract class InvertedIndex {
           Map<String, Set<String>>? kGramIndex,
           int k = 2,
           NGramRange nGramRange = const NGramRange(1, 2),
-          TokenizingStrategy strategy = TokenizingStrategy.terms,
           Map<String, double> zones = const <String, double>{}}) =>
       AsyncCallbackIndex(
           collectionSizeLoader: collectionSizeLoader,
@@ -147,7 +139,6 @@ abstract class InvertedIndex {
           tokenFilter: tokenFilter,
           k: k,
           nGramRange: nGramRange,
-          strategy: strategy,
           zones: zones);
 
   /// The length of k-gram entries in the k-gram index.
@@ -157,9 +148,6 @@ abstract class InvertedIndex {
   ///
   /// Used to manipulate the [analyzer]'s tokenizer output.
   TokenFilter? get tokenFilter;
-
-  ///The strategy to apply when splitting text to [Token]s.
-  TokenizingStrategy get strategy;
 
   /// The minimum and maximum length of n-grams in the index.
   NGramRange? get nGramRange;

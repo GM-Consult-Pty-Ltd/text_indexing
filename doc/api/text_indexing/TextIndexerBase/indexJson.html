@@ -88,10 +88,8 @@ Future&lt;PostingsMap&gt; indexJson(String docId, Map&lt;String, dynamic&gt; jso
   final tokens = (await index.analyzer.jsonTokenizer(json,
       tokenFilter: index.tokenFilter,
       zones: zones,
-      nGramRange: index.nGramRange,
-      strategy: index.strategy));
-  final sourceText = json.toSourceText(zones);
-  final KeywordPostingsMap keyWords = _keywordsToPostings(docId, sourceText);
+      nGramRange: index.nGramRange));
+  final KeywordPostingsMap keyWords = _keywordsToPostings(docId, tokens);
   &#47;&#47; map the tokens to postings
   final PostingsMap postings = _tokensToPostings(docId, tokens);
   &#47;&#47; update the indexes with the postings list for docId

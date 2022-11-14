@@ -67,7 +67,7 @@
 
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Set&lt;String&gt; get terms =&gt; Set&lt;String&gt;.from(map((e) =&gt; e.term));</code></pre>
+  <pre class="language-dart"><code class="language-dart">Set&lt;String&gt; get terms =&gt; Set&lt;String&gt;.from(map((e) =&gt; e.term.trim()));</code></pre>
 </section>
 
 </section>
@@ -107,6 +107,7 @@
     <li><a href="../../text_indexing_extensions/TokenCollectionExtension/kGrams.html">kGrams</a></li>
     <li><a class="deprecated" href="../../text_indexing_extensions/TokenCollectionExtension/lastPosition.html">lastPosition</a></li>
     <li><a href="../../text_indexing_extensions/TokenCollectionExtension/termCount.html">termCount</a></li>
+    <li><a href="../../text_indexing_extensions/TokenCollectionExtension/toPhrases.html">toPhrases</a></li>
 
 
 

@@ -297,7 +297,7 @@ term.
           
   <dt id="JsonTokenizer" class="callable">
     <span class="name"><a href="../type_definitions/JsonTokenizer.html">JsonTokenizer</a></span><span class="signature">
-      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-document"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">document</span>, </span><span class="parameter" id="param-nGramRange">{<span class="type-annotation"><a href="../text_indexing/NGramRange-class.html">NGramRange</a>?</span> <span class="parameter-name">nGramRange</span>, </span><span class="parameter" id="param-strategy"><span class="type-annotation"><a href="../text_indexing/TokenizingStrategy.html">TokenizingStrategy</a></span> <span class="parameter-name">strategy</span>, </span><span class="parameter" id="param-tokenFilter"><span class="type-annotation"><a href="../type_definitions/TokenFilter.html">TokenFilter</a>?</span> <span class="parameter-name">tokenFilter</span>, </span><span class="parameter" id="param-zones"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Zone.html">Zone</a></span>&gt;</span>?</span> <span class="parameter-name">zones</span>}</span>)</span></span>
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-document"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">document</span>, </span><span class="parameter" id="param-nGramRange">{<span class="type-annotation"><a href="../text_indexing/NGramRange-class.html">NGramRange</a>?</span> <span class="parameter-name">nGramRange</span>, </span><span class="parameter" id="param-reCase"><span class="type-annotation"><a href="../type_definitions/StringModifier.html">StringModifier</a>?</span> <span class="parameter-name">reCase</span>, </span><span class="parameter" id="param-tokenFilter"><span class="type-annotation"><a href="../type_definitions/TokenFilter.html">TokenFilter</a>?</span> <span class="parameter-name">tokenFilter</span>, </span><span class="parameter" id="param-zones"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Zone.html">Zone</a></span>&gt;</span>?</span> <span class="parameter-name">zones</span>}</span>)</span></span>
     </span>
     
 
@@ -312,7 +312,7 @@ the <code>zones</code> in a JSON <code>document</code>.
           
   <dt id="KeywordExtractor" class="callable">
     <span class="name"><a href="../type_definitions/KeywordExtractor.html">KeywordExtractor</a></span><span class="signature">
-      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-source"><span class="type-annotation"><a href="../type_definitions/SourceText.html">SourceText</a></span> <span class="parameter-name">source</span>, </span><span class="parameter" id="param-nGramRange">{<span class="type-annotation"><a href="../text_indexing/NGramRange-class.html">NGramRange</a>?</span> <span class="parameter-name">nGramRange</span>}</span>)</span></span>
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-source"><span class="type-annotation"><a href="../type_definitions/SourceText.html">SourceText</a></span> <span class="parameter-name">source</span>, </span><span class="parameter" id="param-nGramRange">{<span class="type-annotation"><a href="../text_indexing/NGramRange-class.html">NGramRange</a>?</span> <span class="parameter-name">nGramRange</span>, </span><span class="parameter" id="param-reCase"><span class="type-annotation"><a href="../type_definitions/StringModifier.html">StringModifier</a>?</span> <span class="parameter-name">reCase</span>}</span>)</span></span>
     </span>
     
 
@@ -442,20 +442,6 @@ usually persisted storage.
   </dt>
   <dd>
     A callback that passes <code>values</code> for persisting to a <a href="../type_definitions/KGramsMap.html">KGramsMap</a>.
-    
-
-  </dd>
-
-          
-  <dt id="Lemmatizer" class="callable">
-    <span class="name"><a href="../type_definitions/Lemmatizer.html">Lemmatizer</a></span><span class="signature">
-      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a> Function<span class="signature">(<span class="parameter" id="param-term"><span class="type-annotation"><a href="../type_definitions/Term.html">Term</a></span> <span class="parameter-name">term</span></span>)</span></span>
-    </span>
-    
-
-  </dt>
-  <dd>
-    A language-specific function that returns the lemma of <code>term</code>.
     
 
   </dd>
@@ -610,20 +596,6 @@ indexed object (the term position).
 
 
           
-  <dt id="Stemmer" class="callable">
-    <span class="name"><a href="../type_definitions/Stemmer.html">Stemmer</a></span><span class="signature">
-      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a> Function<span class="signature">(<span class="parameter" id="param-term"><span class="type-annotation"><a href="../type_definitions/Term.html">Term</a></span> <span class="parameter-name">term</span></span>)</span></span>
-    </span>
-    
-
-  </dt>
-  <dd>
-    A language-specific function that returns the stem of <code>term</code>.
-    
-
-  </dd>
-
-          
   <dt id="StopWords" class="">
   <span class="name"><a href="../type_definitions/StopWords.html">StopWords</a></span>
     = <a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>&gt;</span>
@@ -638,6 +610,20 @@ of <a href="../type_definitions/Term.html">Term</a> that are excluded from token
 
 </dd>
 
+
+          
+  <dt id="StringModifier" class="callable">
+    <span class="name"><a href="../type_definitions/StringModifier.html">StringModifier</a></span><span class="signature">
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a> Function<span class="signature">(<span class="parameter" id="param-term"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">term</span></span>)</span></span>
+    </span>
+    
+
+  </dt>
+  <dd>
+    A language-specific function that returns the stem of <code>term</code>.
+    
+
+  </dd>
 
           
   <dt id="SyllableCounter" class="callable">
@@ -680,6 +666,21 @@ in a text source, document or query.
   </dt>
   <dd>
     A filter function that returns a collection of terms from term:
+    
+
+  </dd>
+
+          
+  <dt id="TermFlag" class="callable">
+    <span class="name"><a href="../type_definitions/TermFlag.html">TermFlag</a></span><span class="signature">
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a> Function<span class="signature">(<span class="parameter" id="param-term"><span class="type-annotation"><a href="../type_definitions/Term.html">Term</a></span> <span class="parameter-name">term</span></span>)</span></span>
+    </span>
+    
+
+  </dt>
+  <dd>
+    A callback function that returns true or false based on the content of
+the term.
     
 
   </dd>
@@ -731,7 +732,7 @@ positions in a text source, sorted in ascending order.
           
   <dt id="Tokenizer" class="callable">
     <span class="name"><a href="../type_definitions/Tokenizer.html">Tokenizer</a></span><span class="signature">
-      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-source"><span class="type-annotation"><a href="../type_definitions/SourceText.html">SourceText</a></span> <span class="parameter-name">source</span>, </span><span class="parameter" id="param-nGramRange">{<span class="type-annotation"><a href="../text_indexing/NGramRange-class.html">NGramRange</a>?</span> <span class="parameter-name">nGramRange</span>, </span><span class="parameter" id="param-strategy"><span class="type-annotation"><a href="../text_indexing/TokenizingStrategy.html">TokenizingStrategy</a></span> <span class="parameter-name">strategy</span>, </span><span class="parameter" id="param-tokenFilter"><span class="type-annotation"><a href="../type_definitions/TokenFilter.html">TokenFilter</a>?</span> <span class="parameter-name">tokenFilter</span>, </span><span class="parameter" id="param-zone"><span class="type-annotation"><a href="../type_definitions/Zone.html">Zone</a>?</span> <span class="parameter-name">zone</span>}</span>)</span></span>
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-source"><span class="type-annotation"><a href="../type_definitions/SourceText.html">SourceText</a></span> <span class="parameter-name">source</span>, </span><span class="parameter" id="param-nGramRange">{<span class="type-annotation"><a href="../text_indexing/NGramRange-class.html">NGramRange</a>?</span> <span class="parameter-name">nGramRange</span>, </span><span class="parameter" id="param-reCase"><span class="type-annotation"><a href="../type_definitions/StringModifier.html">StringModifier</a>?</span> <span class="parameter-name">reCase</span>, </span><span class="parameter" id="param-tokenFilter"><span class="type-annotation"><a href="../type_definitions/TokenFilter.html">TokenFilter</a>?</span> <span class="parameter-name">tokenFilter</span>, </span><span class="parameter" id="param-zone"><span class="type-annotation"><a href="../type_definitions/Zone.html">Zone</a>?</span> <span class="parameter-name">zone</span>}</span>)</span></span>
     </span>
     
 
@@ -886,7 +887,6 @@ in the <code>corpus</code>. Represents the name of the field/zone.
   <li><a href="../type_definitions/KGramsMap.html">KGramsMap</a></li>
   <li><a href="../type_definitions/KGramsMapLoader.html">KGramsMapLoader</a></li>
   <li><a href="../type_definitions/KGramsMapUpdater.html">KGramsMapUpdater</a></li>
-  <li><a href="../type_definitions/Lemmatizer.html">Lemmatizer</a></li>
   <li><a href="../type_definitions/NGrammer.html">NGrammer</a></li>
   <li><a href="../type_definitions/ParagraphSplitter.html">ParagraphSplitter</a></li>
   <li><a href="../type_definitions/Phrase.html">Phrase</a></li>
@@ -897,11 +897,12 @@ in the <code>corpus</code>. Represents the name of the field/zone.
   <li><a href="../type_definitions/Pt.html">Pt</a></li>
   <li><a href="../type_definitions/SentenceSplitter.html">SentenceSplitter</a></li>
   <li><a href="../type_definitions/SourceText.html">SourceText</a></li>
-  <li><a href="../type_definitions/Stemmer.html">Stemmer</a></li>
   <li><a href="../type_definitions/StopWords.html">StopWords</a></li>
+  <li><a href="../type_definitions/StringModifier.html">StringModifier</a></li>
   <li><a href="../type_definitions/SyllableCounter.html">SyllableCounter</a></li>
   <li><a href="../type_definitions/Term.html">Term</a></li>
   <li><a href="../type_definitions/TermFilter.html">TermFilter</a></li>
+  <li><a href="../type_definitions/TermFlag.html">TermFlag</a></li>
   <li><a href="../type_definitions/TermPositions.html">TermPositions</a></li>
   <li><a href="../type_definitions/TermSplitter.html">TermSplitter</a></li>
   <li><a href="../type_definitions/TokenFilter.html">TokenFilter</a></li>

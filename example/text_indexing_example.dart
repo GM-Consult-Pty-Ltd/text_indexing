@@ -46,7 +46,6 @@ Future<void> _inMemoryIndexerExample(Map<String, String> documents,
   final index = InMemoryIndex(
       analyzer: English.analyzer,
       collectionSize: documents.length,
-      strategy: TokenizingStrategy.all,
       dictionary: dictionary,
       postings: postings,
       kGramIndex: kGramIndex,

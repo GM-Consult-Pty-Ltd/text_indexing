@@ -18,9 +18,6 @@ class AsyncCallbackIndex extends AsyncCallbackIndexBase {
   final int k;
 
   @override
-  final TokenizingStrategy strategy;
-
-  @override
   final NGramRange? nGramRange;
 
   @override
@@ -105,7 +102,6 @@ class AsyncCallbackIndex extends AsyncCallbackIndexBase {
       required this.keywordPostingsLoader,
       required this.keywordPostingsUpdater,
       required this.analyzer,
-      required this.strategy,
       this.tokenFilter,
       this.k = 2,
       this.nGramRange,

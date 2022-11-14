@@ -19,9 +19,6 @@ class InMemoryIndex extends InMemoryIndexBase {
   final int k;
 
   @override
-  final TokenizingStrategy strategy;
-
-  @override
   final NGramRange? nGramRange;
 
   @override
@@ -52,8 +49,6 @@ class InMemoryIndex extends InMemoryIndexBase {
   ///   collection of [Token]s.
   /// - [k] is the length of k-gram entries in the k-gram index.
   /// - [nGramRange] is the range of N-gram lengths to generate.
-  /// - [strategy] is the tokenizing strategy to use when tokenizing documents
-  ///   for indexing.
   /// - [zones] is a hashmap of zone names to their relative weight in the
   ///   index.
   /// - [dictionary] is the in-memory term dictionary for the indexer. Pass a
@@ -71,7 +66,6 @@ class InMemoryIndex extends InMemoryIndexBase {
   InMemoryIndex(
       {required this.analyzer,
       required this.collectionSize,
-      required this.strategy,
       this.tokenFilter,
       DftMap? dictionary,
       PostingsMap? postings,
