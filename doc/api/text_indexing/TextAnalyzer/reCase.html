@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the tokenizer property from the TextAnalyzer class, for the Dart programming language.">
-  <title>tokenizer property - TextAnalyzer class - text_indexing library - Dart API</title>
+  <meta name="description" content="API docs for the reCase property from the TextAnalyzer class, for the Dart programming language.">
+  <title>reCase property - TextAnalyzer class - text_indexing library - Dart API</title>
 
 
   
@@ -31,9 +31,9 @@
     <li><a href="../../index.html">text_indexing</a></li>
     <li><a href="../../text_indexing/text_indexing-library.html">text_indexing</a></li>
     <li><a href="../../text_indexing/TextAnalyzer-class.html">TextAnalyzer</a></li>
-    <li class="self-crumb">tokenizer property</li>
+    <li class="self-crumb">reCase property</li>
   </ol>
-  <div class="self-name">tokenizer</div>
+  <div class="self-name">reCase</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -44,7 +44,7 @@
 
   <div id="dartdoc-main-content" class="main-content">
       <div>
-<h1><span class="kind-property">tokenizer</span> property 
+<h1><span class="kind-property">reCase</span> property 
     <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
 </h1></div>
 
@@ -53,22 +53,24 @@
 <section id="getter">
 
 <section class="multi-line-signature">
-  <span class="returntype"><a href="../../type_definitions/Tokenizer.html">Tokenizer</a></span>
-  <span class="name ">tokenizer</span>
+  <span class="returntype"><a href="../../type_definitions/TermModifier.html">TermModifier</a></span>
+  <span class="name ">reCase</span>
   
 
 </section>
 
 
 <section class="desc markdown">
-  <p>Extracts one or more tokens from text for use in full-text search queries
-and indexes.</p>
+  <p>A callback that re-cases the terms.</p>
+<p>Re-case is called on individual terms, not phrases or keywords and can be
+used to preserve case on identifiers, given names or other case-sensitive
+language.</p>
 </section>
 
 
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Tokenizer get tokenizer;</code></pre>
+  <pre class="language-dart"><code class="language-dart">TermModifier get reCase;</code></pre>
 </section>
 
 </section>
@@ -87,7 +89,7 @@ and indexes.</p>
   <li><a href="../../index.html">text_indexing</a></li>
   <li><a href="../../text_indexing/text_indexing-library.html">text_indexing</a></li>
   <li><a href="../../text_indexing/TextAnalyzer-class.html">TextAnalyzer</a></li>
-  <li class="self-crumb">tokenizer property</li>
+  <li class="self-crumb">reCase property</li>
 </ol>
 
 

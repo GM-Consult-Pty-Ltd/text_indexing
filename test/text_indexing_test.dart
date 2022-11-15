@@ -47,8 +47,7 @@ void main() {
       final phrase = '5G modem chip';
 
       final index = await _getIndex(data,
-          //
-          {'name': 1.0, 'description': 1.0}
+          nGramRange: NGramRange(1, 3), zones: {'name': 1.0, 'description': 1.0}
           //
           );
 
@@ -344,14 +343,15 @@ Future<void> saveKgramIndex(KGramsMap value,
 }
 
 Future<InMemoryIndex> _getIndex(JsonCollection documents,
-    [Map<String, double> zones = const {
+    {Map<String, double> zones = const {
       'name': 1,
       'descriptions': 0.5
-    }]) async {
+    },
+    NGramRange? nGramRange}) async {
   final index = InMemoryIndex(
       analyzer: English.analyzer,
       collectionSize: documents.length,
-      // nGramRange: NGramRange(1, 4),
+      nGramRange: nGramRange,
       zones: zones);
   final indexer = TextIndexer(index);
   await indexer.indexCollection(documents);

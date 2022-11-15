@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the JsonTokenizer property from the type_definitions library, for the Dart programming language.">
-  <title>JsonTokenizer typedef - type_definitions library - Dart API</title>
+  <meta name="description" content="API docs for the TermModifier property from the type_definitions library, for the Dart programming language.">
+  <title>TermModifier typedef - type_definitions library - Dart API</title>
 
 
   
@@ -30,9 +30,9 @@
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../index.html">text_indexing</a></li>
     <li><a href="../type_definitions/type_definitions-library.html">type_definitions</a></li>
-    <li class="self-crumb">JsonTokenizer typedef</li>
+    <li class="self-crumb">TermModifier typedef</li>
   </ol>
-  <div class="self-name">JsonTokenizer</div>
+  <div class="self-name">TermModifier</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -43,43 +43,26 @@
 
   <div id="dartdoc-main-content" class="main-content">
       <div>
-<h1><span class="kind-typedef">JsonTokenizer</span> typedef 
+<h1><span class="kind-typedef">TermModifier</span> typedef 
     <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
  
 </h1></div>
 
     <section class="multi-line-signature">
-        <span class="name ">JsonTokenizer</span> =
-     <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_indexing/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-document"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">document</span>, </span><span class="parameter" id="param-nGramRange">{<span class="type-annotation"><a href="../text_indexing/NGramRange-class.html">NGramRange</a>?</span> <span class="parameter-name">nGramRange</span>, </span><span class="parameter" id="param-tokenFilter"><span class="type-annotation"><a href="../type_definitions/TokenFilter.html">TokenFilter</a>?</span> <span class="parameter-name">tokenFilter</span>, </span><span class="parameter" id="param-zones"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Zone.html">Zone</a></span>&gt;</span>?</span> <span class="parameter-name">zones</span>}</span>)</span></span>
+        <span class="name ">TermModifier</span> =
+     <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a> Function<span class="signature">(<span class="parameter" id="param-term"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">term</span></span>)</span></span>
 
     </section>
 
     
 <section class="desc markdown">
-  <p>Type definition of a function that returns a collection of <a href="../text_indexing/Token-class.html">Token</a> from
-the <code>zones</code> in a JSON <code>document</code>.</p>
-<p>Extracts tokens from the <code>zones</code> in a JSON <code>document</code> for use in
-full-text search queries and indexes.</p>
-<ul>
-<li><code>document</code> is a JSON document containing the <code>zones</code> as keys;</li>
-<li><code>nGramRange</code> is the range of N-gram lengths to generate. If <code>nGramRange</code>
-is null, only keyword phrases are generated;</li>
-<li><code>tokenFilter</code> is a filter function that returns a subset of a collection
-of <a href="../text_indexing/Token-class.html">Token</a>s; and</li>
-<li><code>zones</code> is the collection of the names of the zones in <code>document</code> that
-are to be tokenized.</li>
-</ul>
-<p>Returns a List&lt;<a href="../text_indexing/Token-class.html">Token</a>&gt;.</p>
+  <p>A language-specific function that returns the stem of <code>term</code>.</p>
 </section>
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">typedef JsonTokenizer = Future&lt;List&lt;Token&gt;&gt; Function(
-    Map&lt;String, dynamic&gt; document,
-    {NGramRange? nGramRange,
-    Iterable&lt;Zone&gt;? zones,
-    TokenFilter? tokenFilter});</code></pre>
+  <pre class="language-dart"><code class="language-dart">typedef TermModifier = String Function(String term);</code></pre>
 </section>
 
 
@@ -95,7 +78,7 @@ are to be tokenized.</li>
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
   <li><a href="../index.html">text_indexing</a></li>
   <li><a href="../type_definitions/type_definitions-library.html">type_definitions</a></li>
-  <li class="self-crumb">JsonTokenizer typedef</li>
+  <li class="self-crumb">TermModifier typedef</li>
 </ol>
 
 

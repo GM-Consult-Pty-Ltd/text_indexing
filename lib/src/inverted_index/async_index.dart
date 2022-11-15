@@ -69,7 +69,8 @@ class AsyncCallbackIndex extends AsyncCallbackIndexBase {
   /// - [tokenFilter] is a filter function that returns a subset of a
   ///   collection of [Token]s.
   /// - [k] is the length of k-gram entries in the k-gram index;
-  /// - [nGramRange] is the range of N-gram lengths to generate;
+  /// - [nGramRange] is the range of N-gram lengths to generate. If [nGramRange]
+  ///   is null, only keyword phrases are generated.
   /// - [zones] is a hashmap of zone names to their relative weight in the
   ///   index;
   /// - [dictionaryLengthLoader] asynchronously retrieves the number of terms
