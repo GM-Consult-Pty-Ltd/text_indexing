@@ -7,7 +7,7 @@ description: Dart library for creating an inverted index on a collection of text
 version: 0.23.0-1
 repository: https://github.com/GM-Consult-Pty-Ltd/text_indexing
 homepage: https://github.com/GM-Consult-Pty-Ltd
-publish_to: none
+# publish_to: none
 issue_tracker: https://github.com/GM-Consult-Pty-Ltd/text_indexing/issues
 
 environment:
