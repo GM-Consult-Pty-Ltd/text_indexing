@@ -52,7 +52,7 @@
       
 
 <span class="returntype"><a href="../../type_definitions/PostingsMap.html">PostingsMap</a></span>
-<span class="name ">getPostings</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="getPostings-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span></li>
+<span class="name ">getPostings</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="getPostings-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span></li>
 </ol>)
 
       
@@ -69,7 +69,7 @@ entires with a key in the <code>terms</code> collection.</p>
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">PostingsMap getPostings(Iterable&lt;Term&gt; terms) {
+  <pre class="language-dart"><code class="language-dart">PostingsMap getPostings(Iterable&lt;String&gt; terms) {
   final PostingsMap retVal = {};
   for (final term in terms) {
     final posting = this[term];

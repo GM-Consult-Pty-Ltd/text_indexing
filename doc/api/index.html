@@ -150,14 +150,6 @@ import 'package:text_indexing/extensions.dart';
 <h4 id="k-gram-length-k">K-gram length (k)</h4>
 <p><code>InvertedIndex.k</code> is the length of k-gram entries in the k-gram index.</p>
 <p>The preferred k-gram length is <code>3, or a tri-gram</code>. This results in a good compromise between the length of the k-gram index and search efficiency.</p>
-<h4 id="tokenizing-strategy-k">Tokenizing Strategy (k)</h4>
-<p><code>InvertedIndex.strategy</code> is the tokenizing strategy to use when tokenizing documents for the postings index:</p>
-<ul>
-<li>select <code>TokenizingStrategy.terms</code> to minimize the index size;</li>
-<li>select <code>TokenizingStrategy.nGrams</code> to add n-grams (phrases) in the desired <a href="#n-gram-range">range</a>;</li>
-<li>select <code>TokenizingStrategy.keyWords</code> to add keyword phrases of unlimited length as well as n-grams;</li>
-<li>select <code>TokenizingStrategy.all</code> to add terms, n-grams and keyWords;</li>
-</ul>
 <h3 id="textindexer">TextIndexer</h3>
 <p><a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html">TextIndexer</a> is an interface for classes that construct and maintain a <a href="#invertedindex">InvertedIndex</a>.</p>
 <p>Text or documents can be indexed by calling the following methods:</p>
@@ -166,7 +158,6 @@ import 'package:text_indexing/extensions.dart';
 <li><a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer/indexJson.html">indexJson</a> indexes the fields in a <code>JSON</code> document; and</li>
 <li><a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer/indexCollection.html">indexCollection</a> indexes the fields of all the documents in a JSON document collection.</li>
 </ul>
-<p>Use the unnamed factory constructor to instantiate a <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html">TextIndexer</a> with the index of your choice, or extend <a href="https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexerBase-class.html">TextIndexerBase</a>.</p>
 <p>(<em><a href="#">back to top</a></em>)</p>
 <h2 id="definitions">Definitions</h2>
 <p>The following definitions are used throughout the <a href="https://pub.dev/documentation/text_analysis/latest/">documentation</a>:</p>

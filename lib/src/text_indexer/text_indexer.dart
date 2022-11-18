@@ -15,10 +15,6 @@ import 'package:text_indexing/src/_index.dart';
 /// - [indexCollection] indexes the fields of all the documents in a Map<String, dynamic>
 ///   document collection.
 ///
-/// Implementing classes must override the [index] field, the [InvertedIndex]
-/// that provides access to the index [DftMap] and [PostingsMap] and a
-/// [TextAnalyzer].
-///
 /// Implementing classes override the following asynchronous methods:
 /// - [indexText] indexes a text document;
 /// - [indexJson] indexes the fields in a Map<String, dynamic> document;
@@ -26,28 +22,11 @@ import 'package:text_indexing/src/_index.dart';
 ///   document collection; and
 /// - [updateIndexes] updates the [DftMap], [PostingsMap] and [KGramsMap]
 ///   for this indexer.
-abstract class TextIndexer {
+abstract class TextIndexer implements InvertedIndex {
   //
 
-  /// Factory constructor initializes a [TextIndexer] instance, passing in a
-  /// [index] instance.
-  factory TextIndexer(InvertedIndex index) => _TextIndexerImpl(index);
-
-  /// Factory constructor initializes a [TextIndexer] instance, passing in a
-  /// [index] instance and a [documentStream] for indexing.
-  factory TextIndexer.stream(InvertedIndex index,
-          Stream<MapEntry<String, Map<String, dynamic>>> documentStream) =>
-      _TextIndexerImpl(index, documentStream: documentStream);
-
-  /// Factory constructor initializes a [TextIndexer] instance, passing in a
-  /// [index] instance and a [collectionStream] for indexing.
-  factory TextIndexer.collectionStream(InvertedIndex index,
-          Stream<Map<String, Map<String, dynamic>>>? collectionStream) =>
-      _TextIndexerImpl(index, collectionStream: collectionStream);
-
-  /// The [updateIndexes] method is called by [index] and updates the
-  /// [DftMap], [PostingsMap], [KeywordPostingsMap] and [KGramsMap] for this
-  /// indexer.
+  /// The [updateIndexes] method updates the [DftMap], [PostingsMap], 
+  /// [KeywordPostingsMap] and [KGramsMap].
   ///
   /// Sub-classes override [updateIndexes] to perform additional actions whenever a
   /// document is indexed.
@@ -55,35 +34,73 @@ abstract class TextIndexer {
       KeywordPostingsMap keywordPostings, Iterable<Token> tokens);
 
   /// Indexes a text document, returning a [PostingsMap].
-  Future<PostingsMap> indexText(String docId, SourceText docText);
+  Future<void> indexText(String docId, String docText,
+      {bool preserveCase = false,
+      String? zone,
+      TokenFilter? tokenFilter});
 
   /// Indexes the [InvertedIndex.zones] in a [json] document, returning a list
   /// of [DocPostingsMapEntry].
-  Future<PostingsMap> indexJson(String docId, Map<String, dynamic> json);
+  Future<void> indexJson(String docId, Map<String, dynamic> json,
+      {bool preserveCase = false, TokenFilter? tokenFilter});
 
   /// Indexes the [InvertedIndex.zones] of all the documents in [collection].
-  Future<void> indexCollection(Map<String, Map<String, dynamic>> collection);
+  Future<void> indexCollection(Map<String, Map<String, dynamic>> collection,
+      {bool preserveCase = false, TokenFilter? tokenFilter});
 
-  /// The [InvertedIndex] that provides access to the
-  /// index [DftMap] and [PostingsMap] and a [TextAnalyzer].
-  InvertedIndex get index;
+  /// Updates the index with the [tokens] for [docId].
+  Future<void> indexTokens(String docId, Iterable<Token> tokens);
 
-  //
+  /// Indexes the documents emitted by [documentStream].
+  void indexDocumentStream(Stream<MapEntry<String, JSON>> documentStream,
+      {bool preserveCase = false, TokenFilter? tokenFilter});
+
+  /// Indexes the documents emitted by [collectionStream].
+  void indexCollectionStream(Stream<JsonCollection> collectionStream,
+      {bool preserveCase = false, TokenFilter? tokenFilter});
+
+  /// Cancels any stream all listeners.
+  Future<void> dispose();
 }
 
-/// Abstract base class implementation of [TextIndexer] with [TextIndexerMixin].
-abstract class TextIndexerBase with TextIndexerMixin {
-  //
+// /// Abstract base class implementation of [TextIndexer] with [TextIndexerMixin].
+// abstract class TextIndexerBase with TextIndexerMixin {
+//   //
 
-  /// Default generative constructor.
-  const TextIndexerBase();
-}
+//   /// Default generative constructor.
+//   TextIndexerBase();
+// }
 
-/// Base class implementation of the [TextIndexer] interface.
-///
-/// Sub-classes must implement the [index] field.
+/// Mixin class implementation of the [TextIndexer] interface.
 abstract class TextIndexerMixin implements TextIndexer {
   //
+
+  StreamSubscription<JsonCollection>? _jsonCollectionListener;
+
+  @override
+  void indexCollectionStream(Stream<JsonCollection> collectionStream,
+      {bool preserveCase = false, TokenFilter? tokenFilter}) {
+    _jsonCollectionListener =
+        collectionStream.listen((event) => indexCollection(event,
+        tokenFilter: tokenFilter,
+        preserveCase: preserveCase));
+  }
+
+  StreamSubscription<MapEntry<String, JSON>>? _jsonDocumentListener;
+  @override
+  void indexDocumentStream(Stream<MapEntry<String, JSON>> documentStream,
+      {bool preserveCase = false, TokenFilter? tokenFilter}) {
+    _jsonDocumentListener =
+        documentStream.listen((event) => indexJson(event.key, event.value,
+        tokenFilter: tokenFilter,
+        preserveCase: preserveCase));
+  }
+
+  @override
+  Future<void> dispose() async {
+    await _jsonCollectionListener?.cancel();
+    await _jsonDocumentListener?.cancel();
+  }
 
   /// Implementation of [TextIndexer.indexText] that:
   /// - parses [docText] to a collection of [Token]s;
@@ -92,50 +109,55 @@ abstract class TextIndexerMixin implements TextIndexer {
   /// - calls [updateIndexes], passing the [PostingsMap] for [docId]; and
   /// - returns the [PostingsMap] for [docId].
   @override
-  Future<PostingsMap> indexText(String docId, SourceText docText) async {
+  Future<void> indexText(String docId, String docText,
+      {bool preserveCase = false,
+      String? zone,
+      TokenFilter? tokenFilter}) async {
     // get the terms using tokenizer
-    final tokens = (await index.analyzer.tokenizer(docText,
-        tokenFilter: index.tokenFilter, nGramRange: index.nGramRange));
-    final KeywordPostingsMap keyWords = _keywordsToPostings(docId, tokens);
-    // map the tokens to postings
-    final PostingsMap postings = _tokensToPostings(docId, tokens);
-    // map postings to a list of DocPostingsMapEntry for docId.
-    // final event = _postingsToTermPositions(docId, postings);
-    // updateIndexes the postings list for docId
-    await updateIndexes(postings, keyWords, tokens);
-    return postings;
+    final tokens = (await analyzer.tokenizer(docText,
+        tokenFilter: tokenFilter,
+        nGramRange: nGramRange,
+        preserveCase: preserveCase,
+        zone: zone));
+    await indexTokens(docId, tokens);
   }
 
   /// Implementation of [TextIndexer.indexJson] that:
-  /// - parses [json] to a collection of [Token]s in [index].zones. If
-  ///   [index].zones is empty, tokenize all the fields in [json];
+  /// - parses [json] to a collection of [Token]s in [zones]. If[zones] is 
+  ///   empty, tokenize all the fields in [json];
   /// - maps the tokens to postings for [docId];
   /// - maps the postings for [docId] to a [PostingsMap];
   /// - calls [updateIndexes], passing the [PostingsMap] for [docId]; and
   /// - returns the [PostingsMap] for [docId].
   @override
-  Future<PostingsMap> indexJson(String docId, Map<String, dynamic> json) async {
+  Future<void> indexJson(String docId, Map<String, dynamic> json,
+      {bool preserveCase = false, TokenFilter? tokenFilter}) async {
     // get the terms using tokenizer
     final zones = _zoneNames(json);
-    final tokens = (await index.analyzer.jsonTokenizer(json,
-        tokenFilter: index.tokenFilter,
+    final tokens = (await analyzer.jsonTokenizer(json,
+        tokenFilter: tokenFilter,
+        preserveCase: preserveCase,
         zones: zones,
-        nGramRange: index.nGramRange));
+        nGramRange: nGramRange));
+    await indexTokens(docId, tokens);
+  }
+
+  @override
+  Future<void> indexTokens(String docId, Iterable<Token> tokens) async {
     final KeywordPostingsMap keyWords = _keywordsToPostings(docId, tokens);
     // map the tokens to postings
     final PostingsMap postings = _tokensToPostings(docId, tokens);
     // update the indexes with the postings list for docId
     await updateIndexes(postings, keyWords, tokens);
-    return postings;
   }
 
   /// Private helper function that returns the zone names for mapping [json] to
   /// tokens:
-  /// - returns index.zones if it is not empty, otherwise
+  /// - returns zones if it is not empty, otherwise
   /// - returns the keys of all entries in [json] that have [String] values.
   Set<String> _zoneNames(Map<String, dynamic> json) {
-    if (index.zones.isNotEmpty) {
-      return index.zones.keys.toSet();
+    if (this.zones.isNotEmpty) {
+      return this.zones.keys.toSet();
     }
     final zones = <String>{};
     for (final entry in json.entries) {
@@ -151,12 +173,13 @@ abstract class TextIndexerMixin implements TextIndexer {
   /// that is passed to [updateIndexes].
   @override
   Future<void> indexCollection(
-      Map<String, Map<String, dynamic>> collection) async {
+      Map<String, Map<String, dynamic>> collection,
+      {bool preserveCase = false, TokenFilter? tokenFilter}) async {
     await Future.forEach(collection.entries,
         (MapEntry<String, Map<String, dynamic>> e) async {
       final docId = e.key;
       final json = e.value;
-      await indexJson(docId, json);
+      await indexJson(docId, json, preserveCase: preserveCase, tokenFilter: tokenFilter);
     });
   }
 
@@ -221,29 +244,17 @@ abstract class TextIndexerMixin implements TextIndexer {
   Future<void> _upsertKgrams(Iterable<Token> tokens) async {
     // - get the new kGrams for the tokens;
     final terms = <String>{}..addAll(tokens.map((e) => e.term));
-    final newkGrams = terms.toKGramsMap(index.k);
-    final persistedKgrams = await index.getKGramIndex(newkGrams.keys);
+    final newkGrams = terms.toKGramsMap(k);
+    final persistedKgrams = await getKGramIndex(newkGrams.keys);
     newkGrams.forEach((key, value) {
       final kGramEntry = persistedKgrams[key] ?? {};
       kGramEntry.addAll(value);
       persistedKgrams[key] = kGramEntry;
     });
-    await index.upsertKGramIndex(persistedKgrams);
+    await upsertKGramIndex(persistedKgrams);
   }
 
-  /// Implementation of [TextIndexer.updateIndexes] that:
-  /// - maps [event] to a set of unique terms;
-  /// - loads the existing [PostingsMapEntry]s for the terms from the [index]
-  ///   [PostingsMap];
-  /// - loads the existing [DftMapEntry]s for the terms from the [index];
-  /// - iterates through the [event] entries and:
-  /// - inserts or updates each [DocPostingsMapEntry] instance to the index
-  ///   [PostingsMap];
-  /// - if a [DocPostingsMapEntry] instance did not exist previously,
-  ///   increments the document frequency of the associated term;
-  /// - then:
-  /// - asynchronously updates the index [DftMap]; and
-  /// - asynchronously updates the index [PostingsMap].
+  /// Implementation of [TextIndexer.updateIndexes].
   @override
   @mustCallSuper
   Future<void> updateIndexes(PostingsMap postings,
@@ -257,8 +268,7 @@ abstract class TextIndexerMixin implements TextIndexer {
   }
 
   Future<void> _updateKeywordsIndex(KeywordPostingsMap keywordPostings) async {
-    final keyWordsToUpdate =
-        await index.getKeywordPostings(keywordPostings.keys);
+    final keyWordsToUpdate = await getKeywordPostings(keywordPostings.keys);
     for (final entry in keywordPostings.entries) {
       final keyword = entry.key;
       final scores = entry.value;
@@ -266,16 +276,16 @@ abstract class TextIndexerMixin implements TextIndexer {
       existingEntry.addAll(scores);
       keyWordsToUpdate[keyword] = existingEntry;
     }
-    await index.upsertKeywordPostings(keyWordsToUpdate);
+    await upsertKeywordPostings(keyWordsToUpdate);
   }
 
   Future<void> _updatePostings(PostingsMap event) async {
     // - maps [event] to a set of unique terms;
-    final terms = Set<Term>.from(event.keys);
+    final terms = Set<String>.from(event.keys);
     // - loads the existing [PostingsMapEntry]s for the terms from a [PostingsMap] by calling [getPostings];
-    final postingsToUpdate = await index.getPostings(terms);
+    final postingsToUpdate = await getPostings(terms);
     // - loads the existing [DftMapEntry]s for the terms from a [DftMap] by calling [getDictionary];
-    final DftMap termsToUpdate = await index.getDictionary(terms);
+    final DftMap termsToUpdate = await getDictionary(terms);
     // - iterates through the [DocPostingsMapEntry] in [event];
     for (final entry in event.entries) {
       final term = entry.key;
@@ -293,36 +303,92 @@ abstract class TextIndexerMixin implements TextIndexer {
       }
     }
     // - asynchronously updates the [DftMap] by calling [upsertDictionary];
-    await index.upsertDictionary(termsToUpdate);
+    await upsertDictionary(termsToUpdate);
     // - asynchronously updates the [PostingsMap] by calling [upsertPostings]; and
-    await index.upsertPostings(postingsToUpdate);
+    await upsertPostings(postingsToUpdate);
   }
 }
 
-/// Private implementation class returned by [TextIndexer]'s unnamed factory
-/// constructor.
-class _TextIndexerImpl extends TextIndexerBase {
-  //
+// /// Private implementation class returned by [TextIndexer]'s unnamed factory
+// /// constructor.
+// class _TextIndexerImpl extends TextIndexerBase {
+//   //
 
-  @override
-  final InvertedIndex index;
+//   final InvertedIndex index;
 
-  /// Default constructor
-  _TextIndexerImpl(this.index, {this.collectionStream, this.documentStream}) {
-    documentStream?.listen((event) => indexJson(event.key, event.value));
-    collectionStream?.listen((event) => indexCollection(event));
-  }
+//   /// Default constructor, initializes stream listeners to index documents
+//   /// as they are emitted by either or both streams.
+//   _TextIndexerImpl(this.index, {this.collectionStream, this.documentStream}) {
+//     documentStream?.listen((event) => indexJson(event.key, event.value));
+//     collectionStream?.listen((event) => indexCollection(event));
+//   }
 
-  /// An input stream of a collection of 'Map<String, dynamic>'
-  /// documents. The documents updateIndexested by [collectionStream] are
-  /// passed to [indexJson for indexing.
-  ///
-  /// The key of the MapEntry<String, Map<String, dynamic>> is the primary key
-  /// reference of the JSON documents.
-  final Stream<Map<String, Map<String, dynamic>>>? collectionStream;
+//   @override
+//   final Stream<Map<String, Map<String, dynamic>>>? collectionStream;
 
-  /// An input stream of 'Map<String, dynamic>' documents. The documents
-  /// updateIndexested by[documentStream] are passed to [indexText] for
-  /// indexing.
-  final Stream<MapEntry<String, Map<String, dynamic>>>? documentStream;
-}
+//   @override
+//   final Stream<MapEntry<String, Map<String, dynamic>>>? documentStream;
+
+//   @override
+//   TextAnalyzer get analyzer => index.analyzer;
+
+//   @override
+//   Future<int> getCollectionSize() => index.getCollectionSize();
+
+//   @override
+//   Future<DftMap> getDictionary([Iterable<String>? terms]) =>
+//       index.getDictionary(terms);
+
+//   @override
+//   Future<KGramsMap> getKGramIndex(Iterable<String> kGrams) =>
+//       index.getKGramIndex(kGrams);
+
+//   @override
+//   Future<KeywordPostingsMap> getKeywordPostings(Iterable<String> keywords) =>
+//       index.getKeywordPostings(keywords);
+
+//   @override
+//   Future<PostingsMap> getPostings(Iterable<String> terms) =>
+//       index.getPostings(terms);
+
+//   @override
+//   int get k => index.k;
+
+//   @override
+//   NGramRange? get nGramRange => index.nGramRange;
+
+//   // @override
+//   // TokenFilter? get tokenFilter => index.tokenFilter;
+
+//   @override
+//   Future<void> upsertDictionary(DftMap values) {
+//     // TODO: implement upsertDictionary
+//     throw UnimplementedError();
+//   }
+
+//   @override
+//   Future<void> upsertKGramIndex(KGramsMap values) {
+//     // TODO: implement upsertKGramIndex
+//     throw UnimplementedError();
+//   }
+
+//   @override
+//   Future<void> upsertKeywordPostings(KeywordPostingsMap values) {
+//     // TODO: implement upsertKeywordPostings
+//     throw UnimplementedError();
+//   }
+
+//   @override
+//   Future<void> upsertPostings(PostingsMap values) {
+//     // TODO: implement upsertPostings
+//     throw UnimplementedError();
+//   }
+
+//   @override
+//   // TODO: implement vocabularyLength
+//   Future<Ft> get vocabularyLength => throw UnimplementedError();
+
+//   @override
+//   // TODO: implement zones
+//   ZoneWeightMap get zones => throw UnimplementedError();
+// }

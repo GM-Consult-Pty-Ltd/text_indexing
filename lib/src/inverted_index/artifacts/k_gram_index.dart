@@ -10,7 +10,7 @@ extension KGramIndexExtension on KGramsMap {
 
   /// Returns a set of unique terms by iterating over all the [values] in the
   /// collection and adding the terms to a [Set].
-  Set<Term> get terms {
+  Set<String> get terms {
     final kGramTerms = <String>{};
     for (final terms in values) {
       kGramTerms.addAll(terms);
@@ -22,7 +22,7 @@ extension KGramIndexExtension on KGramsMap {
   /// - gets the current entry if it exists, or initializes a new entry for the
   ///   k-gram key; and
   /// - adds the [term] to the set of term references for the k-gram key.
-  void addTermKGrams(Term term, Iterable<KGram> kGrams) {
+  void addTermKGrams(String term, Iterable<String> kGrams) {
     for (final kGram in kGrams.toSet()) {
       final set = this[kGram] ?? {};
       set.add(term);

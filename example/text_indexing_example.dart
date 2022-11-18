@@ -53,24 +53,22 @@ Future<void> _inMemoryIndexerExample(Map<String, String> documents,
       zones: zones,
       k: 3);
 
-  // - initialize a TextIndexer with the index
-  final indexer = TextIndexer(index);
 
   /// - tokenize a phrase into searh terms
-  final searchTerms = (await indexer.index.analyzer
+  final searchTerms = (await index.analyzer
       .tokenizer(searchPhrase, nGramRange: NGramRange(1, 2)));
 
   // - iterate through the sample data
   await Future.forEach(documents.entries, (MapEntry<String, String> doc) async {
     // - index each document
-    await indexer.indexText(
+    await index.indexText(
       doc.key,
       doc.value,
     );
   });
 
   // print the statistics for each term in [searchTerms].
-  await _printTermStats(indexer.index, searchTerms);
+  await _printTermStats(index, searchTerms);
 }
 
 /// Print the statistics for each term in [searchTerms].
@@ -127,7 +125,7 @@ Future<void> _printTermStats(
   print(''.padLeft(85, '_'));
   print('DICTIONARY STATISTICS (search terms)');
   print(''.padLeft(85, '-'));
-  print('${'Term'.padRight(15)}'
+  print('${'String'.padRight(15)}'
       '${'Term Frequency'.toString().padLeft(20)}'
       '${'Document Frequency'.toString().padLeft(20)}'
       '${'Inverse Document Frequency'.toString().padLeft(30)}');

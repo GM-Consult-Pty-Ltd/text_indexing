@@ -17,24 +17,24 @@ import 'package:text_indexing/src/_index.dart';
 ///   concatenated from consecutive terms. The index size is increased by a
 ///   factor of [nGramRange].max.
 /// - [getDictionary] Asynchronously retrieves a [DftMap] for a collection
-///   of [Term]s from a [DftMap] repository.
+///   of terms from a [DftMap] repository.
 /// - [upsertDictionary ] inserts entries into a [DftMap] repository,
 ///   overwriting any existing entries.
 /// - [getKGramIndex] Asynchronously retrieves a [KGramsMap] for a collection
-///   of [KGram]s from a [KGramsMap] repository.
+///   of k-grams from a [KGramsMap] repository.
 /// - [upsertKGramIndex ] inserts entries into a [KGramsMap] repository,
 ///   overwriting any existing entries.
 /// - [getPostings] asynchronously retrieves [PostingsMap] for a collection
-///   of [Term]s from a [PostingsMap] repository.
+///   of terms from a [PostingsMap] repository.
 /// - [upsertPostings] inserts entries into a [PostingsMap] repository,
 ///   overwriting any existing entries.
 /// The following static methods are used to work with [PostingsMap] and
 /// [DftMap] objects.
-/// - [tfIndexFromPostings] returns a hashmap of [Term] to [Ft] for the terms
+/// - [tfIndexFromPostings] returns a hashmap of term to [Ft] for the terms
 ///   in a [PostingsMap], where [Ft] is the number of times each of the terms
 ///   occurs in the `corpus`.
 /// - [ftdPostingsFromPostings] returns a [FtdPostings] for a collection of
-///   [Term]s from a [PostingsMap], optionally filtered by minimum term
+///   terms from a [PostingsMap], optionally filtered by minimum term
 ///   frequency.
 abstract class InvertedIndex {
   //
@@ -61,7 +61,7 @@ abstract class InvertedIndex {
   factory InvertedIndex.inMemory(
           {required TextAnalyzer analyzer,
           required int collectionSize,
-          TokenFilter? tokenFilter,
+          // TokenFilter? tokenFilter,
           Map<String, int>? dictionary,
           Map<String, Map<String, Map<String, List<int>>>>? postings,
           KeywordPostingsMap? keywordPostings,
@@ -72,7 +72,7 @@ abstract class InvertedIndex {
       InMemoryIndex(
           collectionSize: collectionSize,
           analyzer: analyzer,
-          tokenFilter: tokenFilter,
+          // tokenFilter: tokenFilter,
           dictionary: dictionary,
           postings: postings,
           keywordPostings: keywordPostings,
@@ -135,7 +135,6 @@ abstract class InvertedIndex {
           keywordPostingsLoader: keywordPostingsLoader,
           keywordPostingsUpdater: keywordPostingsUpdater,
           analyzer: analyzer,
-          tokenFilter: tokenFilter,
           k: k,
           nGramRange: nGramRange,
           zones: zones);
@@ -143,10 +142,10 @@ abstract class InvertedIndex {
   /// The length of k-gram entries in the k-gram index.
   int get k;
 
-  /// A filter function that returns a subset of a collection of [Token]s.
-  ///
-  /// Used to manipulate the [analyzer]'s tokenizer output.
-  TokenFilter? get tokenFilter;
+  // /// A filter function that returns a subset of a collection of [Token]s.
+  // ///
+  // /// Used to manipulate the [analyzer]'s tokenizer output.
+  // TokenFilter? get tokenFilter;
 
   /// The minimum and maximum length of n-grams in the index.
   NGramRange? get nGramRange;
@@ -172,8 +171,8 @@ abstract class InvertedIndex {
   /// Loads the entire [DftMap] if [terms] is null.
   ///
   /// Used in `index-elimination`, to return a subset of [DftMap] where the
-  /// key ([Term]) is in [terms].
-  Future<DftMap> getDictionary([Iterable<Term>? terms]);
+  /// key (term) is in [terms].
+  Future<DftMap> getDictionary([Iterable<String>? terms]);
 
   /// Inserts [values] into a [DftMap] repository, overwriting them if they
   /// already exist.
@@ -185,8 +184,8 @@ abstract class InvertedIndex {
   /// Loads the entire [KGramsMap] if [terms] is null.
   ///
   /// Used in `index-elimination`, to return a subset of the [KGramsMap]
-  /// where the key ([KGram]) is in [kGrams].
-  Future<KGramsMap> getKGramIndex(Iterable<KGram> kGrams);
+  /// where the key (k-gram) is in [kGrams].
+  Future<KGramsMap> getKGramIndex(Iterable<String> kGrams);
 
   /// Inserts [values] into a [KGramsMap] repository, overwriting any existing
   /// entries.
@@ -196,8 +195,8 @@ abstract class InvertedIndex {
   /// [PostingsMap] repository.
   ///
   /// Used in `index-elimination`, to return a subset of the [PostingsMap]
-  /// where the key ([Term]) is in [terms].
-  Future<PostingsMap> getPostings(Iterable<Term> terms);
+  /// where the key (term) is in [terms].
+  Future<PostingsMap> getPostings(Iterable<String> terms);
 
   /// Inserts [values] into a [PostingsMap] repository, overwriting them if they
   /// already exist.
@@ -207,8 +206,8 @@ abstract class InvertedIndex {
   /// [PostingsMap] repository.
   ///
   /// Used in `index-elimination`, to return a subset of the [PostingsMap]
-  /// where the key ([Term]) is in [keywords].
-  Future<KeywordPostingsMap> getKeywordPostings(Iterable<Term> keywords);
+  /// where the key (term) is in [keywords].
+  Future<KeywordPostingsMap> getKeywordPostings(Iterable<String> keywords);
 
   /// Inserts [values] into a [PostingsMap] repository, overwriting them if they
   /// already exist.
@@ -218,7 +217,7 @@ abstract class InvertedIndex {
   /// collection.
   Future<int> getCollectionSize();
 
-  /// Returns a map of terms to hashmaps of [DocId] to [Ft].
+  /// Returns a map of terms to hashmaps of document id to [Ft].
   ///
   /// Iterates over the [postings] to map the document ids to the document term
   /// frequency for the document.
@@ -232,7 +231,7 @@ abstract class InvertedIndex {
     assert(minFtd > 0, '[minFtd] must be greater than zero.');
     final FtdPostings ftdPostings = {};
     for (final termPosting in postings.entries) {
-      final docPostings = <DocId, int>{};
+      final docPostings = <String, int>{};
       for (final docPosting in termPosting.value.entries) {
         final docId = docPosting.key;
         var ft = 0;

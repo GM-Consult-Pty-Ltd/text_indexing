@@ -50,7 +50,7 @@
 
     <section class="multi-line-signature">
         <span class="name ">PostingsMapLoader</span> =
-     <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/PostingsMap.html">PostingsMap</a></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)</span></span>
+     <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/PostingsMap.html">PostingsMap</a></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)</span></span>
 
     </section>
 
@@ -63,7 +63,8 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">typedef PostingsMapLoader = Future&lt;PostingsMap&gt; Function(Iterable&lt;Term&gt; terms);</code></pre>
+  <pre class="language-dart"><code class="language-dart">typedef PostingsMapLoader = Future&lt;PostingsMap&gt; Function(
+    Iterable&lt;String&gt; terms);</code></pre>
 </section>
 
 
@@ -93,13 +94,14 @@
 
 
   <li class="section-title"><a href="../type_definitions/type_definitions-library.html#typedefs">Typedefs</a></li>
-  <li><a href="../type_definitions/CharacterFilter.html">CharacterFilter</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/type_definitions/AsyncTermModifier.html">AsyncTermModifier</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/type_definitions/AsyncTextSplitter.html">AsyncTextSplitter</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/type_definitions/CharacterFilter.html">CharacterFilter</a></li>
   <li><a href="../type_definitions/CollectionSizeCallback.html">CollectionSizeCallback</a></li>
   <li><a href="../type_definitions/DftMap.html">DftMap</a></li>
   <li><a href="../type_definitions/DftMapEntry.html">DftMapEntry</a></li>
   <li><a href="../type_definitions/DftMapLoader.html">DftMapLoader</a></li>
   <li><a href="../type_definitions/DftMapUpdater.html">DftMapUpdater</a></li>
-  <li><a href="../type_definitions/DocId.html">DocId</a></li>
   <li><a href="../type_definitions/DocPostingsMap.html">DocPostingsMap</a></li>
   <li><a href="../type_definitions/DocPostingsMapEntry.html">DocPostingsMapEntry</a></li>
   <li><a href="../type_definitions/Ft.html">Ft</a></li>
@@ -108,38 +110,29 @@
   <li><a href="../type_definitions/IdFtIndex.html">IdFtIndex</a></li>
   <li><a href="../type_definitions/JSON.html">JSON</a></li>
   <li><a href="../type_definitions/JsonCollection.html">JsonCollection</a></li>
-  <li><a href="../type_definitions/JsonTokenizer.html">JsonTokenizer</a></li>
-  <li><a href="../type_definitions/KeywordExtractor.html">KeywordExtractor</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/type_definitions/JsonTokenizer.html">JsonTokenizer</a></li>
   <li><a href="../type_definitions/KeyWordPostings.html">KeyWordPostings</a></li>
   <li><a href="../type_definitions/KeywordPostingsMap.html">KeywordPostingsMap</a></li>
   <li><a href="../type_definitions/KeywordPostingsMapLoader.html">KeywordPostingsMapLoader</a></li>
   <li><a href="../type_definitions/KeywordPostingsMapUpdater.html">KeywordPostingsMapUpdater</a></li>
-  <li><a href="../type_definitions/KGram.html">KGram</a></li>
-  <li><a href="../type_definitions/KGramsMap.html">KGramsMap</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/type_definitions/KGramsMap.html">KGramsMap</a></li>
   <li><a href="../type_definitions/KGramsMapLoader.html">KGramsMapLoader</a></li>
   <li><a href="../type_definitions/KGramsMapUpdater.html">KGramsMapUpdater</a></li>
-  <li><a href="../type_definitions/NGrammer.html">NGrammer</a></li>
-  <li><a href="../type_definitions/ParagraphSplitter.html">ParagraphSplitter</a></li>
-  <li><a href="../type_definitions/Phrase.html">Phrase</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/type_definitions/NGrammer.html">NGrammer</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/type_definitions/PhraseSplitter.html">PhraseSplitter</a></li>
   <li><a href="../type_definitions/PostingsMap.html">PostingsMap</a></li>
   <li><a href="../type_definitions/PostingsMapEntry.html">PostingsMapEntry</a></li>
   <li><a href="../type_definitions/PostingsMapLoader.html">PostingsMapLoader</a></li>
   <li><a href="../type_definitions/PostingsMapUpdater.html">PostingsMapUpdater</a></li>
   <li><a href="../type_definitions/Pt.html">Pt</a></li>
-  <li><a href="../type_definitions/SentenceSplitter.html">SentenceSplitter</a></li>
-  <li><a href="../type_definitions/SourceText.html">SourceText</a></li>
-  <li><a href="../type_definitions/StopWords.html">StopWords</a></li>
-  <li><a href="../type_definitions/SyllableCounter.html">SyllableCounter</a></li>
-  <li><a href="../type_definitions/Term.html">Term</a></li>
-  <li><a href="../type_definitions/TermFilter.html">TermFilter</a></li>
-  <li><a href="../type_definitions/TermFlag.html">TermFlag</a></li>
-  <li><a href="../type_definitions/TermModifier.html">TermModifier</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/type_definitions/SyllableCounter.html">SyllableCounter</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/type_definitions/TermExpander.html">TermExpander</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/type_definitions/TermModifier.html">TermModifier</a></li>
   <li><a href="../type_definitions/TermPositions.html">TermPositions</a></li>
-  <li><a href="../type_definitions/TermSplitter.html">TermSplitter</a></li>
-  <li><a href="../type_definitions/TokenFilter.html">TokenFilter</a></li>
-  <li><a href="../type_definitions/Tokenizer.html">Tokenizer</a></li>
-  <li><a href="../type_definitions/VectorSpace.html">VectorSpace</a></li>
-  <li><a href="../type_definitions/Zone.html">Zone</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/type_definitions/TextSplitter.html">TextSplitter</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/type_definitions/TokenFilter.html">TokenFilter</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/type_definitions/Tokenizer.html">Tokenizer</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/type_definitions/VectorSpace.html">VectorSpace</a></li>
   <li><a href="../type_definitions/ZonePostingsMap.html">ZonePostingsMap</a></li>
   <li><a href="../type_definitions/ZonePostingsMapEntry.html">ZonePostingsMapEntry</a></li>
   <li><a href="../type_definitions/ZoneWeightMap.html">ZoneWeightMap</a></li>

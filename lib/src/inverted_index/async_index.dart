@@ -48,9 +48,6 @@ class AsyncCallbackIndex extends AsyncCallbackIndexBase {
   final TextAnalyzer analyzer;
 
   @override
-  final TokenFilter? tokenFilter;
-
-  @override
   final ZoneWeightMap zones;
 
   @override
@@ -66,8 +63,6 @@ class AsyncCallbackIndex extends AsyncCallbackIndexBase {
   /// - [collectionSizeLoader] asynchronously retrieves the number of documents
   ///   in the indexed collection;
   /// - [analyzer] is the [TextAnalyzer] used to tokenize text for the index;
-  /// - [tokenFilter] is a filter function that returns a subset of a
-  ///   collection of [Token]s.
   /// - [k] is the length of k-gram entries in the k-gram index;
   /// - [nGramRange] is the range of N-gram lengths to generate. If [nGramRange]
   ///   is null, only keyword phrases are generated.
@@ -91,7 +86,7 @@ class AsyncCallbackIndex extends AsyncCallbackIndexBase {
   ///   for a collection of keywords from a index repository; and
   /// - [keywordPostingsUpdater] passes a [KeywordPostingsMap] subset for
   ///   persisting to a index repository.
-  const AsyncCallbackIndex(
+  AsyncCallbackIndex(
       {required this.collectionSizeLoader,
       required this.dictionaryLoader,
       required this.dictionaryUpdater,
@@ -103,7 +98,6 @@ class AsyncCallbackIndex extends AsyncCallbackIndexBase {
       required this.keywordPostingsLoader,
       required this.keywordPostingsUpdater,
       required this.analyzer,
-      this.tokenFilter,
       this.k = 2,
       this.nGramRange,
       this.zones = const <String, double>{}});
@@ -113,12 +107,12 @@ class AsyncCallbackIndex extends AsyncCallbackIndexBase {
 ///
 /// Provides a const default generative constructor for sub-classes.
 abstract class AsyncCallbackIndexBase
-    with AsyncCallbackIndexMixin
+    with AsyncCallbackIndexMixin, TextIndexerMixin
     implements InvertedIndex {
   //
-
+    
   /// Const default generative constructor for sub-classes.
-  const AsyncCallbackIndexBase();
+  AsyncCallbackIndexBase();
   //
 }
 
@@ -197,28 +191,28 @@ abstract class AsyncCallbackIndexMixin implements InvertedIndex {
   Future<int> getCollectionSize() => collectionSizeLoader();
 
   @override
-  Future<DftMap> getDictionary([Iterable<Term>? terms]) =>
+  Future<DftMap> getDictionary([Iterable<String>? terms]) =>
       dictionaryLoader(terms);
 
   @override
   Future<void> upsertDictionary(DftMap values) => dictionaryUpdater(values);
 
   @override
-  Future<KGramsMap> getKGramIndex([Iterable<Term>? terms]) =>
+  Future<KGramsMap> getKGramIndex([Iterable<String>? terms]) =>
       kGramIndexLoader(terms);
 
   @override
   Future<void> upsertKGramIndex(KGramsMap values) => kGramIndexUpdater(values);
 
   @override
-  Future<PostingsMap> getPostings(Iterable<Term> terms) =>
+  Future<PostingsMap> getPostings(Iterable<String> terms) =>
       postingsLoader(terms);
 
   @override
   Future<void> upsertPostings(PostingsMap values) => postingsUpdater(values);
 
   @override
-  Future<KeywordPostingsMap> getKeywordPostings(Iterable<Term> keywords) =>
+  Future<KeywordPostingsMap> getKeywordPostings(Iterable<String> keywords) =>
       keywordPostingsLoader(keywords);
 
   @override

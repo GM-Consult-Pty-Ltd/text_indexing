@@ -156,13 +156,7 @@ If `zones` is empty, all the text fields of the collection will be indexed, whic
 
 The preferred k-gram length is `3, or a tri-gram`. This results in a good compromise between the length of the k-gram index and search efficiency.
 
-#### Tokenizing Strategy (k)
 
-`InvertedIndex.strategy` is the tokenizing strategy to use when tokenizing documents for the postings index:
-* select `TokenizingStrategy.terms` to minimize the index size;
-* select `TokenizingStrategy.nGrams` to add n-grams (phrases) in the desired [range](#n-gram-range);
-* select `TokenizingStrategy.keyWords` to add keyword phrases of unlimited length as well as n-grams;
-* select `TokenizingStrategy.all` to add terms, n-grams and keyWords;
 
 ### TextIndexer
 
@@ -173,7 +167,6 @@ Text or documents can be indexed by calling the following methods:
 * [indexJson](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer/indexJson.html) indexes the fields in a `JSON` document; and 
 * [indexCollection](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer/indexCollection.html) indexes the fields of all the documents in a JSON document collection.
 
-Use the unnamed factory constructor to instantiate a [TextIndexer](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexer-class.html) with the index of your choice, or extend [TextIndexerBase](https://pub.dev/documentation/text_indexing/latest/text_indexing/TextIndexerBase-class.html).
 
 (*[back to top](#)*)
 

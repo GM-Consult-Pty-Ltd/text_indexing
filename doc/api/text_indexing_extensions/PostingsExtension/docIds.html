@@ -53,7 +53,7 @@
 <section id="getter">
 
 <section class="multi-line-signature">
-  <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../type_definitions/DocId.html">DocId</a></span>&gt;</span></span>
+  <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>
   <span class="name ">docIds</span>
   
 
@@ -61,14 +61,14 @@
 
 
 <section class="desc markdown">
-  <p>Returns all the unique document ids (<code>DocId</code>) in the <a href="../../type_definitions/PostingsMap.html">PostingsMap</a>.</p>
+  <p>Returns all the unique document ids (document id) in the <a href="../../type_definitions/PostingsMap.html">PostingsMap</a>.</p>
 </section>
 
 
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Set&lt;DocId&gt; get docIds {
-  final Set&lt;DocId&gt; retVal = {};
+  <pre class="language-dart"><code class="language-dart">Set&lt;String&gt; get docIds {
+  final Set&lt;String&gt; retVal = {};
   for (final docPostings in values) {
     retVal.addAll(docPostings.keys);
   }

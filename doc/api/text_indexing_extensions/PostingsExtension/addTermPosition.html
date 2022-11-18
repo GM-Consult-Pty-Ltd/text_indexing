@@ -52,10 +52,10 @@
       
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>
-<span class="name ">addTermPosition</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="addTermPosition-param-term">{<span>required</span> <span class="type-annotation"><a href="../../type_definitions/Term.html">Term</a></span> <span class="parameter-name">term</span>, </span></li>
-<li><span class="parameter" id="addTermPosition-param-docId"><span>required</span> <span class="type-annotation"><a href="../../type_definitions/DocId.html">DocId</a></span> <span class="parameter-name">docId</span>, </span></li>
+<span class="name ">addTermPosition</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="addTermPosition-param-term">{<span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">term</span>, </span></li>
+<li><span class="parameter" id="addTermPosition-param-docId"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">docId</span>, </span></li>
 <li><span class="parameter" id="addTermPosition-param-position"><span>required</span> <span class="type-annotation"><a href="../../type_definitions/Pt.html">Pt</a></span> <span class="parameter-name">position</span>, </span></li>
-<li><span class="parameter" id="addTermPosition-param-zone"><span class="type-annotation"><a href="../../type_definitions/Zone.html">Zone</a>?</span> <span class="parameter-name">zone</span>}</span></li>
+<li><span class="parameter" id="addTermPosition-param-zone"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">zone</span>}</span></li>
 </ol>)
 
       
@@ -85,10 +85,10 @@ in the list.</p>
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">bool addTermPosition(
-    {required Term term,
-    required DocId docId,
+    {required String term,
+    required String docId,
     required Pt position,
-    Zone? zone}) {
+    String? zone}) {
   &#47;&#47;
   zone = zone ?? &#39;null&#39;;
   &#47;&#47; get the entry for the term or initialize a new one if it does not exist

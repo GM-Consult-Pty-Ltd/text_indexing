@@ -54,7 +54,7 @@
 <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
 <span class="name ">updateIndexes</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="updateIndexes-param-postings"><span class="type-annotation"><a href="../../type_definitions/PostingsMap.html">PostingsMap</a></span> <span class="parameter-name">postings</span>, </span></li>
 <li><span class="parameter" id="updateIndexes-param-keywordPostings"><span class="type-annotation"><a href="../../type_definitions/KeywordPostingsMap.html">KeywordPostingsMap</a></span> <span class="parameter-name">keywordPostings</span>, </span></li>
-<li><span class="parameter" id="updateIndexes-param-tokens"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_indexing/Token-class.html">Token</a></span>&gt;</span></span> <span class="parameter-name">tokens</span></span></li>
+<li><span class="parameter" id="updateIndexes-param-tokens"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/text_analysis/Token-class.html">Token</a></span>&gt;</span></span> <span class="parameter-name">tokens</span></span></li>
 </ol>)
 
       
@@ -62,9 +62,8 @@
     </section>
     
 <section class="desc markdown">
-  <p>The <a href="../../text_indexing/TextIndexer/updateIndexes.html">updateIndexes</a> method is called by <a href="../../text_indexing/TextIndexer/index.html">index</a> and updates the
-<a href="../../type_definitions/DftMap.html">DftMap</a>, <a href="../../type_definitions/PostingsMap.html">PostingsMap</a>, <a href="../../type_definitions/KeywordPostingsMap.html">KeywordPostingsMap</a> and <a href="../../type_definitions/KGramsMap.html">KGramsMap</a> for this
-indexer.</p>
+  <p>The <a href="../../text_indexing/TextIndexer/updateIndexes.html">updateIndexes</a> method updates the <a href="../../type_definitions/DftMap.html">DftMap</a>, <a href="../../type_definitions/PostingsMap.html">PostingsMap</a>, 
+<a href="../../type_definitions/KeywordPostingsMap.html">KeywordPostingsMap</a> and <a href="https://pub.dev/documentation/text_analysis/0.24.0-2/type_definitions/KGramsMap.html">KGramsMap</a>.</p>
 <p>Sub-classes override <a href="../../text_indexing/TextIndexer/updateIndexes.html">updateIndexes</a> to perform additional actions whenever a
 document is indexed.</p>
 </section>
@@ -100,24 +99,39 @@ document is indexed.</p>
 
         <li class="section-title"><a href="../../text_indexing/TextIndexer-class.html#constructors">Constructors</a></li>
           <li><a href="../../text_indexing/TextIndexer/TextIndexer.html">TextIndexer</a></li>
-          <li><a href="../../text_indexing/TextIndexer/TextIndexer.collectionStream.html">collectionStream</a></li>
-          <li><a href="../../text_indexing/TextIndexer/TextIndexer.stream.html">stream</a></li>
 
 
-    <li class="section-title">
+    <li class="section-title inherited">
       <a href="../../text_indexing/TextIndexer-class.html#instance-properties">Properties</a>
     </li>
+    <li class="inherited"><a href="../../text_indexing/InvertedIndex/analyzer.html">analyzer</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
-    <li><a href="../../text_indexing/TextIndexer/index.html">index</a></li>
+    <li class="inherited"><a href="../../text_indexing/InvertedIndex/k.html">k</a></li>
+    <li class="inherited"><a href="../../text_indexing/InvertedIndex/nGramRange.html">nGramRange</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
+    <li class="inherited"><a href="../../text_indexing/InvertedIndex/vocabularyLength.html">vocabularyLength</a></li>
+    <li class="inherited"><a href="../../text_indexing/InvertedIndex/zones.html">zones</a></li>
 
     <li class="section-title"><a href="../../text_indexing/TextIndexer-class.html#instance-methods">Methods</a></li>
+    <li><a href="../../text_indexing/TextIndexer/dispose.html">dispose</a></li>
+    <li class="inherited"><a href="../../text_indexing/InvertedIndex/getCollectionSize.html">getCollectionSize</a></li>
+    <li class="inherited"><a href="../../text_indexing/InvertedIndex/getDictionary.html">getDictionary</a></li>
+    <li class="inherited"><a href="../../text_indexing/InvertedIndex/getKeywordPostings.html">getKeywordPostings</a></li>
+    <li class="inherited"><a href="../../text_indexing/InvertedIndex/getKGramIndex.html">getKGramIndex</a></li>
+    <li class="inherited"><a href="../../text_indexing/InvertedIndex/getPostings.html">getPostings</a></li>
     <li><a href="../../text_indexing/TextIndexer/indexCollection.html">indexCollection</a></li>
+    <li><a href="../../text_indexing/TextIndexer/indexCollectionStream.html">indexCollectionStream</a></li>
+    <li><a href="../../text_indexing/TextIndexer/indexDocumentStream.html">indexDocumentStream</a></li>
     <li><a href="../../text_indexing/TextIndexer/indexJson.html">indexJson</a></li>
     <li><a href="../../text_indexing/TextIndexer/indexText.html">indexText</a></li>
+    <li><a href="../../text_indexing/TextIndexer/indexTokens.html">indexTokens</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
     <li><a href="../../text_indexing/TextIndexer/updateIndexes.html">updateIndexes</a></li>
+    <li class="inherited"><a href="../../text_indexing/InvertedIndex/upsertDictionary.html">upsertDictionary</a></li>
+    <li class="inherited"><a href="../../text_indexing/InvertedIndex/upsertKeywordPostings.html">upsertKeywordPostings</a></li>
+    <li class="inherited"><a href="../../text_indexing/InvertedIndex/upsertKGramIndex.html">upsertKGramIndex</a></li>
+    <li class="inherited"><a href="../../text_indexing/InvertedIndex/upsertPostings.html">upsertPostings</a></li>
 
     <li class="section-title inherited"><a href="../../text_indexing/TextIndexer-class.html#operators">Operators</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/operator_equals.html">operator ==</a></li>

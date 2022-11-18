@@ -52,9 +52,9 @@
       
 
 <span class="returntype"><a href="../../type_definitions/PostingsMap.html">PostingsMap</a></span>
-<span class="name ">filter</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="filter-param-terms">{<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../type_definitions/Term.html">Term</a></span>&gt;</span>?</span> <span class="parameter-name">terms</span>, </span></li>
-<li><span class="parameter" id="filter-param-docIds"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../type_definitions/DocId.html">DocId</a></span>&gt;</span>?</span> <span class="parameter-name">docIds</span>, </span></li>
-<li><span class="parameter" id="filter-param-fields"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../type_definitions/Zone.html">Zone</a></span>&gt;</span>?</span> <span class="parameter-name">fields</span>}</span></li>
+<span class="name ">filter</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="filter-param-terms">{<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span>?</span> <span class="parameter-name">terms</span>, </span></li>
+<li><span class="parameter" id="filter-param-docIds"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span>?</span> <span class="parameter-name">docIds</span>, </span></li>
+<li><span class="parameter" id="filter-param-fields"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span>?</span> <span class="parameter-name">fields</span>}</span></li>
 </ol>)
 
       
@@ -76,9 +76,9 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">PostingsMap filter(
-    {Iterable&lt;Term&gt;? terms,
-    Iterable&lt;DocId&gt;? docIds,
-    Iterable&lt;Zone&gt;? fields}) {
+    {Iterable&lt;String&gt;? terms,
+    Iterable&lt;String&gt;? docIds,
+    Iterable&lt;String&gt;? fields}) {
   PostingsMap retVal =
       terms != null ? getPostings(terms) : PostingsMap.from(this);
   retVal = docIds != null ? retVal.documentPostings(docIds) : retVal;

@@ -11,7 +11,6 @@ import 'package:text_indexing/src/_index.dart';
 /// in-memory dictionary, k-gram and postings hashmaps.
 class InMemoryIndex extends InMemoryIndexBase {
   //
-
   @override
   final int collectionSize;
 
@@ -37,16 +36,11 @@ class InMemoryIndex extends InMemoryIndexBase {
   final TextAnalyzer analyzer;
 
   @override
-  final TokenFilter? tokenFilter;
-
-  @override
   final ZoneWeightMap zones;
 
   /// Instantiates a [InMemoryIndex] instance.
   /// - [analyzer] is the [TextAnalyzer] used to tokenize text for the index;
   /// - [collectionSize] is the size of the indexed collection.
-  /// - [tokenFilter] is a filter function that returns a subset of a
-  ///   collection of [Token]s.
   /// - [k] is the length of k-gram entries in the k-gram index.
   /// - [nGramRange] is the range of N-gram lengths to generate. If [nGramRange]
   ///   is null, only keyword phrases are generated.
@@ -67,7 +61,6 @@ class InMemoryIndex extends InMemoryIndexBase {
   InMemoryIndex(
       {required this.analyzer,
       required this.collectionSize,
-      this.tokenFilter,
       DftMap? dictionary,
       PostingsMap? postings,
       KeywordPostingsMap? keywordPostings,
@@ -81,6 +74,7 @@ class InMemoryIndex extends InMemoryIndexBase {
     this.kGramIndex = kGramIndex ?? {};
   }
 
+
   //
 }
 
@@ -88,12 +82,15 @@ class InMemoryIndex extends InMemoryIndexBase {
 ///
 /// Provides a const default generative constructor for sub-classes.
 abstract class InMemoryIndexBase
-    with InMemoryIndexMixin
+    with InMemoryIndexMixin, TextIndexerMixin
     implements InvertedIndex {
   //
 
+  // @override
+  // InvertedIndex get index => this;
+
   /// Const default generative constructor for sub-classes.
-  const InMemoryIndexBase();
+  InMemoryIndexBase();
 
   //
 }
@@ -105,11 +102,11 @@ abstract class InMemoryIndexBase
 /// [keywordPostings] and [dictionary] maps:
 /// - [vocabularyLength] returns the number of entries in the in-memory
 ///   [dictionary].
-/// - [getDictionary] retrieves a [DftMap] for a collection of [Term]s from
+/// - [getDictionary] retrieves a [DftMap] for a collection of terms from
 ///   the in-memory [dictionary] hashmap;
 /// - [upsertDictionary ] inserts entries into the in-memory [dictionary] hashmap,
 ///   overwriting any existing entries;
-/// - [getPostings] retrieves [PostingsMap] for a collection of [Term]s from the
+/// - [getPostings] retrieves [PostingsMap] for a collection of terms from the
 ///   in-memory [postings] hashmap;
 /// - [upsertPostings] inserts entries into the in-memory [postings] hashmap,
 ///   overwriting any existing entries;
@@ -117,7 +114,7 @@ abstract class InMemoryIndexBase
 ///   keywords from the in-memory [keywordPostings] hashmap;
 /// - [upsertKeywordPostings] inserts entries into the in-memory
 ///   [keywordPostings] hashmap, overwriting any existing entries;
-/// - [getKGramIndex] retrieves entries for a collection of [Term]s from the
+/// - [getKGramIndex] retrieves entries for a collection of terms from the
 ///   in-memory [kGramIndex] hashmap; and
 /// - [upsertKGramIndex] inserts entries into the in-memory [kGramIndex] hashmap,
 ///   overwriting any existing entries.
@@ -146,7 +143,8 @@ abstract class InMemoryIndexMixin implements InvertedIndex {
   Future<Ft> get vocabularyLength async => dictionary.length;
 
   @override
-  Future<KeywordPostingsMap> getKeywordPostings(Iterable<Term> keywords) async {
+  Future<KeywordPostingsMap> getKeywordPostings(
+      Iterable<String> keywords) async {
     final KeywordPostingsMap retVal = {};
     for (final e in keywords) {
       final entry = keywordPostings[e];
@@ -163,7 +161,7 @@ abstract class InMemoryIndexMixin implements InvertedIndex {
   }
 
   @override
-  Future<PostingsMap> getPostings(Iterable<Term> terms) async {
+  Future<PostingsMap> getPostings(Iterable<String> terms) async {
     final PostingsMap retVal = {};
     for (final term in terms) {
       final entry = postings[term];
@@ -175,7 +173,7 @@ abstract class InMemoryIndexMixin implements InvertedIndex {
   }
 
   @override
-  Future<DftMap> getDictionary([Iterable<Term>? terms]) async {
+  Future<DftMap> getDictionary([Iterable<String>? terms]) async {
     if (terms == null) return dictionary;
     final DftMap retVal = {};
     for (final term in terms) {
@@ -196,7 +194,7 @@ abstract class InMemoryIndexMixin implements InvertedIndex {
       postings.addAll(values);
 
   @override
-  Future<KGramsMap> getKGramIndex(Iterable<KGram> kGrams) async {
+  Future<KGramsMap> getKGramIndex(Iterable<String> kGrams) async {
     final KGramsMap retVal = {};
     for (final kGram in kGrams) {
       final entry = kGramIndex[kGram];

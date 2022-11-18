@@ -15,7 +15,7 @@ extension KeywordPostingsEntryExtension
   /// Returns [key], the indexed [String].
   String get keyword => key;
 
-  /// Returns [value], a hashmap of the [DocId] to keyword score.
+  /// Returns [value], a hashmap of the document id to keyword score.
   Map<String, double> get postings => value;
 }
 
@@ -30,7 +30,7 @@ extension KeywordDocumentPostingsEntryExtension on MapEntry<String, double> {
   /// The document's id value.
   ///
   /// Usually the value of the document's primary key zone in the dataset.
-  DocId get docId => key;
+  String get docId => key;
 
   /// A hashmap of zone names that contain the keyword to the a zero-based,
   /// ordered list of unique word positions of the [String] in the zone.
@@ -44,9 +44,9 @@ extension KeywordDocumentPostingsEntryExtension on MapEntry<String, double> {
 extension KeywordPostingsExtension on KeywordPostingsMap {
   //
 
-  /// Returns a [Set] of [DocId] of those documents that contain all the
+  /// Returns a [Set] of dStringnt id of those documents that contain all the
   /// [keywords].
-  Set<DocId> containsAll(Iterable<String> keywords) {
+  Set<String> containsAll(Iterable<String> keywords) {
     final byTerm = getKeywordsPostings(keywords);
     Set<String> intersection = byTerm.docIds;
     for (final docPostings in byTerm.values) {
@@ -55,15 +55,15 @@ extension KeywordPostingsExtension on KeywordPostingsMap {
     return intersection;
   }
 
-  /// Returns a [Set] of [DocId] of those documents that contain any of
+  /// Returns a [Set] of dStringnt id of those documents that contain any of
   /// the [keywords]. Used for `index-elimination` as a fist pass in scoring and
   /// ranking of search results.
-  Set<DocId> containsAny(Iterable<String> keywords) =>
+  Set<String> containsAny(Iterable<String> keywords) =>
       getKeywordsPostings(keywords).docIds;
 
-  /// Returns all the unique document ids ([DocId]) in the [KeywordPostingsMap].
-  Set<DocId> get docIds {
-    final Set<DocId> retVal = {};
+  /// Returns all the unique document ids (dStringnt id) in the [KeywordPostingsMap].
+  Set<String> get docIds {
+    final Set<String> retVal = {};
     for (final docPostings in values) {
       retVal.addAll(docPostings.keys);
     }
@@ -76,7 +76,7 @@ extension KeywordPostingsExtension on KeywordPostingsMap {
   /// - [getKeywordsPostings] if [keywords] is not null; then
   /// - [documentPostings], if [docIds] is not null
   KeywordPostingsMap filter(
-      {Iterable<String>? keywords, Iterable<DocId>? docIds}) {
+      {Iterable<String>? keywords, Iterable<String>? docIds}) {
     KeywordPostingsMap retVal = keywords != null
         ? getKeywordsPostings(keywords)
         : KeywordPostingsMap.from(this);
@@ -104,7 +104,7 @@ extension KeywordPostingsExtension on KeywordPostingsMap {
   ///
   /// Returns a subset of the [KeywordPostingsMap] instance that only contains entries
   /// where a document id in [docIds] has a key in the entry's postings lists.
-  KeywordPostingsMap documentPostings(Iterable<DocId> docIds) =>
+  KeywordPostingsMap documentPostings(Iterable<String> docIds) =>
       KeywordPostingsMap.from(this)
         ..removeWhere((key, value) =>
             value.keys.toSet().intersection(docIds.toSet()).isEmpty);
@@ -155,7 +155,7 @@ extension KeywordPostingsExtension on KeywordPostingsMap {
   ///
   /// If no entry for [keyword] exists in the [KeywordPostingsMap], creates a
   /// new entry and adds [score] for [docId] to the new entry.
-  bool addDocKeywordScore(String keyword, DocId docId, double score) {
+  bool addDocKeywordScore(String keyword, String docId, double score) {
     //
     // get the entry for the keyword or initialize a new one if it does not exist
     final Map<String, double> entry = this[keyword] ?? {};

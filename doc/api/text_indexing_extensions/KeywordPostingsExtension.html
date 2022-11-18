@@ -71,11 +71,11 @@
         <dl class="properties">
             <dt id="docIds" class="property">
   <span class="name"><a href="../text_indexing_extensions/KeywordPostingsExtension/docIds.html">docIds</a></span>
-  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/DocId.html">DocId</a></span>&gt;</span></span> 
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> 
 
 </dt>
 <dd>
-  Returns all the unique document ids (<code>DocId</code>) in the <a href="../type_definitions/KeywordPostingsMap.html">KeywordPostingsMap</a>.
+  Returns all the unique document ids (dStringnt id) in the <a href="../type_definitions/KeywordPostingsMap.html">KeywordPostingsMap</a>.
   <div class="features">read-only</div>
 
 </dd>
@@ -102,7 +102,7 @@ sorted alphabetically.
     <h2>Methods</h2>
     <dl class="callables">
         <dt id="addDocKeywordScore" class="callable">
-  <span class="name"><a href="../text_indexing_extensions/KeywordPostingsExtension/addDocKeywordScore.html">addDocKeywordScore</a></span><span class="signature">(<wbr><span class="parameter" id="addDocKeywordScore-param-keyword"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">keyword</span>, </span><span class="parameter" id="addDocKeywordScore-param-docId"><span class="type-annotation"><a href="../type_definitions/DocId.html">DocId</a></span> <span class="parameter-name">docId</span>, </span><span class="parameter" id="addDocKeywordScore-param-score"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> <span class="parameter-name">score</span></span>)
+  <span class="name"><a href="../text_indexing_extensions/KeywordPostingsExtension/addDocKeywordScore.html">addDocKeywordScore</a></span><span class="signature">(<wbr><span class="parameter" id="addDocKeywordScore-param-keyword"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">keyword</span>, </span><span class="parameter" id="addDocKeywordScore-param-docId"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">docId</span>, </span><span class="parameter" id="addDocKeywordScore-param-score"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> <span class="parameter-name">score</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>
   </span>
   
@@ -117,13 +117,13 @@ sorted alphabetically.
 
         <dt id="containsAll" class="callable">
   <span class="name"><a href="../text_indexing_extensions/KeywordPostingsExtension/containsAll.html">containsAll</a></span><span class="signature">(<wbr><span class="parameter" id="containsAll-param-keywords"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">keywords</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/DocId.html">DocId</a></span>&gt;</span></span>
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>
   </span>
   
 
 </dt>
 <dd>
-  Returns a <a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a> of <code>DocId</code> of those documents that contain all the
+  Returns a <a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a> of dStringnt id of those documents that contain all the
 <code>keywords</code>.
   
 
@@ -131,13 +131,13 @@ sorted alphabetically.
 
         <dt id="containsAny" class="callable">
   <span class="name"><a href="../text_indexing_extensions/KeywordPostingsExtension/containsAny.html">containsAny</a></span><span class="signature">(<wbr><span class="parameter" id="containsAny-param-keywords"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">keywords</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/DocId.html">DocId</a></span>&gt;</span></span>
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>
   </span>
   
 
 </dt>
 <dd>
-  Returns a <a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a> of <code>DocId</code> of those documents that contain any of
+  Returns a <a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a> of dStringnt id of those documents that contain any of
 the <code>keywords</code>. Used for <code>index-elimination</code> as a fist pass in scoring and
 ranking of search results.
   
@@ -145,7 +145,7 @@ ranking of search results.
 </dd>
 
         <dt id="documentPostings" class="callable">
-  <span class="name"><a href="../text_indexing_extensions/KeywordPostingsExtension/documentPostings.html">documentPostings</a></span><span class="signature">(<wbr><span class="parameter" id="documentPostings-param-docIds"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/DocId.html">DocId</a></span>&gt;</span></span> <span class="parameter-name">docIds</span></span>)
+  <span class="name"><a href="../text_indexing_extensions/KeywordPostingsExtension/documentPostings.html">documentPostings</a></span><span class="signature">(<wbr><span class="parameter" id="documentPostings-param-docIds"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">docIds</span></span>)
     <span class="returntype parameter">&#8594; <a href="../type_definitions/KeywordPostingsMap.html">KeywordPostingsMap</a></span>
   </span>
   
@@ -158,7 +158,7 @@ ranking of search results.
 </dd>
 
         <dt id="filter" class="callable">
-  <span class="name"><a href="../text_indexing_extensions/KeywordPostingsExtension/filter.html">filter</a></span><span class="signature">(<wbr><span class="parameter" id="filter-param-keywords">{<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span>?</span> <span class="parameter-name">keywords</span>, </span><span class="parameter" id="filter-param-docIds"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/DocId.html">DocId</a></span>&gt;</span>?</span> <span class="parameter-name">docIds</span>}</span>)
+  <span class="name"><a href="../text_indexing_extensions/KeywordPostingsExtension/filter.html">filter</a></span><span class="signature">(<wbr><span class="parameter" id="filter-param-keywords">{<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span>?</span> <span class="parameter-name">keywords</span>, </span><span class="parameter" id="filter-param-docIds"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span>?</span> <span class="parameter-name">docIds</span>}</span>)
     <span class="returntype parameter">&#8594; <a href="../type_definitions/KeywordPostingsMap.html">KeywordPostingsMap</a></span>
   </span>
   
@@ -248,20 +248,20 @@ from the <a href="../type_definitions/KeywordPostingsMap.html">KeywordPostingsMa
   <li><a href="../text_indexing_extensions/KeywordDocumentPostingsEntryExtension.html">KeywordDocumentPostingsEntryExtension</a></li>
   <li><a href="../text_indexing_extensions/KeywordPostingsEntryExtension.html">KeywordPostingsEntryExtension</a></li>
   <li><a href="../text_indexing_extensions/KeywordPostingsExtension.html">KeywordPostingsExtension</a></li>
-  <li><a href="../text_indexing_extensions/KGramExtensionOnTermCollection.html">KGramExtensionOnTermCollection</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/extensions/KGramExtensionOnTermCollection.html">KGramExtensionOnTermCollection</a></li>
   <li><a href="../text_indexing_extensions/KGramIndexExtension.html">KGramIndexExtension</a></li>
   <li><a href="https://pub.dev/documentation/porter_2_stemmer/3.0.2/porter_2_stemmer/Porter2StemmerExtension.html">Porter2StemmerExtension</a></li>
   <li><a href="../text_indexing_extensions/PostingsEntryExtension.html">PostingsEntryExtension</a></li>
   <li><a href="../text_indexing_extensions/PostingsExtension.html">PostingsExtension</a></li>
-  <li><a href="../text_indexing_extensions/SimilarityIndexCollectionExtension.html">SimilarityIndexCollectionExtension</a></li>
-  <li><a href="../text_indexing_extensions/StringCollectionCollectionExtension.html">StringCollectionCollectionExtension</a></li>
-  <li><a href="../text_indexing_extensions/TermSimilarityCollectionExtension.html">TermSimilarityCollectionExtension</a></li>
-  <li><a href="../text_indexing_extensions/TermSimilarityExtensions.html">TermSimilarityExtensions</a></li>
-  <li><a href="../text_indexing_extensions/TextAnalysisExtensionsOnJSON.html">TextAnalysisExtensionsOnJSON</a></li>
-  <li><a href="../text_indexing_extensions/TextAnalysisExtensionsOnString.html">TextAnalysisExtensionsOnString</a></li>
-  <li><a href="../text_indexing_extensions/TextAnalysisExtensionsOnStringList.html">TextAnalysisExtensionsOnStringList</a></li>
-  <li><a href="../text_indexing_extensions/TokenCollectionExtension.html">TokenCollectionExtension</a></li>
-  <li><a href="../text_indexing_extensions/VectorSpaceMapExtensions.html">VectorSpaceMapExtensions</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/extensions/SimilarityIndexCollectionExtension.html">SimilarityIndexCollectionExtension</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/extensions/StringCollectionCollectionExtension.html">StringCollectionCollectionExtension</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/extensions/TermSimilarityCollectionExtension.html">TermSimilarityCollectionExtension</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/extensions/TermSimilarityExtensions.html">TermSimilarityExtensions</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/extensions/TextAnalysisExtensionsOnJSON.html">TextAnalysisExtensionsOnJSON</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/extensions/TextAnalysisExtensionsOnString.html">TextAnalysisExtensionsOnString</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/extensions/TextAnalysisExtensionsOnStringList.html">TextAnalysisExtensionsOnStringList</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/extensions/TokenCollectionExtension.html">TokenCollectionExtension</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/extensions/VectorSpaceMapExtensions.html">VectorSpaceMapExtensions</a></li>
 
 
 

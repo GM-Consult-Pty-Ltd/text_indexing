@@ -8,4 +8,3 @@ export 'artifacts/_index.dart';
 export 'async_index.dart';
 export 'in_memory_index.dart';
 export 'inverted_index.dart';
-export 'term_sort_strategy.dart';

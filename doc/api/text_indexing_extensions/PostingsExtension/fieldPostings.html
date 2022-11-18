@@ -52,7 +52,7 @@
       
 
 <span class="returntype"><a href="../../type_definitions/PostingsMap.html">PostingsMap</a></span>
-<span class="name ">fieldPostings</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="fieldPostings-param-fields"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../type_definitions/Zone.html">Zone</a></span>&gt;</span></span> <span class="parameter-name">fields</span></span></li>
+<span class="name ">fieldPostings</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="fieldPostings-param-fields"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">fields</span></span></li>
 </ol>)
 
       
@@ -70,9 +70,9 @@ entry's postings lists.</p>
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">PostingsMap fieldPostings(Iterable&lt;Zone&gt; fields) =&gt; PostingsMap.from(this)
+  <pre class="language-dart"><code class="language-dart">PostingsMap fieldPostings(Iterable&lt;String&gt; fields) =&gt; PostingsMap.from(this)
   ..removeWhere((key, value) {
-    final docFields = &lt;Zone&gt;[];
+    final docFields = &lt;String&gt;[];
     for (final doc in value.values) {
       docFields.addAll(doc.keys);
     }

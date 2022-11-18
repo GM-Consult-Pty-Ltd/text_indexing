@@ -11,13 +11,24 @@ All rights reserved.
 **BREAKING CHANGES**
 
 ### *Breaking changes*
+This is a major re-work of the library with a significant simplification of the interfaces:
 * Interface `TextTokenizer` removed. Use `TextAnalyzer.tokenize` and `TextAnalyzer.tokenizeJson` in stead.
 * Mixin `InvertedIndexMixin` removed.
 * Instance method `InvertedIndex.getFtdPostings` removed, use static method `InvertedIndex.ftdPostingsFromPostings` in stead.
 * Instance method `InvertedIndex.getIdFtIndex` removed, use static method `InvertedIndex.idFtIndexFromDictionary` in stead.
 * Instance method `InvertedIndex.getTfIndex` removed, use static method `InvertedIndex.tfIndexFromPostings` in stead.
 * Instance method `InvertedIndex.` removed, use static method `InvertedIndex.` in stead.
-
+* Extension methods `Iterable<DftMapEntry>.sort` and `Iterable<DftMapEntry>.toList` removed.
+* Property `InvertedIndex.tokenFilter` removed.
+* Class `TextIndexerBase` removed.
+* Interface method `TextIndexer.indexDocumentStream` added and implemented in `TextIndexerMixin`.
+* Interface method `TextIndexer.indexCollectionStream` added and implemented in `TextIndexerMixin`.
+* Factories `TextIndexer`, `TextIndexer.stream` and `TextIndexer.collectionStream` removed.
+* Signatures changed of interface methods `TextIndexer.indexText`, `TextIndexer.indexJson` and `TextIndexer.indexCollection`.
+* Interface method `TextIndexer.dispose()` added.
+* Enum `TermSortStrategy` removed.
+* Enum `TokenizingStrategy` removed.
+* Interface `TextIndexer` implemented in `InvertedIndex`.
 
 ### *Updated*
 * Dependencies.

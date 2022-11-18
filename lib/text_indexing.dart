@@ -11,6 +11,5 @@ export 'src/inverted_index/in_memory_index.dart'
     show InMemoryIndex, InMemoryIndexMixin;
 export 'src/inverted_index/async_index.dart'
     show AsyncCallbackIndex, AsyncCallbackIndexMixin;
-export 'src/inverted_index/term_sort_strategy.dart' show TermSortStrategy;
-export 'src/text_indexer/text_indexer.dart' show TextIndexer, TextIndexerBase;
+export 'src/text_indexer/text_indexer.dart' show TextIndexer, TextIndexerMixin;
 export 'package:text_analysis/text_analysis.dart';

@@ -51,8 +51,8 @@ void main() {
           //
           );
 
-      final searchTokens = (await index.analyzer.tokenizer(phrase,
-          nGramRange: index.nGramRange));
+      final searchTokens = (await index.analyzer
+          .tokenizer(phrase, nGramRange: index.nGramRange));
 
       final terms = searchTokens.terms;
 
@@ -61,7 +61,7 @@ void main() {
       }
 
       for (final key in index.dictionary.keys) {
-        print('Term: $key');
+        print('String: $key');
       }
 
       final kGrams = terms.toKGramsMap().keys;
@@ -121,8 +121,6 @@ void main() {
           nGramRange: NGramRange(1, 2),
           k: 3);
 
-      // - initialize a [InMemoryIndexer] with the default tokenizer
-      final indexer = TextIndexer(index);
 
       final searchTokens = (await index.analyzer.tokenizer(searchPrase));
 
@@ -132,7 +130,7 @@ void main() {
       _progressReporter(() => dictionary.length, () => kGramIndex.length);
 
       // - iterate through the sample data
-      await indexer.indexCollection(collection);
+      await index.indexCollection(collection);
 
       // get the end time in milliseconds
       final end = DateTime.now().millisecondsSinceEpoch;
@@ -250,7 +248,8 @@ Future<void> _printTermFrequencyPostings(
 
   for (final e in tfPostings.entries) {
     for (final posting in e.value.entries) {
-      results.add({'Term': e.key, 'DocId': posting.key, ' dFt': posting.value});
+      results
+          .add({'Term': e.key, 'Doc ID': posting.key, ' dFt': posting.value});
     }
   }
 
@@ -302,8 +301,8 @@ Future<void> _printTermStats(
     final tf = tFtIndex[term] ?? 0;
 
     results.add({
-      'Term': term,
-      'Term Frequency': tf,
+      'String': term,
+      'String Frequency': tf,
       'Document Frequency': df,
       'Inverse Document Frequency': idf
     });
@@ -343,18 +342,15 @@ Future<void> saveKgramIndex(KGramsMap value,
 }
 
 Future<InMemoryIndex> _getIndex(JsonCollection documents,
-    {Map<String, double> zones = const {
-      'name': 1,
-      'descriptions': 0.5
-    },
+    {Map<String, double> zones = const {'name': 1, 'descriptions': 0.5},
     NGramRange? nGramRange}) async {
   final index = InMemoryIndex(
       analyzer: English.analyzer,
       collectionSize: documents.length,
       nGramRange: nGramRange,
       zones: zones);
-  final indexer = TextIndexer(index);
-  await indexer.indexCollection(documents);
+  // final indexer = TextIndexer(index);
+  await index.indexCollection(documents);
   // await saveKgramIndex(index.kGramIndex);
   return index;
 }

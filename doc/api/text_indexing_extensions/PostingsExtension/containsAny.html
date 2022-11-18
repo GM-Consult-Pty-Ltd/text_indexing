@@ -51,8 +51,8 @@
     <section class="multi-line-signature">
       
 
-<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../type_definitions/DocId.html">DocId</a></span>&gt;</span></span>
-<span class="name ">containsAny</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="containsAny-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span></li>
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>
+<span class="name ">containsAny</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="containsAny-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span></li>
 </ol>)
 
       
@@ -60,7 +60,7 @@
     </section>
     
 <section class="desc markdown">
-  <p>Returns a <a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a> of <code>DocId</code> of those documents that contain any of
+  <p>Returns a <a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a> of document id of those documents that contain any of
 the <code>terms</code>. Used for <code>index-elimination</code> as a fist pass in scoring and
 ranking of search results.</p>
 </section>
@@ -69,7 +69,7 @@ ranking of search results.</p>
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Set&lt;DocId&gt; containsAny(Iterable&lt;Term&gt; terms) =&gt; getPostings(terms).docIds;</code></pre>
+  <pre class="language-dart"><code class="language-dart">Set&lt;String&gt; containsAny(Iterable&lt;String&gt; terms) =&gt; getPostings(terms).docIds;</code></pre>
 </section>
 
 
