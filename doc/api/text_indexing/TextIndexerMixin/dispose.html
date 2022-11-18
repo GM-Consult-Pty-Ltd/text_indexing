@@ -52,6 +52,7 @@
       
 <div>
   <ol class="annotation-list">
+    <li>@<a href="https://pub.dev/documentation/meta/1.8.0/meta/mustCallSuper-constant.html">mustCallSuper</a></li>
     <li>@<a href="https://api.flutter.dev/flutter/dart-core/override-constant.html">override</a></li>
   </ol>
 </div>
@@ -59,7 +60,7 @@
 <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
 <span class="name ">dispose</span>(<wbr>)
 
-      <div class="features">override</div>
+      <div class="features">@<a href="https://pub.dev/documentation/meta/1.8.0/meta/mustCallSuper-constant.html">mustCallSuper</a>, override</div>
 
     </section>
     
@@ -71,7 +72,8 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">@override
+  <pre class="language-dart"><code class="language-dart">@mustCallSuper
+@override
 Future&lt;void&gt; dispose() async {
   await _jsonCollectionListener?.cancel();
   await _jsonDocumentListener?.cancel();
@@ -153,7 +155,7 @@ Future&lt;void&gt; dispose() async {
 <footer>
   <span class="no-break">
     text_indexing
-      0.23.0-2
+      0.23.0-3
   </span>
 
   

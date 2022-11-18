@@ -6,8 +6,22 @@ All rights reserved.
 
 *THIS PACKAGE IS **PRE-RELEASE** AND SUBJECT TO DAILY BREAKING CHANGES.*
 
-## 0.23.0-2
+## 0.23.0-3
+**BREAKING CHANGES**
 
+### *Breaking changes*
+* Changed signature of `TextIndexer.indexText`.
+* Changed signature of `TextIndexer.indexDocumentStream`.
+* Changed signature of `TextIndexer.indexJson`.
+* Changed signature of `TextIndexer.indexCollectionStream`.
+
+### *Updated*
+* Dependencies.
+* Tests.
+* Documentation
+* Examples.
+
+## 0.23.0-2
 
 ### *New*
 * Added `InMemoryIndexBase` and `AsyncCallbackIndexBase` to `text_indexing` library exports.

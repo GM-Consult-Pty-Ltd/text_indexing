@@ -11,21 +11,18 @@ import 'package:text_indexing/src/_index.dart';
 ///
 /// Text or documents can be indexed by calling the following methods:
 /// - [TextIndexer.indexJson] indexes the fields in a `Map<String, dynamic>` document;
-/// - [TextIndexer.indexText] indexes text from a text document; and
+/// - [TextIndexer.indexText] indexes text from a text document;
+/// - [TextIndexer.indexTokens] indexes text from a text document;
+/// - [TextIndexer.indexDocumentStream] indexes documents emitted by a stream
+///   of {docId : document} map entries;
+/// - [TextIndexer.indexCollectionStream] indexes the documents emitted by a
+///   [JsonCollection] stream; and
 /// - [indexCollection] indexes the fields of all the documents in a Map<String, dynamic>
 ///   document collection.
-///
-/// Implementing classes override the following asynchronous methods:
-/// - [indexText] indexes a text document;
-/// - [indexJson] indexes the fields in a Map<String, dynamic> document;
-/// - [indexCollection] indexes the fields of all the documents in a JSON
-///   document collection; and
-/// - [updateIndexes] updates the [DftMap], [PostingsMap] and [KGramsMap]
-///   for this indexer.
 abstract class TextIndexer implements InvertedIndex {
   //
 
-  /// The [updateIndexes] method updates the [DftMap], [PostingsMap], 
+  /// The [updateIndexes] method updates the [DftMap], [PostingsMap],
   /// [KeywordPostingsMap] and [KGramsMap].
   ///
   /// Sub-classes override [updateIndexes] to perform additional actions whenever a
@@ -35,29 +32,27 @@ abstract class TextIndexer implements InvertedIndex {
 
   /// Indexes a text document, returning a [PostingsMap].
   Future<void> indexText(String docId, String docText,
-      {bool preserveCase = false,
-      String? zone,
-      TokenFilter? tokenFilter});
+      {String? zone, TokenFilter? tokenFilter});
 
   /// Indexes the [InvertedIndex.zones] in a [json] document, returning a list
   /// of [DocPostingsMapEntry].
   Future<void> indexJson(String docId, Map<String, dynamic> json,
-      {bool preserveCase = false, TokenFilter? tokenFilter});
+      {TokenFilter? tokenFilter});
 
   /// Indexes the [InvertedIndex.zones] of all the documents in [collection].
   Future<void> indexCollection(Map<String, Map<String, dynamic>> collection,
-      {bool preserveCase = false, TokenFilter? tokenFilter});
+      {TokenFilter? tokenFilter});
 
   /// Updates the index with the [tokens] for [docId].
   Future<void> indexTokens(String docId, Iterable<Token> tokens);
 
   /// Indexes the documents emitted by [documentStream].
   void indexDocumentStream(Stream<MapEntry<String, JSON>> documentStream,
-      {bool preserveCase = false, TokenFilter? tokenFilter});
+      {TokenFilter? tokenFilter});
 
   /// Indexes the documents emitted by [collectionStream].
   void indexCollectionStream(Stream<JsonCollection> collectionStream,
-      {bool preserveCase = false, TokenFilter? tokenFilter});
+      {TokenFilter? tokenFilter});
 
   /// Cancels any stream all listeners.
   Future<void> dispose();
@@ -79,23 +74,20 @@ abstract class TextIndexerMixin implements TextIndexer {
 
   @override
   void indexCollectionStream(Stream<JsonCollection> collectionStream,
-      {bool preserveCase = false, TokenFilter? tokenFilter}) {
-    _jsonCollectionListener =
-        collectionStream.listen((event) => indexCollection(event,
-        tokenFilter: tokenFilter,
-        preserveCase: preserveCase));
+      {TokenFilter? tokenFilter}) {
+    _jsonCollectionListener = collectionStream
+        .listen((event) => indexCollection(event, tokenFilter: tokenFilter));
   }
 
   StreamSubscription<MapEntry<String, JSON>>? _jsonDocumentListener;
   @override
   void indexDocumentStream(Stream<MapEntry<String, JSON>> documentStream,
-      {bool preserveCase = false, TokenFilter? tokenFilter}) {
-    _jsonDocumentListener =
-        documentStream.listen((event) => indexJson(event.key, event.value,
-        tokenFilter: tokenFilter,
-        preserveCase: preserveCase));
+      {TokenFilter? tokenFilter}) {
+    _jsonDocumentListener = documentStream.listen(
+        (event) => indexJson(event.key, event.value, tokenFilter: tokenFilter));
   }
 
+  @mustCallSuper
   @override
   Future<void> dispose() async {
     await _jsonCollectionListener?.cancel();
@@ -115,15 +107,12 @@ abstract class TextIndexerMixin implements TextIndexer {
       TokenFilter? tokenFilter}) async {
     // get the terms using tokenizer
     final tokens = (await analyzer.tokenizer(docText,
-        tokenFilter: tokenFilter,
-        nGramRange: nGramRange,
-        preserveCase: preserveCase,
-        zone: zone));
+        tokenFilter: tokenFilter, nGramRange: nGramRange, zone: zone));
     await indexTokens(docId, tokens);
   }
 
   /// Implementation of [TextIndexer.indexJson] that:
-  /// - parses [json] to a collection of [Token]s in [zones]. If[zones] is 
+  /// - parses [json] to a collection of [Token]s in [zones]. If[zones] is
   ///   empty, tokenize all the fields in [json];
   /// - maps the tokens to postings for [docId];
   /// - maps the postings for [docId] to a [PostingsMap];
@@ -131,14 +120,11 @@ abstract class TextIndexerMixin implements TextIndexer {
   /// - returns the [PostingsMap] for [docId].
   @override
   Future<void> indexJson(String docId, Map<String, dynamic> json,
-      {bool preserveCase = false, TokenFilter? tokenFilter}) async {
+      {TokenFilter? tokenFilter}) async {
     // get the terms using tokenizer
     final zones = _zoneNames(json);
     final tokens = (await analyzer.jsonTokenizer(json,
-        tokenFilter: tokenFilter,
-        preserveCase: preserveCase,
-        zones: zones,
-        nGramRange: nGramRange));
+        tokenFilter: tokenFilter, zones: zones, nGramRange: nGramRange));
     await indexTokens(docId, tokens);
   }
 
@@ -172,14 +158,13 @@ abstract class TextIndexerMixin implements TextIndexer {
   /// document in [collection] to [Token]s and maps the tokens to a [PostingsMap]
   /// that is passed to [updateIndexes].
   @override
-  Future<void> indexCollection(
-      Map<String, Map<String, dynamic>> collection,
-      {bool preserveCase = false, TokenFilter? tokenFilter}) async {
+  Future<void> indexCollection(Map<String, Map<String, dynamic>> collection,
+      {TokenFilter? tokenFilter}) async {
     await Future.forEach(collection.entries,
         (MapEntry<String, Map<String, dynamic>> e) async {
       final docId = e.key;
       final json = e.value;
-      await indexJson(docId, json, preserveCase: preserveCase, tokenFilter: tokenFilter);
+      await indexJson(docId, json, tokenFilter: tokenFilter);
     });
   }
 
