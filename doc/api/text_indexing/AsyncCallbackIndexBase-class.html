@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the AsyncCallbackIndexBase class from the text_indexing library, for the Dart programming language.">
+  <title>AsyncCallbackIndexBase class - text_indexing library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../static-assets/styles.css?v1">
+  <link rel="icon" href="../static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="../" data-using-base-href="false">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../index.html">text_indexing</a></li>
+    <li><a href="../text_indexing/text_indexing-library.html">text_indexing</a></li>
+    <li class="self-crumb">AsyncCallbackIndexBase abstract class</li>
+  </ol>
+  <div class="self-name">AsyncCallbackIndexBase</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+
+  <div id="dartdoc-main-content" class="main-content">
+      <div>
+<h1><span class="kind-class">AsyncCallbackIndexBase</span> class 
+    <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
+ 
+</h1></div>
+
+    
+<section class="desc markdown">
+  <p>Base class implementation of <a href="../text_indexing/InvertedIndex-class.html">InvertedIndex</a> with <a href="../text_indexing/AsyncCallbackIndexMixin-class.html">AsyncCallbackIndexMixin</a>.</p>
+<p>Provides a const default generative constructor for sub-classes.</p>
+</section>
+
+
+    <section>
+      <dl class="dl-horizontal">
+        
+
+        
+  <dt>Implemented types</dt>
+  <dd>
+    <ul class="comma-separated clazz-relationships">
+        <li><a href="../text_indexing/InvertedIndex-class.html">InvertedIndex</a></li>
+    </ul>
+  </dd>
+        
+  <dt>Mixed in types</dt>
+  <dd>
+    <ul class="comma-separated clazz-relationships">
+        <li><a href="../text_indexing/AsyncCallbackIndexMixin-class.html">AsyncCallbackIndexMixin</a></li>
+        <li><a href="../text_indexing/TextIndexerMixin-class.html">TextIndexerMixin</a></li>
+    </ul>
+  </dd>
+
+        <dt>Implementers</dt>
+        <dd><ul class="comma-separated clazz-relationships">
+          <li><a href="../text_indexing/AsyncCallbackIndex-class.html">AsyncCallbackIndex</a></li>
+        </ul></dd>
+
+
+        
+      </dl>
+    </section>
+
+    
+  <section class="summary offset-anchor" id="constructors">
+    <h2>Constructors</h2>
+
+    <dl class="constructor-summary-list">
+        <dt id="AsyncCallbackIndexBase" class="callable">
+          <span class="name"><a href="../text_indexing/AsyncCallbackIndexBase/AsyncCallbackIndexBase.html">AsyncCallbackIndexBase</a></span><span class="signature">()</span>
+        </dt>
+        <dd>
+          Const default generative constructor for sub-classes.
+        </dd>
+    </dl>
+  </section>
+
+    <section class="summary offset-anchor inherited" id="instance-properties">
+      <h2>Properties</h2>
+
+      <dl class="properties">
+        <dt id="analyzer" class="property inherited">
+  <span class="name"><a href="../text_indexing/InvertedIndex/analyzer.html">analyzer</a></span>
+  <span class="signature">&#8594; <a href="https://pub.dev/documentation/text_analysis/0.24.0-2/text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></span> 
+
+</dt>
+<dd class="inherited">
+  The text analyser that extracts tokens from text for the index.
+  <div class="features">read-only, inherited</div>
+
+</dd>
+
+        <dt id="collectionSizeLoader" class="property inherited">
+  <span class="name"><a href="../text_indexing/AsyncCallbackIndexMixin/collectionSizeLoader.html">collectionSizeLoader</a></span>
+  <span class="signature">&#8594; <a href="../type_definitions/CollectionSizeCallback.html">CollectionSizeCallback</a></span> 
+
+</dt>
+<dd class="inherited">
+  Asynchronously retrieves the number of documents in the indexed
+collection.
+  <div class="features">read-only, inherited</div>
+
+</dd>
+
+        <dt id="dictionaryLengthLoader" class="property inherited">
+  <span class="name"><a href="../text_indexing/AsyncCallbackIndexMixin/dictionaryLengthLoader.html">dictionaryLengthLoader</a></span>
+  <span class="signature">&#8594; <a href="../type_definitions/CollectionSizeCallback.html">CollectionSizeCallback</a></span> 
+
+</dt>
+<dd class="inherited">
+  Asynchronously retrieves the number of terms in the vocabulary.
+  <div class="features">read-only, inherited</div>
+
+</dd>
+
+        <dt id="dictionaryLoader" class="property inherited">
+  <span class="name"><a href="../text_indexing/AsyncCallbackIndexMixin/dictionaryLoader.html">dictionaryLoader</a></span>
+  <span class="signature">&#8594; <a href="../type_definitions/DftMapLoader.html">DftMapLoader</a></span> 
+
+</dt>
+<dd class="inherited">
+  Asynchronously retrieves a <a href="../type_definitions/DftMap.html">DftMap</a> subset for a vocabulary from a
+<a href="../type_definitions/DftMap.html">DftMap</a> index repository, usually persisted storage.
+  <div class="features">read-only, inherited</div>
+
+</dd>
+
+        <dt id="dictionaryUpdater" class="property inherited">
+  <span class="name"><a href="../text_indexing/AsyncCallbackIndexMixin/dictionaryUpdater.html">dictionaryUpdater</a></span>
+  <span class="signature">&#8594; <a href="../type_definitions/DftMapUpdater.html">DftMapUpdater</a></span> 
+
+</dt>
+<dd class="inherited">
+  A callback that passes a subset of a <a href="../type_definitions/DftMap.html">DftMap</a> containing new or
+changed <a href="../type_definitions/DftMapEntry.html">DftMapEntry</a> instances for persisting to the <a href="../type_definitions/DftMap.html">DftMap</a>
+index repository.
+  <div class="features">read-only, inherited</div>
+
+</dd>
+
+        <dt id="hashCode" class="property inherited">
+  <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> 
+
+</dt>
+<dd class="inherited">
+  The hash code for this object.
+  <div class="features">read-only, inherited</div>
+
+</dd>
+
+        <dt id="k" class="property inherited">
+  <span class="name"><a href="../text_indexing/InvertedIndex/k.html">k</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> 
+
+</dt>
+<dd class="inherited">
+  The length of k-gram entries in the k-gram index.
+  <div class="features">read-only, inherited</div>
+
+</dd>
+
+        <dt id="keywordPostingsLoader" class="property inherited">
+  <span class="name"><a href="../text_indexing/AsyncCallbackIndexMixin/keywordPostingsLoader.html">keywordPostingsLoader</a></span>
+  <span class="signature">&#8594; <a href="../type_definitions/KeywordPostingsMapLoader.html">KeywordPostingsMapLoader</a></span> 
+
+</dt>
+<dd class="inherited">
+  Asynchronously retrieves a <a href="../type_definitions/PostingsMap.html">PostingsMap</a> subset for a vocabulary from a
+<a href="../type_definitions/PostingsMap.html">PostingsMap</a> index repository, usually persisted storage.
+  <div class="features">read-only, inherited</div>
+
+</dd>
+
+        <dt id="keywordPostingsUpdater" class="property inherited">
+  <span class="name"><a href="../text_indexing/AsyncCallbackIndexMixin/keywordPostingsUpdater.html">keywordPostingsUpdater</a></span>
+  <span class="signature">&#8594; <a href="../type_definitions/KeywordPostingsMapUpdater.html">KeywordPostingsMapUpdater</a></span> 
+
+</dt>
+<dd class="inherited">
+  A callback that passes a subset of a <a href="../type_definitions/PostingsMap.html">PostingsMap</a> containing new or changed
+<a href="../type_definitions/PostingsMapEntry.html">PostingsMapEntry</a> instances to the <a href="../type_definitions/PostingsMap.html">PostingsMap</a> index repository.
+  <div class="features">read-only, inherited</div>
+
+</dd>
+
+        <dt id="kGramIndexLoader" class="property inherited">
+  <span class="name"><a href="../text_indexing/AsyncCallbackIndexMixin/kGramIndexLoader.html">kGramIndexLoader</a></span>
+  <span class="signature">&#8594; <a href="../type_definitions/KGramsMapLoader.html">KGramsMapLoader</a></span> 
+
+</dt>
+<dd class="inherited">
+  Asynchronously retrieves a <a href="https://pub.dev/documentation/text_analysis/0.24.0-2/type_definitions/KGramsMap.html">KGramsMap</a> subset for a vocabulary from a
+<a href="https://pub.dev/documentation/text_analysis/0.24.0-2/type_definitions/KGramsMap.html">KGramsMap</a> index repository, usually persisted storage.
+  <div class="features">read-only, inherited</div>
+
+</dd>
+
+        <dt id="kGramIndexUpdater" class="property inherited">
+  <span class="name"><a href="../text_indexing/AsyncCallbackIndexMixin/kGramIndexUpdater.html">kGramIndexUpdater</a></span>
+  <span class="signature">&#8594; <a href="../type_definitions/KGramsMapUpdater.html">KGramsMapUpdater</a></span> 
+
+</dt>
+<dd class="inherited">
+  A callback that passes a subset of a <a href="https://pub.dev/documentation/text_analysis/0.24.0-2/type_definitions/KGramsMap.html">KGramsMap</a> containing new or
+changed entries for persisting to the <a href="https://pub.dev/documentation/text_analysis/0.24.0-2/type_definitions/KGramsMap.html">KGramsMap</a> repository.
+  <div class="features">read-only, inherited</div>
+
+</dd>
+
+        <dt id="nGramRange" class="property inherited">
+  <span class="name"><a href="../text_indexing/InvertedIndex/nGramRange.html">nGramRange</a></span>
+  <span class="signature">&#8594; <a href="https://pub.dev/documentation/text_analysis/0.24.0-2/text_analysis/NGramRange-class.html">NGramRange</a>?</span> 
+
+</dt>
+<dd class="inherited">
+  The minimum and maximum length of n-grams in the index.
+  <div class="features">read-only, inherited</div>
+
+</dd>
+
+        <dt id="postingsLoader" class="property inherited">
+  <span class="name"><a href="../text_indexing/AsyncCallbackIndexMixin/postingsLoader.html">postingsLoader</a></span>
+  <span class="signature">&#8594; <a href="../type_definitions/PostingsMapLoader.html">PostingsMapLoader</a></span> 
+
+</dt>
+<dd class="inherited">
+  Asynchronously retrieves a <a href="../type_definitions/PostingsMap.html">PostingsMap</a> subset for a vocabulary from a
+<a href="../type_definitions/PostingsMap.html">PostingsMap</a> index repository, usually persisted storage.
+  <div class="features">read-only, inherited</div>
+
+</dd>
+
+        <dt id="postingsUpdater" class="property inherited">
+  <span class="name"><a href="../text_indexing/AsyncCallbackIndexMixin/postingsUpdater.html">postingsUpdater</a></span>
+  <span class="signature">&#8594; <a href="../type_definitions/PostingsMapUpdater.html">PostingsMapUpdater</a></span> 
+
+</dt>
+<dd class="inherited">
+  A callback that passes a subset of a <a href="../type_definitions/PostingsMap.html">PostingsMap</a> containing new or changed
+<a href="../type_definitions/PostingsMapEntry.html">PostingsMapEntry</a> instances to the <a href="../type_definitions/PostingsMap.html">PostingsMap</a> index repository.
+  <div class="features">read-only, inherited</div>
+
+</dd>
+
+        <dt id="runtimeType" class="property inherited">
+  <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Type-class.html">Type</a></span> 
+
+</dt>
+<dd class="inherited">
+  A representation of the runtime type of the object.
+  <div class="features">read-only, inherited</div>
+
+</dd>
+
+        <dt id="vocabularyLength" class="property inherited">
+  <span class="name"><a href="../text_indexing/InvertedIndex/vocabularyLength.html">vocabularyLength</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Ft.html">Ft</a></span>&gt;</span></span> 
+
+</dt>
+<dd class="inherited">
+  Returns the number of terms in the vocabulary (N).
+  <div class="features">read-only, inherited</div>
+
+</dd>
+
+        <dt id="zones" class="property inherited">
+  <span class="name"><a href="../text_indexing/InvertedIndex/zones.html">zones</a></span>
+  <span class="signature">&#8594; <a href="../type_definitions/ZoneWeightMap.html">ZoneWeightMap</a></span> 
+
+</dt>
+<dd class="inherited">
+  Maps zone names to their relative weight in the index.
+  <div class="features">read-only, inherited</div>
+
+</dd>
+
+      </dl>
+    </section>
+
+    
+  <section
+      class="summary offset-anchor inherited"
+      id="instance-methods">
+    <h2>Methods</h2>
+    <dl class="callables">
+        <dt id="dispose" class="callable inherited">
+  <span class="name"><a href="../text_indexing/TextIndexerMixin/dispose.html">dispose</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Cancels any stream all listeners.
+  <div class="features">inherited</div>
+
+</dd>
+
+        <dt id="getCollectionSize" class="callable inherited">
+  <span class="name"><a href="../text_indexing/AsyncCallbackIndexMixin/getCollectionSize.html">getCollectionSize</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Asynchronously returns the total number of documents in the indexed
+collection.
+  <div class="features">inherited</div>
+
+</dd>
+
+        <dt id="getDictionary" class="callable inherited">
+  <span class="name"><a href="../text_indexing/AsyncCallbackIndexMixin/getDictionary.html">getDictionary</a></span><span class="signature">(<wbr><span class="parameter" id="getDictionary-param-terms">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span>?</span> <span class="parameter-name">terms</span>]</span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/DftMap.html">DftMap</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Asynchronously retrieves a <code>DftMap</code> for the <code>terms</code> from a
+<code>DftMap</code> repository.
+  <div class="features">inherited</div>
+
+</dd>
+
+        <dt id="getKeywordPostings" class="callable inherited">
+  <span class="name"><a href="../text_indexing/AsyncCallbackIndexMixin/getKeywordPostings.html">getKeywordPostings</a></span><span class="signature">(<wbr><span class="parameter" id="getKeywordPostings-param-keywords"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">keywords</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/KeywordPostingsMap.html">KeywordPostingsMap</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Asynchronously retrieves <a href="../type_definitions/PostingsMapEntry.html">PostingsMapEntry</a> entities for the <code>terms</code> from a
+<a href="../type_definitions/PostingsMap.html">PostingsMap</a> repository.
+  <div class="features">inherited</div>
+
+</dd>
+
+        <dt id="getKGramIndex" class="callable inherited">
+  <span class="name"><a href="../text_indexing/AsyncCallbackIndexMixin/getKGramIndex.html">getKGramIndex</a></span><span class="signature">(<wbr><span class="parameter" id="getKGramIndex-param-terms">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span>?</span> <span class="parameter-name">terms</span>]</span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/type_definitions/KGramsMap.html">KGramsMap</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Asynchronously retrieves a <code>KGramsMap</code> for the <code>terms</code> from a
+<code>KGramsMap</code> repository.
+  <div class="features">inherited</div>
+
+</dd>
+
+        <dt id="getPostings" class="callable inherited">
+  <span class="name"><a href="../text_indexing/AsyncCallbackIndexMixin/getPostings.html">getPostings</a></span><span class="signature">(<wbr><span class="parameter" id="getPostings-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/PostingsMap.html">PostingsMap</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Asynchronously retrieves <a href="../type_definitions/PostingsMapEntry.html">PostingsMapEntry</a> entities for the <code>terms</code> from a
+<code>PostingsMap</code> repository.
+  <div class="features">inherited</div>
+
+</dd>
+
+        <dt id="indexCollection" class="callable inherited">
+  <span class="name"><a href="../text_indexing/TextIndexerMixin/indexCollection.html">indexCollection</a></span><span class="signature">(<wbr><span class="parameter" id="indexCollection-param-collection"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span>&gt;</span></span> <span class="parameter-name">collection</span>, </span><span class="parameter" id="indexCollection-param-preserveCase">{<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">preserveCase</span> = <span class="default-value">false</span>, </span><span class="parameter" id="indexCollection-param-tokenFilter"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/type_definitions/TokenFilter.html">TokenFilter</a>?</span> <span class="parameter-name">tokenFilter</span>}</span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Implementation of <a href="../text_indexing/TextIndexer/indexCollection.html">TextIndexer.indexCollection</a> that parses each Map&lt;String, dynamic&gt;
+document in <code>collection</code> to <a href="https://pub.dev/documentation/text_analysis/0.24.0-2/text_analysis/Token-class.html">Token</a>s and maps the tokens to a <a href="../type_definitions/PostingsMap.html">PostingsMap</a>
+that is passed to <a href="../text_indexing/TextIndexerMixin/updateIndexes.html">updateIndexes</a>.
+  <div class="features">inherited</div>
+
+</dd>
+
+        <dt id="indexCollectionStream" class="callable inherited">
+  <span class="name"><a href="../text_indexing/TextIndexerMixin/indexCollectionStream.html">indexCollectionStream</a></span><span class="signature">(<wbr><span class="parameter" id="indexCollectionStream-param-collectionStream"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/JsonCollection.html">JsonCollection</a></span>&gt;</span></span> <span class="parameter-name">collectionStream</span>, </span><span class="parameter" id="indexCollectionStream-param-preserveCase">{<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">preserveCase</span> = <span class="default-value">false</span>, </span><span class="parameter" id="indexCollectionStream-param-tokenFilter"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/type_definitions/TokenFilter.html">TokenFilter</a>?</span> <span class="parameter-name">tokenFilter</span>}</span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Indexes the documents emitted by <code>collectionStream</code>.
+  <div class="features">inherited</div>
+
+</dd>
+
+        <dt id="indexDocumentStream" class="callable inherited">
+  <span class="name"><a href="../text_indexing/TextIndexerMixin/indexDocumentStream.html">indexDocumentStream</a></span><span class="signature">(<wbr><span class="parameter" id="indexDocumentStream-param-documentStream"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/MapEntry-class.html">MapEntry</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="../type_definitions/JSON.html">JSON</a></span>&gt;</span></span>&gt;</span></span> <span class="parameter-name">documentStream</span>, </span><span class="parameter" id="indexDocumentStream-param-preserveCase">{<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">preserveCase</span> = <span class="default-value">false</span>, </span><span class="parameter" id="indexDocumentStream-param-tokenFilter"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/type_definitions/TokenFilter.html">TokenFilter</a>?</span> <span class="parameter-name">tokenFilter</span>}</span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Indexes the documents emitted by <code>documentStream</code>.
+  <div class="features">inherited</div>
+
+</dd>
+
+        <dt id="indexJson" class="callable inherited">
+  <span class="name"><a href="../text_indexing/TextIndexerMixin/indexJson.html">indexJson</a></span><span class="signature">(<wbr><span class="parameter" id="indexJson-param-docId"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">docId</span>, </span><span class="parameter" id="indexJson-param-json"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">json</span>, </span><span class="parameter" id="indexJson-param-preserveCase">{<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">preserveCase</span> = <span class="default-value">false</span>, </span><span class="parameter" id="indexJson-param-tokenFilter"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/type_definitions/TokenFilter.html">TokenFilter</a>?</span> <span class="parameter-name">tokenFilter</span>}</span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Implementation of <a href="../text_indexing/TextIndexer/indexJson.html">TextIndexer.indexJson</a> that:
+  <div class="features">inherited</div>
+
+</dd>
+
+        <dt id="indexText" class="callable inherited">
+  <span class="name"><a href="../text_indexing/TextIndexerMixin/indexText.html">indexText</a></span><span class="signature">(<wbr><span class="parameter" id="indexText-param-docId"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">docId</span>, </span><span class="parameter" id="indexText-param-docText"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">docText</span>, </span><span class="parameter" id="indexText-param-preserveCase">{<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">preserveCase</span> = <span class="default-value">false</span>, </span><span class="parameter" id="indexText-param-zone"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">zone</span>, </span><span class="parameter" id="indexText-param-tokenFilter"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/type_definitions/TokenFilter.html">TokenFilter</a>?</span> <span class="parameter-name">tokenFilter</span>}</span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Implementation of <a href="../text_indexing/TextIndexer/indexText.html">TextIndexer.indexText</a> that:
+  <div class="features">inherited</div>
+
+</dd>
+
+        <dt id="indexTokens" class="callable inherited">
+  <span class="name"><a href="../text_indexing/TextIndexerMixin/indexTokens.html">indexTokens</a></span><span class="signature">(<wbr><span class="parameter" id="indexTokens-param-docId"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">docId</span>, </span><span class="parameter" id="indexTokens-param-tokens"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/text_analysis/Token-class.html">Token</a></span>&gt;</span></span> <span class="parameter-name">tokens</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Updates the index with the <code>tokens</code> for <code>docId</code>.
+  <div class="features">inherited</div>
+
+</dd>
+
+        <dt id="noSuchMethod" class="callable inherited">
+  <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></span><span class="signature">(<wbr><span class="parameter" id="noSuchMethod-param-invocation"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Invocation-class.html">Invocation</a></span> <span class="parameter-name">invocation</span></span>)
+    <span class="returntype parameter">&#8594; dynamic</span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Invoked when a non-existent method or property is accessed.
+  <div class="features">inherited</div>
+
+</dd>
+
+        <dt id="toString" class="callable inherited">
+  <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  A string representation of this object.
+  <div class="features">inherited</div>
+
+</dd>
+
+        <dt id="updateIndexes" class="callable inherited">
+  <span class="name"><a href="../text_indexing/TextIndexerMixin/updateIndexes.html">updateIndexes</a></span><span class="signature">(<wbr><span class="parameter" id="updateIndexes-param-postings"><span class="type-annotation"><a href="../type_definitions/PostingsMap.html">PostingsMap</a></span> <span class="parameter-name">postings</span>, </span><span class="parameter" id="updateIndexes-param-keywordPostings"><span class="type-annotation"><a href="../type_definitions/KeywordPostingsMap.html">KeywordPostingsMap</a></span> <span class="parameter-name">keywordPostings</span>, </span><span class="parameter" id="updateIndexes-param-tokens"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/text_analysis/Token-class.html">Token</a></span>&gt;</span></span> <span class="parameter-name">tokens</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Implementation of <a href="../text_indexing/TextIndexer/updateIndexes.html">TextIndexer.updateIndexes</a>.
+  <div class="features">@<a href="https://pub.dev/documentation/meta/1.8.0/meta/mustCallSuper-constant.html">mustCallSuper</a>, inherited</div>
+
+</dd>
+
+        <dt id="upsertDictionary" class="callable inherited">
+  <span class="name"><a href="../text_indexing/AsyncCallbackIndexMixin/upsertDictionary.html">upsertDictionary</a></span><span class="signature">(<wbr><span class="parameter" id="upsertDictionary-param-values"><span class="type-annotation"><a href="../type_definitions/DftMap.html">DftMap</a></span> <span class="parameter-name">values</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Inserts <code>values</code> into a <a href="../type_definitions/DftMap.html">DftMap</a> repository, overwriting them if they
+already exist.
+  <div class="features">inherited</div>
+
+</dd>
+
+        <dt id="upsertKeywordPostings" class="callable inherited">
+  <span class="name"><a href="../text_indexing/AsyncCallbackIndexMixin/upsertKeywordPostings.html">upsertKeywordPostings</a></span><span class="signature">(<wbr><span class="parameter" id="upsertKeywordPostings-param-values"><span class="type-annotation"><a href="../type_definitions/KeywordPostingsMap.html">KeywordPostingsMap</a></span> <span class="parameter-name">values</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Inserts <code>values</code> into a <a href="../type_definitions/PostingsMap.html">PostingsMap</a> repository, overwriting them if they
+already exist.
+  <div class="features">inherited</div>
+
+</dd>
+
+        <dt id="upsertKGramIndex" class="callable inherited">
+  <span class="name"><a href="../text_indexing/AsyncCallbackIndexMixin/upsertKGramIndex.html">upsertKGramIndex</a></span><span class="signature">(<wbr><span class="parameter" id="upsertKGramIndex-param-values"><span class="type-annotation"><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/type_definitions/KGramsMap.html">KGramsMap</a></span> <span class="parameter-name">values</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Inserts <code>values</code> into a <a href="https://pub.dev/documentation/text_analysis/0.24.0-2/type_definitions/KGramsMap.html">KGramsMap</a> repository, overwriting any existing
+entries.
+  <div class="features">inherited</div>
+
+</dd>
+
+        <dt id="upsertPostings" class="callable inherited">
+  <span class="name"><a href="../text_indexing/AsyncCallbackIndexMixin/upsertPostings.html">upsertPostings</a></span><span class="signature">(<wbr><span class="parameter" id="upsertPostings-param-values"><span class="type-annotation"><a href="../type_definitions/PostingsMap.html">PostingsMap</a></span> <span class="parameter-name">values</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Inserts <code>values</code> into a <a href="../type_definitions/PostingsMap.html">PostingsMap</a> repository, overwriting them if they
+already exist.
+  <div class="features">inherited</div>
+
+</dd>
+
+    </dl>
+  </section>
+    
+  <section
+      class="summary offset-anchor inherited"
+      id="operators">
+    <h2>Operators</h2>
+    <dl class="callables">
+        <dt id="operator ==" class="callable inherited">
+  <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/operator_equals.html">operator ==</a></span><span class="signature">(<wbr><span class="parameter" id="==-param-other"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Object-class.html">Object</a></span> <span class="parameter-name">other</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  The equality operator.
+  <div class="features">inherited</div>
+
+</dd>
+
+    </dl>
+  </section>
+    
+    
+    
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+  <li><a href="../index.html">text_indexing</a></li>
+  <li><a href="../text_indexing/text_indexing-library.html">text_indexing</a></li>
+  <li class="self-crumb">AsyncCallbackIndexBase abstract class</li>
+</ol>
+
+
+    <h5>text_indexing library</h5>
+    <ol>
+  <li class="section-title"><a href="../text_indexing/text_indexing-library.html#classes">Classes</a></li>
+  <li><a href="../text_indexing/AsyncCallbackIndex-class.html">AsyncCallbackIndex</a></li>
+  <li><a href="../text_indexing/AsyncCallbackIndexBase-class.html">AsyncCallbackIndexBase</a></li>
+  <li><a href="../text_indexing/AsyncCallbackIndexMixin-class.html">AsyncCallbackIndexMixin</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/text_analysis/English-class.html">English</a></li>
+  <li><a href="../text_indexing/InMemoryIndex-class.html">InMemoryIndex</a></li>
+  <li><a href="../text_indexing/InMemoryIndexBase-class.html">InMemoryIndexBase</a></li>
+  <li><a href="../text_indexing/InMemoryIndexMixin-class.html">InMemoryIndexMixin</a></li>
+  <li><a href="../text_indexing/InvertedIndex-class.html">InvertedIndex</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/text_analysis/LatinLanguageAnalyzer-class.html">LatinLanguageAnalyzer</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/text_analysis/NGramRange-class.html">NGramRange</a></li>
+  <li><a href="https://pub.dev/documentation/porter_2_stemmer/3.0.2/porter_2_stemmer/Porter2Stemmer-class.html">Porter2Stemmer</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/text_analysis/SimilarityIndex-class.html">SimilarityIndex</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/text_analysis/TermCoOccurrenceGraph-class.html">TermCoOccurrenceGraph</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/implementation/TermCoOccurrenceGraphBase-class.html">TermCoOccurrenceGraphBase</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/text_analysis/TermSimilarity-class.html">TermSimilarity</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/text_analysis/TextDocument-class.html">TextDocument</a></li>
+  <li><a href="../text_indexing/TextIndexer-class.html">TextIndexer</a></li>
+  <li><a href="../text_indexing/TextIndexerMixin-class.html">TextIndexerMixin</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/text_analysis/Token-class.html">Token</a></li>
+
+
+
+
+
+
+  <li class="section-title"><a href="../text_indexing/text_indexing-library.html#enums">Enums</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/text_analysis/PartOfSpeech.html">PartOfSpeech</a></li>
+  <li><a href="https://pub.dev/documentation/text_analysis/0.24.0-2/text_analysis/PoSTag.html">PoSTag</a></li>
+
+
+</ol>
+
+  </div>
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+    <ol>
+
+        <li class="section-title"><a href="../text_indexing/AsyncCallbackIndexBase-class.html#constructors">Constructors</a></li>
+          <li><a href="../text_indexing/AsyncCallbackIndexBase/AsyncCallbackIndexBase.html">AsyncCallbackIndexBase</a></li>
+
+
+    <li class="section-title inherited">
+      <a href="../text_indexing/AsyncCallbackIndexBase-class.html#instance-properties">Properties</a>
+    </li>
+    <li class="inherited"><a href="../text_indexing/InvertedIndex/analyzer.html">analyzer</a></li>
+    <li class="inherited"><a href="../text_indexing/AsyncCallbackIndexMixin/collectionSizeLoader.html">collectionSizeLoader</a></li>
+    <li class="inherited"><a href="../text_indexing/AsyncCallbackIndexMixin/dictionaryLengthLoader.html">dictionaryLengthLoader</a></li>
+    <li class="inherited"><a href="../text_indexing/AsyncCallbackIndexMixin/dictionaryLoader.html">dictionaryLoader</a></li>
+    <li class="inherited"><a href="../text_indexing/AsyncCallbackIndexMixin/dictionaryUpdater.html">dictionaryUpdater</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
+    <li class="inherited"><a href="../text_indexing/InvertedIndex/k.html">k</a></li>
+    <li class="inherited"><a href="../text_indexing/AsyncCallbackIndexMixin/keywordPostingsLoader.html">keywordPostingsLoader</a></li>
+    <li class="inherited"><a href="../text_indexing/AsyncCallbackIndexMixin/keywordPostingsUpdater.html">keywordPostingsUpdater</a></li>
+    <li class="inherited"><a href="../text_indexing/AsyncCallbackIndexMixin/kGramIndexLoader.html">kGramIndexLoader</a></li>
+    <li class="inherited"><a href="../text_indexing/AsyncCallbackIndexMixin/kGramIndexUpdater.html">kGramIndexUpdater</a></li>
+    <li class="inherited"><a href="../text_indexing/InvertedIndex/nGramRange.html">nGramRange</a></li>
+    <li class="inherited"><a href="../text_indexing/AsyncCallbackIndexMixin/postingsLoader.html">postingsLoader</a></li>
+    <li class="inherited"><a href="../text_indexing/AsyncCallbackIndexMixin/postingsUpdater.html">postingsUpdater</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
+    <li class="inherited"><a href="../text_indexing/InvertedIndex/vocabularyLength.html">vocabularyLength</a></li>
+    <li class="inherited"><a href="../text_indexing/InvertedIndex/zones.html">zones</a></li>
+
+    <li class="section-title inherited"><a href="../text_indexing/AsyncCallbackIndexBase-class.html#instance-methods">Methods</a></li>
+    <li class="inherited"><a href="../text_indexing/TextIndexerMixin/dispose.html">dispose</a></li>
+    <li class="inherited"><a href="../text_indexing/AsyncCallbackIndexMixin/getCollectionSize.html">getCollectionSize</a></li>
+    <li class="inherited"><a href="../text_indexing/AsyncCallbackIndexMixin/getDictionary.html">getDictionary</a></li>
+    <li class="inherited"><a href="../text_indexing/AsyncCallbackIndexMixin/getKeywordPostings.html">getKeywordPostings</a></li>
+    <li class="inherited"><a href="../text_indexing/AsyncCallbackIndexMixin/getKGramIndex.html">getKGramIndex</a></li>
+    <li class="inherited"><a href="../text_indexing/AsyncCallbackIndexMixin/getPostings.html">getPostings</a></li>
+    <li class="inherited"><a href="../text_indexing/TextIndexerMixin/indexCollection.html">indexCollection</a></li>
+    <li class="inherited"><a href="../text_indexing/TextIndexerMixin/indexCollectionStream.html">indexCollectionStream</a></li>
+    <li class="inherited"><a href="../text_indexing/TextIndexerMixin/indexDocumentStream.html">indexDocumentStream</a></li>
+    <li class="inherited"><a href="../text_indexing/TextIndexerMixin/indexJson.html">indexJson</a></li>
+    <li class="inherited"><a href="../text_indexing/TextIndexerMixin/indexText.html">indexText</a></li>
+    <li class="inherited"><a href="../text_indexing/TextIndexerMixin/indexTokens.html">indexTokens</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
+    <li class="inherited"><a href="../text_indexing/TextIndexerMixin/updateIndexes.html">updateIndexes</a></li>
+    <li class="inherited"><a href="../text_indexing/AsyncCallbackIndexMixin/upsertDictionary.html">upsertDictionary</a></li>
+    <li class="inherited"><a href="../text_indexing/AsyncCallbackIndexMixin/upsertKeywordPostings.html">upsertKeywordPostings</a></li>
+    <li class="inherited"><a href="../text_indexing/AsyncCallbackIndexMixin/upsertKGramIndex.html">upsertKGramIndex</a></li>
+    <li class="inherited"><a href="../text_indexing/AsyncCallbackIndexMixin/upsertPostings.html">upsertPostings</a></li>
+
+    <li class="section-title inherited"><a href="../text_indexing/AsyncCallbackIndexBase-class.html#operators">Operators</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/operator_equals.html">operator ==</a></li>
+
+
+
+
+</ol>
+
+  </div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    text_indexing
+      0.23.0-2
+  </span>
+
+  
+</footer>
+
+
+
+<script src="../static-assets/highlight.pack.js?v1"></script>
+<script src="../static-assets/docs.dart.js"></script>
+
+
+
+</body>
+
+</html>
+

@@ -7,7 +7,7 @@ import 'package:text_indexing/src/_index.dart';
 /// The [AsyncCallbackIndex] is a [InvertedIndex] implementation class that
 /// extends [AsyncCallbackIndexBase].
 ///
-/// The InMemoryIndex is intended for working with a larger corpus and an
+/// The AsyncCallbackIndex is intended for working with a larger corpus and an
 /// asynchronous index repository in persisted storage.  It uses asynchronous
 /// callbacks to perform read and write operations on [DftMap], [KGramsMap]
 /// and [PostingsMap] repositories.

@@ -6,6 +6,17 @@ All rights reserved.
 
 *THIS PACKAGE IS **PRE-RELEASE** AND SUBJECT TO DAILY BREAKING CHANGES.*
 
+## 0.23.0-2
+
+
+### *New*
+* Added `InMemoryIndexBase` and `AsyncCallbackIndexBase` to `text_indexing` library exports.
+
+### *Updated*
+* Dependencies.
+* Tests.
+* Documentation
+* Examples.
 
 ## 0.23.0-1
 **BREAKING CHANGES**
