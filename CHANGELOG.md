@@ -6,6 +6,12 @@ All rights reserved.
 
 *THIS PACKAGE IS **PRE-RELEASE** AND SUBJECT TO DAILY BREAKING CHANGES.*
 
+
+## 0.23.0-4
+
+### *Updated*
+* Bumped dependency `text_analysis` to ver `0.24.0-4`.
+
 ## 0.23.0-3
 **BREAKING CHANGES**
 
@@ -70,14 +76,11 @@ This is a major re-work of the library with a significant simplification of the 
 
 ### *Updated*
 * Bumped dependency `text_analysis` to ver `0.23.7+13`.
-* Changed `InvertedIndex.nGramRange` to nullable.
-
 
 ## 0.22.4+14
 
 ### *Updated*
 * Bumped dependency `text_analysis` to ver `0.23.7+13`.
-* Changed `InvertedIndex.nGramRange` to nullable.
 
 ## 0.22.4+13
 
