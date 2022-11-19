@@ -8,6 +8,9 @@ All rights reserved.
 
 ## 0.23.0-5
 
+### *Bug fix*
+* Fixed keyword postings in indexer.
+
 ### *Updated*
 * Bumped dependency `text_analysis` to ver `0.24.0-5`.
 

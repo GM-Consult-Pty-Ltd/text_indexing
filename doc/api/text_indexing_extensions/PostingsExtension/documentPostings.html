@@ -71,8 +71,8 @@ where a document id in <code>docIds</code> has a key in the entry's postings lis
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">PostingsMap documentPostings(Iterable&lt;String&gt; docIds) =&gt;
     PostingsMap.from(this)
-  ..removeWhere((key, value) =&gt;
-      value.keys.toSet().intersection(docIds.toSet()).isEmpty);</code></pre>
+      ..removeWhere((key, value) =&gt;
+          value.keys.toSet().intersection(docIds.toSet()).isEmpty);</code></pre>
 </section>
 
 
