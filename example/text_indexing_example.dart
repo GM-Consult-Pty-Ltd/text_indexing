@@ -53,7 +53,6 @@ Future<void> _inMemoryIndexerExample(Map<String, String> documents,
       zones: zones,
       k: 3);
 
-
   /// - tokenize a phrase into searh terms
   final searchTerms = (await index.analyzer
       .tokenizer(searchPhrase, nGramRange: NGramRange(1, 2)));
@@ -85,12 +84,8 @@ Future<void> _printTermStats(
   // get the start time in milliseconds
   final start = DateTime.now().millisecondsSinceEpoch;
 
-
-
   // retrieve the k-gram index for searchKgrams.keys from the index
   final kGramMap = await index.getKGramIndex(searchKgrams.keys);
-
-
 
   // map all the terms for the k-grams
   final kGramTerms = <String>{};
@@ -113,7 +108,6 @@ Future<void> _printTermStats(
 
   // get the term frequency in the corpus of the searchTerms
   final tFtIndex = InvertedIndex.tfIndexFromPostings(postings);
-
 
   // get the end time in milliseconds
   final end = DateTime.now().millisecondsSinceEpoch;

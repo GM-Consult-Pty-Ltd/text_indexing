@@ -5,8 +5,7 @@
 /// Dart library for creating an inverted index on a collection of text documents.
 library text_indexing;
 
-export 'src/inverted_index/inverted_index.dart'
-    show InvertedIndex;
+export 'src/inverted_index/inverted_index.dart' show InvertedIndex;
 export 'src/inverted_index/in_memory_index.dart'
     show InMemoryIndex, InMemoryIndexMixin, InMemoryIndexBase;
 export 'src/inverted_index/async_index.dart'

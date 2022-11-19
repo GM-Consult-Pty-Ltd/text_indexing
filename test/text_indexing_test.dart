@@ -121,7 +121,6 @@ void main() {
           nGramRange: NGramRange(1, 2),
           k: 3);
 
-
       final searchTokens = (await index.analyzer.tokenizer(searchPrase));
 
       // get the start time in milliseconds

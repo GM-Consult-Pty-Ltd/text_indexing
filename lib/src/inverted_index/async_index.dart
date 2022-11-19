@@ -110,7 +110,7 @@ abstract class AsyncCallbackIndexBase
     with AsyncCallbackIndexMixin, TextIndexerMixin
     implements InvertedIndex {
   //
-    
+
   /// Const default generative constructor for sub-classes.
   AsyncCallbackIndexBase();
   //

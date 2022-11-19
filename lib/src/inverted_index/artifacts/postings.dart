@@ -110,8 +110,8 @@ extension PostingsExtension on PostingsMap {
   /// where a document id in [docIds] has a key in the entry's postings lists.
   PostingsMap documentPostings(Iterable<String> docIds) =>
       PostingsMap.from(this)
-    ..removeWhere((key, value) =>
-        value.keys.toSet().intersection(docIds.toSet()).isEmpty);
+        ..removeWhere((key, value) =>
+            value.keys.toSet().intersection(docIds.toSet()).isEmpty);
 
   /// Filters the [PostingsMap] by zone names.
   ///

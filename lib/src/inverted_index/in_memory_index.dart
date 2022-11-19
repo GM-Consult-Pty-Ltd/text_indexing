@@ -74,7 +74,6 @@ class InMemoryIndex extends InMemoryIndexBase {
     this.kGramIndex = kGramIndex ?? {};
   }
 
-
   //
 }
 
