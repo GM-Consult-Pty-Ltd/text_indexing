@@ -5,8 +5,7 @@ All rights reserved.
 -->
 
 ## 1.0.0
-
-* Stable release
+**STABLE RELEASE**
 
 ## 0.23.0
 **BREAKING CHANGES**
