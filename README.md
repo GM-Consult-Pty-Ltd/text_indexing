@@ -3,7 +3,7 @@ BSD 3-Clause License
 Copyright (c) 2022, GM Consult Pty Ltd, All rights reserved. 
 -->
 
-[![GM Consult Pty Ltd](https://raw.githubusercontent.com/GM-Consult-Pty-Ltd/text_indexing/main/dev/images/text_indexing_header.v2.png?raw=true "GM Consult Pty Ltd")](https://github.com/GM-Consult-Pty-Ltd/text_indexing/)
+[![GM Consult Pty Ltd](https://github.com/GM-Consult-Pty-Ltd/text_indexing/blob/main/doc/images/text_indexing_header.png?raw=true "GM Consult Pty Ltd")](https://github.com/GM-Consult-Pty-Ltd/text_indexing/)
 ## **Create an inverted index on a collection of text documents.**
 
 *THIS PACKAGE IS **PRE-RELEASE** AND SUBJECT TO DAILY BREAKING CHANGES.*
@@ -20,7 +20,7 @@ Skip to section:
 
 This library provides interfaces and implementation classes that build and maintain a (positional, zoned) [inverted index](#invertedindex) for a collection of documents or `corpus` (see [definitions](#definitions)).
 
-![Index construction flowchart](https://github.com/GM-Consult-Pty-Ltd/text_indexing/raw/main/assets/images/indexing.png?raw=true?raw=true "Index construction overview")
+![Index construction flowchart](https://github.com/GM-Consult-Pty-Ltd/text_indexing/blob/main/doc/images/indexing.png?raw=true?raw=true "Index construction overview")
 
 The [indexer](#textindexer) uses a `tokenizer` to construct three artifacts:
 * the `dictionary` holds the `vocabulary` of `terms` and the frequency of occurrence for each `term` in the `corpus`; 
@@ -28,7 +28,7 @@ The [indexer](#textindexer) uses a `tokenizer` to construct three artifacts:
 * the `keyword postings` index maps the keywords in the corpus to document references with the keyword score for the keyword in that document; and
 * the `postings` index holds a list of references to the `documents` for each `term` (`postings list`). The `postings list` includes the positions of the `term` in the document's `zones` (fields), making the `postings` a `positional, zoned inverted index`.
 
-![Index artifacts](https://github.com/GM-Consult-Pty-Ltd/text_indexing/raw/main/assets/images/index_artifacts.png?raw=true?raw=true "Components of inverted positional index")
+![Index artifacts](https://github.com/GM-Consult-Pty-Ltd/text_indexing/blob/main/doc/images/index_artifacts.png?raw=true?raw=true "Components of inverted positional index")
 
 Refer to the [references](#references) to learn more about information retrieval systems and the theory behind this library.
 
