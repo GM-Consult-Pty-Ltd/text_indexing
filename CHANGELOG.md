@@ -4,8 +4,9 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
-*THIS PACKAGE IS **PRE-RELEASE** AND SUBJECT TO DAILY BREAKING CHANGES.*
+## 1.0.0
 
+* Stable release
 
 ## 0.23.0
 **BREAKING CHANGES**
